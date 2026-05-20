@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cotización Inteligente | Frío Cars</title>
+
+    <!-- TAILWIND -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FUENTE -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+
+            --primary-color: #2563eb;
+
+            --secondary-color: #06b6d4;
+
+            --background-main: #020617;
+
+            --background-card: rgba(255, 255, 255, 0.05);
+
+            --text-primary: #ffffff;
+
+            --text-secondary: #cbd5e1;
+
+            --border-color: rgba(255, 255, 255, 0.08);
+
+        }
+
+        body {
+
+            font-family: 'Poppins', sans-serif;
+
+            background:
+                radial-gradient(circle at top left, rgba(37, 99, 235, .25), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(6, 182, 212, .18), transparent 35%),
+                linear-gradient(135deg,
+                    #020617,
+                    #0f172a,
+                    #111827,
+                    #172554);
+
+            color: white;
+
+            overflow-x: hidden;
+
+            min-height: 100vh;
+
+        }
+
+        /* SCROLL */
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #2563eb, #06b6d4);
+            border-radius: 20px;
+        }
+
+        /* GLASS */
+
+        .glass {
+
+            background: rgba(255, 255, 255, 0.05);
+
+            backdrop-filter: blur(20px);
+
+            border: 1px solid rgba(255, 255, 255, 0.08);
+
+        }
+
+        /* GLOW */
+
+        .glow {
+
+            box-shadow:
+                0 0 30px rgba(37, 99, 235, .20),
+                0 0 80px rgba(37, 99, 235, .10);
+
+        }
+
+        /* FLOAT */
+
+        @keyframes float {
+
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+
+        }
+
+        .floating {
+
+            animation: float 5s ease-in-out infinite;
+
+        }
+
+        /* GRID */
+
+        .grid-bg {
+
+            background-image:
+                linear-gradient(rgba(255, 255, 255, .04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px);
+
+            background-size: 40px 40px;
+
+        }
+
+        /* INPUT */
+
+        .input-premium {
+
+            width: 100%;
+
+            background: rgba(15, 23, 42, .75);
+
+            border: 1px solid rgba(255, 255, 255, .08);
+
+            border-radius: 24px;
+
+            padding: 18px 22px;
+
+            color: white;
+
+            outline: none;
+
+            transition: .3s;
+
+        }
+
+        .input-premium:focus {
+
+            border-color: rgba(59, 130, 246, .7);
+
+            box-shadow:
+                0 0 0 4px rgba(59, 130, 246, .15),
+                0 0 30px rgba(59, 130, 246, .2);
+
+        }
+
+        /* BOTON */
+
+        .btn-premium {
+
+            border-radius: 26px;
+
+            padding: 18px 30px;
+
+            font-weight: 700;
+
+            transition: .3s;
+
+        }
+
+        .btn-premium:hover {
+
+            transform: translateY(-3px);
+
+        }
+
+        /* CONTRASTE */
+
+        .high-contrast {
+
+            background:
+                linear-gradient(135deg,
+                    #000000,
+                    #111111,
+                    #1e293b);
+
+        }
+
+        /* IA CARD */
+
+        .ia-card {
+
+            background:
+                linear-gradient(145deg,
+                    rgba(37, 99, 235, .15),
+                    rgba(6, 182, 212, .05));
+
+            border: 1px solid rgba(59, 130, 246, .18);
+
+        }
+    </style>
+
+</head>
+
+<body class="relative">
+
+    <!-- EFECTOS -->
+
+    <div class="fixed top-0 left-0 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-3xl"></div>
+
+    <div class="fixed bottom-0 right-0 w-[450px] h-[450px] bg-cyan-400/15 rounded-full blur-3xl"></div>
+
+    <!-- SIDEBAR -->
+
+    <div id="sidebar-container"></div>
+
+    <!-- MAIN -->
+
+    <main class="ml-[290px] p-8 relative z-10">
+
+        <!-- HEADER -->
+
+        <header class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6 mb-10">
+
+            <!-- TITULO -->
+
+            <div>
+
+                <!-- BADGE -->
+
+                <div class="inline-flex items-center gap-3 glass px-5 py-3 rounded-full mb-6">
+
+                    <div class="w-3 h-3 rounded-full bg-green-400 animate-pulse"></div>
+
+                    <span class="text-sm tracking-wide text-cyan-200">
+
+                        SISTEMA DE IA AUTOMOTRIZ ACTIVO
+
+                    </span>
+
+                </div>
+
+                <!-- TITULO -->
+
+                <h1 class="text-6xl xl:text-7xl font-black leading-[1.05] mb-6">
+
+                    Cotización
+
+                    <span
+                        class="bg-gradient-to-r from-cyan-300 via-blue-400 to-indigo-400 bg-clip-text text-transparent">
+
+                        Inteligente
+
+                    </span>
+
+                </h1>
+
+                <!-- TEXTO -->
+
+                <p class="text-slate-300 text-xl leading-relaxed max-w-3xl">
+
+                    Diagnostica problemas automotrices utilizando
+                    inteligencia artificial, inventario inteligente
+                    y análisis predictivo avanzado.
+
+                </p>
+
+            </div>
+
+            <!-- ACCIONES -->
+
+            <div class="flex flex-wrap gap-4">
+
+                <!-- CARD -->
+
+                <div class="glass glow px-6 py-5 rounded-3xl floating">
+
+                    <p class="text-slate-400 text-sm mb-2">
+
+                        Precisión IA
+
+                    </p>
+
+                    <h2 class="text-5xl font-bold text-cyan-300">
+
+                        98%
+
+                    </h2>
+
+                </div>
+
+                <!-- BOTON -->
+
+                <button onclick="toggleContraste()"
+                    class="glass px-6 py-5 rounded-3xl hover:scale-105 transition duration-300 shadow-xl">
+
+                    🎨 Accesibilidad
+
+                </button>
+
+            </div>
+
+        </header>
+
+        <!-- HERO -->
+
+        <section class="relative overflow-hidden rounded-[40px] p-10 mb-10 glass glow grid-bg">
+
+            <!-- GLOW -->
+
+            <div class="absolute -top-20 -left-20 w-72 h-72 bg-blue-500/30 rounded-full blur-3xl"></div>
+
+            <div class="absolute bottom-0 right-0 w-72 h-72 bg-cyan-400/20 rounded-full blur-3xl"></div>
+
+            <!-- CONTENIDO -->
+
+            <div class="relative z-10 grid grid-cols-1 xl:grid-cols-2 gap-12 items-center">
+
+                <!-- IZQUIERDA -->
+
+                <div>
+
+                    <h2 class="text-5xl font-black leading-tight mb-6">
+
+                        IA especializada en
+
+                        <span class="text-cyan-300">
+
+                            diagnóstico automotriz
+
+                        </span>
+
+                    </h2>
+
+                    <p class="text-slate-300 text-lg leading-relaxed mb-8">
+
+                        El sistema analiza automáticamente
+                        síntomas, daños y comportamiento del
+                        aire acondicionado para generar
+                        predicciones inteligentes.
+
+                    </p>
+
+                    <!-- STATS -->
+
+                    <div class="grid grid-cols-2 gap-5">
+
+                        <div class="glass rounded-3xl p-6">
+
+                            <p class="text-slate-400 text-sm mb-2">
+
+                                Diagnósticos IA
+
+                            </p>
+
+                            <h3 class="text-4xl font-bold text-cyan-300">
+
+                                +2K
+
+                            </h3>
+
+                        </div>
+
+                        <div class="glass rounded-3xl p-6">
+
+                            <p class="text-slate-400 text-sm mb-2">
+
+                                Productos Analizados
+
+                            </p>
+
+                            <h3 class="text-4xl font-bold text-blue-400">
+
+                                350+
+
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- PANEL IA -->
+
+                <div class="ia-card rounded-[40px] p-8 backdrop-blur-3xl relative overflow-hidden">
+
+                    <!-- EFECTO -->
+
+                    <div class="absolute top-0 right-0 w-52 h-52 bg-cyan-400/10 rounded-full blur-3xl"></div>
+
+                    <!-- HEADER -->
+
+                    <div class="flex items-center justify-between mb-8">
+
+                        <div>
+
+                            <p class="text-slate-400 text-sm mb-2">
+
+                                Núcleo IA
+
+                            </p>
+
+                            <h3 class="text-3xl font-bold">
+
+                                Frío Cars AI
+
+                            </h3>
+
+                        </div>
+
+                        <div class="text-7xl opacity-80">
+
+                            🤖
+
+                        </div>
+
+                    </div>
+
+                    <!-- ITEMS -->
+
+                    <div class="space-y-5">
+
+                        <div class="glass rounded-2xl p-5 flex justify-between items-center">
+
+                            <div>
+
+                                <p class="font-semibold">
+
+                                    Análisis de Compresor
+
+                                </p>
+
+                                <span class="text-slate-400 text-sm">
+
+                                    Diagnóstico automático
+
+                                </span>
+
+                            </div>
+
+                            <span class="text-green-400 font-bold">
+
+                                98%
+
+                            </span>
+
+                        </div>
+
+                        <div class="glass rounded-2xl p-5 flex justify-between items-center">
+
+                            <div>
+
+                                <p class="font-semibold">
+
+                                    Sistema Refrigerante
+
+                                </p>
+
+                                <span class="text-slate-400 text-sm">
+
+                                    Predicción IA
+
+                                </span>
+
+                            </div>
+
+                            <span class="text-cyan-300 font-bold">
+
+                                ACTIVO
+
+                            </span>
+
+                        </div>
+
+                        <div class="glass rounded-2xl p-5 flex justify-between items-center">
+
+                            <div>
+
+                                <p class="font-semibold">
+
+                                    Detección de Fugas
+
+                                </p>
+
+                                <span class="text-slate-400 text-sm">
+
+                                    Inventario conectado
+
+                                </span>
+
+                            </div>
+
+                            <span class="text-blue-400 font-bold">
+
+                                93%
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <!-- BARRA -->
+
+                    <div class="mt-8">
+
+                        <div class="flex justify-between mb-3">
+
+                            <span class="text-slate-400 text-sm">
+
+                                Potencia IA
+
+                            </span>
+
+                            <span class="text-cyan-300 text-sm">
+
+                                94%
+
+                            </span>
+
+                        </div>
+
+                        <div class="w-full h-4 bg-slate-800 rounded-full overflow-hidden">
+
+                            <div
+                                class="h-full w-[94%] bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 rounded-full shadow-[0_0_20px_rgba(34,211,238,.8)]">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- TIPOS -->
+
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+
+            <!-- AUTO -->
+
+            <div onclick="seleccionarTipo('AUTOMATICA')" id="cardAutomatica"
+                class="glass rounded-[35px] p-8 cursor-pointer border-2 border-blue-500 hover:scale-[1.02] transition duration-300 glow">
+
+                <div class="text-7xl mb-6">
+                    🤖
+                </div>
+
+                <h2 class="text-4xl font-bold mb-5">
+
+                    Cotización Inteligente
+
+                </h2>
+
+                <p class="text-slate-400 text-lg leading-relaxed">
+
+                    La IA analiza automáticamente daños,
+                    productos y síntomas para generar
+                    una predicción inmediata.
+
+                </p>
+
+            </div>
+
+            <!-- MANUAL -->
+
+            <div onclick="seleccionarTipo('MANUAL')" id="cardManual"
+                class="glass rounded-[35px] p-8 cursor-pointer hover:scale-[1.02] transition duration-300">
+
+                <div class="text-7xl mb-6">
+                    🛠
+
+                </div>
+
+                <h2 class="text-4xl font-bold mb-5">
+
+                    Cotización Técnica
+
+                </h2>
+
+                <p class="text-slate-400 text-lg leading-relaxed">
+
+                    Un técnico especializado revisará
+                    manualmente la información enviada.
+
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- FORMULARIO -->
+
+        <section class="glass rounded-[40px] p-10 glow">
+
+            <!-- HEADER -->
+
+            <div class="flex items-center justify-between mb-10">
+
+                <div>
+
+                    <h2 class="text-5xl font-black mb-4">
+
+                        Solicitud de Diagnóstico
+
+                    </h2>
+
+                    <p class="text-slate-400 text-lg">
+
+                        Completa los datos para generar
+                        la cotización inteligente.
+
+                    </p>
+
+                </div>
+
+                <div class="text-8xl opacity-20">
+
+                    🚗
+
+                </div>
+
+            </div>
+
+            <!-- GRID -->
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- NOMBRE -->
+
+                <div>
+
+                    <label class="block mb-3 text-slate-300">
+
+                        Nombre Completo
+
+                    </label>
+
+                    <input type="text" id="nombre" placeholder="Ej: Guillermo Saumeth" class="input-premium">
+
+                </div>
+
+                <!-- TELEFONO -->
+
+                <div>
+
+                    <label class="block mb-3 text-slate-300">
+
+                        Teléfono
+
+                    </label>
+
+                    <input type="tel" id="telefono" placeholder="Ej: 3001234567" class="input-premium">
+
+                </div>
+
+                <!-- VEHICULO -->
+
+                <div class="md:col-span-2">
+
+                    <label class="block mb-3 text-slate-300">
+
+                        Vehículo
+
+                    </label>
+
+                    <input type="text" id="vehiculo" placeholder="Ej: Toyota Corolla 2018" class="input-premium">
+
+                </div>
+
+                <!-- DESCRIPCION -->
+
+                <div class="md:col-span-2">
+
+                    <label class="block mb-3 text-slate-300">
+
+                        Descripción del Problema
+
+                    </label>
+
+                    <textarea id="descripcion" rows="6" placeholder="Describe el problema..."
+                        class="input-premium resize-none"></textarea>
+
+                </div>
+
+                <!-- ARCHIVOS -->
+
+                <div class="md:col-span-2">
+
+                    <label class="block mb-3 text-slate-300">
+
+                        Imágenes o Videos
+
+                    </label>
+
+                    <input type="file" multiple class="input-premium">
+
+                </div>
+
+            </div>
+
+            <!-- IA -->
+
+            <div id="resultadoIA" class="hidden mt-10 ia-card rounded-[35px] p-8">
+
+                <h3 class="text-4xl font-bold mb-6 text-cyan-300">
+
+                    🤖 Predicción Inteligente
+
+                </h3>
+
+                <div id="contenidoIA"></div>
+
+            </div>
+
+            <!-- BOTONES -->
+
+            <div class="flex flex-col lg:flex-row gap-5 mt-10">
+
+                <button onclick="generarPrediccion()"
+                    class="btn-premium bg-gradient-to-r from-blue-600 to-cyan-500 hover:shadow-[0_0_30px_rgba(37,99,235,.5)]">
+
+                    Generar Diagnóstico IA
+
+                </button>
+
+                <button
+                    class="btn-premium bg-gradient-to-r from-green-600 to-emerald-500 hover:shadow-[0_0_30px_rgba(16,185,129,.5)]">
+
+                    Enviar Solicitud
+
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- SIDEBAR -->
+
+    <script src="../assets/js/sidebar.js"></script>
+
+    <script src="../assets/js/auth.js"></script>
+
+    <!-- JS -->
+
+    <script>
+
+        let tipoCotizacion = "AUTOMATICA";
+
+
+        // 🔥 CONTRASTE
+
+        function toggleContraste() {
+
+            document.body.classList.toggle("high-contrast");
+
+        }
+
+
+        // 🔥 SELECCIONAR TIPO
+
+        function seleccionarTipo(tipo) {
+
+            tipoCotizacion = tipo;
+
+            const auto = document.getElementById("cardAutomatica");
+
+            const manual = document.getElementById("cardManual");
+
+            auto.classList.remove("border-blue-500");
+
+            manual.classList.remove("border-blue-500");
+
+            if (tipo === "AUTOMATICA") {
+
+                auto.classList.add("border-blue-500");
+
+            } else {
+
+                manual.classList.add("border-blue-500");
+
+            }
+
+        }
+
+
+        // 🔥 IA BASICA
+
+        function generarPrediccion() {
+
+            const descripcion = document
+                .getElementById("descripcion")
+                .value
+                .toLowerCase();
+
+            const resultado = document.getElementById("resultadoIA");
+
+            const contenido = document.getElementById("contenidoIA");
+
+            let diagnostico = [];
+
+            let precio = 0;
+
+
+            // ANALISIS
+
+            if (descripcion.includes("no enfria")) {
+
+                diagnostico.push("Posible falla en compresor");
+
+                precio += 350000;
+
+            }
+
+            if (descripcion.includes("ruido")) {
+
+                diagnostico.push("Posible desgaste en ventilador");
+
+                precio += 120000;
+
+            }
+
+            if (descripcion.includes("gas")) {
+
+                diagnostico.push("Recarga de gas refrigerante");
+
+                precio += 180000;
+
+            }
+
+            if (descripcion.includes("fuga")) {
+
+                diagnostico.push("Posible fuga en tuberías");
+
+                precio += 250000;
+
+            }
+
+            resultado.classList.remove("hidden");
+
+            contenido.innerHTML = `
+
+                <div class="space-y-5">
+
+                    <div>
+
+                        <p class="text-slate-300 mb-4 text-lg">
+
+                            Diagnóstico estimado:
+
+                        </p>
+
+                        <div class="space-y-3">
+
+                            ${diagnostico.map(d => `
+
+                                <div class="glass rounded-2xl px-5 py-4">
+
+                                    ${d}
+
+                                </div>
+
+                            `).join("")}
+
+                        </div>
+
+                    </div>
+
+                    <div class="bg-green-500/10 border border-green-500/20 rounded-3xl p-6">
+
+                        <p class="text-green-300 text-lg mb-2">
+
+                            Costo estimado
+
+                        </p>
+
+                        <h3 class="text-5xl font-black text-green-400">
+
+                            $${precio.toLocaleString()}
+
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+    </script>
+
+</body>
+
+</html>

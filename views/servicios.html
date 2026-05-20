@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Servicios | Frío Cars</title>
+
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+
+            /* VARIABLES DINÁMICAS */
+
+            --primary-color: #2563eb;
+
+            --background-main: #020617;
+
+            --text-primary: #ffffff;
+            --text-secondary: #cbd5e1;
+
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg,
+                    #020617,
+                    #0f172a,
+                    #172554);
+            overflow-x: hidden;
+        }
+
+        /* Scroll */
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 20px;
+        }
+
+        /* Animaciones */
+
+        @keyframes rotateSlow {
+
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+        @keyframes float {
+
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+
+        }
+
+        .gear {
+            animation: rotateSlow 20s linear infinite;
+        }
+
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+    </style>
+
+</head>
+
+<body class="min-h-screen text-white relative">
+
+    <!-- EFECTOS -->
+
+    <div class="absolute top-0 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl"></div>
+
+    <!-- ENGRANAJES -->
+
+    <div class="gear absolute top-10 right-10 opacity-10 text-9xl">
+        ⚙
+    </div>
+
+    <div class="gear absolute bottom-10 left-10 opacity-10 text-8xl">
+        ⚙
+    </div>
+
+    <!-- SIDEBAR -->
+
+    <div id="sidebar-container"></div>
+
+    <!-- MAIN -->
+
+    <main class="ml-[290px] p-8 relative z-10">
+
+        <!-- HEADER -->
+
+        <header class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-10">
+
+            <!-- TEXTO -->
+
+            <div>
+
+                <h1 class="text-4xl font-bold text-white mb-3">
+
+                    Servicios
+                    <span class="text-blue-400">
+                        Automotrices
+                    </span>
+
+                </h1>
+
+                <p class="text-slate-400 text-lg max-w-2xl">
+
+                    Selecciona el tipo de servicio que deseas solicitar
+                    y recibe atención profesional especializada.
+
+                </p>
+
+            </div>
+
+            <!-- BADGE -->
+
+            <div class="bg-white/10 border border-white/10 backdrop-blur-xl px-6 py-4 rounded-2xl shadow-lg floating">
+
+                <p class="text-slate-300 text-sm">
+                    Estado del taller
+                </p>
+
+                <div class="flex items-center gap-3 mt-2">
+
+                    <div class="w-3 h-3 rounded-full bg-green-400 animate-pulse"></div>
+
+                    <span class="font-semibold text-white">
+                        Disponible
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- HERO -->
+
+        <section
+            class="relative overflow-hidden bg-gradient-to-r from-blue-700/30 to-cyan-500/20 border border-white/10 backdrop-blur-2xl rounded-3xl p-8 mb-10 shadow-2xl">
+
+            <!-- ICONO -->
+
+            <div class="absolute -right-10 -top-10 text-[180px] opacity-5">
+                🚗
+            </div>
+
+            <div class="relative z-10">
+
+                <h2 class="text-3xl lg:text-4xl font-bold mb-4">
+
+                    Servicios Técnicos Especializados
+
+                </h2>
+
+                <p class="text-slate-300 max-w-3xl leading-relaxed text-lg">
+
+                    Contamos con personal capacitado para mantenimiento,
+                    reparación e instalación de sistemas de aire acondicionado
+                    automotriz con tecnología moderna y atención personalizada.
+
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- SERVICIOS -->
+
+        <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+
+            <!-- CARD -->
+
+            <div
+                class="bg-white/5 border border-white/10 backdrop-blur-2xl rounded-3xl p-7 hover:scale-[1.02] hover:border-blue-500/30 transition duration-300 shadow-2xl group relative overflow-hidden">
+
+                <!-- EFECTO -->
+
+                <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl"></div>
+
+                <div class="relative z-10">
+
+                    <div
+                        class="w-20 h-20 rounded-3xl bg-blue-500/20 flex items-center justify-center text-4xl mb-6 group-hover:rotate-6 transition duration-300">
+
+                        🔧
+
+                    </div>
+
+                    <h3 class="text-3xl font-bold text-white mb-4">
+
+                        Mantenimiento
+
+                    </h3>
+
+                    <p class="text-slate-400 leading-relaxed mb-7">
+
+                        Revisión general del sistema de aire acondicionado,
+                        cambio de filtros y mantenimiento preventivo.
+
+                    </p>
+
+                    <a href="./cotizacion.html"
+                        class="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-2xl font-semibold transition duration-300 shadow-lg shadow-blue-500/20">
+
+                        Solicitar servicio
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- CARD -->
+
+            <div
+                class="bg-white/5 border border-white/10 backdrop-blur-2xl rounded-3xl p-7 hover:scale-[1.02] hover:border-cyan-500/30 transition duration-300 shadow-2xl group relative overflow-hidden">
+
+                <!-- EFECTO -->
+
+                <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl"></div>
+
+                <div class="relative z-10">
+
+                    <div
+                        class="w-20 h-20 rounded-3xl bg-cyan-500/20 flex items-center justify-center text-4xl mb-6 group-hover:rotate-6 transition duration-300">
+
+                        🛠
+
+                    </div>
+
+                    <h3 class="text-3xl font-bold text-white mb-4">
+
+                        Reparación
+
+                    </h3>
+
+                    <p class="text-slate-400 leading-relaxed mb-7">
+
+                        Diagnóstico y reparación profesional de compresores,
+                        condensadores y evaporadores automotrices.
+
+                    </p>
+
+                    <a href="./cotizacion.html"
+                        class="inline-flex items-center gap-3 bg-cyan-600 hover:bg-cyan-700 px-6 py-3 rounded-2xl font-semibold transition duration-300 shadow-lg shadow-cyan-500/20">
+
+                        Solicitar reparación
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- CARD -->
+
+            <div
+                class="bg-white/5 border border-white/10 backdrop-blur-2xl rounded-3xl p-7 hover:scale-[1.02] hover:border-yellow-500/30 transition duration-300 shadow-2xl group relative overflow-hidden">
+
+                <!-- EFECTO -->
+
+                <div class="absolute top-0 right-0 w-32 h-32 bg-yellow-500/10 rounded-full blur-2xl"></div>
+
+                <div class="relative z-10">
+
+                    <div
+                        class="w-20 h-20 rounded-3xl bg-yellow-500/20 flex items-center justify-center text-4xl mb-6 group-hover:rotate-6 transition duration-300">
+
+                        ⚡
+
+                    </div>
+
+                    <h3 class="text-3xl font-bold text-white mb-4">
+
+                        Instalación
+
+                    </h3>
+
+                    <p class="text-slate-400 leading-relaxed mb-7">
+
+                        Instalación completa de sistemas de aire acondicionado
+                        con herramientas y equipos especializados.
+
+                    </p>
+
+                    <a href="./cotizacion.html"
+                        class="inline-flex items-center gap-3 bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-3 rounded-2xl font-semibold transition duration-300 shadow-lg shadow-yellow-500/20">
+
+                        Solicitar instalación
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- JS -->
+
+    <script src="../assets/js/sidebar.js"></script>
+
+    <script src="../assets/js/dashboard.js"></script>
+
+
+    <script src="../assets/js/auth.js"></script>
+
+</body>
+
+</html>

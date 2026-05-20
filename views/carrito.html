@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Carrito | Frío Cars</title>
+
+    <!-- TailwindCSS -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FUENTE -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+
+            /* VARIABLES DINÁMICAS */
+
+            --primary-color: #2563eb;
+
+            --secondary-color: #06b6d4;
+
+            --background-main: #020617;
+
+            --background-card: rgba(255, 255, 255, 0.05);
+
+            --text-primary: #ffffff;
+
+            --text-secondary: #cbd5e1;
+
+            --border-color: rgba(255, 255, 255, 0.1);
+
+        }
+
+        body {
+
+            font-family: 'Poppins', sans-serif;
+
+            background: linear-gradient(135deg,
+                    #020617,
+                    #0f172a,
+                    #172554);
+
+            color: var(--text-primary);
+
+            overflow-x: hidden;
+
+            transition: 0.4s;
+
+        }
+
+        /* SCROLL */
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 20px;
+        }
+
+        /* GLASS */
+
+        .glass {
+
+            background: var(--background-card);
+
+            border: 1px solid var(--border-color);
+
+            backdrop-filter: blur(18px);
+
+        }
+
+        /* FLOAT */
+
+        @keyframes float {
+
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+
+        }
+
+        .floating {
+
+            animation: float 4s ease-in-out infinite;
+
+        }
+
+        /* MODO ACCESIBILIDAD */
+
+        .high-contrast {
+
+            --primary-color: #ffff00;
+
+            --secondary-color: #00ffff;
+
+            --background-main: #000000;
+
+            --background-card: rgba(255, 255, 255, 0.12);
+
+            --text-primary: #ffffff;
+
+            --text-secondary: #f1f5f9;
+
+            --border-color: rgba(255, 255, 255, 0.3);
+
+        }
+
+        /* BADGE CARRITO */
+
+        .cart-badge {
+
+            position: absolute;
+
+            top: -10px;
+
+            right: -10px;
+
+            background: #ef4444;
+
+            color: white;
+
+            width: 24px;
+
+            height: 24px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            box-shadow: 0 0 15px rgba(239, 68, 68, .5);
+
+        }
+    </style>
+
+</head>
+
+<body class="min-h-screen relative">
+
+    <!-- EFECTOS -->
+
+    <div class="absolute top-0 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl"></div>
+
+    <!-- SIDEBAR -->
+
+    <div id="sidebar-container"></div>
+
+    <!-- MAIN -->
+
+    <main class="ml-[290px] p-8 relative z-10">
+
+        <!-- HEADER -->
+
+        <header class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6 mb-10">
+
+            <!-- TITULO -->
+
+            <div>
+
+                <h1 class="text-5xl font-bold mb-4 leading-tight">
+
+                    Carrito de
+                    <span style="color: var(--primary-color);">
+
+                        Compras
+
+                    </span>
+
+                </h1>
+
+                <p class="text-slate-400 text-lg max-w-3xl leading-relaxed">
+
+                    Administra tus productos, cantidades,
+                    pagos y pedidos desde una experiencia
+                    moderna, elegante y accesible.
+
+                </p>
+
+            </div>
+
+            <!-- ACCIONES -->
+
+            <div class="flex flex-wrap gap-4">
+
+                <!-- ALERTA CARRITO -->
+
+                <div class="glass px-6 py-4 rounded-3xl shadow-xl relative floating">
+
+                    <div class="flex items-center gap-4">
+
+                        <div class="text-4xl">
+                            🛒
+                        </div>
+
+                        <div>
+
+                            <p class="text-slate-400 text-sm">
+                                Productos
+                            </p>
+
+                            <h3 id="cantidadProductosTop" class="text-3xl font-bold">
+
+                                0
+
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                    <!-- BADGE -->
+
+                    <div id="cartBadge" class="cart-badge">
+
+                        0
+
+                    </div>
+
+                </div>
+
+                <!-- BOTON ACCESIBILIDAD -->
+
+                <button onclick="toggleContraste()"
+                    class="glass px-6 py-4 rounded-3xl hover:scale-105 transition duration-300 shadow-xl">
+
+                    🎨 Accesibilidad
+
+                </button>
+
+            </div>
+
+        </header>
+
+        <!-- HERO -->
+
+        <section class="relative overflow-hidden glass rounded-[35px] p-10 mb-10 shadow-2xl">
+
+            <!-- ICONO -->
+
+            <div class="absolute -right-8 -top-8 text-[180px] opacity-5">
+                🚗
+            </div>
+
+            <div class="relative z-10">
+
+                <h2 class="text-4xl font-bold mb-5">
+
+                    Experiencia Premium de Compra
+
+                </h2>
+
+                <p class="text-slate-300 max-w-4xl leading-relaxed text-lg">
+
+                    Revisa tus productos, administra cantidades,
+                    visualiza el total y prepara tu pedido desde
+                    una plataforma automotriz moderna e inteligente.
+
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- GRID -->
+
+        <section class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+
+            <!-- PRODUCTOS -->
+
+            <div class="xl:col-span-2">
+
+                <div class="glass rounded-[35px] p-8 shadow-2xl">
+
+                    <!-- HEADER -->
+
+                    <div class="flex items-center justify-between mb-8">
+
+                        <div>
+
+                            <h2 class="text-3xl font-bold mb-2">
+
+                                Productos Agregados
+
+                            </h2>
+
+                            <p class="text-slate-400">
+
+                                Gestiona tu compra antes del pago.
+
+                            </p>
+
+                        </div>
+
+                        <div class="bg-blue-500/10 text-blue-300 px-5 py-3 rounded-2xl">
+
+                            <span id="cantidadProductos">
+
+                                0
+
+                            </span>
+
+                            artículos
+
+                        </div>
+
+                    </div>
+
+                    <!-- LISTA -->
+
+                    <div id="carritoLista" class="space-y-6">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RESUMEN -->
+
+            <div>
+
+                <div class="glass rounded-[35px] p-8 shadow-2xl sticky top-8">
+
+                    <h2 class="text-3xl font-bold mb-8">
+
+                        Resumen del Pedido
+
+                    </h2>
+
+                    <!-- TOTAL -->
+
+                    <div class="bg-white/10 rounded-[30px] p-8 mb-8 border border-white/10">
+
+                        <p class="text-slate-400 mb-3">
+
+                            Total estimado
+
+                        </p>
+
+                        <h3 class="text-5xl font-bold text-green-400">
+
+                            $<span id="totalCarrito">0</span>
+
+                        </h3>
+
+                    </div>
+
+                    <!-- DETALLES -->
+
+                    <div class="space-y-5 mb-10">
+
+                        <div class="flex justify-between text-slate-300">
+
+                            <span>
+                                Productos
+                            </span>
+
+                            <span id="detalleCantidad">
+
+                                0
+
+                            </span>
+
+                        </div>
+
+                        <div class="flex justify-between text-slate-300">
+
+                            <span>
+                                Envío
+                            </span>
+
+                            <span class="text-green-400">
+
+                                Gratis
+
+                            </span>
+
+                        </div>
+
+                        <div class="flex justify-between text-slate-300">
+
+                            <span>
+                                Garantía
+                            </span>
+
+                            <span>
+
+                                Incluida
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <!-- BOTONES -->
+
+                    <div class="flex flex-col gap-5">
+
+                        <button id="vaciarCarrito"
+                            class="bg-red-600 hover:bg-red-700 transition duration-300 px-6 py-5 rounded-3xl text-lg font-semibold shadow-xl shadow-red-500/20 hover:scale-[1.02]">
+
+                            Vaciar Carrito
+
+                        </button>
+
+                        <button
+                            class="bg-green-600 hover:bg-green-700 transition duration-300 px-6 py-5 rounded-3xl text-lg font-semibold shadow-xl shadow-green-500/20 hover:scale-[1.02]">
+
+                            Proceder al Pago
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- SIDEBAR -->
+
+    <script src="../assets/js/sidebar.js"></script>
+
+    <script src="../assets/js/auth.js"></script>
+
+    <!-- JS -->
+
+    <script>
+
+        // 🔥 CARRITO
+
+        let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+        const carritoLista = document.getElementById("carritoLista");
+
+        const totalCarrito = document.getElementById("totalCarrito");
+
+        const cantidadProductos = document.getElementById("cantidadProductos");
+
+        const detalleCantidad = document.getElementById("detalleCantidad");
+
+        const cantidadProductosTop = document.getElementById("cantidadProductosTop");
+
+        const cartBadge = document.getElementById("cartBadge");
+
+
+        // 🔥 MOSTRAR CARRITO
+
+        function mostrarCarrito() {
+
+            carritoLista.innerHTML = "";
+
+            if (carrito.length === 0) {
+
+                carritoLista.innerHTML = `
+
+                    <div class="glass rounded-[35px] p-14 text-center">
+
+                        <div class="text-8xl mb-6 opacity-30">
+                            🛒
+                        </div>
+
+                        <h3 class="text-4xl font-bold mb-4">
+
+                            Tu carrito está vacío
+
+                        </h3>
+
+                        <p class="text-slate-400 text-lg">
+
+                            Agrega productos desde la sección
+                            de ventas para comenzar tu compra.
+
+                        </p>
+
+                    </div>
+
+                `;
+
+                totalCarrito.textContent = "0";
+
+                cantidadProductos.textContent = "0";
+
+                detalleCantidad.textContent = "0";
+
+                cantidadProductosTop.textContent = "0";
+
+                cartBadge.textContent = "0";
+
+                return;
+
+            }
+
+            let total = 0;
+
+            let cantidadTotal = 0;
+
+            carrito.forEach((item, index) => {
+
+                const cantidad = item.cantidad || 1;
+
+                const subtotal = item.precio * cantidad;
+
+                total += subtotal;
+
+                cantidadTotal += cantidad;
+
+                carritoLista.innerHTML += `
+
+                    <div class="glass rounded-[35px] p-6 shadow-2xl">
+
+                        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+
+                            <!-- INFO -->
+
+                            <div>
+
+                                <h3 class="text-3xl font-bold mb-3">
+
+                                    ${item.nombre}
+
+                                </h3>
+
+                                <p class="text-slate-400 mb-5">
+
+                                    ${item.descripcion || "Producto automotriz premium"}
+
+                                </p>
+
+                                <div class="flex flex-wrap gap-4">
+
+                                    <span class="bg-blue-500/10 text-blue-300 px-5 py-3 rounded-2xl">
+
+                                        Precio: $${item.precio}
+
+                                    </span>
+
+                                    <span class="bg-cyan-500/10 text-cyan-300 px-5 py-3 rounded-2xl">
+
+                                        Cantidad: ${cantidad}
+
+                                    </span>
+
+                                    <span class="bg-green-500/10 text-green-300 px-5 py-3 rounded-2xl">
+
+                                        Subtotal: $${subtotal}
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <!-- ACCIONES -->
+
+                            <div class="flex flex-col gap-4">
+
+                                <button 
+                                    onclick="eliminarProducto(${index})"
+                                    class="bg-red-600 hover:bg-red-700 transition duration-300 px-6 py-4 rounded-2xl">
+
+                                    Eliminar
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            });
+
+            totalCarrito.textContent = total;
+
+            cantidadProductos.textContent = cantidadTotal;
+
+            detalleCantidad.textContent = cantidadTotal;
+
+            cantidadProductosTop.textContent = cantidadTotal;
+
+            cartBadge.textContent = cantidadTotal;
+
+        }
+
+        mostrarCarrito();
+
+
+        // 🔥 ELIMINAR
+
+        function eliminarProducto(i) {
+
+            carrito.splice(i, 1);
+
+            localStorage.setItem("carrito", JSON.stringify(carrito));
+
+            mostrarCarrito();
+
+        }
+
+
+        // 🔥 VACIAR
+
+        document.getElementById("vaciarCarrito")
+            .addEventListener("click", () => {
+
+                const confirmar = confirm("¿Deseas vaciar el carrito?");
+
+                if (!confirmar) return;
+
+                carrito = [];
+
+                localStorage.setItem("carrito", JSON.stringify(carrito));
+
+                mostrarCarrito();
+
+            });
+
+
+        // 🔥 CONTRASTE
+
+        function toggleContraste() {
+
+            document.body.classList.toggle("high-contrast");
+
+        }
+
+    </script>
+
+</body>
+
+</html>

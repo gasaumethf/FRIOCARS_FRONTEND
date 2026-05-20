@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inventario | Frío Cars</title>
+
+    <!-- TailwindCSS -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FUENTE -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+
+            /* VARIABLES PARA ACCESIBILIDAD */
+
+            --primary-color: #2563eb;
+
+            --background-main: #020617;
+
+            --text-primary: #ffffff;
+
+            --text-secondary: #cbd5e1;
+
+            --card-background: rgba(255, 255, 255, 0.05);
+
+        }
+
+        body {
+
+            font-family: 'Poppins', sans-serif;
+
+            background: linear-gradient(135deg,
+                    #020617,
+                    #0f172a,
+                    #172554);
+
+            overflow-x: hidden;
+
+        }
+
+        /* Scroll */
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 20px;
+        }
+
+        /* Animaciones */
+
+        @keyframes float {
+
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+
+        }
+
+        .floating {
+
+            animation: float 4s ease-in-out infinite;
+
+        }
+    </style>
+
+</head>
+
+<body class="min-h-screen text-white relative">
+
+    <!-- EFECTOS -->
+
+    <div class="absolute top-0 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl"></div>
+
+    <!-- SIDEBAR -->
+
+    <div id="sidebar-container"></div>
+
+    <!-- MAIN -->
+
+    <main class="ml-[290px] p-8 relative z-10">
+
+        <!-- HEADER -->
+
+        <header class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-10">
+
+            <!-- TITULO -->
+
+            <div>
+
+                <h1 class="text-4xl font-bold mb-3">
+
+                    Gestión de
+                    <span class="text-blue-400">
+                        Inventario
+                    </span>
+
+                </h1>
+
+                <p class="text-slate-400 text-lg max-w-2xl">
+
+                    Controla productos, stock y categorías
+                    desde una plataforma moderna y organizada.
+
+                </p>
+
+            </div>
+
+            <!-- BADGE -->
+
+            <div class="bg-white/10 border border-white/10 backdrop-blur-xl px-6 py-4 rounded-2xl shadow-lg floating">
+
+                <p class="text-slate-300 text-sm">
+                    Estado del inventario
+                </p>
+
+                <div class="flex items-center gap-3 mt-2">
+
+                    <div class="w-3 h-3 rounded-full bg-green-400 animate-pulse"></div>
+
+                    <span class="font-semibold text-white">
+                        Sincronizado
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- HERO -->
+
+        <section
+            class="relative overflow-hidden bg-gradient-to-r from-blue-700/30 to-cyan-500/20 border border-white/10 backdrop-blur-2xl rounded-3xl p-8 mb-10 shadow-2xl">
+
+            <!-- ICONO -->
+
+            <div class="absolute -right-10 -top-10 text-[180px] opacity-5">
+                📦
+            </div>
+
+            <div class="relative z-10">
+
+                <h2 class="text-3xl lg:text-4xl font-bold mb-4">
+
+                    Administración Inteligente de Productos
+
+                </h2>
+
+                <p class="text-slate-300 max-w-3xl leading-relaxed text-lg">
+
+                    Organiza el inventario de Frío Cars,
+                    controla existencias y gestiona productos
+                    desde una experiencia moderna e intuitiva.
+
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- PANEL SUPERIOR -->
+
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+
+            <!-- PRODUCTOS -->
+
+            <div class="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-2xl shadow-xl">
+
+                <p class="text-slate-400 mb-2">
+                    Productos registrados
+                </p>
+
+                <h2 id="totalProductos" class="text-4xl font-bold text-blue-400">
+
+                    0
+
+                </h2>
+
+            </div>
+
+            <!-- STOCK -->
+
+            <div class="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-2xl shadow-xl">
+
+                <p class="text-slate-400 mb-2">
+                    Stock total
+                </p>
+
+                <h2 id="stockTotal" class="text-4xl font-bold text-green-400">
+
+                    0
+
+                </h2>
+
+            </div>
+
+            <!-- BOTON -->
+
+            <div class="flex items-center justify-center">
+
+                <button onclick="mostrarFormulario()"
+                    class="w-full bg-blue-600 hover:bg-blue-700 transition duration-300 px-6 py-5 rounded-3xl text-lg font-semibold shadow-xl shadow-blue-500/20 hover:scale-[1.02]">
+
+                    + Agregar Producto
+
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- FORMULARIO -->
+
+        <section id="formulario"
+            class="hidden bg-white/5 border border-white/10 backdrop-blur-2xl rounded-3xl p-8 mb-10 shadow-2xl">
+
+            <div class="flex items-center justify-between mb-8">
+
+                <div>
+
+                    <h2 class="text-3xl font-bold mb-2">
+
+                        Nuevo Producto
+
+                    </h2>
+
+                    <p class="text-slate-400">
+
+                        Completa la información del producto
+                        para registrarlo en el sistema.
+
+                    </p>
+
+                </div>
+
+                <div class="text-6xl opacity-20">
+                    📦
+                </div>
+
+            </div>
+
+            <!-- GRID -->
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- NOMBRE -->
+
+                <div>
+
+                    <label class="block mb-2 text-slate-300 font-medium">
+
+                        Nombre del Producto
+
+                    </label>
+
+                    <input id="nombre" type="text" placeholder="Ej: Compresor Universal"
+                        class="w-full bg-slate-900/60 border border-white/10 text-white rounded-2xl px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
+
+                </div>
+
+                <!-- CATEGORIA -->
+
+                <div>
+
+                    <label class="block mb-2 text-slate-300 font-medium">
+
+                        Categoría
+
+                    </label>
+
+                    <input id="categoria" type="text" placeholder="Ej: Repuestos"
+                        class="w-full bg-slate-900/60 border border-white/10 text-white rounded-2xl px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
+
+                </div>
+
+                <!-- PRECIO -->
+
+                <div>
+
+                    <label class="block mb-2 text-slate-300 font-medium">
+
+                        Precio
+
+                    </label>
+
+                    <input id="precio" type="number" placeholder="Ej: 120000"
+                        class="w-full bg-slate-900/60 border border-white/10 text-white rounded-2xl px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
+
+                </div>
+
+                <!-- STOCK -->
+
+                <div>
+
+                    <label class="block mb-2 text-slate-300 font-medium">
+
+                        Stock Disponible
+
+                    </label>
+
+                    <input id="stock" type="number" placeholder="Ej: 15"
+                        class="w-full bg-slate-900/60 border border-white/10 text-white rounded-2xl px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
+
+                </div>
+
+                <!-- DESCRIPCION -->
+
+                <div class="md:col-span-2">
+
+                    <label class="block mb-2 text-slate-300 font-medium">
+
+                        Descripción
+
+                    </label>
+
+                    <textarea id="descripcion" rows="4" placeholder="Describe las características del producto..."
+                        class="w-full bg-slate-900/60 border border-white/10 text-white rounded-2xl px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 resize-none"></textarea>
+
+                </div>
+
+            </div>
+
+            <!-- BOTONES -->
+
+            <div class="flex flex-col lg:flex-row gap-4 mt-8">
+
+                <button onclick="crearProducto()"
+                    class="bg-green-600 hover:bg-green-700 transition duration-300 px-8 py-4 rounded-2xl text-lg font-semibold shadow-xl shadow-green-500/20 hover:scale-[1.02]">
+
+                    Guardar Producto
+
+                </button>
+
+                <button onclick="document.getElementById('formulario').classList.add('hidden')"
+                    class="bg-red-600 hover:bg-red-700 transition duration-300 px-8 py-4 rounded-2xl text-lg font-semibold shadow-xl shadow-red-500/20 hover:scale-[1.02]">
+
+                    Cancelar
+
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- TABLA -->
+
+        <section class="bg-white/5 border border-white/10 backdrop-blur-2xl rounded-3xl p-6 shadow-2xl">
+
+            <!-- HEADER -->
+
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 mb-6">
+
+                <div>
+
+                    <h2 class="text-3xl font-bold mb-2">
+
+                        Productos Registrados
+
+                    </h2>
+
+                    <p class="text-slate-400">
+
+                        Visualiza y administra todos los productos
+                        del inventario.
+
+                    </p>
+
+                </div>
+
+                <!-- BUSCADOR -->
+
+                <div class="w-full lg:w-96">
+
+                    <input id="buscador" type="text" placeholder="Buscar producto..."
+                        class="w-full bg-slate-900/60 border border-white/10 text-white rounded-2xl px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
+
+                </div>
+
+            </div>
+
+            <!-- TABLA -->
+
+            <div class="overflow-x-auto rounded-2xl border border-white/10">
+
+                <table class="w-full text-left">
+
+                    <thead class="bg-white/10 text-slate-300">
+
+                        <tr>
+
+                            <th class="p-4">
+                                Producto
+                            </th>
+
+                            <th class="p-4">
+                                Precio
+                            </th>
+
+                            <th class="p-4">
+                                Stock
+                            </th>
+
+                            <th class="p-4">
+                                Categoría
+                            </th>
+
+                            <th class="p-4">
+                                Estado
+                            </th>
+
+                            <th class="p-4">
+                                Acciones
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="tablaProductos" class="bg-slate-900/30 divide-y divide-white/5">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- JS -->
+
+    <script src="../assets/js/sidebar.js"></script>
+
+    <script src="../assets/js/productos.js"></script>
+
+    <script src="../assets/js/auth.js"></script>
+
+</body>
+
+</html>

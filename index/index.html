@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FrioCarS - Refrigeración Automotriz</title>
+  
+  <!-- Tailwind CDN (rápido para prototipo) -->
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{
+      --azul-oscuro: #0B3570;
+      --azul-claro:  #7FD0FF;
+      --gris-claro:  #F3F4F6;
+      --gris:        #9CA3AF;
+      --negro:       #0F1724;
+      --blanco:      #FFFFFF;
+    }
+    /* custom pequeño para el hero y sombras si quieres */
+  </style>
+</head>
+<body class="bg-white text-gray-900 font-sans antialiased">
+
+  <!-- NAVBAR-->
+  <header class="sticky top-0 z-50 bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center">
+          
+          <a href="index.html" class="flex items-center">
+            <img src="assets/Logo/Logo.png" alt="FrioCarS" class="h-10 w-10 mr-2"/>
+            
+          </a>
+        </div>
+
+        <nav class="hidden md:flex space-x-6 items-center">
+          <a href="index.html" class="text-sm font-medium hover:text-blue-600">Inicio</a>
+          <a href="views/servicios.html" class="text-sm font-medium hover:text-blue-600">Servicios</a>
+          <div class="relative group">
+            <button class="text-sm font-medium hover:text-blue-600">Repuestos</button>
+            <!-- simple dropdown -->
+            <div class="absolute left-0 mt-2 bg-white border rounded shadow-md hidden group-hover:block">
+              <a class="block px-4 py-2 hover:bg-gray-50" href="repuestos/compresores.html">Compresores</a>
+              <a class="block px-4 py-2 hover:bg-gray-50" href="repuestos/filtros.html">Filtros</a>
+              <a class="block px-4 py-2 hover:bg-gray-50" href="repuestos/condensadores.html">Condensadores</a>
+              <a class="block px-4 py-2 hover:bg-gray-50" href="repuestos/evaporadores.html">Evaporadores</a>
+            </div>
+          </div>
+          <a href="views/cotizacion.html" class="text-sm font-medium hover:text-blue-600">Cotización</a>
+          <a href=" contacto.html" class="text-sm font-medium hover:text-blue-600">Contacto</a>
+        </nav>
+
+       <div class="flex items-center space-x-4">
+
+  <button onclick="logout()" 
+    class="hidden md:inline-block px-4 py-2 bg-red-500 text-white rounded text-sm hover:bg-red-600">
+    Cerrar sesión
+  </button>
+
+  <!-- boton del carrito -->
+  <button id="cartBtn" class="relative p-2 rounded-full hover:bg-gray-100">
+
+          <!-- boton del carrito -->
+          <button id="cartBtn" class="relative p-2 rounded-full hover:bg-gray-100">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 7h12l-2-7M16 21a1 1 0 11-2 0 1 1 0 012 0zm-8 0a1 1 0 11-2 0 1 1 0 012 0z"/>
+            </svg>
+            <span id="cartCount" class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs px-1">0</span>
+          </button>
+
+          <!-- Mobile hamburger -->
+          <button id="mobileToggle" class="md:hidden p-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- mobile off-canvas -->
+    <div id="mobileMenu" class="md:hidden hidden bg-white border-t">
+      <div class="px-4 py-4 space-y-2">
+        <a href="index.html" class="block">Inicio</a>
+        <a href="servicios.html" class="block">Servicios</a>
+        <details class="bg-white">
+          <summary class="cursor-pointer">Repuestos</summary>
+          <div class="mt-2 pl-4">
+            <a class="block py-1" href="repuestos/compresores.html">Compresores</a>
+            <a class="block py-1" href="repuestos/filtros.html">Filtros</a>
+            <a class="block py-1" href="repuestos/condensadores.html">Condensadores</a>
+            <a class="block py-1" href="repuestos/evaporadores.html">Evaporadores</a>
+          </div>
+        </details>
+        <a href="cotizacion.html" class="block">Cotización</a>
+        <a href="/views/login.html" class="block">Contacto</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main class="max-w-7xl mx-auto px-4 py-12">
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-bold text-[var(--azul-oscuro)]">FrioCarS — Refrigeración Automotriz</h1>
+        <p class="mt-4 text-gray-700">Mantenimiento, reparación e instalación de aire acondicionado para vehículos. Servicio rápido, garantía y repuestos originales.</p>
+        <div class="mt-6 flex items-center gap-4">
+          <a href="views/servicios.html" class="px-5 py-3 rounded bg-[var(--azul-oscuro)] text-white shadow hover:opacity-90">Ver servicios</a>
+          <a href="views/cotizacion.html" class="px-5 py-3 rounded border">Solicitar cotización</a>
+        </div>
+        <!-- features -->
+        <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="p-4 bg-gray-50 rounded">
+            <strong>Rápido</strong>
+            <p class="text-sm text-gray-600">Diagnóstico en sitio</p>
+          </div>
+          <div class="p-4 bg-gray-50 rounded">
+            <strong>Garantía</strong>
+            <p class="text-sm text-gray-600">Repuestos y mano de obra</p>
+          </div>
+          <div class="p-4 bg-gray-50 rounded">
+            <strong>Originales</strong>
+            <p class="text-sm text-gray-600">Marcas reconocidas</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <!-- placeholder image / can replace with an illustration -->
+        <div class="w-full bg-gradient-to-b from-[var(--azul-claro)] to-[var(--azul-oscuro)] rounded-lg h-64 flex items-center justify-center text-white">
+          <div class="text-center px-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7h18M3 12h18M3 17h18" />
+            </svg>
+            <div class="text-xl font-semibold">Servicio integral de aire acondicionado</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- quick services -->
+    <section class="mt-12">
+      <h2 class="text-2xl font-semibold">Nuestros servicios</h2>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 border rounded hover:shadow-lg transition">
+          <h3 class="font-semibold">Mantenimiento</h3>
+          <p class="mt-2 text-sm text-gray-600">Revisión periódica y carga de gas.</p>
+        </div>
+        <div class="p-6 border rounded hover:shadow-lg transition">
+          <h3 class="font-semibold">Reparación</h3>
+          <p class="mt-2 text-sm text-gray-600">Diagnóstico y arreglo de fallas en el sistema A/C.</p>
+        </div>
+        <div class="p-6 border rounded hover:shadow-lg transition">
+          <h3 class="font-semibold">Instalación</h3>
+          <p class="mt-2 text-sm text-gray-600">Instalación de sistemas en vehículos especiales.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-50 border-t mt-12">
+    <div class="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row justify-between items-start">
+      <div>
+        <img src="assets/Logo/Logo.png" alt="FrioCarS logo" class="h-10 mb-2">
+        <p class="text-sm text-gray-600">Servicio profesional de refrigeración automotriz.</p>
+        <div class="mt-3 flex space-x-3">
+
+
+          <a href="#" aria-label="Facebook" class="p-2 rounded hover:bg-gray-100">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12..."/></svg>
+          </a>
+          <a href="#" aria-label="Instagram" class="p-2 rounded hover:bg-gray-100">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2..."/></svg>
+          </a>
+          <a href="#" aria-label="TikTok" class="p-2 rounded hover:bg-gray-100">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2..."/></svg>
+          </a>
+          <a href="#" aria-label="WhatsApp" class="p-2 rounded hover:bg-gray-100">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2..."/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="mt-6 md:mt-0">
+        <h4 class="font-semibold">Ubicación</h4>
+        <p class="text-sm text-gray-600">Calle Falsa 123, Ciudad — Horario: Lun-Sab 8:00-18:00</p>
+        <div class="mt-3">
+          
+          <iframe class="w-64 h-40 border rounded" src="https://www.google.com/maps/embed?pb=!1m18..."></iframe>
+        </div>
+      </div>
+    </div>
+    <div class="text-center text-xs text-gray-400 py-4">© <span id="year"></span> FrioCarS</div>
+  </footer>
+
+  <div id="cartModal" class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center z-50">
+    <div class="bg-white w-full max-w-lg rounded shadow-lg p-6 relative">
+      <button id="closeCart" class="absolute top-3 right-3 text-gray-500">Cerrar</button>
+      <h3 class="text-lg font-semibold mb-4">Carrito</h3>
+      <div id="cartItems" class="space-y-3 max-h-64 overflow-auto"></div>
+      <div class="mt-4 flex justify-between items-center">
+        <div class="text-lg font-semibold">Total: <span id="cartTotal">0</span></div>
+        <button id="checkoutBtn" class="px-4 py-2 bg-[var(--azul-oscuro)] text-white rounded">Pagar (simulado)</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    document.getElementById('year').innerText = new Date().getFullYear();
+    const mobileToggle = document.getElementById('mobileToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    const cartBtn = document.getElementById('cartBtn');
+    const cartModal = document.getElementById('cartModal');
+    const closeCart = document.getElementById('closeCart');
+    const cartCount = document.getElementById('cartCount');
+    const cartItemsEl = document.getElementById('cartItems');
+    const cartTotalEl = document.getElementById('cartTotal');
+
+    function loadCart(){
+      const cart = JSON.parse(localStorage.getItem('cart')||'[]');
+      cartCount.innerText = cart.reduce((s,p)=>s+p.qty,0);
+      cartItemsEl.innerHTML = '';
+      let total = 0;
+      cart.forEach((p,idx)=>{
+        total += p.price * p.qty;
+        const div = document.createElement('div');
+        div.className = 'flex justify-between items-center border-b pb-2';
+        div.innerHTML = `<div>
+            <div class="font-medium">${p.name}</div>
+            <div class="text-sm text-gray-500">${p.brand} • $${p.price}</div>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="text-sm">x${p.qty}</div>
+            <button data-idx="${idx}" class="remove text-sm text-red-500">Eliminar</button>
+          </div>`;
+        cartItemsEl.appendChild(div);
+      });
+      cartTotalEl.innerText = `$${total.toFixed(2)}`;
+      document.querySelectorAll('.remove').forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          const idx = parseInt(e.target.dataset.idx);
+          const c = JSON.parse(localStorage.getItem('cart')||'[]');
+          c.splice(idx,1);
+          localStorage.setItem('cart', JSON.stringify(c));
+          loadCart();
+        });
+      });
+    }
+
+    cartBtn.addEventListener('click', ()=> {
+      cartModal.classList.remove('hidden');
+      cartModal.classList.add('flex');
+      loadCart();
+    });
+    closeCart.addEventListener('click', ()=> {
+      cartModal.classList.add('hidden');
+      cartModal.classList.remove('flex');
+    });
+    document.getElementById('checkoutBtn').addEventListener('click', ()=>{
+      alert('Checkout simulado. En un sistema real aquí se conectaría al backend o pasarela de pago.');
+    });
+
+    function addToCart(product){
+      const c = JSON.parse(localStorage.getItem('cart')||'[]');
+      const existing = c.find(p=>p.id===product.id);
+      if(existing){ existing.qty += 1; } else { c.push({...product, qty:1}); }
+      localStorage.setItem('cart', JSON.stringify(c));
+      loadCart();
+    }
+    window.addToCart = addToCart;
+    loadCart();
+  </script>
+  <script src="/FRIOCARS_FRONTEND/assets/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Registro - Frío Cars</title>
+
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fuente -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Scroll elegante */
+
+        ::-webkit-scrollbar{
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb{
+            background: #2563eb;
+            border-radius: 20px;
+        }
+
+        ::-webkit-scrollbar-track{
+            background: transparent;
+        }
+
+    </style>
+
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-y-auto">
+
+    <!-- EFECTOS -->
+
+    <div class="absolute top-0 left-0 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl"></div>
+
+    <div class="absolute bottom-0 right-0 w-72 h-72 bg-cyan-400/20 rounded-full blur-3xl"></div>
+
+    <!-- CONTENEDOR GENERAL -->
+
+    <div class="relative min-h-screen flex items-center justify-center px-4 py-8">
+
+        <!-- CARD PRINCIPAL -->
+
+        <div class="w-full max-w-5xl grid lg:grid-cols-2 bg-white/10 backdrop-blur-2xl border border-white/20 rounded-3xl shadow-2xl overflow-hidden">
+
+            <!-- PANEL IZQUIERDO -->
+
+            <div class="hidden lg:flex flex-col justify-center p-10 xl:p-12 bg-gradient-to-br from-blue-700 via-cyan-600 to-blue-900 relative overflow-hidden">
+
+                <!-- EFECTOS -->
+
+                <div class="absolute -top-24 -left-24 w-80 h-80 bg-white/10 rounded-full"></div>
+
+                <div class="absolute bottom-0 right-0 w-64 h-64 bg-cyan-300/10 rounded-full"></div>
+
+                <div class="relative z-10">
+
+                    <!-- TITULO -->
+
+                    <h1 class="text-4xl xl:text-5xl font-bold text-white leading-tight mb-5">
+
+                        Bienvenido a
+
+                        <span class="text-cyan-300">
+                            Frío Cars
+                        </span>
+
+                    </h1>
+
+                    <!-- DESCRIPCION -->
+
+                    <p class="text-base xl:text-lg text-blue-100 leading-relaxed mb-8">
+
+                        Registra tu cuenta y comienza a administrar clientes,
+                        vehículos y servicios desde una plataforma moderna,
+                        rápida y segura.
+
+                    </p>
+
+                    <!-- CARDS -->
+
+                    <div class="space-y-4">
+
+                        <!-- CARD -->
+
+                        <div class="bg-white/10 border border-white/10 rounded-2xl p-4 backdrop-blur-lg hover:scale-105 transition duration-300">
+
+                            <h3 class="text-lg font-semibold text-white mb-1">
+                                Gestión Inteligente
+                            </h3>
+
+                            <p class="text-sm text-blue-100">
+
+                                Organiza toda la información del taller
+                                desde una sola plataforma.
+
+                            </p>
+
+                        </div>
+
+                        <!-- CARD -->
+
+                        <div class="bg-white/10 border border-white/10 rounded-2xl p-4 backdrop-blur-lg hover:scale-105 transition duration-300">
+
+                            <h3 class="text-lg font-semibold text-white mb-1">
+                                Seguridad Avanzada
+                            </h3>
+
+                            <p class="text-sm text-blue-100">
+
+                                Protección de usuarios y contraseñas
+                                encriptadas en PostgreSQL.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- PANEL DERECHO -->
+
+            <div class="bg-white p-6 sm:p-8 lg:p-10 flex flex-col justify-center">
+
+                <!-- LOGO -->
+
+                <div class="text-center mb-7">
+
+                    <h2 class="text-3xl sm:text-4xl font-bold text-slate-800">
+                        Crear Cuenta
+                    </h2>
+
+                    <p class="text-gray-500 mt-2 text-sm sm:text-base">
+                        Completa la información para registrarte
+                    </p>
+
+                </div>
+
+                <!-- FORMULARIO -->
+
+                <form id="registroForm" class="space-y-4">
+
+                    <!-- NOMBRE Y APELLIDO -->
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                        <!-- NOMBRE -->
+
+                        <div>
+
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                Nombre
+                            </label>
+
+                            <input
+                                type="text"
+                                id="nombre"
+                                placeholder="Ingrese su nombre"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition"
+                                required
+                            >
+
+                        </div>
+
+                        <!-- APELLIDO -->
+
+                        <div>
+
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                Apellido
+                            </label>
+
+                            <input
+                                type="text"
+                                id="apellido"
+                                placeholder="Ingrese su apellido"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <!-- USERNAME -->
+
+                    <div>
+
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">
+                            Usuario
+                        </label>
+
+                        <input
+                            type="text"
+                            id="username"
+                            placeholder="Nombre de usuario"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition"
+                            required
+                        >
+
+                    </div>
+
+                    <!-- CORREO -->
+
+                    <div>
+
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">
+                            Correo Electrónico
+                        </label>
+
+                        <input
+                            type="email"
+                            id="correo"
+                            placeholder="correo@friocars.com"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition"
+                            required
+                        >
+
+                    </div>
+
+                    <!-- PASSWORD -->
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                        <!-- PASSWORD -->
+
+                        <div>
+
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                Contraseña
+                            </label>
+
+                            <input
+                                type="password"
+                                id="password"
+                                placeholder="********"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition"
+                                required
+                            >
+
+                        </div>
+
+                        <!-- CONFIRMAR PASSWORD -->
+
+                        <div>
+
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                Confirmar Contraseña
+                            </label>
+
+                            <input
+                                type="password"
+                                id="confirmarPassword"
+                                placeholder="********"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <!-- TERMINOS -->
+
+                    <div class="flex items-start gap-3 pt-1">
+
+                        <input
+                            type="checkbox"
+                            id="terminos"
+                            class="mt-1 w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                            required
+                        >
+
+                        <label
+                            for="terminos"
+                            class="text-sm text-gray-600 leading-relaxed">
+
+                            Acepto los términos y condiciones de Frío Cars.
+
+                        </label>
+
+                    </div>
+
+                    <!-- BOTON -->
+
+                    <button
+                        type="submit"
+                        class="w-full bg-gradient-to-r from-blue-700 to-cyan-500 hover:from-blue-800 hover:to-cyan-600 text-white font-semibold py-3 rounded-xl transition duration-300 shadow-lg hover:shadow-cyan-500/30 hover:scale-[1.01]"
+                    >
+
+                        Crear Cuenta
+
+                    </button>
+
+                </form>
+
+                <!-- MENSAJE -->
+
+                <div
+                    id="mensaje"
+                    class="mt-4 text-center font-semibold">
+                </div>
+
+                <!-- LOGIN -->
+
+                <div class="text-center mt-6">
+
+                    <p class="text-gray-500 text-sm">
+                        ¿Ya tienes una cuenta?
+                    </p>
+
+                    <a
+                        href="login.html"
+                        class="inline-block mt-2 text-blue-700 hover:text-blue-900 font-semibold transition duration-300"
+                    >
+
+                        Iniciar Sesión
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer class="relative z-10 text-center py-5 border-t border-white/10 bg-black/20 backdrop-blur-md">
+
+        <p class="text-gray-300 text-sm">
+
+            © 2026 Frío Cars | Sistema de Gestión Automotriz
+
+        </p>
+
+        <p class="text-gray-500 text-xs mt-1">
+
+            Diseñado con TailwindCSS y PostgreSQL
+
+        </p>
+
+    </footer>
+
+    
+    <script src="../assets/js/registro.js"></script>
+</body>
+
+</html>

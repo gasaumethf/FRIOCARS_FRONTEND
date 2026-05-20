@@ -1,0 +1,59 @@
+<body class="bg-gray-100 flex justify-center p-6">
+
+    <div class="bg-white w-[700px] p-6 border-2 border-gray-800">
+
+        <!-- HEADER -->
+        <div class="flex justify-between items-center border-b pb-4">
+            <div>
+                <img src="../assets/img/logo.png" width="80">
+            </div>
+
+            <div class="text-right">
+                <h2 class="text-xl font-bold">FRÍO CARS</h2>
+                <p>NIT: 123456789</p>
+                <p>Tel: 3000000000</p>
+            </div>
+        </div>
+
+        <!-- INFO FACTURA -->
+        <div class="mt-4 flex justify-between">
+            <div>
+                <p><strong>Cliente:</strong> <span id="cliente"></span></p>
+            </div>
+
+            <div class="text-right">
+                <p><strong>Factura #:</strong> 0001</p>
+                <p><strong>Fecha:</strong> <span id="fecha"></span></p>
+            </div>
+        </div>
+
+        <!-- TABLA -->
+        <table class="w-full mt-4 border">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="detalleFactura"></tbody>
+        </table>
+
+        <!-- TOTAL -->
+        <div class="text-right mt-4">
+            <h2 class="text-xl font-bold">
+                Total: $<span id="totalFactura"></span>
+            </h2>
+        </div>
+
+    </div>
+
+    <button onclick="window.print()" class="bg-blue-600 text-white px-4 py-2 mt-4">
+        Imprimir
+    </button>
+
+    <script src="../assets/js/factura.js"></script>
+
+    <script src="../assets/js/auth.js"></script>
+</body>
