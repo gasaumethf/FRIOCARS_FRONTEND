@@ -2,7 +2,7 @@ let carrito = [];
 
 //  CARGAR PRODUCTOS
 async function cargarProductos() {
-    const res = await fetch("http://localhost:3000/api/productos");
+    const res = await fetch("https://friocars-backend.onrender.com/api/productos");
     const productos = await res.json();
 
     const contenedor = document.getElementById("listaProductos");
@@ -96,7 +96,7 @@ async function guardarVenta() {
 
     try {
 
-        const res = await fetch("http://localhost:3000/api/ventas", {
+        const res = await fetch("https://friocars-backend.onrender.com/api/ventas", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -128,7 +128,7 @@ async function guardarVenta() {
 
 
 async function cargarClientes() {
-    const res = await fetch("http://localhost:3000/api/clientes");
+    const res = await fetch("https://friocars-backend.onrender.com/api/clientes");
     const clientes = await res.json();
 
     const select = document.getElementById("clienteSelect");

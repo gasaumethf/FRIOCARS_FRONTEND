@@ -19,7 +19,7 @@ async function cargarClientes() {
 
     try {
 
-        const response = await fetch("http://localhost:8000/api/clientes");
+        const response = await fetch("https://friocars-backend.onrender.com/api/clientes");
 
         const clientes = await response.json();
 
@@ -187,7 +187,7 @@ clienteForm.addEventListener("submit", async (e) => {
 
         if(clienteEditando){
 
-            await fetch(`http://localhost:8000/api/clientes/${clienteEditando}`, {
+            await fetch(`https://friocars-backend.onrender.com/api/clientes/${clienteEditando}`, {
 
                 method: "PUT",
 
@@ -207,7 +207,7 @@ clienteForm.addEventListener("submit", async (e) => {
             // CREAR
             // =============================
 
-            await fetch("http://localhost:8000/api/clientes", {
+            await fetch("https://friocars-backend.onrender.com/api/clientes", {
 
                 method: "POST",
 
@@ -273,7 +273,7 @@ async function eliminarCliente(id){
 
     try{
 
-        await fetch(`http://localhost:8000/api/clientes/${id}`, {
+        await fetch(`https://friocars-backend.onrender.com/api/clientes/${id}`, {
 
             method: "DELETE"
 

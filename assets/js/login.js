@@ -39,7 +39,7 @@ form.addEventListener('submit', async (e) => {
         // PETICION LOGIN
         // =============================
 
-        const response = await fetch('http://localhost:8000/api/auth/login', {
+        const response = await fetch('https://friocars-backend.onrender.com/api/auth/login', {
 
             method: 'POST',
 

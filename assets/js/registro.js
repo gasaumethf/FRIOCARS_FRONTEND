@@ -54,7 +54,7 @@ formulario.addEventListener('submit', async (e) => {
 
         // ENVIAR DATOS
 
-        const respuesta = await fetch('http://127.0.0.1:8000/api/auth/register', {
+        const respuesta = await fetch('https://friocars-backend.onrender.com/api/auth/register', {
 
             method: 'POST',
 

@@ -30,7 +30,7 @@ async function cargarProductos() {
 
     try{
 
-        const response = await fetch("http://localhost:8000/api/productos");
+        const response = await fetch("https://friocars-backend.onrender.com");
 
         const productos = await response.json();
 
@@ -253,7 +253,7 @@ async function crearProducto() {
 
         if(productoEditando){
 
-            response = await fetch(`http://localhost:8000/api/productos/${productoEditando}`, {
+            response = await fetch(`https://friocars-backend.onrender.com/api/productos/${productoEditando}`, {
 
                 method: "PUT",
 
@@ -271,7 +271,7 @@ async function crearProducto() {
 
             //  CREAR
 
-            response = await fetch("http://localhost:8000/api/productos", {
+            response = await fetch("https://friocars-backend.onrender.com/api/productos", {
 
                 method: "POST",
 
@@ -349,7 +349,7 @@ async function eliminarProducto(id) {
 
     try{
 
-        await fetch(`http://localhost:8000/api/productos/${id}`, {
+        await fetch(`https://friocars-backend.onrender.com/api/productos/${id}`, {
 
             method: "DELETE"
 
