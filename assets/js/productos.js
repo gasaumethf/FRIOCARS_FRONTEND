@@ -9,7 +9,7 @@ const buscador = document.getElementById("buscador");
 let productoEditando = null;
 
 
-// 🔥 MOSTRAR / OCULTAR FORMULARIO
+// MOSTRAR / OCULTAR FORMULARIO
 
 function mostrarFormulario() {
 
@@ -24,7 +24,7 @@ function mostrarFormulario() {
 }
 
 
-// 🔥 CARGAR PRODUCTOS
+// CARGAR PRODUCTOS
 
 async function cargarProductos() {
 
@@ -38,7 +38,7 @@ async function cargarProductos() {
 
         tabla.innerHTML = "";
 
-        // 🔥 ESTADISTICAS
+        //  ESTADISTICAS
 
         let totalStockProductos = 0;
 
@@ -48,7 +48,7 @@ async function cargarProductos() {
 
             totalStockProductos += Number(p.stock);
 
-            // 🔥 ESTADO STOCK
+            // ESTADO STOCK
 
             let estado = "";
 
@@ -149,7 +149,7 @@ async function cargarProductos() {
 
         });
 
-        // 🔥 STOCK TOTAL
+        //  STOCK TOTAL
 
         stockTotal.textContent = totalStockProductos;
 
@@ -162,7 +162,7 @@ async function cargarProductos() {
 }
 
 
-// 🔥 EDITAR PRODUCTO
+// EDITAR PRODUCTO
 
 function editarProducto(id, nombre, descripcion, precio, stock, categoria) {
 
@@ -178,11 +178,11 @@ function editarProducto(id, nombre, descripcion, precio, stock, categoria) {
 
     document.getElementById("categoria").value = categoria;
 
-    // 🔥 MOSTRAR FORMULARIO
+    // MOSTRAR FORMULARIO
 
     document.getElementById("formulario").classList.remove("hidden");
 
-    // 🔥 SUBIR AUTOMATICAMENTE
+    //  SUBIR AUTOMATICAMENTE
 
     window.scrollTo({
 
@@ -195,7 +195,7 @@ function editarProducto(id, nombre, descripcion, precio, stock, categoria) {
 }
 
 
-// 🔥 CREAR / ACTUALIZAR
+//  CREAR / ACTUALIZAR
 
 async function crearProducto() {
 
@@ -209,7 +209,7 @@ async function crearProducto() {
 
     const categoria = document.getElementById("categoria").value.trim();
 
-    // 🔥 VALIDACIONES
+    // VALIDACIONES
 
     if(!nombre || !descripcion || !categoria){
 
@@ -269,7 +269,7 @@ async function crearProducto() {
 
         }else{
 
-            // 🔥 CREAR
+            //  CREAR
 
             response = await fetch("http://localhost:8000/api/productos", {
 
@@ -287,7 +287,7 @@ async function crearProducto() {
 
         }
 
-        // 🔥 VALIDAR RESPUESTA
+        //  VALIDAR RESPUESTA
 
         if(!response.ok){
 
@@ -297,11 +297,11 @@ async function crearProducto() {
 
         }
 
-        // 🔥 MENSAJE
+        //  MENSAJE
 
         alert("Producto guardado correctamente");
 
-        // 🔥 LIMPIAR
+        //  LIMPIAR
 
         limpiarFormulario();
 
@@ -309,7 +309,7 @@ async function crearProducto() {
 
         productoEditando = null;
 
-        // 🔥 RECARGAR
+        //  RECARGAR
 
         cargarProductos();
 
@@ -366,7 +366,7 @@ async function eliminarProducto(id) {
 }
 
 
-// 🔥 BUSCADOR
+//  BUSCADOR
 
 if(buscador){
 
@@ -393,7 +393,7 @@ if(buscador){
 }
 
 
-// 🔥 INICIAR
+//  INICIAR
 
 if(tabla){
 

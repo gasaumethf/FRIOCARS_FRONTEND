@@ -1,6 +1,6 @@
 let carrito = [];
 
-// 🔥 CARGAR PRODUCTOS
+//  CARGAR PRODUCTOS
 async function cargarProductos() {
     const res = await fetch("http://localhost:3000/api/productos");
     const productos = await res.json();
@@ -22,7 +22,7 @@ async function cargarProductos() {
 }
 
 
-// 🔥 AGREGAR AL CARRITO
+//  AGREGAR AL CARRITO
 function agregarAlCarrito(producto) {
 
     const existente = carrito.find(p => p.id_producto === producto.id_producto);
@@ -38,7 +38,7 @@ function agregarAlCarrito(producto) {
 }
 
 
-// 🔥 RENDER CARRITO
+//  RENDER CARRITO
 function renderCarrito() {
     const tabla = document.getElementById("carrito");
     const totalSpan = document.getElementById("total");
@@ -106,18 +106,18 @@ async function guardarVenta() {
 
         const data = await res.json();
 
-        // 🔥 GUARDAR INFO PARA FACTURA
+        //  GUARDAR INFO PARA FACTURA
         localStorage.setItem("factura", JSON.stringify(carrito));
 
         localStorage.setItem("cliente", document.getElementById("clienteNombre").value);
 
-        // 🔥 OPCIONAL: guardar total también
+        //  OPCIONAL: guardar total también
         localStorage.setItem("totalFactura", data.total);
 
-        // 🔥 LIMPIAR CARRITO (ANTES DE SALIR)
+        //  LIMPIAR CARRITO (ANTES DE SALIR)
         carrito = [];
 
-        // 🔥 REDIRIGIR A FACTURA
+        //  REDIRIGIR A FACTURA
         window.location.href = "factura.html";
 
     } catch (error) {
