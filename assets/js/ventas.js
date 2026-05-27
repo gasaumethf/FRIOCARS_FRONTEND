@@ -129,42 +129,107 @@ function eliminarDelCarrito(id) {
 
 // GUARDAR VENTAS 
 
+// GUARDAR VENTAS 
+
 async function guardarVenta() {
 
     if (carrito.length === 0) {
+
         alert("Carrito vacío");
+
         return;
+
     }
 
     try {
 
+        const clienteSelect = document.getElementById("clienteSelect");
+
+        const clienteTexto =
+            clienteSelect.options[clienteSelect.selectedIndex]?.text || "Cliente General";
+
+
+
         const res = await fetch("https://friocars-backend.onrender.com/api/ventas", {
+
             method: "POST",
+
             headers: {
+
                 "Content-Type": "application/json"
+
             },
-            body: JSON.stringify({ productos: carrito })
+
+            body: JSON.stringify({
+
+                productos: carrito
+
+            })
+
         });
+
+
+
+        // VALIDAR RESPUESTA
+
+        if (!res.ok) {
+
+            throw new Error("Error guardando venta");
+
+        }
+
+
 
         const data = await res.json();
 
-        //  GUARDAR INFO PARA FACTURA
+
+
+        // 🔥 CALCULAR IVA
+
+        const subtotal = data.total;
+
+        const iva = subtotal * 0.19;
+
+        const totalFinal = subtotal + iva;
+
+
+
+        // 🔥 GUARDAR FACTURA
+
         localStorage.setItem("factura", JSON.stringify(carrito));
 
-        localStorage.setItem("cliente", document.getElementById("clienteNombre").value);
+        localStorage.setItem("cliente", clienteTexto);
 
-        //  OPCIONAL: guardar total también
-        localStorage.setItem("totalFactura", data.total);
+        localStorage.setItem("subtotalFactura", subtotal);
 
-        //  LIMPIAR CARRITO (ANTES DE SALIR)
+        localStorage.setItem("ivaFactura", iva);
+
+        localStorage.setItem("totalFactura", totalFinal);
+
+        localStorage.setItem("ventaId", data.ventaId);
+
+
+
+        // 🔥 LIMPIAR CARRITO
+
         carrito = [];
 
-        //  REDIRIGIR A FACTURA
+
+
+        // 🔥 REDIRECCIONAR
+
         window.location.href = "factura.html";
 
+
+
     } catch (error) {
-        console.error("Error en venta", error);
+
+        console.error("Error en venta:", error);
+
+        alert("Error procesando la venta");
+
     }
+
 }
 
 
