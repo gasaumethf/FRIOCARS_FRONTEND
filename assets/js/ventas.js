@@ -1,24 +1,66 @@
 let carrito = [];
 
 //  CARGAR PRODUCTOS
+// CARGAR PRODUCTOS
 async function cargarProductos() {
-    const res = await fetch("https://friocars-backend.onrender.com/api/productos");
-    const productos = await res.json();
 
-    const contenedor = document.getElementById("listaProductos");
+    try {
 
-    productos.forEach(p => {
-        contenedor.innerHTML += `
-            <div class="bg-white p-4 shadow">
-                <h3>${p.nombre}</h3>
-                <p>$${p.precio}</p>
-                <button onclick='agregarAlCarrito(${JSON.stringify(p)})'
-                class="bg-blue-500 text-white px-2 py-1 mt-2">
-                    Agregar
-                </button>
-            </div>
-        `;
-    });
+        const res = await fetch("https://friocars-backend.onrender.com/api/productos");
+
+        // VALIDAR RESPUESTA
+        if (!res.ok) {
+            throw new Error("Error obteniendo productos");
+        }
+
+        const productos = await res.json();
+
+        console.log("PRODUCTOS:", productos);
+
+        const contenedor = document.getElementById("listaProductos");
+
+        // LIMPIAR CONTENEDOR
+        contenedor.innerHTML = "";
+
+        productos.forEach(p => {
+
+            contenedor.innerHTML += `
+                <div class="bg-white/10 border border-white/10 
+                rounded-3xl p-5 shadow-xl backdrop-blur-xl">
+
+                    <h3 class="text-2xl font-bold text-white mb-3">
+                        ${p.nombre}
+                    </h3>
+
+                    <p class="text-slate-300 mb-2">
+                        Categoría: ${p.categoria || "Sin categoría"}
+                    </p>
+
+                    <p class="text-green-400 font-bold text-xl mb-2">
+                        $${p.precio}
+                    </p>
+
+                    <p class="text-slate-400 mb-4">
+                        Stock: ${p.stock}
+                    </p>
+
+                    <button 
+                        onclick='agregarAlCarrito(${JSON.stringify(p)})'
+                        class="bg-blue-600 hover:bg-blue-700 
+                        text-white px-4 py-2 rounded-xl w-full">
+
+                        Agregar
+                    </button>
+
+                </div>
+            `;
+        });
+
+    } catch (error) {
+
+        console.error("Error cargando productos", error);
+
+    }
 }
 
 
