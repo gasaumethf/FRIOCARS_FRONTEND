@@ -96,8 +96,8 @@ function renderCarrito() {
     <tr>
         <td>${p.nombre}</td>
         <td>${p.cantidad}</td>
-        <td>${p.precio}</td>
-        <td>${subtotal}</td>
+        <td>$${p.precio}</td>
+        <td>$${subtotal}</td>
         <td>
             <button onclick="eliminarDelCarrito(${p.id_producto})" class="text-red-600">
                 ❌
