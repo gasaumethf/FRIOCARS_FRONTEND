@@ -1,59 +1,504 @@
-<body class="bg-gray-100 flex justify-center p-6">
+<!DOCTYPE html>
+<html lang="es">
 
-    <div class="bg-white w-[700px] p-6 border-2 border-gray-800">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Factura | Frío Cars</title>
+
+    <!-- TAILWIND -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FUENTE -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+
+        body{
+
+            font-family: 'Poppins', sans-serif;
+
+        }
+
+        @media print {
+
+            .no-print{
+
+                display: none;
+
+            }
+
+            body{
+
+                background: white;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body class="bg-slate-100 min-h-screen p-6">
+
+    <!-- CONTENEDOR -->
+
+    <div class="max-w-6xl mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden">
 
         <!-- HEADER -->
-        <div class="flex justify-between items-center border-b pb-4">
-            <div>
-                <img src="../assets/img/logo.png" width="80">
+
+        <div class="bg-gradient-to-r from-slate-900 via-blue-950 to-blue-700 text-white p-10">
+
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+
+                <!-- EMPRESA -->
+
+                <div class="flex items-center gap-5">
+
+                    <!-- LOGO -->
+
+                    <div class="bg-white p-4 rounded-2xl shadow-lg">
+
+                        <img 
+                            src="../Logo/Logo.png"
+                            alt="Logo Frío Cars"
+                            class="w-24"
+                        >
+
+                    </div>
+
+                    <!-- INFO -->
+
+                    <div>
+
+                        <h1 class="text-5xl font-bold mb-2">
+
+                            Frío Cars
+
+                        </h1>
+
+                        <p class="text-slate-300">
+
+                            Sistema Inteligente de Gestión Automotriz
+
+                        </p>
+
+                        <p class="text-slate-400 text-sm mt-2">
+
+                            Ocaña - Norte de Santander
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- FACTURA -->
+
+                <div class="bg-white/10 border border-white/10 rounded-3xl p-6 backdrop-blur-xl">
+
+                    <p class="text-slate-300 text-sm mb-2">
+
+                        Factura Electrónica
+
+                    </p>
+
+                    <h2 class="text-4xl font-bold">
+
+                        #FC-2026
+
+                    </h2>
+
+                    <p class="text-slate-300 mt-3">
+
+                        <span id="fechaActual"></span>
+
+                    </p>
+
+                </div>
+
             </div>
 
-            <div class="text-right">
-                <h2 class="text-xl font-bold">FRÍO CARS</h2>
-                <p>NIT: 123456789</p>
-                <p>Tel: 3000000000</p>
-            </div>
         </div>
 
-        <!-- INFO FACTURA -->
-        <div class="mt-4 flex justify-between">
-            <div>
-                <p><strong>Cliente:</strong> <span id="cliente"></span></p>
+        <!-- BODY -->
+
+        <div class="p-10">
+
+            <!-- INFO CLIENTE -->
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+
+                <!-- CLIENTE -->
+
+                <div class="bg-slate-100 rounded-3xl p-6">
+
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">
+
+                        Información del Cliente
+
+                    </h3>
+
+                    <div class="space-y-2">
+
+                        <p class="text-slate-600">
+
+                            Cliente:
+
+                            <span 
+                                id="cliente"
+                                class="font-semibold text-slate-900"
+                            >
+
+                            </span>
+
+                        </p>
+
+                        <p class="text-slate-600">
+
+                            Estado:
+
+                            <span class="text-green-600 font-bold">
+
+                                PAGADO
+
+                            </span>
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- RESUMEN -->
+
+                <div class="bg-blue-50 rounded-3xl p-6 border border-blue-100">
+
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">
+
+                        Resumen de Compra
+
+                    </h3>
+
+                    <div class="space-y-3">
+
+                        <div class="flex justify-between">
+
+                            <span class="text-slate-600">
+
+                                Productos
+
+                            </span>
+
+                            <span 
+                                id="cantidadProductos"
+                                class="font-semibold"
+                            >
+
+                            </span>
+
+                        </div>
+
+                        <div class="flex justify-between">
+
+                            <span class="text-slate-600">
+
+                                Método Pago
+
+                            </span>
+
+                            <span class="font-semibold">
+
+                                Efectivo
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="text-right">
-                <p><strong>Factura #:</strong> 0001</p>
-                <p><strong>Fecha:</strong> <span id="fecha"></span></p>
+            <!-- TABLA -->
+
+            <div class="overflow-x-auto rounded-3xl border border-slate-200">
+
+                <table class="w-full">
+
+                    <thead class="bg-slate-900 text-white">
+
+                        <tr>
+
+                            <th class="p-5 text-left">
+                                Producto
+                            </th>
+
+                            <th class="p-5 text-left">
+                                Cantidad
+                            </th>
+
+                            <th class="p-5 text-left">
+                                Precio
+                            </th>
+
+                            <th class="p-5 text-left">
+                                Subtotal
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody 
+                        id="tablaFactura"
+                        class="divide-y divide-slate-200"
+                    >
+
+                    </tbody>
+
+                </table>
+
             </div>
-        </div>
 
-        <!-- TABLA -->
-        <table class="w-full mt-4 border">
-            <thead class="bg-gray-200">
-                <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody id="detalleFactura"></tbody>
-        </table>
+            <!-- TOTALES -->
 
-        <!-- TOTAL -->
-        <div class="text-right mt-4">
-            <h2 class="text-xl font-bold">
-                Total: $<span id="totalFactura"></span>
-            </h2>
+            <div class="flex justify-end mt-10">
+
+                <div class="w-full max-w-md bg-slate-100 rounded-3xl p-8">
+
+                    <div class="space-y-4">
+
+                        <div class="flex justify-between">
+
+                            <span class="text-slate-600">
+
+                                Subtotal
+
+                            </span>
+
+                            <span id="subtotal">
+
+                            </span>
+
+                        </div>
+
+                        <div class="flex justify-between">
+
+                            <span class="text-slate-600">
+
+                                IVA (19%)
+
+                            </span>
+
+                            <span id="iva">
+
+                            </span>
+
+                        </div>
+
+                        <div class="border-t pt-5 flex justify-between">
+
+                            <span class="text-2xl font-bold text-slate-900">
+
+                                TOTAL
+
+                            </span>
+
+                            <span 
+                                id="total"
+                                class="text-3xl font-bold text-green-600"
+                            >
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- FOOTER -->
+
+            <div class="mt-16 text-center">
+
+                <p class="text-slate-500">
+
+                    Gracias por confiar en Frío Cars 🚗
+
+                </p>
+
+                <p class="text-slate-400 text-sm mt-2">
+
+                    Factura generada automáticamente por el sistema.
+
+                </p>
+
+            </div>
+
+            <!-- BOTONES -->
+
+            <div class="flex flex-col lg:flex-row gap-5 mt-12 no-print">
+
+                <!-- IMPRIMIR -->
+
+                <button
+                    onclick="window.print()"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl text-lg font-semibold transition duration-300 shadow-xl shadow-blue-500/20">
+
+                    Imprimir Factura
+
+                </button>
+
+                <!-- VOLVER -->
+
+                <a href="ventas.html">
+
+                    <button
+                        class="bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl text-lg font-semibold transition duration-300">
+
+                        Volver a Ventas
+
+                    </button>
+
+                </a>
+
+            </div>
+
         </div>
 
     </div>
 
-    <button onclick="window.print()" class="bg-blue-600 text-white px-4 py-2 mt-4">
-        Imprimir
-    </button>
+    <!-- SCRIPT -->
 
-    <script src="../assets/js/factura.js"></script>
+    <script>
 
-    <script src="../assets/js/auth.js"></script>
+        // 🔥 FECHA
+
+        const fecha = new Date();
+
+        document.getElementById("fechaActual").innerText =
+            fecha.toLocaleDateString("es-CO");
+
+
+        // 🔥 DATOS FACTURA
+
+        const productos = JSON.parse(
+            localStorage.getItem("factura")
+        ) || [];
+
+
+        const cliente =
+            localStorage.getItem("cliente") || "Cliente General";
+
+
+        // 🔥 ELEMENTOS
+
+        const tabla =
+            document.getElementById("tablaFactura");
+
+        const subtotalHTML =
+            document.getElementById("subtotal");
+
+        const ivaHTML =
+            document.getElementById("iva");
+
+        const totalHTML =
+            document.getElementById("total");
+
+        const clienteHTML =
+            document.getElementById("cliente");
+
+        const cantidadProductos =
+            document.getElementById("cantidadProductos");
+
+
+        // 🔥 VARIABLES
+
+        let subtotal = 0;
+
+
+        // 🔥 CLIENTE
+
+        clienteHTML.innerText = cliente;
+
+        cantidadProductos.innerText = productos.length;
+
+
+        // 🔥 TABLA
+
+        productos.forEach(p => {
+
+            const totalProducto =
+                p.precio * p.cantidad;
+
+            subtotal += totalProducto;
+
+            tabla.innerHTML += `
+
+                <tr class="hover:bg-slate-50 transition duration-300">
+
+                    <td class="p-5 font-medium text-slate-800">
+
+                        ${p.nombre}
+
+                    </td>
+
+                    <td class="p-5 text-slate-600">
+
+                        ${p.cantidad}
+
+                    </td>
+
+                    <td class="p-5 text-slate-600">
+
+                        $${p.precio}
+
+                    </td>
+
+                    <td class="p-5 font-semibold text-slate-900">
+
+                        $${totalProducto}
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        });
+
+
+        // 🔥 IVA
+
+        const iva = subtotal * 0.19;
+
+        const total = subtotal + iva;
+
+
+        // 🔥 TOTALES
+
+        subtotalHTML.innerText =
+            `$${subtotal.toFixed(2)}`;
+
+        ivaHTML.innerText =
+            `$${iva.toFixed(2)}`;
+
+        totalHTML.innerText =
+            `$${total.toFixed(2)}`;
+
+    </script>
+
 </body>
+
+</html>
