@@ -30,7 +30,7 @@ async function cargarProductos() {
 
     try{
 
-        const response = await fetch("https://friocars-backend.onrender.com");
+        const response = await fetch("https://friocars-backend.onrender.com/api/productos");
 
         const productos = await response.json();
 
