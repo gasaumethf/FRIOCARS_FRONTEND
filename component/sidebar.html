@@ -1,312 +1,196 @@
-<!--
-  component/sidebar.html
-  Cargado por assets/js/sidebar.js via fetch()
-  Mismos links de siempre — estilos nuevos coherentes con el login
--->
+<!-- SIDEBAR -->
 
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+<aside
+    class="fixed top-0 left-0 h-screen w-[290px] overflow-y-auto bg-white/5 backdrop-blur-2xl border-r border-white/10 p-6 flex flex-col justify-between z-50">
 
-  :root {
-    --sb-w:     268px;
-    --pri:      #1d4ed8;
-    --pri-h:    #1e40af;
-    --pri-lt:   #eff6ff;
-    --border:   #e2e8f0;
-    --text:     #0f172a;
-    --muted:    #64748b;
-    --bg-sb:    #ffffff;
-    --bg-hover: #f1f5fd;
-  }
+    <!-- TOP -->
 
-  /* tema oscuro heredado del login */
-  body.soft-dark {
-    --bg-sb:    #1e293b;
-    --bg-hover: #263347;
-    --border:   #334155;
-    --text:     #e2e8f0;
-    --muted:    #94a3b8;
-    --pri-lt:   #1e3a5f;
-  }
-  body.sepia {
-    --bg-sb:    #fffbf3;
-    --bg-hover: #fdf0d8;
-    --border:   #d4b896;
-    --text:     #3d2008;
-    --muted:    #7a5c3a;
-    --pri:      #7c4f1e;
-    --pri-lt:   #fdf0d8;
-  }
+    <div class="flex-1">
 
-  /* ── reset ── */
-  #fc-sidebar, #fc-sidebar * { box-sizing: border-box; margin: 0; padding: 0; }
+        <!-- LOGO -->
 
-  /* ── contenedor ── */
-  #fc-sidebar {
-    position: fixed; top: 0; left: 0;
-    width: var(--sb-w); height: 100vh;
-    background: var(--bg-sb);
-    border-right: 1px solid var(--border);
-    display: flex; flex-direction: column;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    z-index: 100;
-    box-shadow: 2px 0 24px rgba(0,0,0,.06);
-    transition: transform .3s cubic-bezier(.4,0,.2,1), background .3s;
-    overflow: hidden;
-  }
+        <div class="flex items-center gap-4 mb-12">
 
-  /* ── logo ── */
-  .sb-head {
-    padding: 1.4rem 1.2rem 1rem;
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-    flex-shrink: 0;
-  }
-  .sb-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
-  .sb-logo-icon {
-    width:38px; height:38px; background:var(--pri); border-radius:11px;
-    display:flex; align-items:center; justify-content:center; flex-shrink:0;
-  }
-  .sb-logo-icon svg { width:19px; height:19px; }
-  .sb-logo-name { font-size:.97rem; font-weight:800; color:var(--text); line-height:1.2; }
-  .sb-logo-sub  { font-size:.66rem; color:var(--muted); font-weight:500; }
+            <div class="bg-white/10 p-3 rounded-2xl shadow-lg">
 
-  /* online badge */
-  .sb-online {
-    display:flex; align-items:center; gap:5px;
-    background:#f0fdf4; border:1px solid #bbf7d0;
-    border-radius:20px; padding:3px 9px;
-    font-size:.66rem; font-weight:700; color:#15803d;
-  }
-  .sb-online-dot {
-    width:7px; height:7px; background:#22c55e; border-radius:50%;
-    animation: sb-p 2s ease-in-out infinite;
-  }
-  @keyframes sb-p { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+                <img src="../assets/Logo/Logo2.png" alt="Logo Frío Cars" class="w-14 h-14 object-contain">
 
-  /* ── usuario ── */
-  .sb-user {
-    margin: .9rem .9rem .4rem;
-    background: var(--pri-lt); border:1px solid #bfdbfe; border-radius:13px;
-    padding:.75rem 1rem; display:flex; align-items:center; gap:9px;
-    flex-shrink:0; transition: background .3s, border-color .3s;
-  }
-  body.soft-dark .sb-user { border-color:#334155; }
-  .sb-avatar {
-    width:36px; height:36px; background:var(--pri); border-radius:9px;
-    display:flex; align-items:center; justify-content:center;
-    font-size:.88rem; font-weight:800; color:#fff; flex-shrink:0;
-  }
-  .sb-uname { font-size:.81rem; font-weight:700; color:var(--text); line-height:1.3; }
-  .sb-urole { font-size:.67rem; color:var(--pri); font-weight:600; }
+            </div>
 
-  /* ── nav ── */
-  .sb-nav {
-    flex:1; overflow-y:auto; padding:.4rem .7rem;
-    scrollbar-width:thin; scrollbar-color:#e2e8f0 transparent;
-  }
-  .sb-nav::-webkit-scrollbar { width:3px; }
-  .sb-nav::-webkit-scrollbar-thumb { background:#e2e8f0; border-radius:3px; }
+            <div>
 
-  .sb-section {
-    font-size:.62rem; font-weight:800; color:#94a3b8;
-    text-transform:uppercase; letter-spacing:.1em;
-    padding:.75rem .5rem .25rem; display:block;
-  }
+                <h1 class="text-2xl font-bold text-white">
+                    Frío Cars
+                </h1>
 
-  /* link */
-  .sb-a {
-    display:flex; align-items:center; gap:10px;
-    padding:.6rem .75rem; border-radius:10px;
-    text-decoration:none; color:var(--muted);
-    font-size:.83rem; font-weight:500;
-    transition:all .16s ease; position:relative; margin-bottom:1px;
-  }
-  .sb-a:hover { background:var(--bg-hover); color:var(--text); }
-  .sb-a.sb-active {
-    background:var(--pri-lt); color:var(--pri); font-weight:700;
-  }
-  .sb-a.sb-active::before {
-    content:''; position:absolute; left:0; top:22%; bottom:22%;
-    width:3px; background:var(--pri); border-radius:0 3px 3px 0;
-  }
+                <p class="text-slate-400 text-sm">
+                    Sistema Automotriz
+                </p>
 
-  /* icono */
-  .sb-ico {
-    width:30px; height:30px; border-radius:8px;
-    display:flex; align-items:center; justify-content:center;
-    background:transparent; transition:background .16s; flex-shrink:0;
-    font-size:1rem; line-height:1;
-  }
-  .sb-a:hover   .sb-ico { background:#e0eaff; }
-  .sb-a.sb-active .sb-ico { background:#dbeafe; }
+            </div>
 
-  /* label flex */
-  .sb-label { flex:1; }
+        </div>
 
-  /* badge carrito */
-  .sb-cart-badge {
-    background:#ef4444; color:#fff;
-    font-size:.62rem; font-weight:800;
-    min-width:20px; height:20px; padding:0 6px;
-    border-radius:20px; display:none;
-    align-items:center; justify-content:center;
-    box-shadow:0 2px 6px rgba(239,68,68,.4);
-  }
-  .sb-cart-badge.visible { display:flex; }
+        <!-- MENU -->
 
-  /* divisor */
-  .sb-div { height:1px; background:var(--border); margin:.4rem .5rem; }
+        <nav class="space-y-3">
 
-  /* ── logout ── */
-  .sb-foot { padding:.8rem .7rem .9rem; border-top:1px solid var(--border); flex-shrink:0; }
-  .sb-logout {
-    display:flex; align-items:center; gap:10px;
-    padding:.6rem .75rem; border-radius:10px;
-    color:#64748b; font-size:.83rem; font-weight:600;
-    cursor:pointer; background:none; border:none; width:100%;
-    font-family:'Plus Jakarta Sans',sans-serif;
-    transition:all .16s;
-  }
-  .sb-logout:hover { background:#fff5f5; color:#dc2626; }
-  .sb-logout:hover .sb-ico { background:#fee2e2; }
-  .sb-version { font-size:.63rem; color:#cbd5e1; text-align:center; margin-top:.45rem; }
+            <!-- ITEM -->
 
-  /* ── móvil ── */
-  #sb-toggle {
-    display:none; position:fixed; top:.9rem; left:.9rem; z-index:200;
-    width:40px; height:40px; background:var(--pri); border:none;
-    border-radius:10px; cursor:pointer;
-    align-items:center; justify-content:center;
-    box-shadow:0 4px 12px rgba(29,78,216,.3);
-  }
-  #sb-toggle svg { width:17px; height:17px; color:#fff; }
-  #sb-overlay {
-    display:none; position:fixed; inset:0;
-    background:rgba(0,0,0,.32); z-index:99; backdrop-filter:blur(2px);
-  }
-  @media(max-width:900px){
-    #sb-toggle { display:flex; }
-    #fc-sidebar { transform:translateX(calc(-1 * var(--sb-w))); }
-    #fc-sidebar.open { transform:translateX(0); }
-    #sb-overlay.open { display:block; }
-  }
+            <a href="dashboard.html"
+                class="flex items-center gap-4 bg-blue-600 text-white px-5 py-4 rounded-2xl shadow-lg shadow-blue-500/20 hover:scale-[1.02] transition duration-300">
 
-  /* margin del main */
-  body.has-sidebar main,
-  body.has-sidebar .main-content { margin-left:var(--sb-w) !important; }
-  @media(max-width:900px){
-    body.has-sidebar main,
-    body.has-sidebar .main-content { margin-left:0 !important; }
-  }
-</style>
+                <span class="text-xl">
+                    
+                </span>
 
-<!-- toggle móvil -->
-<button id="sb-toggle" aria-label="Abrir menú">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
-    <line x1="3" y1="6"  x2="21" y2="6"/>
-    <line x1="3" y1="12" x2="21" y2="12"/>
-    <line x1="3" y1="18" x2="21" y2="18"/>
-  </svg>
-</button>
-<div id="sb-overlay"></div>
+                <span class="font-medium">
+                    Inicio
+                </span>
 
-<!-- sidebar -->
-<aside id="fc-sidebar" role="navigation" aria-label="Menú principal">
+            </a>
 
-  <!-- logo -->
-  <div class="sb-head">
-    <a href="dashboard.html" class="sb-logo">
-      <div class="sb-logo-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round">
-          <line x1="12" y1="2"  x2="12" y2="22"/>
-          <line x1="2"  y1="12" x2="22" y2="12"/>
-          <polyline points="6,6 12,2 18,6"/>
-          <polyline points="6,18 12,22 18,18"/>
-          <polyline points="2,8 6,6 6,10"/>
-          <polyline points="22,8 18,6 18,10"/>
-          <polyline points="2,16 6,18 6,14"/>
-          <polyline points="22,16 18,18 18,14"/>
-        </svg>
-      </div>
-      <div>
-        <div class="sb-logo-name">Frío Cars</div>
-        <div class="sb-logo-sub">Sistema Automotriz</div>
-      </div>
-    </a>
-    <div class="sb-online"><div class="sb-online-dot"></div>Online</div>
-  </div>
+            <!-- ITEM -->
 
-  <!-- usuario -->
-  <div class="sb-user">
-    <div class="sb-avatar" id="sb-avatar">A</div>
-    <div>
-      <div class="sb-uname" id="sb-username">Administrador</div>
-      <div class="sb-urole"  id="sb-user-role">Rol: Admin</div>
+            <a href="servicios.html"
+                class="flex items-center gap-4 text-slate-300 hover:text-white hover:bg-white/10 px-5 py-4 rounded-2xl transition duration-300">
+
+                <span class="text-xl">
+                    
+                </span>
+
+                <span>
+                    Servicios
+                </span>
+
+            </a>
+
+            <!-- ITEM -->
+
+            <a href="ventas.html"
+                class="flex items-center gap-4 text-slate-300 hover:text-white hover:bg-white/10 px-5 py-4 rounded-2xl transition duration-300">
+
+                <span class="text-xl">
+                    
+                </span>
+
+                <span>
+                    Ventas
+                </span>
+
+            </a>
+
+            <!-- ITEM -->
+
+
+
+            <!-- ITEM -->
+
+            <a href="cotizacion.html"
+                class="flex items-center gap-4 text-slate-300 hover:text-white hover:bg-white/10 px-5 py-4 rounded-2xl transition duration-300">
+
+                <span class="text-xl">
+                    
+                </span>
+
+                <span>
+                    Cotización
+                </span>
+
+            </a>
+
+            <!-- ITEM -->
+
+            <a href="inventario.html"
+                class="flex items-center gap-4 text-slate-300 hover:text-white hover:bg-white/10 px-5 py-4 rounded-2xl transition duration-300">
+
+                <span class="text-xl">
+                    
+                </span>
+
+                <span>
+                    Inventario
+                </span>
+
+            </a>
+
+            <!-- ITEM -->
+
+            <a href="carrito.html"
+                class="relative flex items-center justify-between text-slate-300 hover:text-white hover:bg-white/10 px-5 py-4 rounded-2xl transition duration-300">
+
+                <!-- IZQUIERDA -->
+
+                <div class="flex items-center gap-4">
+
+                    <span class="text-xl">
+                        
+                    </span>
+
+                    <span>
+                        Carrito
+                    </span>
+
+                </div>
+
+                <!-- BADGE -->
+
+                <span id="sidebarCartCount"
+                    class="hidden bg-red-500 text-white text-xs font-bold min-w-[22px] h-[22px] px-2 rounded-full flex items-center justify-center shadow-lg">
+
+                    0
+
+                </span>
+
+            </a>
+
+            <!-- ITEM -->
+
+            <a href="usuarios.html"
+                class="flex items-center gap-4 text-slate-300 hover:text-white hover:bg-white/10 px-5 py-4 rounded-2xl transition duration-300">
+
+                <span class="text-xl">
+                    
+                </span>
+
+                <span>
+                    Mi Perfil
+                </span>
+
+            </a>
+
+            <!-- ITEM -->
+
+            <a href="reportes.html"
+                class="flex items-center gap-4 text-slate-300 hover:text-white hover:bg-white/10 px-5 py-4 rounded-2xl transition duration-300">
+
+                <span class="text-xl">
+                    
+                </span>
+
+                <span>
+                    Reportes
+                </span>
+
+            </a>
+
+        </nav>
+
     </div>
-  </div>
 
-  <!-- navegación -->
-  <nav class="sb-nav">
+    <!-- LOGOUT -->
 
-    <span class="sb-section">Principal</span>
+    <a href="#" onclick="logout()"
+        class="flex items-center gap-4 text-red-400 hover:text-white hover:bg-red-500/20 px-5 py-4 rounded-2xl transition duration-300 mt-6">
 
-    <a href="dashboard.html" class="sb-a">
-      <span class="sb-ico">🏠</span>
-      <span class="sb-label">Inicio</span>
+        <span class="text-xl">
+            ⏻
+        </span>
+
+        <span>
+            Cerrar sesión
+        </span>
+
     </a>
-
-    <span class="sb-section">Módulos</span>
-
-    <a href="servicios.html" class="sb-a">
-      <span class="sb-ico">🔧</span>
-      <span class="sb-label">Servicios</span>
-    </a>
-
-    <a href="ventas.html" class="sb-a">
-      <span class="sb-ico">💰</span>
-      <span class="sb-label">Ventas</span>
-    </a>
-
-    <a href="cotizacion.html" class="sb-a">
-      <span class="sb-ico">🤖</span>
-      <span class="sb-label">Cotización IA</span>
-    </a>
-
-    <a href="inventario.html" class="sb-a">
-      <span class="sb-ico">📦</span>
-      <span class="sb-label">Inventario</span>
-    </a>
-
-    <a href="carrito.html" class="sb-a">
-      <span class="sb-ico">🛒</span>
-      <span class="sb-label">Carrito</span>
-      <span id="sidebarCartCount" class="sb-cart-badge">0</span>
-    </a>
-
-    <div class="sb-div"></div>
-
-    <span class="sb-section">Cuenta</span>
-
-    <a href="usuarios.html" class="sb-a">
-      <span class="sb-ico">👤</span>
-      <span class="sb-label">Mi Perfil</span>
-    </a>
-
-    <a href="reportes.html" class="sb-a">
-      <span class="sb-ico">📊</span>
-      <span class="sb-label">Reportes</span>
-    </a>
-
-  </nav>
-
-  <!-- logout -->
-  <div class="sb-foot">
-    <button class="sb-logout" onclick="logout()">
-      <span class="sb-ico">⏻</span>
-      Cerrar sesión
-    </button>
-    <p class="sb-version">v1.0.0 · © 2026 Frío Cars</p>
-  </div>
 
 </aside>
