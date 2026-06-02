@@ -5,25 +5,40 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
-    // ── 1. Cargar HTML de la sidebar ──────────────────────────────────────
-    const res = await fetch('/../component/sidebar.html');
+    // ── 1. Ruta robusta: busca la sidebar relativa a este script ──────────
+    //    Funciona sin importar desde qué carpeta se cargue la página.
+    const scriptEl = document.querySelector('script[src*="sidebar.js"]');
+    let sidebarURL;
+
+    if (scriptEl) {
+      // Sube de assets/js/ → assets/ → raíz → component/sidebar.html
+      const base = scriptEl.src.replace(/assets\/js\/sidebar\.js.*$/, '');
+      sidebarURL = base + 'component/sidebar.html';
+    } else {
+      // Fallback: ruta absoluta desde raíz del servidor
+      sidebarURL = '/component/sidebar.html';
+    }
+
+    // ── 2. Cargar e inyectar ──────────────────────────────────────────────
+    const res  = await fetch(sidebarURL);
+    if (!res.ok) throw new Error(`No se pudo cargar sidebar: ${res.status} — ${sidebarURL}`);
     const html = await res.text();
     document.getElementById('sidebar-container').innerHTML = html;
 
-    // ── 2. Marcar body para ajustar margin del main ───────────────────────
+    // ── 3. Clase para ajustar margin del main ─────────────────────────────
     document.body.classList.add('has-sidebar');
 
-    // ── 3. Leer el tema guardado (comparte localStorage con el login) ──────
-    const tema = localStorage.getItem('a11y-tema');
+    // ── 4. Tema guardado (comparte localStorage con el login) ─────────────
+    const tema  = localStorage.getItem('a11y-tema');
     const temas = ['high-contrast', 'sepia', 'soft-dark'];
     temas.forEach(t => document.body.classList.remove(t));
     if (tema && tema !== 'normal') document.body.classList.add(tema);
 
-    // ── 4. Escala de texto ─────────────────────────────────────────────────
+    // ── 5. Escala de texto ────────────────────────────────────────────────
     const esc = parseFloat(localStorage.getItem('a11y-esc') || '1');
     document.documentElement.style.setProperty('--font-scale', esc);
 
-    // ── 5. Activar link de la página actual ────────────────────────────────
+    // ── 6. Activar link de la página actual ───────────────────────────────
     const currentPage = window.location.pathname.split('/').pop();
     document.querySelectorAll('#fc-sidebar .sb-link').forEach(link => {
       link.classList.remove('sb-active');
@@ -32,7 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     });
 
-    // ── 6. Datos del usuario desde localStorage ────────────────────────────
+    // ── 7. Datos del usuario desde localStorage ───────────────────────────
     try {
       const user = JSON.parse(
         localStorage.getItem('fc_user') ||
@@ -48,7 +63,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     } catch (_) {}
 
-    // ── 7. Toggle móvil ────────────────────────────────────────────────────
+    // ── 8. Toggle móvil ───────────────────────────────────────────────────
     const sidebar = document.getElementById('fc-sidebar');
     const toggle  = document.getElementById('sb-toggle');
     const overlay = document.getElementById('sb-overlay');
@@ -65,11 +80,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
   } catch (error) {
-    console.error('Error cargando sidebar:', error);
+    console.error('[sidebar.js] Error:', error);
   }
 });
 
-// ── Logout global ────────────────────────────────────────────────────────────
+// ── Logout global ─────────────────────────────────────────────────────────────
 function logout() {
   localStorage.clear();
   sessionStorage.clear();
