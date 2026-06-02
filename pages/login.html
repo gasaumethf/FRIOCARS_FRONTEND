@@ -1,288 +1,483 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Frío Cars</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pri: #2563eb;
+    --pri-h: #1d4ed8;
+    --font-scale: 1;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: calc(1rem * var(--font-scale));
+    background: #ffffff;
+    min-height: 100vh;
+    transition: background .3s, color .3s;
+  }
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  /* TEMAS */
+  body.high-contrast {
+    --pri: #0028b0; --pri-h: #001f8a;
+    background: #ffffff !important;
+  }
+  body.high-contrast .form-input { border: 2px solid #000 !important; }
+  body.high-contrast .btn-pri { background: #0028b0 !important; }
+  body.high-contrast label, body.high-contrast p, body.high-contrast h2, body.high-contrast span { color: #000 !important; }
 
-    <title>Login - Frío Cars</title>
+  body.sepia { background: #fdf5e6 !important; }
+  body.sepia .right-col { background: #fdf5e6 !important; }
+  body.sepia .form-input { background: #fdf0d8 !important; border-color: #c9b08a !important; }
+  body.sepia .btn-pri { background: #7c4f1e !important; }
+  body.sepia .btn-pri:hover { background: #5f3a12 !important; }
+  body.sepia h2 { color: #3d2008 !important; }
+  body.sepia label { color: #5a3510 !important; }
+  body.sepia p { color: #7a5c3a !important; }
 
-    <!-- TailwindCSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  body.soft-dark { background: #0f172a !important; }
+  body.soft-dark .login-wrap { background: #1e293b !important; border-color: #334155 !important; }
+  body.soft-dark .right-col { background: #1e293b !important; }
+  body.soft-dark .left-col { background: #162035 !important; }
+  body.soft-dark h2 { color: #e2e8f0 !important; }
+  body.soft-dark label { color: #cbd5e1 !important; }
+  body.soft-dark p { color: #94a3b8 !important; }
+  body.soft-dark .form-input { background: #0f172a !important; border-color: #334155 !important; color: #e2e8f0 !important; }
+  body.soft-dark .form-input::placeholder { color: #475569 !important; }
+  body.soft-dark .feature-item { color: #94a3b8 !important; }
+  body.soft-dark .divider-line { border-color: #334155 !important; }
+  body.soft-dark .btn-sec { border-color: #334155 !important; color: #cbd5e1 !important; }
+  body.soft-dark .btn-sec:hover { background: #1e3a5f !important; }
+  body.soft-dark .check-label { color: #94a3b8 !important; }
 
-    <!-- FUENTE -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  body.lineas-lectura * { line-height: 2.2 !important; letter-spacing: .03em !important; }
 
-    <style>
+  /* COMPONENTES */
+  .login-wrap {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    box-shadow: 0 4px 32px rgba(0,0,0,.07);
+  }
 
-        *{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  .left-col { background: #f0f6ff; }
 
-        :root{
+  /* Ilustración SVG interna */
+  .illo-bg { fill: #dbeafe; }
+  .illo-acc { fill: #2563eb; }
+  .illo-acc-lt { fill: #93c5fd; }
+  .illo-white { fill: #ffffff; }
+  .illo-gray { fill: #e2e8f0; }
+  .illo-dark { fill: #1e3a5f; }
 
-            /* VARIABLES PARA FUTURO SISTEMA DE CONTRASTE */
+  .feature-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    color: #475569; font-size: .86em; line-height: 1.5;
+  }
+  .feature-icon {
+    width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px;
+    color: #2563eb;
+  }
+  body.sepia .feature-icon { color: #7c4f1e !important; }
+  body.sepia .feature-item { color: #7a5c3a !important; }
 
-            --primary-color: #2563eb;
-            --primary-hover: #1d4ed8;
+  .form-input {
+    width: 100%;
+    padding: .72rem 1rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #0f172a;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: .93em;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s, background .3s;
+  }
+  .form-input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+    background: #fff;
+  }
+  .inp-rel { position: relative; }
+  .eye-btn {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer;
+    color: #94a3b8; display: flex; padding: 2px;
+  }
+  .eye-btn:hover { color: #2563eb; }
 
-            --background-1: #020617;
-            --background-2: #0f172a;
+  .btn-pri {
+    width: 100%; background: #2563eb; color: #fff;
+    border: none; border-radius: 10px;
+    padding: .82rem; cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: .97em; font-weight: 700;
+    transition: background .2s, transform .15s, box-shadow .2s;
+    box-shadow: 0 4px 14px rgba(37,99,235,.25);
+  }
+  .btn-pri:hover { background: #1d4ed8; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,99,235,.32); }
+  .btn-pri:active { transform: translateY(0); }
 
-            --text-primary: #0f172a;
-            --text-secondary: #64748b;
+  .btn-sec {
+    width: 100%; background: transparent; color: #374151;
+    border: 1.5px solid #e2e8f0; border-radius: 10px;
+    padding: .78rem; cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: .95em; font-weight: 600;
+    transition: all .2s;
+  }
+  .btn-sec:hover { background: #eff6ff; border-color: #2563eb; color: #2563eb; }
 
-        }
+  .check-label { display: flex; align-items: center; gap: 7px; font-size: .84em; color: #64748b; cursor: pointer; }
+  .check-label input { accent-color: #2563eb; width: 15px; height: 15px; cursor: pointer; }
 
-        body{
-            font-family: 'Poppins', sans-serif;
-        }
+  .link-blue { color: #2563eb; font-weight: 600; text-decoration: none; font-size: .84em; transition: color .2s; }
+  .link-blue:hover { color: #1d4ed8; text-decoration: underline; }
 
-        /* Scroll */
+  .divider-line { border: none; border-top: 1px solid #e2e8f0; }
 
-        ::-webkit-scrollbar{
-            width: 8px;
-        }
+  /* ACCESIBILIDAD PANEL */
+  .a11y-btn {
+    position: fixed; right: 0; top: 50%; transform: translateY(-50%);
+    z-index: 200; background: #2563eb; color: #fff;
+    border: none; border-radius: 12px 0 0 12px;
+    padding: .9rem .6rem; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    font-size: .67em; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;
+    box-shadow: -3px 0 14px rgba(37,99,235,.2);
+    transition: background .2s, right .35s;
+  }
+  .a11y-btn svg { width: 20px; height: 20px; }
+  .a11y-btn:hover { background: #1d4ed8; }
+  .a11y-btn.open { right: 292px; }
 
-        ::-webkit-scrollbar-thumb{
-            background: var(--primary-color);
-            border-radius: 20px;
-        }
+  .a11y-panel {
+    position: fixed; right: -300px; top: 0; height: 100%; width: 292px;
+    background: #fff; border-left: 1.5px solid #e2e8f0;
+    z-index: 199; display: flex; flex-direction: column;
+    padding: 1.8rem 1.4rem;
+    box-shadow: -8px 0 30px rgba(0,0,0,.08);
+    transition: right .35s cubic-bezier(.4,0,.2,1);
+    overflow-y: auto;
+  }
+  body.soft-dark .a11y-panel { background: #1e293b !important; border-color: #334155 !important; }
+  body.soft-dark .a11y-panel h3 { color: #e2e8f0 !important; }
+  body.soft-dark .a11y-panel .sec-lbl { color: #94a3b8 !important; }
+  body.soft-dark .a11y-panel .tema, body.soft-dark .a11y-panel .font-b { background: #0f172a !important; border-color: #334155 !important; color: #cbd5e1 !important; }
+  body.sepia .a11y-panel { background: #fdf5e6 !important; }
 
-    </style>
-
+  .a11y-panel.open { right: 0; }
+  .a11y-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.4rem; padding-bottom: .9rem; border-bottom: 1px solid #e2e8f0; }
+  .a11y-x { background: none; border: none; cursor: pointer; color: #94a3b8; padding: 4px; border-radius: 8px; display: flex; transition: all .2s; }
+  .a11y-x:hover { color: #0f172a; background: #eff6ff; }
+  .sec-lbl { display: block; font-size: .72em; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .09em; margin-bottom: .6rem; }
+  .temas { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; }
+  .tema { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: .5rem .3rem; border-radius: 9px; border: 1.5px solid #e2e8f0; background: #f8fafc; cursor: pointer; font-size: .73em; color: #374151; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; transition: all .2s; }
+  .tema:hover, .tema.on { border-color: #2563eb; background: #eff6ff; color: #2563eb; font-weight: 700; }
+  .tema-p { width: 34px; height: 20px; border-radius: 5px; border: 1px solid rgba(0,0,0,.07); }
+  .font-row { display: flex; align-items: center; gap: .4rem; }
+  .font-b { flex: 1; padding: .5rem; border-radius: 9px; border: 1.5px solid #e2e8f0; background: #f8fafc; cursor: pointer; color: #374151; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; transition: all .2s; }
+  .font-b:hover { border-color: #2563eb; background: #eff6ff; color: #2563eb; }
+  .tog-row { display: flex; align-items: center; justify-content: space-between; padding: .4rem 0; }
+  .tog-row span { font-size: .83em; color: #374151; }
+  .tog { position: relative; width: 38px; height: 21px; }
+  .tog input { opacity: 0; width: 0; height: 0; }
+  .tog-sl { position: absolute; inset: 0; background: #e2e8f0; border-radius: 21px; cursor: pointer; transition: background .2s; }
+  .tog-sl::before { content: ''; position: absolute; width: 15px; height: 15px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: transform .2s; }
+  .tog input:checked + .tog-sl { background: #2563eb; }
+  .tog input:checked + .tog-sl::before { transform: translateX(17px); }
+  .btn-reset { width: 100%; padding: .6rem; border-radius: 9px; border: 1.5px solid #e2e8f0; background: transparent; color: #94a3b8; font-family: 'Plus Jakarta Sans', sans-serif; font-size: .82em; font-weight: 600; cursor: pointer; transition: all .2s; }
+  .btn-reset:hover { border-color: #dc2626; color: #dc2626; background: #fff5f5; }
+  .div-a { height: 1px; background: #e2e8f0; margin: .8rem 0 1.1rem; }
+</style>
 </head>
 
-<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 flex items-center justify-center px-4 py-8 relative overflow-hidden">
+<body class="flex items-center justify-center min-h-screen px-4 py-10">
 
-    <!-- EFECTOS -->
+<!-- CARD PRINCIPAL -->
+<div class="login-wrap w-full" style="max-width:900px; display:grid; grid-template-columns:1fr 1fr;">
 
-    <div class="absolute top-0 left-0 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl"></div>
+  <!-- COLUMNA IZQUIERDA — ilustración + features -->
+  <div class="left-col flex flex-col justify-between p-10 xl:p-12">
 
-    <div class="absolute bottom-0 right-0 w-72 h-72 bg-cyan-400/10 rounded-full blur-3xl"></div>
-
-    <!-- CONTENEDOR -->
-
-    <div class="relative w-full max-w-5xl grid lg:grid-cols-2 rounded-3xl overflow-hidden shadow-2xl border border-white/10 backdrop-blur-xl">
-
-        <!-- PANEL IZQUIERDO -->
-
-        <div class="hidden lg:flex flex-col justify-center bg-gradient-to-br from-blue-700 to-slate-900 p-10 xl:p-12 relative overflow-hidden">
-
-            <!-- EFECTO -->
-
-            <div class="absolute -top-20 -left-20 w-80 h-80 bg-white/10 rounded-full"></div>
-
-            <!-- CONTENIDO -->
-
-            <div class="relative z-10">
-
-                <!-- LOGO -->
-
-                <img
-                    src="../assets/Logo/Logo2.png"
-                    alt="Logo Frío Cars"
-                    class="w-36 mb-8 drop-shadow-2xl"
-                >
-
-                <!-- TITULO -->
-
-                <h1 class="text-4xl xl:text-5xl font-bold text-white leading-tight mb-5">
-
-                    Bienvenido a
-                    Frío Cars
-
-                </h1>
-
-                <!-- TEXTO -->
-
-                <p class="text-slate-200 leading-relaxed text-base xl:text-lg">
-
-                    Plataforma moderna para la gestión automotriz,
-                    diseñada para optimizar procesos, mejorar la experiencia
-                    del usuario y ofrecer accesibilidad visual adaptable.
-
-                </p>
-
-            </div>
-
+    <!-- Logo -->
+    <div class="mb-6">
+      <img src="../assets/Logo/Logo2.png" alt="Frío Cars" style="height:44px; width:auto;" onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='flex'">
+      <div id="logoFallback" style="display:none; align-items:center; gap:8px;">
+        <div style="width:36px;height:36px;background:#2563eb;border-radius:8px;display:flex;align-items:center;justify-content:center;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
         </div>
-
-        <!-- PANEL DERECHO -->
-
-        <div class="bg-white p-8 sm:p-10 lg:p-12 flex flex-col justify-center">
-
-            <!-- LOGO MOVIL -->
-
-            <div class="flex justify-center lg:hidden mb-6">
-
-                <img
-                    src="../Logo/Logo.png"
-                    alt="Logo Frío Cars"
-                    class="w-28"
-                >
-
-            </div>
-
-            <!-- TITULO -->
-
-            <div class="text-center mb-8">
-
-                <h2 class="text-3xl sm:text-4xl font-bold text-slate-800">
-
-                    Iniciar Sesión
-
-                </h2>
-
-                <p class="text-gray-500 mt-2">
-
-                    Ingresa tus credenciales para continuar
-
-                </p>
-
-            </div>
-
-            <!-- FORMULARIO -->
-
-            <form id="loginForm" class="space-y-5">
-
-                <!-- USUARIO -->
-
-                <div>
-
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">
-
-                        Usuario
-
-                    </label>
-
-                    <input 
-                        type="text"
-                        id="username"
-                        placeholder="Ingrese su usuario"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition"
-                        required
-                    >
-
-                </div>
-
-                <!-- PASSWORD -->
-
-                <div>
-
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">
-
-                        Contraseña
-
-                    </label>
-
-                    <input 
-                        type="password"
-                        id="password"
-                        placeholder="********"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition"
-                        required
-                    >
-
-                </div>
-
-                <!-- OPCIONES -->
-
-                <div class="flex items-center justify-between text-sm">
-
-                    <label class="flex items-center gap-2 text-gray-600">
-
-                        <input 
-                            type="checkbox"
-                            class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                        >
-
-                        Recordarme
-
-                    </label>
-
-                    <a 
-                        href="#"
-                        class="text-blue-600 hover:text-blue-800 font-medium transition"
-                    >
-
-                        Recuperar acceso
-
-                    </a>
-
-                </div>
-
-                <!-- BOTON LOGIN -->
-
-                <button 
-                    type="submit"
-                    class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition duration-300 shadow-lg"
-                >
-
-                    Ingresar
-
-                </button>
-
-            </form>
-
-            <!-- DIVISOR -->
-
-            <div class="flex items-center my-6">
-
-                <div class="flex-1 h-px bg-gray-300"></div>
-
-                <span class="px-4 text-gray-400 text-sm">
-                    o
-                </span>
-
-                <div class="flex-1 h-px bg-gray-300"></div>
-
-            </div>
-
-            <!-- REGISTRO -->
-
-            <a href="registro.html">
-
-                <button 
-                    class="w-full border-2 border-slate-300 text-slate-700 py-3 rounded-xl hover:bg-slate-100 transition duration-300 font-semibold"
-                >
-
-                    Crear Cuenta
-
-                </button>
-
-            </a>
-
-            <!-- MENSAJE -->
-
-            <p 
-                id="mensaje" 
-                class="text-red-500 text-center mt-5 font-semibold">
-            </p>
-
-        </div>
-
+        <span style="font-weight:800;font-size:1.1rem;color:#1e3a5f;">Frío Cars</span>
+      </div>
     </div>
 
-    <!-- FOOTER -->
+    <!-- Ilustración SVG -->
+    <div class="flex justify-center my-4">
+      <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:300px;">
+        <!-- Fondo redondeado -->
+        <ellipse cx="160" cy="200" rx="130" ry="18" fill="#dbeafe" opacity=".5"/>
+        <!-- Auto (carrocería) -->
+        <rect x="50" y="130" width="220" height="60" rx="16" fill="#2563eb"/>
+        <!-- Ventanas -->
+        <rect x="80" y="105" width="65" height="38" rx="8" fill="#93c5fd"/>
+        <rect x="155" y="105" width="65" height="38" rx="8" fill="#93c5fd"/>
+        <!-- Techo -->
+        <path d="M85 105 Q90 80 145 78 Q185 76 230 105Z" fill="#1d4ed8"/>
+        <!-- Ruedas -->
+        <circle cx="100" cy="192" r="24" fill="#1e293b"/>
+        <circle cx="100" cy="192" r="14" fill="#475569"/>
+        <circle cx="100" cy="192" r="6" fill="#cbd5e1"/>
+        <circle cx="218" cy="192" r="24" fill="#1e293b"/>
+        <circle cx="218" cy="192" r="14" fill="#475569"/>
+        <circle cx="218" cy="192" r="6" fill="#cbd5e1"/>
+        <!-- Parachoques -->
+        <rect x="40" y="155" width="30" height="14" rx="5" fill="#1d4ed8"/>
+        <rect x="250" y="155" width="30" height="14" rx="5" fill="#1d4ed8"/>
+        <!-- Faros -->
+        <rect x="46" y="140" width="18" height="10" rx="3" fill="#fef08a"/>
+        <rect x="256" y="140" width="18" height="10" rx="3" fill="#fef08a"/>
+        <!-- Snowflake / frío icon arriba derecha -->
+        <g transform="translate(240,40)">
+          <circle cx="0" cy="0" r="28" fill="#dbeafe"/>
+          <line x1="0" y1="-16" x2="0" y2="16" stroke="#2563eb" stroke-width="3" stroke-linecap="round"/>
+          <line x1="-16" y1="0" x2="16" y2="0" stroke="#2563eb" stroke-width="3" stroke-linecap="round"/>
+          <line x1="-11" y1="-11" x2="11" y2="11" stroke="#93c5fd" stroke-width="2" stroke-linecap="round"/>
+          <line x1="11" y1="-11" x2="-11" y2="11" stroke="#93c5fd" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="0" cy="-16" r="3" fill="#2563eb"/>
+          <circle cx="0" cy="16" r="3" fill="#2563eb"/>
+          <circle cx="-16" cy="0" r="3" fill="#2563eb"/>
+          <circle cx="16" cy="0" r="3" fill="#2563eb"/>
+        </g>
+        <!-- Herramienta llave -->
+        <g transform="translate(58,52) rotate(-30)">
+          <rect x="-4" y="-22" width="8" height="36" rx="4" fill="#2563eb"/>
+          <circle cx="0" cy="-22" r="8" fill="none" stroke="#2563eb" stroke-width="4"/>
+          <circle cx="0" cy="14" r="6" fill="#93c5fd"/>
+        </g>
+        <!-- Chip / inventario -->
+        <rect x="140" y="30" width="40" height="40" rx="8" fill="#1d4ed8"/>
+        <rect x="148" y="38" width="24" height="24" rx="4" fill="#60a5fa"/>
+        <line x1="140" y1="44" x2="132" y2="44" stroke="#2563eb" stroke-width="2"/>
+        <line x1="140" y1="56" x2="132" y2="56" stroke="#2563eb" stroke-width="2"/>
+        <line x1="180" y1="44" x2="188" y2="44" stroke="#2563eb" stroke-width="2"/>
+        <line x1="180" y1="56" x2="188" y2="56" stroke="#2563eb" stroke-width="2"/>
+        <line x1="148" y1="30" x2="148" y2="22" stroke="#2563eb" stroke-width="2"/>
+        <line x1="160" y1="30" x2="160" y2="22" stroke="#2563eb" stroke-width="2"/>
+        <line x1="148" y1="70" x2="148" y2="78" stroke="#2563eb" stroke-width="2"/>
+        <line x1="160" y1="70" x2="160" y2="78" stroke="#2563eb" stroke-width="2"/>
+      </svg>
+    </div>
 
-    <footer class="absolute bottom-0 left-0 w-full py-4 text-center">
+    <!-- Título y features -->
+    <div>
+      <h1 style="font-size:1.35rem;font-weight:800;color:#0f172a;margin-bottom:.4rem;line-height:1.25;">
+        Tu plataforma de gestión<br>automotriz
+      </h1>
+      <p style="font-size:.84em;color:#64748b;margin-bottom:1.2rem;line-height:1.6;">
+        Especializada en refrigeración automotriz.
+      </p>
 
-        <p class="text-gray-400 text-sm">
+      <div style="display:flex;flex-direction:column;gap:.7rem;">
+        <div class="feature-item">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <span>Gestión de inventario en tiempo real</span>
+        </div>
+        <div class="feature-item">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+          <span>Diagnósticos y seguimiento de órdenes</span>
+        </div>
+        <div class="feature-item">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>Gestión de clientes y proveedores</span>
+        </div>
+        <div class="feature-item">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span>Reportes y métricas del negocio</span>
+        </div>
+      </div>
+    </div>
 
-            © 2026 Frío Cars | Sistema de Gestión Automotriz
+    <p style="font-size:.73em;color:#94a3b8;margin-top:1.5rem;">© 2026 Frío Cars</p>
+  </div>
 
-        </p>
+  <!-- COLUMNA DERECHA — formulario -->
+  <div class="right-col flex flex-col justify-center p-10 xl:p-12" style="background:#fff;border-left:1px solid #e2e8f0;">
 
-    </footer>
+    <!-- Logo móvil -->
+    <div class="flex justify-center mb-6 lg:hidden">
+      <img src="../Logo/Logo.png" alt="Frío Cars" style="height:40px;">
+    </div>
 
-    <!-- JS -->
+    <h2 style="font-size:1.6rem;font-weight:800;color:#0f172a;margin-bottom:.3rem;">Iniciar Sesión</h2>
+    <p style="font-size:.86em;color:#64748b;margin-bottom:1.8rem;">Ingresa tus credenciales para continuar</p>
 
-    <script src="../assets/js/login.js"></script>
+    <form id="loginForm" novalidate>
 
+      <!-- Usuario -->
+      <div style="margin-bottom:1rem;">
+        <label style="display:block;font-size:.81em;font-weight:700;color:#374151;margin-bottom:.4rem;" for="username">Usuario</label>
+        <input type="text" id="username" class="form-input" placeholder="Ingresa tu usuario" autocomplete="username" required>
+      </div>
+
+      <!-- Contraseña -->
+      <div style="margin-bottom:1rem;">
+        <label style="display:block;font-size:.81em;font-weight:700;color:#374151;margin-bottom:.4rem;" for="password">Contraseña</label>
+        <div class="inp-rel">
+          <input type="password" id="password" class="form-input" placeholder="••••••••" autocomplete="current-password" required style="padding-right:2.8rem;">
+          <button type="button" class="eye-btn" id="eyeBtn" aria-label="Mostrar contraseña">
+            <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Recordar + recuperar -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.4rem;">
+        <label class="check-label">
+          <input type="checkbox"> Recordarme
+        </label>
+        <a href="#" class="link-blue">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <button type="submit" class="btn-pri" style="margin-bottom:.9rem;">Ingresar</button>
+
+    </form>
+
+    <hr class="divider-line" style="margin-bottom:.9rem;">
+
+    <p style="text-align:center;font-size:.84em;color:#64748b;margin-bottom:.8rem;">
+      ¿No tienes cuenta?
+      <a href="registro.html" class="link-blue" style="margin-left:4px;">Regístrate ahora</a>
+    </p>
+
+    <p id="mensaje" style="min-height:1.1em;color:#dc2626;text-align:center;font-size:.84em;font-weight:600;margin-top:.5rem;" role="alert" aria-live="polite"></p>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer style="position:fixed;bottom:0;left:0;width:100%;text-align:center;padding:.65rem;font-size:.74em;color:#94a3b8;pointer-events:none;z-index:5;">
+  © 2026 Frío Cars | Sistema de Gestión Automotriz
+</footer>
+
+<!-- BOTÓN ACCESIBILIDAD -->
+<button class="a11y-btn" id="aBtn" aria-label="Abrir panel de accesibilidad" aria-expanded="false" aria-controls="aPanel">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="12" cy="5" r="1.8" fill="currentColor" stroke="none"/>
+    <path d="M5 8.5h14"/>
+    <path d="M12 8.5V14"/>
+    <path d="M8.5 14l-2 5.5M15.5 14l2 5.5"/>
+  </svg>
+  <span>Acceso</span>
+</button>
+
+<!-- PANEL ACCESIBILIDAD -->
+<aside id="aPanel" class="a11y-panel" role="complementary" aria-label="Opciones de accesibilidad" aria-hidden="true">
+
+  <div class="a11y-top">
+    <div>
+      <h3 style="font-size:.97rem;font-weight:800;color:#0f172a;">Accesibilidad</h3>
+      <p style="font-size:.73em;color:#94a3b8;margin-top:2px;">Personaliza la interfaz</p>
+    </div>
+    <button class="a11y-x" id="aClose" aria-label="Cerrar panel">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <div style="margin-bottom:1.3rem;">
+    <span class="sec-lbl">Tema de colores</span>
+    <div class="temas">
+      <button class="tema on" data-t="normal" aria-pressed="true">
+        <div class="tema-p" style="background:linear-gradient(135deg,#f0f6ff 50%,#2563eb 50%)"></div>Normal
+      </button>
+      <button class="tema" data-t="high-contrast" aria-pressed="false">
+        <div class="tema-p" style="background:linear-gradient(135deg,#fff 50%,#0028b0 50%)"></div>Alto contraste
+      </button>
+      <button class="tema" data-t="sepia" aria-pressed="false">
+        <div class="tema-p" style="background:linear-gradient(135deg,#fdf5e6 50%,#7c4f1e 50%)"></div>Sepia
+      </button>
+      <button class="tema" data-t="soft-dark" aria-pressed="false">
+        <div class="tema-p" style="background:linear-gradient(135deg,#0f172a 50%,#60a5fa 50%)"></div>Noche suave
+      </button>
+    </div>
+  </div>
+
+  <div class="div-a"></div>
+
+  <div style="margin-bottom:1.3rem;">
+    <span class="sec-lbl">Tamaño de texto</span>
+    <div class="font-row">
+      <button class="font-b" id="fDec" aria-label="Reducir texto" style="font-size:.84em;">A−</button>
+      <span style="font-size:.82em;color:#64748b;min-width:34px;text-align:center;" id="fVal">100%</span>
+      <button class="font-b" id="fInc" aria-label="Aumentar texto">A+</button>
+    </div>
+  </div>
+
+  <div class="div-a"></div>
+
+  <div style="margin-bottom:1.3rem;">
+    <span class="sec-lbl">Lectura</span>
+    <div class="tog-row">
+      <span>Líneas amplias</span>
+      <label class="tog" aria-label="Activar líneas de lectura amplias">
+        <input type="checkbox" id="tLin">
+        <span class="tog-sl"></span>
+      </label>
+    </div>
+  </div>
+
+  <div style="flex:1"></div>
+  <button class="btn-reset" id="bReset" aria-label="Restablecer ajustes">↺ Restablecer ajustes</button>
+
+</aside>
+
+<script src="../assets/js/login.js"></script>
+<script>
+  /* Panel accesibilidad */
+  const aBtn=document.getElementById('aBtn'),aPanel=document.getElementById('aPanel'),aClose=document.getElementById('aClose');
+  const openA=()=>{aPanel.classList.add('open');aBtn.classList.add('open');aPanel.setAttribute('aria-hidden','false');aBtn.setAttribute('aria-expanded','true')};
+  const closeA=()=>{aPanel.classList.remove('open');aBtn.classList.remove('open');aPanel.setAttribute('aria-hidden','true');aBtn.setAttribute('aria-expanded','false')};
+  aBtn.addEventListener('click',()=>aPanel.classList.contains('open')?closeA():openA());
+  aClose.addEventListener('click',closeA);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&aPanel.classList.contains('open'))closeA()});
+
+  /* Temas */
+  const temas=['normal','high-contrast','sepia','soft-dark'];
+  let tema=localStorage.getItem('a11y-tema')||'normal';
+  function setTema(t){temas.forEach(x=>document.body.classList.remove(x));if(t!=='normal')document.body.classList.add(t);tema=t;localStorage.setItem('a11y-tema',t);document.querySelectorAll('.tema').forEach(b=>{const a=b.dataset.t===t;b.classList.toggle('on',a);b.setAttribute('aria-pressed',a?'true':'false')})}
+  document.querySelectorAll('.tema').forEach(b=>b.addEventListener('click',()=>setTema(b.dataset.t)));
+  setTema(tema);
+
+  /* Escala fuente */
+  let esc=parseFloat(localStorage.getItem('a11y-esc')||'1');
+  const fVal=document.getElementById('fVal');
+  function setEsc(v){esc=Math.min(1.5,Math.max(.75,parseFloat(v.toFixed(2))));document.documentElement.style.setProperty('--font-scale',esc);fVal.textContent=Math.round(esc*100)+'%';localStorage.setItem('a11y-esc',esc)}
+  document.getElementById('fInc').addEventListener('click',()=>setEsc(esc+.1));
+  document.getElementById('fDec').addEventListener('click',()=>setEsc(esc-.1));
+  setEsc(esc);
+
+  /* Líneas */
+  const tLin=document.getElementById('tLin');
+  const linS=localStorage.getItem('a11y-lin')==='true';
+  tLin.checked=linS;if(linS)document.body.classList.add('lineas-lectura');
+  tLin.addEventListener('change',()=>{document.body.classList.toggle('lineas-lectura',tLin.checked);localStorage.setItem('a11y-lin',tLin.checked)});
+
+  /* Reset */
+  document.getElementById('bReset').addEventListener('click',()=>{setTema('normal');setEsc(1);tLin.checked=false;document.body.classList.remove('lineas-lectura');['a11y-tema','a11y-esc','a11y-lin'].forEach(k=>localStorage.removeItem(k))});
+
+  /* Ojo contraseña */
+  const eyeBtn=document.getElementById('eyeBtn'),pwd=document.getElementById('password');
+  eyeBtn.addEventListener('click',()=>{
+    const show=pwd.type==='password';
+    pwd.type=show?'text':'password';
+    document.getElementById('eyeIcon').innerHTML=show
+      ?'<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>'
+      :'<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+  });
+</script>
 </body>
-
 </html>
