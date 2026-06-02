@@ -1,72 +1,77 @@
+/**
+ * assets/js/sidebar.js
+ * Carga component/sidebar.html via fetch() y activa el link de la página actual.
+ */
+
 document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    // ── 1. Cargar HTML de la sidebar ──────────────────────────────────────
+    const res = await fetch('/../component/sidebar.html');
+    const html = await res.text();
+    document.getElementById('sidebar-container').innerHTML = html;
 
-    try{
+    // ── 2. Marcar body para ajustar margin del main ───────────────────────
+    document.body.classList.add('has-sidebar');
 
-        // CARGAR SIDEBAR
+    // ── 3. Leer el tema guardado (comparte localStorage con el login) ──────
+    const tema = localStorage.getItem('a11y-tema');
+    const temas = ['high-contrast', 'sepia', 'soft-dark'];
+    temas.forEach(t => document.body.classList.remove(t));
+    if (tema && tema !== 'normal') document.body.classList.add(tema);
 
-        const respuesta = await fetch('/../component/sidebar.html');
+    // ── 4. Escala de texto ─────────────────────────────────────────────────
+    const esc = parseFloat(localStorage.getItem('a11y-esc') || '1');
+    document.documentElement.style.setProperty('--font-scale', esc);
 
-        const sidebarHTML = await respuesta.text();
+    // ── 5. Activar link de la página actual ────────────────────────────────
+    const currentPage = window.location.pathname.split('/').pop();
+    document.querySelectorAll('#fc-sidebar .sb-link').forEach(link => {
+      link.classList.remove('sb-active');
+      if (link.getAttribute('href') === currentPage) {
+        link.classList.add('sb-active');
+      }
+    });
 
-        // INSERTAR SIDEBAR
+    // ── 6. Datos del usuario desde localStorage ────────────────────────────
+    try {
+      const user = JSON.parse(
+        localStorage.getItem('fc_user') ||
+        sessionStorage.getItem('fc_user') || '{}'
+      );
+      if (user.nombre) {
+        document.getElementById('sb-username').textContent = user.nombre;
+        document.getElementById('sb-avatar').textContent =
+          user.nombre.charAt(0).toUpperCase();
+      }
+      if (user.rol) {
+        document.getElementById('sb-user-role').textContent = 'Rol: ' + user.rol;
+      }
+    } catch (_) {}
 
-        document.getElementById('sidebar-container').innerHTML = sidebarHTML;
+    // ── 7. Toggle móvil ────────────────────────────────────────────────────
+    const sidebar = document.getElementById('fc-sidebar');
+    const toggle  = document.getElementById('sb-toggle');
+    const overlay = document.getElementById('sb-overlay');
 
-        // ACTIVAR LINK ACTUAL
-
-        const currentPage = window.location.pathname.split('/').pop();
-
-        const links = document.querySelectorAll('aside nav a');
-
-        links.forEach(link => {
-
-            const href = link.getAttribute('href');
-
-            // LIMPIAR ESTILOS ACTIVOS
-
-            link.classList.remove(
-                'bg-blue-600',
-                'text-white',
-                'shadow-lg',
-                'shadow-blue-500/20'
-            );
-
-            link.classList.add(
-                'text-slate-300'
-            );
-
-            // ACTIVAR PAGINA ACTUAL
-
-            if(href === currentPage){
-
-                link.classList.remove('text-slate-300');
-
-                link.classList.add(
-                    'bg-blue-600',
-                    'text-white',
-                    'shadow-lg',
-                    'shadow-blue-500/20'
-                );
-
-            }
-
-        });
-
-    }catch(error){
-
-        console.error('Error cargando sidebar:', error);
-
+    if (toggle && overlay) {
+      toggle.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+      });
+      overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+      });
     }
 
+  } catch (error) {
+    console.error('Error cargando sidebar:', error);
+  }
 });
 
-
-// LOGOUT GLOBAL
-
-function logout(){
-
-    localStorage.clear();
-
-    window.location.href = '../pages/login.html';
-
+// ── Logout global ────────────────────────────────────────────────────────────
+function logout() {
+  localStorage.clear();
+  sessionStorage.clear();
+  window.location.href = '../pages/login.html';
 }
