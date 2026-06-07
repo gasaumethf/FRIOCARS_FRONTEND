@@ -1,470 +1,399 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventario | Frío Cars</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pri:#1d4ed8;--pri-h:#1e40af;--pri-lt:#eff6ff;
+  --bg:#f0f4fa;--surface:#ffffff;
+  --border:#e2e8f0;--text:#0f172a;--muted:#64748b;
+  --green:#16a34a;--green-lt:#f0fdf4;--green-border:#bbf7d0;
+  --yellow:#d97706;--yellow-lt:#fffbeb;
+  --font-scale:1;--topbar-h:64px
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;font-size:calc(1rem * var(--font-scale));background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s}
+body.high-contrast{background:#fff!important;--border:#000;--muted:#000}
+body.sepia{background:#f5ede0!important;--bg:#f5ede0;--surface:#fffbf3;--border:#d4b896;--pri:#7c4f1e;--pri-lt:#fdf0d8;--text:#3d2008;--muted:#5a3510}
+body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--pri-lt:#1e3a5f}
 
-    <meta charset="UTF-8">
+/* TOP BAR */
+.top-bar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2.2rem 0 1.4rem;z-index:60;box-shadow:0 1px 8px rgba(0,0,0,.06);transition:background .3s,border-color .3s}
+.top-brand{display:flex;align-items:center;gap:.75rem;width:268px;flex-shrink:0;padding-left:.4rem}
+.top-brand-logo{width:40px;height:40px;background:linear-gradient(135deg,#1d4ed8,#38bdf8);border-radius:11px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(29,78,216,.25);flex-shrink:0}
+.top-brand-logo svg{width:22px;height:22px;stroke:#fff}
+.top-brand-name{font-size:1.12rem;font-weight:800;color:var(--text);line-height:1.1}
+.top-brand-name span{color:var(--pri)}
+.top-brand-sub{font-size:.67rem;font-weight:500;color:var(--muted)}
+.top-bar-right{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;justify-content:flex-end}
+.topbar-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:.45rem .9rem;text-align:right;line-height:1.3;transition:background .3s,border-color .3s}
+.topbar-card p:first-child{font-size:.65rem;font-weight:600;color:var(--muted)}
+.topbar-card p:last-child{font-size:1rem;font-weight:800}
+.topbar-breadcrumb{display:flex;align-items:center;gap:.5rem;font-size:.78rem;font-weight:600;color:var(--muted)}
+.topbar-breadcrumb a{color:var(--pri);text-decoration:none}
+.topbar-breadcrumb a:hover{text-decoration:underline}
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+/* LAYOUT */
+.main-content{margin-left:268px;padding:calc(var(--topbar-h) + 2rem) 2.2rem 2rem;min-height:100vh;transition:margin-left .3s}
+@media(max-width:900px){.main-content{margin-left:0!important;padding:calc(var(--topbar-h)+1rem) 1rem 1rem}.top-brand{width:auto}}
 
-    <title>Inventario | Frío Cars</title>
+/* PAGE HEADER */
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.page-title{font-size:1.65rem;font-weight:800;color:var(--text);line-height:1.25}
+.page-title span{color:var(--pri)}
+.page-sub{font-size:.84rem;color:var(--muted);margin-top:.25rem}
 
-    <!-- TailwindCSS -->
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.4rem 1.6rem;box-shadow:0 1px 4px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.04);transition:background .3s,border-color .3s}
 
-    <script src="https://cdn.tailwindcss.com"></script>
+/* HERO */
+.hero-banner{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--pri) 0%,#0284c7 100%);border-radius:20px;padding:2rem 2.4rem;margin-bottom:2rem;color:#fff;box-shadow:0 8px 32px rgba(29,78,216,.2)}
+.hero-banner::before{content:'📦';position:absolute;right:-10px;top:-20px;font-size:150px;opacity:.08;line-height:1}
+.hero-banner h2{font-size:1.4rem;font-weight:800;margin-bottom:.5rem}
+.hero-banner p{font-size:.88rem;opacity:.88;max-width:600px;line-height:1.65}
 
-    <!-- FUENTE -->
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.8rem}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.2rem 1.4rem;display:flex;flex-direction:column;gap:.4rem;transition:background .3s,border-color .3s}
+.kpi-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.kpi-label{font-size:.72rem;font-weight:600;color:var(--muted)}
+.kpi-value{font-size:1.8rem;font-weight:800;line-height:1;color:var(--text)}
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+/* SECTION LABEL */
+.section-label{font-size:.73rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.9rem}
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* FORM */
+.form-label{font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:.4rem;display:block}
+.form-input,.form-textarea,.form-select{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:.75rem 1rem;font-size:.88rem;font-family:'Plus Jakarta Sans',sans-serif;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s}
+.form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(29,78,216,.1)}
+.form-textarea{resize:vertical;min-height:100px}
 
-        :root {
+/* PANEL FORM — colapsable */
+.form-panel{display:none;margin-bottom:1.8rem}
+.form-panel.visible{display:block;animation:fadeUp .3s ease}
 
-            /* VARIABLES PARA ACCESIBILIDAD */
+/* BUSCADOR */
+.search-bar{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;justify-content:space-between;margin-bottom:1.2rem}
+.search-input-wrap{position:relative;flex:1;min-width:200px;max-width:360px}
+.search-input-wrap svg{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted)}
+.search-input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:.65rem 1rem .65rem 2.4rem;font-size:.84rem;font-family:'Plus Jakarta Sans',sans-serif;color:var(--text);outline:none;transition:border-color .2s}
+.search-input:focus{border-color:var(--pri)}
 
-            --primary-color: #2563eb;
+/* TABLA */
+.data-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.data-table th{text-align:left;font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;padding:.6rem .9rem;border-bottom:1px solid var(--border)}
+.data-table td{padding:.7rem .9rem;border-bottom:1px solid #f1f5f9;color:var(--text);vertical-align:middle}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--pri-lt)}
+.tag{display:inline-block;padding:2px 9px;border-radius:99px;font-size:.68rem;font-weight:700}
+.tag-ok{background:#dcfce7;color:#15803d}
+.tag-warn{background:#fef3c7;color:#b45309}
+.tag-danger{background:#fee2e2;color:#dc2626}
 
-            --background-main: #020617;
+/* ACCIONES */
+.btn-edit{background:var(--pri-lt);color:var(--pri);border:none;border-radius:8px;padding:.35rem .7rem;font-size:.72rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s}
+.btn-edit:hover{background:var(--pri);color:#fff}
+.btn-del{background:#fee2e2;color:#dc2626;border:none;border-radius:8px;padding:.35rem .7rem;font-size:.72rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s}
+.btn-del:hover{background:#dc2626;color:#fff}
 
-            --text-primary: #ffffff;
+/* BOTONES PRIMARIOS */
+.btn-primary{display:inline-flex;align-items:center;gap:.5rem;background:var(--pri);color:#fff;border:none;border-radius:12px;padding:.75rem 1.3rem;font-size:.88rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:background .2s,transform .15s;box-shadow:0 4px 14px rgba(29,78,216,.2)}
+.btn-primary:hover{background:var(--pri-h);transform:translateY(-1px)}
+.btn-success{display:inline-flex;align-items:center;gap:.5rem;background:var(--green);color:#fff;border:none;border-radius:12px;padding:.75rem 1.3rem;font-size:.88rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:background .2s;box-shadow:0 4px 14px rgba(22,163,74,.2)}
+.btn-success:hover{background:#15803d}
+.btn-cancel{display:inline-flex;align-items:center;gap:.5rem;background:#fee2e2;color:#dc2626;border:none;border-radius:12px;padding:.75rem 1.3rem;font-size:.88rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:all .2s}
+.btn-cancel:hover{background:#dc2626;color:#fff}
 
-            --text-secondary: #cbd5e1;
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:3rem 1rem;color:var(--muted)}
+.empty-state span{font-size:2.5rem;display:block;margin-bottom:.6rem}
 
-            --card-background: rgba(255, 255, 255, 0.05);
+/* A11Y */
+.a11y-btn{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:200;background:var(--pri);color:#fff;border:none;border-radius:12px 0 0 12px;padding:.9rem .6rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.66em;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;box-shadow:-3px 0 14px rgba(29,78,216,.2);transition:background .2s,right .35s}
+.a11y-btn:hover{background:var(--pri-h)}
+.a11y-btn.open{right:292px}
+.a11y-panel{position:fixed;right:-300px;top:0;height:100%;width:292px;background:var(--surface);border-left:1.5px solid var(--border);z-index:199;display:flex;flex-direction:column;padding:1.8rem 1.4rem;box-shadow:-8px 0 30px rgba(0,0,0,.07);transition:right .35s cubic-bezier(.4,0,.2,1);overflow-y:auto}
+.a11y-panel.open{right:0}
+.sec-lbl{display:block;font-size:.71em;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.09em;margin-bottom:.6rem}
+.temas{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
+.tema{display:flex;flex-direction:column;align-items:center;gap:5px;padding:.5rem .3rem;border-radius:9px;border:1.5px solid var(--border);background:var(--pri-lt);cursor:pointer;font-size:.72em;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;transition:all .2s}
+.tema:hover,.tema.on{border-color:var(--pri);color:var(--pri);font-weight:700}
+.tema-p{width:34px;height:20px;border-radius:5px;border:1px solid rgba(0,0,0,.07)}
+.font-row{display:flex;align-items:center;gap:.4rem}
+.font-b{flex:1;padding:.5rem;border-radius:9px;border:1.5px solid var(--border);background:var(--pri-lt);cursor:pointer;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;transition:all .2s}
+.font-b:hover{border-color:var(--pri);color:var(--pri)}
+.tog-row{display:flex;align-items:center;justify-content:space-between;padding:.4rem 0}
+.tog-row span{font-size:.83em;color:var(--text)}
+.tog{position:relative;width:38px;height:21px}
+.tog input{opacity:0;width:0;height:0}
+.tog-sl{position:absolute;inset:0;background:var(--border);border-radius:21px;cursor:pointer;transition:background .2s}
+.tog-sl::before{content:'';position:absolute;width:15px;height:15px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .2s}
+.tog input:checked+.tog-sl{background:var(--pri)}
+.tog input:checked+.tog-sl::before{transform:translateX(17px)}
+.btn-reset{width:100%;padding:.6rem;border-radius:9px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif;font-size:.82em;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-reset:hover{border-color:#dc2626;color:#dc2626;background:#fff5f5}
+.div-a{height:1px;background:var(--border);margin:.75rem 0 1.1rem}
 
-        }
-
-        body {
-
-            font-family: 'Poppins', sans-serif;
-
-            background: linear-gradient(135deg,
-                    #020617,
-                    #0f172a,
-                    #172554);
-
-            overflow-x: hidden;
-
-        }
-
-        /* Scroll */
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 20px;
-        }
-
-        /* Animaciones */
-
-        @keyframes float {
-
-            0% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-
-            100% {
-                transform: translateY(0px);
-            }
-
-        }
-
-        .floating {
-
-            animation: float 4s ease-in-out infinite;
-
-        }
-    </style>
-
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.anim{animation:fadeUp .4s ease both}
+.anim-2{animation:fadeUp .4s .08s ease both}
+.anim-3{animation:fadeUp .4s .16s ease both}
+@keyframes pulse-g{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
+@keyframes pulse-sk{0%,100%{opacity:1}50%{opacity:.4}}
+</style>
 </head>
-
-<body class="min-h-screen text-white relative">
-
-    <!-- EFECTOS -->
-
-    <div class="absolute top-0 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
-
-    <div class="absolute bottom-0 right-0 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl"></div>
-
-    <!-- SIDEBAR -->
-
-    <div id="sidebar-container"></div>
-
-    <!-- MAIN -->
-
-    <main class="ml-[290px] p-8 relative z-10">
-
-        <!-- HEADER -->
-
-        <header class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-10">
-
-            <!-- TITULO -->
-
-            <div>
-
-                <h1 class="text-4xl font-bold mb-3">
-
-                    Gestión de
-                    <span class="text-blue-400">
-                        Inventario
-                    </span>
-
-                </h1>
-
-                <p class="text-slate-400 text-lg max-w-2xl">
-
-                    Controla productos, stock y categorías
-                    desde una plataforma moderna y organizada.
-
-                </p>
-
-            </div>
-
-            <!-- BADGE -->
-
-            <div class="bg-white/10 border border-white/10 backdrop-blur-xl px-6 py-4 rounded-2xl shadow-lg floating">
-
-                <p class="text-slate-300 text-sm">
-                    Estado del inventario
-                </p>
-
-                <div class="flex items-center gap-3 mt-2">
-
-                    <div class="w-3 h-3 rounded-full bg-green-400 animate-pulse"></div>
-
-                    <span class="font-semibold text-white">
-                        Sincronizado
-                    </span>
-
-                </div>
-
-            </div>
-
-        </header>
-
-        <!-- HERO -->
-
-        <section
-            class="relative overflow-hidden bg-gradient-to-r from-blue-700/30 to-cyan-500/20 border border-white/10 backdrop-blur-2xl rounded-3xl p-8 mb-10 shadow-2xl">
-
-            <!-- ICONO -->
-
-            <div class="absolute -right-10 -top-10 text-[180px] opacity-5">
-                📦
-            </div>
-
-            <div class="relative z-10">
-
-                <h2 class="text-3xl lg:text-4xl font-bold mb-4">
-
-                    Administración Inteligente de Productos
-
-                </h2>
-
-                <p class="text-slate-300 max-w-3xl leading-relaxed text-lg">
-
-                    Organiza el inventario de Frío Cars,
-                    controla existencias y gestiona productos
-                    desde una experiencia moderna e intuitiva.
-
-                </p>
-
-            </div>
-
-        </section>
-
-        <!-- PANEL SUPERIOR -->
-
-        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-
-            <!-- PRODUCTOS -->
-
-            <div class="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-2xl shadow-xl">
-
-                <p class="text-slate-400 mb-2">
-                    Productos registrados
-                </p>
-
-                <h2 id="totalProductos" class="text-4xl font-bold text-blue-400">
-
-                    0
-
-                </h2>
-
-            </div>
-
-            <!-- STOCK -->
-
-            <div class="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-2xl shadow-xl">
-
-                <p class="text-slate-400 mb-2">
-                    Stock total
-                </p>
-
-                <h2 id="stockTotal" class="text-4xl font-bold text-green-400">
-
-                    0
-
-                </h2>
-
-            </div>
-
-            <!-- BOTON -->
-
-            <div class="flex items-center justify-center">
-
-                <button onclick="mostrarFormulario()"
-                    class="w-full bg-blue-600 hover:bg-blue-700 transition duration-300 px-6 py-5 rounded-3xl text-lg font-semibold shadow-xl shadow-blue-500/20 hover:scale-[1.02]">
-
-                    + Agregar Producto
-
-                </button>
-
-            </div>
-
-        </section>
-
-        <!-- FORMULARIO -->
-
-        <section id="formulario"
-            class="hidden bg-white/5 border border-white/10 backdrop-blur-2xl rounded-3xl p-8 mb-10 shadow-2xl">
-
-            <div class="flex items-center justify-between mb-8">
-
-                <div>
-
-                    <h2 class="text-3xl font-bold mb-2">
-
-                        Nuevo Producto
-
-                    </h2>
-
-                    <p class="text-slate-400">
-
-                        Completa la información del producto
-                        para registrarlo en el sistema.
-
-                    </p>
-
-                </div>
-
-                <div class="text-6xl opacity-20">
-                    📦
-                </div>
-
-            </div>
-
-            <!-- GRID -->
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-                <!-- NOMBRE -->
-
-                <div>
-
-                    <label class="block mb-2 text-slate-300 font-medium">
-
-                        Nombre del Producto
-
-                    </label>
-
-                    <input id="nombre" type="text" placeholder="Ej: Compresor Universal"
-                        class="w-full bg-slate-900/60 border border-white/10 text-white rounded-2xl px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
-
-                </div>
-
-                <!-- CATEGORIA -->
-
-                <div>
-
-                    <label class="block mb-2 text-slate-300 font-medium">
-
-                        Categoría
-
-                    </label>
-
-                    <input id="categoria" type="text" placeholder="Ej: Repuestos"
-                        class="w-full bg-slate-900/60 border border-white/10 text-white rounded-2xl px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
-
-                </div>
-
-                <!-- PRECIO -->
-
-                <div>
-
-                    <label class="block mb-2 text-slate-300 font-medium">
-
-                        Precio
-
-                    </label>
-
-                    <input id="precio" type="number" placeholder="Ej: 120000"
-                        class="w-full bg-slate-900/60 border border-white/10 text-white rounded-2xl px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
-
-                </div>
-
-                <!-- STOCK -->
-
-                <div>
-
-                    <label class="block mb-2 text-slate-300 font-medium">
-
-                        Stock Disponible
-
-                    </label>
-
-                    <input id="stock" type="number" placeholder="Ej: 15"
-                        class="w-full bg-slate-900/60 border border-white/10 text-white rounded-2xl px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
-
-                </div>
-
-                <!-- DESCRIPCION -->
-
-                <div class="md:col-span-2">
-
-                    <label class="block mb-2 text-slate-300 font-medium">
-
-                        Descripción
-
-                    </label>
-
-                    <textarea id="descripcion" rows="4" placeholder="Describe las características del producto..."
-                        class="w-full bg-slate-900/60 border border-white/10 text-white rounded-2xl px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 resize-none"></textarea>
-
-                </div>
-
-            </div>
-
-            <!-- BOTONES -->
-
-            <div class="flex flex-col lg:flex-row gap-4 mt-8">
-
-                <button onclick="crearProducto()"
-                    class="bg-green-600 hover:bg-green-700 transition duration-300 px-8 py-4 rounded-2xl text-lg font-semibold shadow-xl shadow-green-500/20 hover:scale-[1.02]">
-
-                    Guardar Producto
-
-                </button>
-
-                <button onclick="document.getElementById('formulario').classList.add('hidden')"
-                    class="bg-red-600 hover:bg-red-700 transition duration-300 px-8 py-4 rounded-2xl text-lg font-semibold shadow-xl shadow-red-500/20 hover:scale-[1.02]">
-
-                    Cancelar
-
-                </button>
-
-            </div>
-
-        </section>
-
-        <!-- TABLA -->
-
-        <section class="bg-white/5 border border-white/10 backdrop-blur-2xl rounded-3xl p-6 shadow-2xl">
-
-            <!-- HEADER -->
-
-            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 mb-6">
-
-                <div>
-
-                    <h2 class="text-3xl font-bold mb-2">
-
-                        Productos Registrados
-
-                    </h2>
-
-                    <p class="text-slate-400">
-
-                        Visualiza y administra todos los productos
-                        del inventario.
-
-                    </p>
-
-                </div>
-
-                <!-- BUSCADOR -->
-
-                <div class="w-full lg:w-96">
-
-                    <input id="buscador" type="text" placeholder="Buscar producto..."
-                        class="w-full bg-slate-900/60 border border-white/10 text-white rounded-2xl px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
-
-                </div>
-
-            </div>
-
-            <!-- TABLA -->
-
-            <div class="overflow-x-auto rounded-2xl border border-white/10">
-
-                <table class="w-full text-left">
-
-                    <thead class="bg-white/10 text-slate-300">
-
-                        <tr>
-
-                            <th class="p-4">
-                                Producto
-                            </th>
-
-                            <th class="p-4">
-                                Precio
-                            </th>
-
-                            <th class="p-4">
-                                Stock
-                            </th>
-
-                            <th class="p-4">
-                                Categoría
-                            </th>
-
-                            <th class="p-4">
-                                Estado
-                            </th>
-
-                            <th class="p-4">
-                                Acciones
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="tablaProductos" class="bg-slate-900/30 divide-y divide-white/5">
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </section>
-
-    </main>
-
-    <!-- JS -->
-
-    <script src="../assets/js/sidebar.js"></script>
-
-    <script src="../assets/js/productos.js"></script>
-
-    <script src="../assets/js/auth.js"></script>
-
+<body>
+
+<div id="sidebar-container"></div>
+
+<!-- TOP BAR -->
+<header class="top-bar">
+  <div class="top-brand">
+    <div class="top-brand-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <line x1="12" y1="2" x2="12" y2="22"/>
+        <path d="M17 7l-5-5-5 5"/><path d="M17 17l-5 5-5-5"/>
+        <line x1="2" y1="12" x2="22" y2="12"/>
+        <path d="M7 7l-5 5 5 5"/><path d="M17 7l5 5-5 5"/>
+      </svg>
+    </div>
+    <div>
+      <div class="top-brand-name">Frío <span>Cars</span></div>
+      <div class="top-brand-sub">Sistema Automotriz</div>
+    </div>
+  </div>
+  <div style="width:1px;height:36px;background:var(--border);flex-shrink:0"></div>
+  <div class="topbar-breadcrumb" style="flex:1;padding-left:1.4rem">
+    <a href="dashboard.html">Inicio</a>
+    <span style="color:var(--border)">›</span>
+    <span style="color:var(--text);font-weight:700">Inventario</span>
+  </div>
+  <div class="top-bar-right">
+    <div class="topbar-card" style="border-left:3px solid var(--green)">
+      <p>Estado</p>
+      <p style="color:var(--green);display:flex;align-items:center;gap:.4rem;font-size:.85rem">
+        <span style="width:8px;height:8px;background:#22c55e;border-radius:50%;display:inline-block;animation:pulse-g 2s ease-in-out infinite"></span>
+        Sincronizado
+      </p>
+    </div>
+    <div class="topbar-card">
+      <p>Hoy</p>
+      <p style="color:var(--text)" id="today-date">—</p>
+    </div>
+  </div>
+</header>
+
+<main class="main-content">
+
+  <!-- HEADER -->
+  <div class="page-header anim">
+    <div>
+      <h1 class="page-title">Gestión de <span>Inventario</span></h1>
+      <p class="page-sub">Controla productos, stock y categorías desde una plataforma moderna y organizada.</p>
+    </div>
+    <button class="btn-primary" onclick="toggleFormulario()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Agregar Producto
+    </button>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero-banner anim-2">
+    <h2>Administración Inteligente de Productos</h2>
+    <p>Organiza el inventario de Frío Cars, controla existencias y gestiona productos desde una experiencia moderna e intuitiva.</p>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpi-grid anim-2">
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:#dbeafe;color:var(--pri)">📦</div>
+      <div class="kpi-label">Productos registrados</div>
+      <div class="kpi-value" id="totalProductos">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:var(--green-lt);color:var(--green)">📊</div>
+      <div class="kpi-label">Stock total</div>
+      <div class="kpi-value" id="stockTotal">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:#fef3c7;color:var(--yellow)">⚠️</div>
+      <div class="kpi-label">Stock bajo (&lt;5)</div>
+      <div class="kpi-value" id="stockBajo">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:#ede9fe;color:#7c3aed">🏷️</div>
+      <div class="kpi-label">Categorías</div>
+      <div class="kpi-value" id="totalCategorias">—</div>
+    </div>
+  </div>
+
+  <!-- FORMULARIO COLAPSABLE -->
+  <div id="formPanel" class="form-panel">
+    <p class="section-label" id="formTitle">Nuevo Producto</p>
+    <div class="card" style="margin-bottom:1.5rem">
+      <input type="hidden" id="editId">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem" class="form-grid">
+
+        <div>
+          <label class="form-label" for="nombre">Nombre del producto</label>
+          <input type="text" id="nombre" class="form-input" placeholder="Ej: Compresor Universal">
+        </div>
+
+        <div>
+          <label class="form-label" for="categoria">Categoría</label>
+          <input type="text" id="categoria" class="form-input" placeholder="Elige una o escribe nueva..." list="categorias-list" autocomplete="off">
+          <datalist id="categorias-list"></datalist>
+          <p style="font-size:.7rem;color:var(--muted);margin-top:.3rem">Selecciona existente o escribe para crear nueva</p>
+        </div>
+
+        <div>
+          <label class="form-label" for="precio">Precio (COP)</label>
+          <input type="number" id="precio" class="form-input" placeholder="Ej: 120000">
+        </div>
+
+        <div>
+          <label class="form-label" for="stock">Stock disponible</label>
+          <input type="number" id="stock" class="form-input" placeholder="Ej: 15">
+        </div>
+
+        <div style="grid-column:1/-1">
+          <label class="form-label" for="descripcion">Descripción</label>
+          <textarea id="descripcion" class="form-textarea" placeholder="Describe las características del producto..."></textarea>
+        </div>
+
+      </div>
+      <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
+        <button class="btn-success" id="btnGuardar" onclick="guardarProducto()">✓ Guardar Producto</button>
+        <button class="btn-cancel" onclick="cancelarFormulario()">✕ Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA -->
+  <p class="section-label anim-3">Productos registrados</p>
+  <div class="card anim-3">
+    <div class="search-bar">
+      <div class="search-input-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="buscador" class="search-input" placeholder="Buscar producto, categoría..." oninput="filtrarProductos()">
+      </div>
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <select id="filtroCategoria" class="form-select" style="width:auto;padding:.55rem .9rem;font-size:.8rem" onchange="filtrarProductos()">
+          <option value="">Todas las categorías</option>
+        </select>
+        <select id="filtroStock" class="form-select" style="width:auto;padding:.55rem .9rem;font-size:.8rem" onchange="filtrarProductos()">
+          <option value="">Todo el stock</option>
+          <option value="bajo">Stock bajo (&lt;5)</option>
+          <option value="medio">Stock medio (5-20)</option>
+          <option value="alto">Stock alto (&gt;20)</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="overflow-x:auto;border-radius:12px;border:1px solid var(--border)">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tablaProductos">
+          <tr><td colspan="6">
+            <div class="empty-state"><span>⏳</span>Cargando productos...</div>
+          </td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:1rem;flex-wrap:wrap;gap:.5rem">
+      <span style="font-size:.75rem;color:var(--muted)" id="tabla-count"></span>
+    </div>
+  </div>
+
+</main>
+
+<!-- BOTÓN ACCESIBILIDAD -->
+<button class="a11y-btn" id="aBtn" aria-label="Abrir panel de accesibilidad" aria-expanded="false">
+  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1.8" fill="currentColor" stroke="none"/><path d="M5 8.5h14"/><path d="M12 8.5V14"/><path d="M8.5 14l-2 5.5M15.5 14l2 5.5"/></svg>
+  <span style="font-size:.62em;font-weight:700">Acceso</span>
+</button>
+
+<!-- PANEL ACCESIBILIDAD -->
+<aside id="aPanel" class="a11y-panel" role="complementary" aria-hidden="true">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.4rem;padding-bottom:.9rem;border-bottom:1px solid var(--border)">
+    <div>
+      <h3 style="font-size:.97rem;font-weight:800;color:var(--text)">Accesibilidad</h3>
+      <p style="font-size:.72em;color:var(--muted);margin-top:2px">Personaliza la interfaz</p>
+    </div>
+    <button id="aClose" style="background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:8px;display:flex">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div style="margin-bottom:1.2rem">
+    <span class="sec-lbl">Tema de colores</span>
+    <div class="temas">
+      <button class="tema on" data-t="normal"><div class="tema-p" style="background:linear-gradient(135deg,#f0f4fa 50%,#1d4ed8 50%)"></div>Normal</button>
+      <button class="tema" data-t="high-contrast"><div class="tema-p" style="background:linear-gradient(135deg,#fff 50%,#0028b0 50%)"></div>Alto contraste</button>
+      <button class="tema" data-t="sepia"><div class="tema-p" style="background:linear-gradient(135deg,#f5ede0 50%,#7c4f1e 50%)"></div>Sepia</button>
+      <button class="tema" data-t="soft-dark"><div class="tema-p" style="background:linear-gradient(135deg,#0a1628 50%,#60a5fa 50%)"></div>Noche suave</button>
+    </div>
+  </div>
+  <div class="div-a"></div>
+  <div style="margin-bottom:1.2rem">
+    <span class="sec-lbl">Tamaño de texto</span>
+    <div class="font-row">
+      <button class="font-b" id="fDec" style="font-size:.84em">A−</button>
+      <span style="font-size:.82em;color:var(--muted);min-width:34px;text-align:center" id="fVal">100%</span>
+      <button class="font-b" id="fInc">A+</button>
+    </div>
+  </div>
+  <div class="div-a"></div>
+  <div style="margin-bottom:1.2rem">
+    <span class="sec-lbl">Lectura</span>
+    <div class="tog-row"><span>Líneas amplias</span><label class="tog"><input type="checkbox" id="tLin"><span class="tog-sl"></span></label></div>
+  </div>
+  <div style="flex:1"></div>
+  <button class="btn-reset" id="bReset">↺ Restablecer ajustes</button>
+</aside>
+
+<script src="../assets/js/sidebar.js"></script>
+<script src="../assets/js/inventario.js"></script>
+<script src="../assets/js/auth.js"></script>
+<script>
+  document.getElementById('today-date').textContent =
+    new Date().toLocaleDateString('es-CO',{weekday:'short',day:'numeric',month:'short'});
+
+  const aBtn=document.getElementById('aBtn'),aPanel=document.getElementById('aPanel');
+  const openA=()=>{aPanel.classList.add('open');aBtn.classList.add('open');aPanel.setAttribute('aria-hidden','false');aBtn.setAttribute('aria-expanded','true')};
+  const closeA=()=>{aPanel.classList.remove('open');aBtn.classList.remove('open');aPanel.setAttribute('aria-hidden','true');aBtn.setAttribute('aria-expanded','false')};
+  aBtn.addEventListener('click',()=>aPanel.classList.contains('open')?closeA():openA());
+  document.getElementById('aClose').addEventListener('click',closeA);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeA()});
+  const temas=['normal','high-contrast','sepia','soft-dark'];
+  let tema=localStorage.getItem('a11y-tema')||'normal';
+  function setTema(t){temas.forEach(x=>document.body.classList.remove(x));if(t!=='normal')document.body.classList.add(t);tema=t;localStorage.setItem('a11y-tema',t);document.querySelectorAll('.tema').forEach(b=>{const a=b.dataset.t===t;b.classList.toggle('on',a);b.setAttribute('aria-pressed',a?'true':'false')})}
+  document.querySelectorAll('.tema').forEach(b=>b.addEventListener('click',()=>setTema(b.dataset.t)));
+  setTema(tema);
+  let esc=parseFloat(localStorage.getItem('a11y-esc')||'1');
+  const fVal=document.getElementById('fVal');
+  function setEsc(v){esc=Math.min(1.5,Math.max(.75,parseFloat(v.toFixed(2))));document.documentElement.style.setProperty('--font-scale',esc);fVal.textContent=Math.round(esc*100)+'%';localStorage.setItem('a11y-esc',esc)}
+  document.getElementById('fInc').addEventListener('click',()=>setEsc(esc+.1));
+  document.getElementById('fDec').addEventListener('click',()=>setEsc(esc-.1));
+  setEsc(esc);
+  const tLin=document.getElementById('tLin');
+  tLin.checked=localStorage.getItem('a11y-lin')==='true';
+  if(tLin.checked)document.body.style.lineHeight='2.2';
+  tLin.addEventListener('change',()=>{document.body.style.lineHeight=tLin.checked?'2.2':'';localStorage.setItem('a11y-lin',tLin.checked)});
+  document.getElementById('bReset').addEventListener('click',()=>{setTema('normal');setEsc(1);tLin.checked=false;document.body.style.lineHeight='';['a11y-tema','a11y-esc','a11y-lin'].forEach(k=>localStorage.removeItem(k))});
+</script>
 </body>
-
 </html>

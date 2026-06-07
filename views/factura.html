@@ -1,504 +1,189 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Factura | Frío Cars</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4fa;min-height:100vh;padding:2rem 1rem;color:#0f172a}
 
-    <meta charset="UTF-8">
+.factura-wrap{max-width:820px;margin:0 auto}
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+/* BOTONES PANTALLA */
+.acciones{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.btn-print{display:inline-flex;align-items:center;gap:.5rem;background:#1d4ed8;color:#fff;border:none;border-radius:12px;padding:.75rem 1.4rem;font-size:.88rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;box-shadow:0 4px 14px rgba(29,78,216,.25);transition:background .2s}
+.btn-print:hover{background:#1e40af}
+.btn-back{display:inline-flex;align-items:center;gap:.5rem;background:#fff;color:#64748b;border:1.5px solid #e2e8f0;border-radius:12px;padding:.75rem 1.4rem;font-size:.88rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;text-decoration:none;transition:all .2s}
+.btn-back:hover{border-color:#1d4ed8;color:#1d4ed8}
 
-    <title>Factura | Frío Cars</title>
+/* FACTURA */
+.factura{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 4px 40px rgba(0,0,0,.1)}
 
-    <!-- TAILWIND -->
+/* HEADER FACTURA */
+.factura-header{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#1d4ed8 100%);color:#fff;padding:2.5rem 2.8rem}
+.factura-header-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem}
+.empresa-info{display:flex;align-items:center;gap:1.2rem}
+.empresa-logo{background:#fff;border-radius:14px;padding:.7rem;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.empresa-logo img{width:60px;height:60px;object-fit:contain}
+.empresa-nombre{font-size:2rem;font-weight:800;line-height:1}
+.empresa-sub{font-size:.8rem;color:#94a3b8;margin-top:.25rem}
+.empresa-ciudad{font-size:.75rem;color:#64748b;margin-top:.15rem}
+.factura-num-box{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:1.2rem 1.6rem;text-align:right;backdrop-filter:blur(8px)}
+.factura-num-label{font-size:.72rem;color:#94a3b8;margin-bottom:.3rem}
+.factura-num{font-size:1.8rem;font-weight:800}
+.factura-fecha{font-size:.78rem;color:#94a3b8;margin-top:.4rem}
 
-    <script src="https://cdn.tailwindcss.com"></script>
+/* BODY */
+.factura-body{padding:2.2rem 2.8rem}
 
-    <!-- FUENTE -->
+/* INFO GRID */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:2rem}
+@media(max-width:600px){.info-grid{grid-template-columns:1fr}}
+.info-box{background:#f8fafc;border-radius:14px;padding:1.2rem 1.4rem;border:1px solid #e2e8f0}
+.info-box h4{font-size:.72rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.8rem}
+.info-row{display:flex;justify-content:space-between;padding:.35rem 0;font-size:.84rem;border-bottom:1px solid #f1f5f9}
+.info-row:last-child{border-bottom:none}
+.info-row span:first-child{color:#64748b}
+.info-row span:last-child{font-weight:700;color:#0f172a}
+.estado-badge{display:inline-flex;align-items:center;gap:.4rem;background:#f0fdf4;border:1px solid #bbf7d0;color:#16a34a;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px}
+.estado-dot{width:7px;height:7px;background:#22c55e;border-radius:50%}
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+/* TABLA */
+.tabla-wrap{border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;margin-bottom:2rem}
+.factura-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.factura-table thead{background:#0f172a;color:#fff}
+.factura-table th{padding:.9rem 1.1rem;text-align:left;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.factura-table td{padding:.85rem 1.1rem;border-bottom:1px solid #f1f5f9;color:#0f172a;vertical-align:middle}
+.factura-table tr:last-child td{border-bottom:none}
+.factura-table tr:hover td{background:#f8fafc}
+.factura-table td:last-child{font-weight:700;color:#16a34a}
 
-    <style>
+/* TOTALES */
+.totales-wrap{display:flex;justify-content:flex-end;margin-bottom:2rem}
+.totales-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;padding:1.4rem 1.8rem;min-width:300px}
+.total-row{display:flex;justify-content:space-between;padding:.45rem 0;font-size:.88rem;border-bottom:1px solid #f1f5f9}
+.total-row:last-child{border-bottom:none}
+.total-row span:first-child{color:#64748b}
+.total-row span:last-child{font-weight:700}
+.total-final{display:flex;justify-content:space-between;padding:1rem 0 0;border-top:2px solid #0f172a;margin-top:.5rem}
+.total-final span:first-child{font-size:1.1rem;font-weight:800}
+.total-final span:last-child{font-size:1.4rem;font-weight:800;color:#16a34a}
 
-        body{
+/* FOOTER FACTURA */
+.factura-footer{background:#f8fafc;border-top:1px solid #e2e8f0;padding:1.4rem 2.8rem;text-align:center}
+.factura-footer p{font-size:.8rem;color:#64748b}
+.factura-footer strong{color:#0f172a}
 
-            font-family: 'Poppins', sans-serif;
-
-        }
-
-        @media print {
-
-            .no-print{
-
-                display: none;
-
-            }
-
-            body{
-
-                background: white;
-
-            }
-
-        }
-
-    </style>
-
+/* PRINT */
+@media print{
+  body{background:#fff;padding:0}
+  .acciones{display:none!important}
+  .factura{box-shadow:none;border-radius:0}
+  .factura-header{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .factura-table thead{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
 </head>
+<body>
 
-<body class="bg-slate-100 min-h-screen p-6">
+<div class="factura-wrap">
 
-    <!-- CONTENEDOR -->
+  <!-- BOTONES (no se imprimen) -->
+  <div class="acciones">
+    <button class="btn-print" onclick="window.print()">🖨️ Imprimir Factura</button>
+    <a href="ventas.html" class="btn-back">← Volver a Ventas</a>
+    <a href="dashboard.html" class="btn-back">🏠 Ir al Dashboard</a>
+  </div>
 
-    <div class="max-w-6xl mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden">
+  <!-- FACTURA -->
+  <div class="factura">
 
-        <!-- HEADER -->
-
-        <div class="bg-gradient-to-r from-slate-900 via-blue-950 to-blue-700 text-white p-10">
-
-            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-
-                <!-- EMPRESA -->
-
-                <div class="flex items-center gap-5">
-
-                    <!-- LOGO -->
-
-                    <div class="bg-white p-4 rounded-2xl shadow-lg">
-
-                        <img 
-                            src="../Logo/Logo.png"
-                            alt="Logo Frío Cars"
-                            class="w-24"
-                        >
-
-                    </div>
-
-                    <!-- INFO -->
-
-                    <div>
-
-                        <h1 class="text-5xl font-bold mb-2">
-
-                            Frío Cars
-
-                        </h1>
-
-                        <p class="text-slate-300">
-
-                            Sistema Inteligente de Gestión Automotriz
-
-                        </p>
-
-                        <p class="text-slate-400 text-sm mt-2">
-
-                            Ocaña - Norte de Santander
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <!-- FACTURA -->
-
-                <div class="bg-white/10 border border-white/10 rounded-3xl p-6 backdrop-blur-xl">
-
-                    <p class="text-slate-300 text-sm mb-2">
-
-                        Factura Electrónica
-
-                    </p>
-
-                    <h2 class="text-4xl font-bold">
-
-                        #FC-2026
-
-                    </h2>
-
-                    <p class="text-slate-300 mt-3">
-
-                        <span id="fechaActual"></span>
-
-                    </p>
-
-                </div>
-
-            </div>
-
+    <!-- HEADER -->
+    <div class="factura-header">
+      <div class="factura-header-inner">
+        <div class="empresa-info">
+          <div class="empresa-logo">
+            <img src="../assets/Logo/Logo2.png" alt="Frío Cars" onerror="this.style.display='none'">
+          </div>
+          <div>
+            <div class="empresa-nombre">Frío Cars</div>
+            <div class="empresa-sub">Sistema Inteligente de Gestión Automotriz</div>
+            <div class="empresa-ciudad">Ocaña · Norte de Santander · Colombia</div>
+          </div>
         </div>
-
-        <!-- BODY -->
-
-        <div class="p-10">
-
-            <!-- INFO CLIENTE -->
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
-
-                <!-- CLIENTE -->
-
-                <div class="bg-slate-100 rounded-3xl p-6">
-
-                    <h3 class="text-xl font-bold text-slate-800 mb-4">
-
-                        Información del Cliente
-
-                    </h3>
-
-                    <div class="space-y-2">
-
-                        <p class="text-slate-600">
-
-                            Cliente:
-
-                            <span 
-                                id="cliente"
-                                class="font-semibold text-slate-900"
-                            >
-
-                            </span>
-
-                        </p>
-
-                        <p class="text-slate-600">
-
-                            Estado:
-
-                            <span class="text-green-600 font-bold">
-
-                                PAGADO
-
-                            </span>
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <!-- RESUMEN -->
-
-                <div class="bg-blue-50 rounded-3xl p-6 border border-blue-100">
-
-                    <h3 class="text-xl font-bold text-slate-800 mb-4">
-
-                        Resumen de Compra
-
-                    </h3>
-
-                    <div class="space-y-3">
-
-                        <div class="flex justify-between">
-
-                            <span class="text-slate-600">
-
-                                Productos
-
-                            </span>
-
-                            <span 
-                                id="cantidadProductos"
-                                class="font-semibold"
-                            >
-
-                            </span>
-
-                        </div>
-
-                        <div class="flex justify-between">
-
-                            <span class="text-slate-600">
-
-                                Método Pago
-
-                            </span>
-
-                            <span class="font-semibold">
-
-                                Efectivo
-
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- TABLA -->
-
-            <div class="overflow-x-auto rounded-3xl border border-slate-200">
-
-                <table class="w-full">
-
-                    <thead class="bg-slate-900 text-white">
-
-                        <tr>
-
-                            <th class="p-5 text-left">
-                                Producto
-                            </th>
-
-                            <th class="p-5 text-left">
-                                Cantidad
-                            </th>
-
-                            <th class="p-5 text-left">
-                                Precio
-                            </th>
-
-                            <th class="p-5 text-left">
-                                Subtotal
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody 
-                        id="tablaFactura"
-                        class="divide-y divide-slate-200"
-                    >
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-            <!-- TOTALES -->
-
-            <div class="flex justify-end mt-10">
-
-                <div class="w-full max-w-md bg-slate-100 rounded-3xl p-8">
-
-                    <div class="space-y-4">
-
-                        <div class="flex justify-between">
-
-                            <span class="text-slate-600">
-
-                                Subtotal
-
-                            </span>
-
-                            <span id="subtotal">
-
-                            </span>
-
-                        </div>
-
-                        <div class="flex justify-between">
-
-                            <span class="text-slate-600">
-
-                                IVA (19%)
-
-                            </span>
-
-                            <span id="iva">
-
-                            </span>
-
-                        </div>
-
-                        <div class="border-t pt-5 flex justify-between">
-
-                            <span class="text-2xl font-bold text-slate-900">
-
-                                TOTAL
-
-                            </span>
-
-                            <span 
-                                id="total"
-                                class="text-3xl font-bold text-green-600"
-                            >
-
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- FOOTER -->
-
-            <div class="mt-16 text-center">
-
-                <p class="text-slate-500">
-
-                    Gracias por confiar en Frío Cars 🚗
-
-                </p>
-
-                <p class="text-slate-400 text-sm mt-2">
-
-                    Factura generada automáticamente por el sistema.
-
-                </p>
-
-            </div>
-
-            <!-- BOTONES -->
-
-            <div class="flex flex-col lg:flex-row gap-5 mt-12 no-print">
-
-                <!-- IMPRIMIR -->
-
-                <button
-                    onclick="window.print()"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl text-lg font-semibold transition duration-300 shadow-xl shadow-blue-500/20">
-
-                    Imprimir Factura
-
-                </button>
-
-                <!-- VOLVER -->
-
-                <a href="ventas.html">
-
-                    <button
-                        class="bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl text-lg font-semibold transition duration-300">
-
-                        Volver a Ventas
-
-                    </button>
-
-                </a>
-
-            </div>
-
+        <div class="factura-num-box">
+          <div class="factura-num-label">Factura Electrónica</div>
+          <div class="factura-num">#FC-<span id="ventaId">0000</span></div>
+          <div class="factura-fecha" id="fechaFactura">—</div>
         </div>
+      </div>
+    </div>
+
+    <!-- BODY -->
+    <div class="factura-body">
+
+      <!-- INFO CLIENTE + RESUMEN -->
+      <div class="info-grid">
+        <div class="info-box">
+          <h4>Información del Cliente</h4>
+          <div class="info-row"><span>Nombre</span><span id="clienteNombre">—</span></div>
+          <div class="info-row"><span>ID Cliente</span><span id="clienteId">—</span></div>
+          <div class="info-row">
+            <span>Estado</span>
+            <span><div class="estado-badge"><div class="estado-dot"></div>PAGADO</div></span>
+          </div>
+        </div>
+        <div class="info-box">
+          <h4>Resumen de Compra</h4>
+          <div class="info-row"><span>N° Factura</span><span>#FC-<span id="ventaId2">0000</span></span></div>
+          <div class="info-row"><span>Fecha</span><span id="fechaFactura2">—</span></div>
+          <div class="info-row"><span>Productos</span><span id="cantProductos">—</span></div>
+          <div class="info-row"><span>Método de pago</span><span>Efectivo</span></div>
+        </div>
+      </div>
+
+      <!-- TABLA PRODUCTOS -->
+      <div class="tabla-wrap">
+        <table class="factura-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Precio unit.</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody id="tablaFactura"></tbody>
+        </table>
+      </div>
+
+      <!-- TOTALES -->
+      <div class="totales-wrap">
+        <div class="totales-box">
+          <div class="total-row"><span>Subtotal</span><span id="subtotalVal">$0</span></div>
+          <div class="total-row"><span>IVA (19%)</span><span id="ivaVal">$0</span></div>
+          <div class="total-row"><span>Envío</span><span style="color:#16a34a">Gratis</span></div>
+          <div class="total-final">
+            <span>TOTAL</span>
+            <span id="totalVal">$0</span>
+          </div>
+        </div>
+      </div>
 
     </div>
 
-    <!-- SCRIPT -->
+    <!-- FOOTER -->
+    <div class="factura-footer">
+      <p>Gracias por confiar en <strong>Frío Cars</strong> 🚗❄️</p>
+      <p style="margin-top:.3rem">Factura generada automáticamente · NIT: 000.000.000-0</p>
+    </div>
 
-    <script>
+  </div>
+</div>
 
-        // 🔥 FECHA
-
-        const fecha = new Date();
-
-        document.getElementById("fechaActual").innerText =
-            fecha.toLocaleDateString("es-CO");
-
-
-        // 🔥 DATOS FACTURA
-
-        const productos = JSON.parse(
-            localStorage.getItem("factura")
-        ) || [];
-
-
-        const cliente =
-            localStorage.getItem("cliente") || "Cliente General";
-
-
-        // 🔥 ELEMENTOS
-
-        const tabla =
-            document.getElementById("tablaFactura");
-
-        const subtotalHTML =
-            document.getElementById("subtotal");
-
-        const ivaHTML =
-            document.getElementById("iva");
-
-        const totalHTML =
-            document.getElementById("total");
-
-        const clienteHTML =
-            document.getElementById("cliente");
-
-        const cantidadProductos =
-            document.getElementById("cantidadProductos");
-
-
-        // 🔥 VARIABLES
-
-        let subtotal = 0;
-
-
-        // 🔥 CLIENTE
-
-        clienteHTML.innerText = cliente;
-
-        cantidadProductos.innerText = productos.length;
-
-
-        // 🔥 TABLA
-
-        productos.forEach(p => {
-
-            const totalProducto =
-                p.precio * p.cantidad;
-
-            subtotal += totalProducto;
-
-            tabla.innerHTML += `
-
-                <tr class="hover:bg-slate-50 transition duration-300">
-
-                    <td class="p-5 font-medium text-slate-800">
-
-                        ${p.nombre}
-
-                    </td>
-
-                    <td class="p-5 text-slate-600">
-
-                        ${p.cantidad}
-
-                    </td>
-
-                    <td class="p-5 text-slate-600">
-
-                        $${p.precio}
-
-                    </td>
-
-                    <td class="p-5 font-semibold text-slate-900">
-
-                        $${totalProducto}
-
-                    </td>
-
-                </tr>
-
-            `;
-
-        });
-
-
-        // 🔥 IVA
-
-        const iva = subtotal * 0.19;
-
-        const total = subtotal + iva;
-
-
-        // 🔥 TOTALES
-
-        subtotalHTML.innerText =
-            `$${subtotal.toFixed(2)}`;
-
-        ivaHTML.innerText =
-            `$${iva.toFixed(2)}`;
-
-        totalHTML.innerText =
-            `$${total.toFixed(2)}`;
-
-    </script>
-
+<script src="../assets/js/factura.js"></script>
 </body>
-
 </html>

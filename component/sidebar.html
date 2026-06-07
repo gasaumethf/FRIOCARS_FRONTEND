@@ -1,196 +1,130 @@
 <!-- SIDEBAR -->
 
 <aside
-    class="fixed top-0 left-0 h-screen w-[290px] overflow-y-auto bg-white/5 backdrop-blur-2xl border-r border-white/10 p-6 flex flex-col justify-between z-50">
+    class="fixed top-0 left-0 h-screen w-[268px] overflow-y-auto border-r flex flex-col justify-between z-50"
+    style="
+        top: 64px;
+        height: calc(100vh - 64px);
+        background: var(--surface);
+        border-color: var(--border);
+        padding: 1.2rem 1rem 1.4rem;
+        transition: background .3s, border-color .3s;
+    ">
 
-    <!-- TOP -->
-
+    <!-- MENU -->
     <div class="flex-1">
-
-        <!-- LOGO -->
-
-        <div class="flex items-center gap-4 mb-12">
-
-            <div class="bg-white/10 p-3 rounded-2xl shadow-lg">
-
-                <img src="../assets/Logo/Logo2.png" alt="Logo Frío Cars" class="w-14 h-14 object-contain">
-
-            </div>
-
-            <div>
-
-                <h1 class="text-2xl font-bold text-white">
-                    Frío Cars
-                </h1>
-
-                <p class="text-slate-400 text-sm">
-                    Sistema Automotriz
-                </p>
-
-            </div>
-
-        </div>
-
-        <!-- MENU -->
-
-        <nav class="space-y-3">
-
-            <!-- ITEM -->
+        <nav style="display:flex;flex-direction:column;gap:.3rem">
 
             <a href="dashboard.html"
-                class="flex items-center gap-4 bg-blue-600 text-red px-5 py-4 rounded-2xl shadow-lg shadow-blue-500/20 hover:scale-[1.02] transition duration-300">
-
-                <span class="text-xl">
-                    
-                </span>
-
-                <span class="font-medium">
-                    Inicio
-                </span>
-
+                class="sidebar-link flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300"
+                style="font-size:.875rem;font-weight:500;color:var(--muted);border-radius:14px">
+                <span style="font-size:1.1rem"></span>
+                <span>Inicio</span>
             </a>
-
-            <!-- ITEM -->
 
             <a href="servicios.html"
-                class="flex items-center gap-4 text-slate-300 hover:text-white hover:bg-white/10 px-5 py-4 rounded-2xl transition duration-300">
-
-                <span class="text-xl">
-                    
-                </span>
-
-                <span>
-                    Servicios
-                </span>
-
+                class="sidebar-link flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300"
+                style="font-size:.875rem;font-weight:500;color:var(--muted);border-radius:14px">
+                <span style="font-size:1.1rem"></span>
+                <span>Servicios</span>
             </a>
-
-            <!-- ITEM -->
 
             <a href="ventas.html"
-                class="flex items-center gap-4 text-slate-300 hover:text-white hover:bg-white/10 px-5 py-4 rounded-2xl transition duration-300">
-
-                <span class="text-xl">
-                    
-                </span>
-
-                <span>
-                    Ventas
-                </span>
-
+                class="sidebar-link flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300"
+                style="font-size:.875rem;font-weight:500;color:var(--muted);border-radius:14px">
+                <span style="font-size:1.1rem"></span>
+                <span>Ventas</span>
             </a>
-
-            <!-- ITEM -->
-
-
-
-            <!-- ITEM -->
 
             <a href="cotizacion.html"
-                class="flex items-center gap-4 text-slate-300 hover:text-white hover:bg-white/10 px-5 py-4 rounded-2xl transition duration-300">
-
-                <span class="text-xl">
-                    
-                </span>
-
-                <span>
-                    Cotización
-                </span>
-
+                class="sidebar-link flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300"
+                style="font-size:.875rem;font-weight:500;color:var(--muted);border-radius:14px">
+                <span style="font-size:1.1rem"></span>
+                <span>Cotización</span>
             </a>
-
-            <!-- ITEM -->
 
             <a href="inventario.html"
-                class="flex items-center gap-4 text-slate-300 hover:text-white hover:bg-white/10 px-5 py-4 rounded-2xl transition duration-300">
-
-                <span class="text-xl">
-                    
-                </span>
-
-                <span>
-                    Inventario
-                </span>
-
+                class="sidebar-link flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300"
+                style="font-size:.875rem;font-weight:500;color:var(--muted);border-radius:14px">
+                <span style="font-size:1.1rem"></span>
+                <span>Inventario</span>
             </a>
 
-            <!-- ITEM -->
+            <a href="clientes.html"
+                class="sidebar-link flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300"
+                style="font-size:.875rem;font-weight:500;color:var(--muted);border-radius:14px">
+                <span style="font-size:1.1rem"></span>
+                <span>Clientes</span>
+            </a>
 
             <a href="carrito.html"
-                class="relative flex items-center justify-between text-slate-300 hover:text-white hover:bg-white/10 px-5 py-4 rounded-2xl transition duration-300">
-
-                <!-- IZQUIERDA -->
-
+                class="sidebar-link relative flex items-center justify-between px-5 py-4 rounded-2xl transition-all duration-300"
+                style="font-size:.875rem;font-weight:500;color:var(--muted);border-radius:14px">
                 <div class="flex items-center gap-4">
-
-                    <span class="text-xl">
-                        
-                    </span>
-
-                    <span>
-                        Carrito
-                    </span>
-
+                    <span style="font-size:1.1rem"></span>
+                    <span>Carrito</span>
                 </div>
-
-                <!-- BADGE -->
-
                 <span id="sidebarCartCount"
                     class="hidden bg-red-500 text-white text-xs font-bold min-w-[22px] h-[22px] px-2 rounded-full flex items-center justify-center shadow-lg">
-
                     0
-
                 </span>
-
             </a>
-
-            <!-- ITEM -->
 
             <a href="usuarios.html"
-                class="flex items-center gap-4 text-slate-300 hover:text-white hover:bg-white/10 px-5 py-4 rounded-2xl transition duration-300">
-
-                <span class="text-xl">
-                    
-                </span>
-
-                <span>
-                    Mi Perfil
-                </span>
-
+                class="sidebar-link flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300"
+                style="font-size:.875rem;font-weight:500;color:var(--muted);border-radius:14px">
+                <span style="font-size:1.1rem"></span>
+                <span>Mi Perfil</span>
             </a>
 
-            <!-- ITEM -->
-
             <a href="reportes.html"
-                class="flex items-center gap-4 text-slate-300 hover:text-white hover:bg-white/10 px-5 py-4 rounded-2xl transition duration-300">
-
-                <span class="text-xl">
-                    
-                </span>
-
-                <span>
-                    Reportes
-                </span>
-
+                class="sidebar-link flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300"
+                style="font-size:.875rem;font-weight:500;color:var(--muted);border-radius:14px">
+                <span style="font-size:1.1rem"></span>
+                <span>Reportes</span>
             </a>
 
         </nav>
-
     </div>
 
+    <!-- DIVISOR -->
+    <div style="height:1px;background:var(--border);margin:.8rem 0"></div>
+
     <!-- LOGOUT -->
-
     <a href="#" onclick="logout()"
-        class="flex items-center gap-4 text-red-400 hover:text-white hover:bg-red-500/20 px-5 py-4 rounded-2xl transition duration-300 mt-6">
-
-        <span class="text-xl">
-            ⏻
-        </span>
-
-        <span>
-            Cerrar sesión
-        </span>
-
+        style="
+            display:flex;align-items:center;gap:1rem;
+            color:#ef4444;font-size:.875rem;font-weight:500;
+            padding:.85rem 1.25rem;border-radius:14px;
+            text-decoration:none;
+            transition:all .2s;
+        "
+        onmouseover="this.style.background='rgba(239,68,68,.08)';this.style.color='#dc2626'"
+        onmouseout="this.style.background='transparent';this.style.color='#ef4444'">
+        <span style="font-size:1.1rem">⏻</span>
+        <span>Cerrar sesión</span>
     </a>
 
 </aside>
+
+<style>
+/* ── Sidebar links: estado hover y activo usando variables del tema ── */
+.sidebar-link{
+    text-decoration:none;
+    transition:background .18s,color .18s,transform .18s;
+}
+.sidebar-link:hover{
+    background:var(--pri-lt);
+    color:var(--pri)!important;
+    transform:translateX(3px);
+}
+/* La clase activa la asigna sidebar.js */
+.sidebar-link.bg-blue-600,
+.sidebar-link[data-active="true"]{
+    background:var(--pri)!important;
+    color:#fff!important;
+    font-weight:700!important;
+    box-shadow:0 4px 14px rgba(29,78,216,.25);
+    transform:none!important;
+}
+</style>
