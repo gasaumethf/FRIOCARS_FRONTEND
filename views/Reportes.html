@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Carrito | Frío Cars</title>
+<title>Reportes | Frío Cars</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -21,7 +22,6 @@ body.high-contrast{background:#fff!important;--border:#000;--muted:#000}
 body.sepia{background:#f5ede0!important;--bg:#f5ede0;--surface:#fffbf3;--border:#d4b896;--pri:#7c4f1e;--pri-lt:#fdf0d8;--text:#3d2008;--muted:#5a3510}
 body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--pri-lt:#1e3a5f}
 
-/* TOP BAR */
 .top-bar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2.2rem 0 1.4rem;z-index:60;box-shadow:0 1px 8px rgba(0,0,0,.06);transition:background .3s,border-color .3s}
 .top-brand{display:flex;align-items:center;gap:.75rem;width:268px;flex-shrink:0;padding-left:.4rem}
 .top-brand-logo{width:40px;height:40px;background:linear-gradient(135deg,#1d4ed8,#38bdf8);border-radius:11px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(29,78,216,.25);flex-shrink:0}
@@ -29,76 +29,67 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 .top-brand-name{font-size:1.12rem;font-weight:800;color:var(--text);line-height:1.1}
 .top-brand-name span{color:var(--pri)}
 .top-brand-sub{font-size:.67rem;font-weight:500;color:var(--muted)}
-.top-bar-right{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;justify-content:flex-end}
-.topbar-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:.45rem .9rem;text-align:right;line-height:1.3;transition:background .3s,border-color .3s}
+.top-bar-right{display:flex;align-items:center;gap:.8rem}
+.topbar-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:.45rem .9rem;text-align:right;line-height:1.3}
 .topbar-card p:first-child{font-size:.65rem;font-weight:600;color:var(--muted)}
 .topbar-card p:last-child{font-size:1rem;font-weight:800}
 .topbar-breadcrumb{display:flex;align-items:center;gap:.5rem;font-size:.78rem;font-weight:600;color:var(--muted)}
 .topbar-breadcrumb a{color:var(--pri);text-decoration:none}
 
-/* LAYOUT */
-.main-content{margin-left:268px;padding:calc(var(--topbar-h) + 2rem) 2.2rem 2rem;min-height:100vh;transition:margin-left .3s}
+.main-content{margin-left:268px;padding:calc(var(--topbar-h) + 2rem) 2.2rem 2rem;min-height:100vh}
 @media(max-width:900px){.main-content{margin-left:0!important;padding:calc(var(--topbar-h)+1rem) 1rem 1rem}.top-brand{width:auto}}
 
-/* PAGE HEADER */
 .page-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
 .page-title{font-size:1.65rem;font-weight:800;color:var(--text);line-height:1.25}
 .page-title span{color:var(--pri)}
 .page-sub{font-size:.84rem;color:var(--muted);margin-top:.25rem}
-
-/* CARD */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.4rem 1.6rem;box-shadow:0 1px 4px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.04);transition:background .3s,border-color .3s}
-
-/* GRID LAYOUT */
-.carrito-grid{display:grid;grid-template-columns:1fr 360px;gap:1.4rem;align-items:start}
-@media(max-width:900px){.carrito-grid{grid-template-columns:1fr}}
-
-/* CLIENTE SELECT */
 .section-label{font-size:.73rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.9rem}
-.form-select{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:.75rem 1rem;font-size:.88rem;font-family:'Plus Jakarta Sans',sans-serif;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s;appearance:none}
-.form-select:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(29,78,216,.1)}
 
-/* TABLA CARRITO */
-.data-table{width:100%;border-collapse:collapse;font-size:.84rem}
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.8rem}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.2rem 1.4rem;display:flex;flex-direction:column;gap:.4rem;transition:background .3s}
+.kpi-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.kpi-label{font-size:.72rem;font-weight:600;color:var(--muted)}
+.kpi-value{font-size:1.8rem;font-weight:800;line-height:1;color:var(--text)}
+.kpi-sub{font-size:.72rem;font-weight:600;color:var(--green)}
+
+/* CHARTS GRID */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.8rem}
+@media(max-width:768px){.charts-grid{grid-template-columns:1fr}}
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.4rem;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.chart-title{font-size:.9rem;font-weight:800;color:var(--text);margin-bottom:1rem}
+
+/* IA SUGERENCIAS */
+.ia-banner{background:linear-gradient(135deg,var(--pri),#0284c7);border-radius:18px;padding:1.4rem 1.8rem;color:#fff;margin-bottom:1.8rem;position:relative;overflow:hidden}
+.ia-banner::before{content:'🤖';position:absolute;right:-10px;top:-10px;font-size:100px;opacity:.1}
+.ia-banner h3{font-size:1rem;font-weight:800;margin-bottom:.3rem}
+.ia-banner p{font-size:.82rem;opacity:.85}
+
+.sugerencia-card{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:1rem 1.2rem;display:flex;gap:.8rem;align-items:flex-start;margin-bottom:.7rem;transition:border-color .2s}
+.sugerencia-card:hover{border-color:#bfdbfe}
+.sugerencia-icon{font-size:1.4rem;flex-shrink:0;margin-top:.1rem}
+.sugerencia-titulo{font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:.2rem}
+.sugerencia-desc{font-size:.78rem;color:var(--muted);line-height:1.55}
+.sugerencia-tag{display:inline-block;font-size:.66rem;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:.4rem}
+
+/* TABLA */
+.data-table{width:100%;border-collapse:collapse;font-size:.82rem}
 .data-table th{text-align:left;font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;padding:.6rem .9rem;border-bottom:1px solid var(--border)}
-.data-table td{padding:.75rem .9rem;border-bottom:1px solid #f1f5f9;color:var(--text);vertical-align:middle}
+.data-table td{padding:.7rem .9rem;border-bottom:1px solid #f1f5f9;color:var(--text);vertical-align:middle}
 .data-table tr:last-child td{border-bottom:none}
 .data-table tr:hover td{background:var(--pri-lt)}
-.qty-control{display:flex;align-items:center;gap:.4rem}
-.qty-btn{width:28px;height:28px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-weight:800;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;font-family:'Plus Jakarta Sans',sans-serif;line-height:1}
-.qty-btn:hover{border-color:var(--pri);color:var(--pri);background:var(--pri-lt)}
-.qty-val{font-weight:700;min-width:24px;text-align:center}
-.btn-quitar{background:#fee2e2;color:#dc2626;border:none;border-radius:8px;padding:.35rem .7rem;font-size:.72rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s}
-.btn-quitar:hover{background:#dc2626;color:#fff}
 
-/* EMPTY STATE */
-.empty-cart{text-align:center;padding:3rem 1rem;color:var(--muted)}
-.empty-cart span{font-size:2.5rem;display:block;margin-bottom:.6rem}
+/* FIDELIDAD */
+.fidelidad-rank{display:flex;align-items:center;gap:.6rem;font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:20px;width:fit-content}
+.rank-oro{background:#fef3c7;color:#d97706}
+.rank-plata{background:#f1f5f9;color:#64748b}
+.rank-bronce{background:#fde8d8;color:#c2410c}
+.rank-nuevo{background:var(--green-lt);color:var(--green)}
 
-/* RESUMEN */
-.resumen-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.4rem 1.6rem;box-shadow:0 1px 4px rgba(0,0,0,.05);position:sticky;top:calc(var(--topbar-h) + 1rem);transition:background .3s,border-color .3s}
-.resumen-row{display:flex;justify-content:space-between;align-items:center;padding:.55rem 0;font-size:.85rem}
-.resumen-row span:first-child{color:var(--muted);font-weight:500}
-.resumen-row span:last-child{font-weight:700;color:var(--text)}
-.resumen-total{display:flex;justify-content:space-between;align-items:center;padding:1rem 0 0;border-top:2px solid var(--border);margin-top:.4rem}
-.resumen-total span:first-child{font-size:1rem;font-weight:800;color:var(--text)}
-.resumen-total span:last-child{font-size:1.6rem;font-weight:800;color:var(--green)}
-.total-box{background:var(--green-lt);border:1.5px solid var(--green-border);border-radius:14px;padding:1rem 1.2rem;margin-bottom:1.2rem;text-align:center}
-.total-box p{font-size:.72rem;font-weight:700;color:var(--green);margin-bottom:.2rem}
-.total-box h3{font-size:2rem;font-weight:800;color:var(--green);line-height:1}
-
-/* BOTONES */
-.btn-pagar{width:100%;background:var(--green);color:#fff;border:none;border-radius:14px;padding:1rem;font-size:.95rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(22,163,74,.3);transition:background .2s,transform .15s;margin-bottom:.7rem}
-.btn-pagar:hover{background:#15803d;transform:translateY(-1px)}
-.btn-pagar:disabled{opacity:.6;cursor:not-allowed;transform:none}
-.btn-vaciar{width:100%;background:#fee2e2;color:#dc2626;border:none;border-radius:12px;padding:.75rem;font-size:.84rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:all .2s}
-.btn-vaciar:hover{background:#dc2626;color:#fff}
-.btn-seguir{width:100%;background:var(--bg);color:var(--muted);border:1.5px solid var(--border);border-radius:12px;padding:.75rem;font-size:.84rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:all .2s;text-decoration:none;display:block;text-align:center;margin-top:.5rem}
-.btn-seguir:hover{border-color:var(--pri);color:var(--pri)}
-
-/* CLIENTE INFO BOX */
-.cliente-box{background:var(--pri-lt);border:1px solid #bfdbfe;border-radius:12px;padding:.8rem 1rem;display:flex;align-items:center;gap:.7rem;margin-top:.6rem}
-.cliente-avatar{width:32px;height:32px;background:var(--pri);border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;flex-shrink:0}
+/* BARRA PROGRESO */
+.prog-bar{width:100%;height:6px;background:#e2e8f0;border-radius:99px;overflow:hidden}
+.prog-fill{height:100%;border-radius:99px;transition:width .8s ease}
 
 /* A11Y */
 .a11y-btn{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:200;background:var(--pri);color:#fff;border:none;border-radius:12px 0 0 12px;padding:.9rem .6rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.66em;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;box-shadow:-3px 0 14px rgba(29,78,216,.2);transition:background .2s,right .35s}
@@ -129,15 +120,15 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 .anim{animation:fadeUp .4s ease both}
 .anim-2{animation:fadeUp .4s .08s ease both}
+.anim-3{animation:fadeUp .4s .16s ease both}
+.anim-4{animation:fadeUp .4s .24s ease both}
 @keyframes pulse-g{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
-@keyframes slideToast{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 
 <div id="sidebar-container"></div>
 
-<!-- TOP BAR -->
 <header class="top-bar">
   <div class="top-brand">
 <div class="top-brand-logo" style="background:transparent;box-shadow:none;padding:2px">
@@ -152,14 +143,12 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
   <div class="topbar-breadcrumb" style="flex:1;padding-left:1.4rem">
     <a href="dashboard.html">Inicio</a>
     <span style="color:var(--border)">›</span>
-    <a href="ventas.html">Ventas</a>
-    <span style="color:var(--border)">›</span>
-    <span style="color:var(--text);font-weight:700">Carrito</span>
+    <span style="color:var(--text);font-weight:700">Reportes</span>
   </div>
   <div class="top-bar-right">
-    <div class="topbar-card" style="border-left:3px solid var(--green)">
-      <p>Productos</p>
-      <p style="color:var(--green)" id="topbar-items">0</p>
+    <div class="topbar-card" style="border-left:3px solid var(--pri)">
+      <p>Período</p>
+      <p style="color:var(--pri)">Este mes</p>
     </div>
     <div class="topbar-card">
       <p>Hoy</p>
@@ -173,108 +162,133 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
   <!-- HEADER -->
   <div class="page-header anim">
     <div>
-      <h1 class="page-title">Carrito de <span>Compras</span></h1>
-      <p class="page-sub">Revisa los productos, selecciona el cliente y procesa el pago.</p>
+      <h1 class="page-title">Reportes y <span>Estadísticas</span></h1>
+      <p class="page-sub">Análisis de ventas, sugerencias inteligentes y programa de fidelidad de clientes.</p>
     </div>
   </div>
 
-  <!-- GRID PRINCIPAL -->
-  <div class="carrito-grid">
-
-    <!-- COLUMNA IZQUIERDA -->
-    <div style="display:flex;flex-direction:column;gap:1.4rem">
-
-      <!-- SELECTOR DE CLIENTE -->
-      <div class="card anim">
-        <p class="section-label">1 — Cliente</p>
-        <select id="clienteSelect" class="form-select" onchange="onClienteChange()">
-          <option value="">⏳ Cargando clientes...</option>
-        </select>
-        <div id="clienteInfo" style="display:none" class="cliente-box">
-          <div class="cliente-avatar" id="clienteAvatar">?</div>
-          <div>
-            <p style="font-size:.82rem;font-weight:700;color:var(--pri)" id="clienteNombre">—</p>
-            <p style="font-size:.72rem;color:var(--muted)" id="clienteDetalle">—</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- PRODUCTOS EN CARRITO -->
-      <div class="card anim-2">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem">
-          <p class="section-label" style="margin:0">2 — Productos agregados</p>
-          <span style="background:var(--pri-lt);color:var(--pri);font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px" id="badge-items">0 artículos</span>
-        </div>
-
-        <div style="overflow-x:auto;border-radius:12px;border:1px solid var(--border)">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Precio unit.</th>
-                <th>Subtotal</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="carritoBody"></tbody>
-          </table>
-        </div>
-      </div>
-
+  <!-- KPIs -->
+  <div class="kpi-grid anim">
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:#dbeafe;color:var(--pri)">💰</div>
+      <div class="kpi-label">Total ventas</div>
+      <div class="kpi-value" id="kpiTotalVentas">—</div>
+      <div class="kpi-sub" id="kpiTotalMonto">Cargando...</div>
     </div>
-
-    <!-- COLUMNA DERECHA: RESUMEN -->
-    <div class="resumen-card anim">
-      <p class="section-label">Resumen del pedido</p>
-
-      <div class="total-box">
-        <p>Total a pagar</p>
-        <h3>$<span id="totalDisplay">0</span></h3>
-      </div>
-
-      <div style="margin-bottom:1rem">
-        <div class="resumen-row">
-          <span>Subtotal</span>
-          <span id="resumen-subtotal">$0</span>
-        </div>
-        <div class="resumen-row">
-          <span>IVA (19%)</span>
-          <span id="resumen-iva">$0</span>
-        </div>
-        <div class="resumen-row">
-          <span>Envío</span>
-          <span style="color:var(--green)">Gratis</span>
-        </div>
-        <div class="resumen-row">
-          <span>Garantía</span>
-          <span>Incluida</span>
-        </div>
-        <div class="resumen-total">
-          <span>TOTAL</span>
-          <span>$<span id="resumen-total">0</span></span>
-        </div>
-      </div>
-
-      <button class="btn-pagar" id="btnPagar" onclick="procesarPago()">
-        ✓ Procesar Pago
-      </button>
-      <button class="btn-vaciar" onclick="vaciarCarrito()">
-        🗑 Vaciar carrito
-      </button>
-      <a href="ventas.html" class="btn-seguir">← Seguir comprando</a>
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:var(--green-lt);color:var(--green)">📦</div>
+      <div class="kpi-label">Productos vendidos</div>
+      <div class="kpi-value" id="kpiProductos">—</div>
+      <div class="kpi-sub" id="kpiProductosSub">unidades</div>
     </div>
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:#fef3c7;color:var(--yellow)">👥</div>
+      <div class="kpi-label">Clientes activos</div>
+      <div class="kpi-value" id="kpiClientes">—</div>
+      <div class="kpi-sub">con compras</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:#ede9fe;color:#7c3aed">📈</div>
+      <div class="kpi-label">Venta promedio</div>
+      <div class="kpi-value" id="kpiPromedio">—</div>
+      <div class="kpi-sub">por transacción</div>
+    </div>
+  </div>
 
+  <!-- GRÁFICAS -->
+  <div class="charts-grid anim-2">
+    <div class="chart-card">
+      <div class="chart-title">📊 Ventas por día (últimos 30 días)</div>
+      <canvas id="chartVentas" height="200"></canvas>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">🏷️ Productos más vendidos</div>
+      <canvas id="chartProductos" height="200"></canvas>
+    </div>
+  </div>
+
+  <!-- IA SUGERENCIAS -->
+  <div class="ia-banner anim-2">
+    <h3>🤖 Análisis Inteligente — Frío Cars AI</h3>
+    <p>Sugerencias basadas en el comportamiento real de tus ventas e inventario.</p>
+  </div>
+
+  <p class="section-label anim-3">Sugerencias de la IA</p>
+  <div id="sugerenciasIA" class="anim-3">
+    <div style="text-align:center;padding:2rem;color:var(--muted)">⏳ Analizando datos...</div>
+  </div>
+
+  <!-- TABLA PRODUCTOS TOP -->
+  <p class="section-label anim-3" style="margin-top:1.8rem">Productos con mayor movimiento</p>
+  <div class="card anim-3" style="margin-bottom:1.8rem;overflow-x:auto">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Producto</th>
+          <th>Unidades vendidas</th>
+          <th>Ingresos generados</th>
+          <th>Stock actual</th>
+          <th>Recomendación</th>
+        </tr>
+      </thead>
+      <tbody id="tablaProductosTop">
+        <tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--muted)">Cargando...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FIDELIDAD -->
+  <p class="section-label anim-4">🏆 Programa de fidelidad de clientes</p>
+  <div class="card anim-4" style="margin-bottom:1rem">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.8rem">
+      <div>
+        <p style="font-size:.9rem;font-weight:800;color:var(--text)">Ranking de clientes frecuentes</p>
+        <p style="font-size:.78rem;color:var(--muted)">Basado en número de compras y monto total gastado</p>
+      </div>
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap;font-size:.72rem">
+        <span class="fidelidad-rank rank-oro">🥇 Oro: 5+ compras</span>
+        <span class="fidelidad-rank rank-plata">🥈 Plata: 3-4 compras</span>
+        <span class="fidelidad-rank rank-bronce">🥉 Bronce: 2 compras</span>
+        <span class="fidelidad-rank rank-nuevo">⭐ Nuevo: 1 compra</span>
+      </div>
+    </div>
+    <div style="overflow-x:auto;border-radius:12px;border:1px solid var(--border)">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Posición</th>
+            <th>Cliente</th>
+            <th>Compras</th>
+            <th>Total gastado</th>
+            <th>Nivel</th>
+            <th>Progreso al siguiente</th>
+            <th>Beneficio sugerido</th>
+          </tr>
+        </thead>
+        <tbody id="tablaFidelidad">
+          <tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--muted)">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- NOTA FIDELIDAD -->
+  <div style="background:var(--pri-lt);border:1px solid #bfdbfe;border-radius:14px;padding:1rem 1.4rem;display:flex;gap:.8rem;align-items:flex-start" class="anim-4">
+    <span style="font-size:1.2rem">💡</span>
+    <div>
+      <p style="font-size:.84rem;font-weight:700;color:var(--pri)">Cómo usar el programa de fidelidad</p>
+      <p style="font-size:.78rem;color:var(--muted);margin-top:.2rem;line-height:1.6">Los clientes nivel Oro con 5+ compras pueden recibir descuentos del 5-10%. Los de Plata un 3-5%. Considera enviarles promociones directas por WhatsApp o correo para incentivar su regreso.</p>
+    </div>
   </div>
 
 </main>
 
-<!-- BOTÓN ACCESIBILIDAD -->
-<button class="a11y-btn" id="aBtn" aria-label="Abrir panel de accesibilidad" aria-expanded="false">
+<!-- A11Y -->
+<button class="a11y-btn" id="aBtn" aria-label="Accesibilidad" aria-expanded="false">
   <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1.8" fill="currentColor" stroke="none"/><path d="M5 8.5h14"/><path d="M12 8.5V14"/><path d="M8.5 14l-2 5.5M15.5 14l2 5.5"/></svg>
   <span style="font-size:.62em;font-weight:700">Acceso</span>
 </button>
-
 <aside id="aPanel" class="a11y-panel" role="complementary" aria-hidden="true">
   <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.4rem;padding-bottom:.9rem;border-bottom:1px solid var(--border)">
     <div><h3 style="font-size:.97rem;font-weight:800;color:var(--text)">Accesibilidad</h3><p style="font-size:.72em;color:var(--muted);margin-top:2px">Personaliza la interfaz</p></div>
@@ -282,8 +296,7 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
   </div>
-  <div style="margin-bottom:1.2rem">
-    <span class="sec-lbl">Tema de colores</span>
+  <div style="margin-bottom:1.2rem"><span class="sec-lbl">Tema de colores</span>
     <div class="temas">
       <button class="tema on" data-t="normal"><div class="tema-p" style="background:linear-gradient(135deg,#f0f4fa 50%,#1d4ed8 50%)"></div>Normal</button>
       <button class="tema" data-t="high-contrast"><div class="tema-p" style="background:linear-gradient(135deg,#fff 50%,#0028b0 50%)"></div>Alto contraste</button>
@@ -292,8 +305,7 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
     </div>
   </div>
   <div class="div-a"></div>
-  <div style="margin-bottom:1.2rem">
-    <span class="sec-lbl">Tamaño de texto</span>
+  <div style="margin-bottom:1.2rem"><span class="sec-lbl">Tamaño de texto</span>
     <div class="font-row">
       <button class="font-b" id="fDec" style="font-size:.84em">A−</button>
       <span style="font-size:.82em;color:var(--muted);min-width:34px;text-align:center" id="fVal">100%</span>
@@ -301,21 +313,18 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
     </div>
   </div>
   <div class="div-a"></div>
-  <div style="margin-bottom:1.2rem">
-    <span class="sec-lbl">Lectura</span>
+  <div style="margin-bottom:1.2rem"><span class="sec-lbl">Lectura</span>
     <div class="tog-row"><span>Líneas amplias</span><label class="tog"><input type="checkbox" id="tLin"><span class="tog-sl"></span></label></div>
   </div>
   <div style="flex:1"></div>
-  <button class="btn-reset" id="bReset">↺ Restablecer ajustes</button>
+  <button class="btn-reset" id="bReset">↺ Restablecer</button>
 </aside>
 
 <script src="../assets/js/sidebar.js"></script>
-<script src="../assets/js/carrito.js"></script>
+<script src="../assets/js/reportes.js"></script>
 <script src="../assets/js/auth.js"></script>
 <script>
-  document.getElementById('today-date').textContent =
-    new Date().toLocaleDateString('es-CO',{weekday:'short',day:'numeric',month:'short'});
-
+  document.getElementById('today-date').textContent = new Date().toLocaleDateString('es-CO',{weekday:'short',day:'numeric',month:'short'});
   const aBtn=document.getElementById('aBtn'),aPanel=document.getElementById('aPanel');
   const openA=()=>{aPanel.classList.add('open');aBtn.classList.add('open');aPanel.setAttribute('aria-hidden','false');aBtn.setAttribute('aria-expanded','true')};
   const closeA=()=>{aPanel.classList.remove('open');aBtn.classList.remove('open');aPanel.setAttribute('aria-hidden','true');aBtn.setAttribute('aria-expanded','false')};
