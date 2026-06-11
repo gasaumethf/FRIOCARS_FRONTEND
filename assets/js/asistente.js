@@ -6,8 +6,7 @@
   if (document.getElementById('fc-siri-root')) return;
 
   const API_BASE  = 'https://friocars-backend.onrender.com/api';
-  const CLAUDE_API = 'https://api.anthropic.com/v1/messages';
-
+  const CLAUDE_API = 'https://friocars-backend.onrender.com/api/asistente/chat';
   let historial      = [];
   let stockProductos = [];
   let expandido      = false;
