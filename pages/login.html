@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login - Frío Cars</title>
+
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/x-icon" href="../assets/Logo/fabicon.ico">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{--pri:#1d4ed8;--pri-h:#1e40af;--pri-lt:#eff6ff;--font-scale:1}
@@ -71,9 +74,20 @@ body.lineas-lectura *{line-height:2.2!important;letter-spacing:.03em!important}
   border:1px solid rgba(255,255,255,.25);border-radius:50px;
   padding:.4rem .85rem .4rem .4rem;width:fit-content;
 }
-.left-logo-pill img{height:26px;width:auto;object-fit:contain;filter:brightness(0) invert(1);}
+.left-logo-pill img{height:26px;
+  width:auto;
+  object-fit:contain; 
+  filter:brightness(0) invert(1);
+}
+
 #lgFbPill{display:none;align-items:center;gap:6px;}
-.pill-icon{width:26px;height:26px;border-radius:50%;background:rgba(29,78,216,.8);display:flex;align-items:center;justify-content:center;}
+.pill-icon{
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  background:rgba(29,78,216,.8);
+  display:flex;align-items:center;
+  justify-content:center;}
 .left-logo-pill-name{font-size:.82rem;font-weight:800;color:#fff;}
 /* Panel info abajo */
 .left-info-box{
@@ -203,7 +217,7 @@ body.lineas-lectura *{line-height:2.2!important;letter-spacing:.03em!important}
     <div class="left-content">
       <!-- Logo pill arriba -->
       <div class="left-logo-pill">
-        <img src="../assets/Logo/Logo2.png" alt="Frío Cars"
+        <img src="../assets/Logo/Logo.png" alt="Frío Cars"
              onerror="this.style.display='none';document.getElementById('lgFbPill').style.display='flex'">
         <div id="lgFbPill">
           <div class="pill-icon">
@@ -228,7 +242,7 @@ body.lineas-lectura *{line-height:2.2!important;letter-spacing:.03em!important}
   <!-- COLUMNA DERECHA — igual que el original -->
   <div class="right-col">
     <div style="margin-bottom:1.4rem;text-align:center">
-      <img src="../assets/Logo/Logo2.png" alt="Frío Cars" style="height:58px;width:auto;display:inline-block"
+      <img src="../assets/Logo/Logo2.png" alt="Frío Cars" style="height:75px;width:auto;display:inline-block"
         onerror="this.style.display='none';document.getElementById('lgFb').style.display='flex'">
       <div id="lgFb" style="display:none;align-items:center;justify-content:center;gap:8px">
         <div style="width:42px;height:42px;background:#1d4ed8;border-radius:10px;display:flex;align-items:center;justify-content:center">
@@ -239,7 +253,7 @@ body.lineas-lectura *{line-height:2.2!important;letter-spacing:.03em!important}
     </div>
 
     <h2 style="font-size:1.6rem;font-weight:800;color:#0f172a;margin-bottom:.25rem;text-align:center">Iniciar Sesión</h2>
-    <p style="font-size:.84em;color:#64748b;margin-bottom:1.7rem;text-align:center">Ingresa tus credenciales para continuar</p>
+    <p style="font-size:.84em;color:#64748b;margin-bottom:1.7rem;text-align:center">Ingrese sus Credenciales para Iniciar</p>
 
     <form id="loginForm" novalidate>
       <div style="margin-bottom:1rem">
