@@ -1,86 +1,85 @@
-<!-- SIDEBAR -->
+<!-- ══════════════════════════════════════
+     FRÍO CARS — sidebar.html
+     Con toggle show/hide + opción Técnicos
+══════════════════════════════════════ -->
 
-<aside
-    class="fixed top-0 left-0 h-screen w-[268px] overflow-y-auto border-r flex flex-col justify-between z-50"
+<aside id="fc-sidebar"
     style="
-        top: 64px;
-        height: calc(100vh - 64px);
-        background: var(--surface);
-        border-color: var(--border);
-        padding: 1.2rem 1rem 1.4rem;
-        transition: background .3s, border-color .3s;
+        position:fixed;top:64px;left:0;
+        height:calc(100vh - 64px);
+        width:268px;
+        background:var(--surface);
+        border-right:1px solid var(--border);
+        display:flex;flex-direction:column;justify-content:space-between;
+        padding:1.2rem 1rem 1.4rem;
+        z-index:50;
+        overflow-y:auto;
+        transition:transform .3s cubic-bezier(.4,0,.2,1), background .3s, border-color .3s;
+        transform:translateX(0);
     ">
 
     <!-- MENU -->
-    <div class="flex-1">
-        <nav style="display:flex;flex-direction:column;gap:.3rem">
+    <div style="flex:1">
+        <nav style="display:flex;flex-direction:column;gap:.25rem">
 
-            <a href="dashboard.html"
-                class="sidebar-link flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300"
-                style="font-size:.875rem;font-weight:500;color:var(--muted);border-radius:14px">
-                <span style="font-size:1.1rem"></span>
+            <a href="dashboard.html" class="sidebar-link" data-page="dashboard.html">
+                <span class="sb-icon"> </span>
                 <span>Inicio</span>
             </a>
 
-            <a href="servicios.html"
-                class="sidebar-link flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300"
-                style="font-size:.875rem;font-weight:500;color:var(--muted);border-radius:14px">
-                <span style="font-size:1.1rem"></span>
+            <a href="servicios.html" class="sidebar-link" data-page="servicios.html">
+                <span class="sb-icon"> </span>
                 <span>Servicios</span>
             </a>
 
-            <a href="ventas.html"
-                class="sidebar-link flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300"
-                style="font-size:.875rem;font-weight:500;color:var(--muted);border-radius:14px">
-                <span style="font-size:1.1rem"></span>
+            <a href="ventas.html" class="sidebar-link" data-page="ventas.html">
+                <span class="sb-icon"> </span>
                 <span>Ventas</span>
             </a>
 
-            <a href="cotizacion.html"
-                class="sidebar-link flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300"
-                style="font-size:.875rem;font-weight:500;color:var(--muted);border-radius:14px">
-                <span style="font-size:1.1rem"></span>
+            <a href="cotizacion.html" class="sidebar-link" data-page="cotizacion.html">
+                <span class="sb-icon"> </span>
                 <span>Cotización</span>
             </a>
 
-            <a href="inventario.html"
-                class="sidebar-link flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300"
-                style="font-size:.875rem;font-weight:500;color:var(--muted);border-radius:14px">
-                <span style="font-size:1.1rem"></span>
+            <a href="inventario.html" class="sidebar-link" data-page="inventario.html">
+                <span class="sb-icon"> </span>
                 <span>Inventario</span>
             </a>
 
-            <a href="clientes.html"
-                class="sidebar-link flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300"
-                style="font-size:.875rem;font-weight:500;color:var(--muted);border-radius:14px">
-                <span style="font-size:1.1rem"></span>
+            <!-- DIVISOR SECCIÓN -->
+            <div style="height:1px;background:var(--border);margin:.6rem .5rem"></div>
+            <p style="font-size:.62rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:.2rem .75rem .3rem">Personas</p>
+
+            <a href="clientes.html" class="sidebar-link" data-page="clientes.html">
+                <span class="sb-icon"> </span>
                 <span>Clientes</span>
             </a>
 
-            <a href="carrito.html"
-                class="sidebar-link relative flex items-center justify-between px-5 py-4 rounded-2xl transition-all duration-300"
-                style="font-size:.875rem;font-weight:500;color:var(--muted);border-radius:14px">
-                <div class="flex items-center gap-4">
-                    <span style="font-size:1.1rem"></span>
-                    <span>Carrito</span>
-                </div>
-                <span id="sidebarCartCount"
-                    class="hidden bg-red-500 text-white text-xs font-bold min-w-[22px] h-[22px] px-2 rounded-full flex items-center justify-center shadow-lg">
-                    0
-                </span>
+            <a href="tecnicos.html" class="sidebar-link" data-page="tecnicos.html">
+                <span class="sb-icon"> </span>
+                <span>Técnicos</span>
             </a>
 
-            <a href="usuarios.html"
-                class="sidebar-link flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300"
-                style="font-size:.875rem;font-weight:500;color:var(--muted);border-radius:14px">
-                <span style="font-size:1.1rem"></span>
+            <!-- DIVISOR SECCIÓN -->
+            <div style="height:1px;background:var(--border);margin:.6rem .5rem"></div>
+            <p style="font-size:.62rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:.2rem .75rem .3rem">Cuenta</p>
+
+            <a href="carrito.html" class="sidebar-link" data-page="carrito.html" style="justify-content:space-between">
+                <div style="display:flex;align-items:center;gap:.9rem">
+                    <span class="sb-icon"> </span>
+                    <span>Carrito</span>
+                </div>
+                <span id="sidebarCartCount" style="display:none;background:#ef4444;color:#fff;font-size:.65rem;font-weight:700;min-width:20px;height:20px;padding:0 6px;border-radius:99px;align-items:center;justify-content:center">0</span>
+            </a>
+
+            <a href="usuarios.html" class="sidebar-link" data-page="usuarios.html">
+                <span class="sb-icon"> </span>
                 <span>Mi Perfil</span>
             </a>
 
-            <a href="reportes.html"
-                class="sidebar-link flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300"
-                style="font-size:.875rem;font-weight:500;color:var(--muted);border-radius:14px">
-                <span style="font-size:1.1rem"></span>
+            <a href="Reportes.html" class="sidebar-link" data-page="Reportes.html">
+                <span class="sb-icon"> </span>
                 <span>Reportes</span>
             </a>
 
@@ -91,40 +90,142 @@
     <div style="height:1px;background:var(--border);margin:.8rem 0"></div>
 
     <!-- LOGOUT -->
-    <a href="#" onclick="logout()"
-        style="
-            display:flex;align-items:center;gap:1rem;
-            color:#ef4444;font-size:.875rem;font-weight:500;
-            padding:.85rem 1.25rem;border-radius:14px;
-            text-decoration:none;
-            transition:all .2s;
-        "
-        onmouseover="this.style.background='rgba(239,68,68,.08)';this.style.color='#dc2626'"
-        onmouseout="this.style.background='transparent';this.style.color='#ef4444'">
+    <a href="#" onclick="logout()" class="sidebar-logout">
         <span style="font-size:1.1rem">⏻</span>
         <span>Cerrar sesión</span>
     </a>
 
 </aside>
 
+<!-- OVERLAY para móvil -->
+<div id="sb-overlay" onclick="toggleSidebar()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:49;top:64px"></div>
+
+<!-- BOTÓN TOGGLE (siempre visible en topbar) -->
+<button id="sb-toggle-btn" onclick="toggleSidebar()" aria-label="Mostrar/ocultar menú"
+    style="
+        position:fixed;top:16px;left:14px;z-index:61;
+        background:none;border:none;cursor:pointer;
+        width:36px;height:36px;border-radius:10px;
+        display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+        padding:6px;
+        transition:background .2s;
+    "
+    onmouseover="this.style.background='var(--pri-lt)'"
+    onmouseout="this.style.background='transparent'">
+    <span class="sb-bar" style="display:block;width:18px;height:2px;background:var(--muted);border-radius:2px;transition:all .3s"></span>
+    <span class="sb-bar" style="display:block;width:18px;height:2px;background:var(--muted);border-radius:2px;transition:all .3s"></span>
+    <span class="sb-bar" style="display:block;width:18px;height:2px;background:var(--muted);border-radius:2px;transition:all .3s"></span>
+</button>
+
 <style>
-/* ── Sidebar links: estado hover y activo usando variables del tema ── */
 .sidebar-link{
+    display:flex;align-items:center;gap:.9rem;
+    padding:.72rem 1rem;border-radius:12px;
+    font-size:.875rem;font-weight:500;color:var(--muted);
     text-decoration:none;
-    transition:background .18s,color .18s,transform .18s;
+    transition:background .18s,color .18s,transform .15s;
+    white-space:nowrap;overflow:hidden;
 }
 .sidebar-link:hover{
     background:var(--pri-lt);
     color:var(--pri)!important;
     transform:translateX(3px);
 }
-/* La clase activa la asigna sidebar.js */
-.sidebar-link.bg-blue-600,
 .sidebar-link[data-active="true"]{
     background:var(--pri)!important;
     color:#fff!important;
     font-weight:700!important;
-    box-shadow:0 4px 14px rgba(29,78,216,.25);
+    box-shadow:0 4px 14px rgba(29,78,216,.22);
     transform:none!important;
 }
+.sb-icon{
+    font-size:1.05rem;
+    flex-shrink:0;
+    width:22px;text-align:center;
+}
+.sidebar-logout{
+    display:flex;align-items:center;gap:1rem;
+    color:#ef4444;font-size:.875rem;font-weight:500;
+    padding:.8rem 1rem;border-radius:12px;
+    text-decoration:none;
+    transition:all .2s;
+}
+.sidebar-logout:hover{background:rgba(239,68,68,.08);color:#dc2626}
+
+/* Estado colapsado */
+#fc-sidebar.collapsed{transform:translateX(-268px)}
+body.sb-collapsed .main-content{margin-left:0!important}
+
+/* Animación hamburger → X */
+#sb-toggle-btn.is-open .sb-bar:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#sb-toggle-btn.is-open .sb-bar:nth-child(2){opacity:0;transform:scaleX(0)}
+#sb-toggle-btn.is-open .sb-bar:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+@media(max-width:900px){
+    #fc-sidebar{transform:translateX(-268px)}
+    #fc-sidebar.mobile-open{transform:translateX(0)!important}
+    body.sb-collapsed .main-content{margin-left:0!important}
+}
 </style>
+
+<script>
+(function(){
+    // ── Estado inicial desde localStorage
+    const isMobile = window.innerWidth <= 900;
+    const savedState = localStorage.getItem('sb-open');
+    const sidebar = document.getElementById('fc-sidebar');
+    const btn     = document.getElementById('sb-toggle-btn');
+    const overlay = document.getElementById('sb-overlay');
+
+    function applyState(open){
+        if(isMobile){
+            if(open){
+                sidebar.classList.add('mobile-open');
+                overlay.style.display = 'block';
+                btn.classList.add('is-open');
+            } else {
+                sidebar.classList.remove('mobile-open');
+                overlay.style.display = 'none';
+                btn.classList.remove('is-open');
+            }
+        } else {
+            if(open){
+                sidebar.classList.remove('collapsed');
+                document.body.classList.remove('sb-collapsed');
+                btn.classList.add('is-open');
+            } else {
+                sidebar.classList.add('collapsed');
+                document.body.classList.add('sb-collapsed');
+                btn.classList.remove('is-open');
+            }
+        }
+        // Ajustar main-content
+        const main = document.querySelector('.main-content');
+        if(main && !isMobile){
+            main.style.marginLeft = open ? '268px' : '0';
+        }
+        localStorage.setItem('sb-open', open ? '1' : '0');
+    }
+
+    // Inicio: abierto por defecto en desktop, cerrado en mobile
+    const startOpen = isMobile ? false : (savedState === null ? true : savedState === '1');
+    applyState(startOpen);
+
+    // Función global
+    window.toggleSidebar = function(){
+        const isOpen = isMobile
+            ? sidebar.classList.contains('mobile-open')
+            : !sidebar.classList.contains('collapsed');
+        applyState(!isOpen);
+    };
+
+    // Activar link actual
+    const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+    document.querySelectorAll('.sidebar-link[data-page]').forEach(function(link){
+        link.removeAttribute('data-active');
+        if(link.dataset.page === currentPage){
+            link.setAttribute('data-active','true');
+        }
+    });
+})();
+</script>
