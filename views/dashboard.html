@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> Frío Cars</title>
+<title>Frío Cars</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="icon" type="image/x-icon" href="../assets/Logo/fabicon.ico">
@@ -27,213 +27,139 @@ body{
   overflow-x:hidden;
   transition:background .3s,color .3s
 }
-
-/* ── TEMAS ── */
 body.high-contrast{background:#fff!important;--border:#000;--muted:#000}
 body.sepia{background:#f5ede0!important;--bg:#f5ede0;--surface:#fffbf3;--border:#d4b896;--pri:#7c4f1e;--pri-lt:#fdf0d8;--text:#3d2008;--muted:#5a3510}
 body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--pri-lt:#1e3a5f;--bg-hover:#263347}
 
-/* ══════════════════════════════════════
-   TOP BAR FIJA
-══════════════════════════════════════ */
+/* ── TOP BAR ── */
 .top-bar{
-  position:fixed;
-  top:0;left:0;right:0;
+  position:fixed;top:0;left:0;right:0;
   height:var(--topbar-h);
   background:var(--surface);
   border-bottom:1px solid var(--border);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+  display:flex;align-items:center;justify-content:space-between;
   padding:0 2.2rem 0 1.4rem;
   z-index:60;
   box-shadow:0 1px 8px rgba(0,0,0,.06);
-  transition:background .3s, border-color .3s
-}
-
-/* Branding (logo + nombre) dentro del topbar — mismo ancho que el sidebar */
-.top-brand{
-  display:flex;
-  align-items:center;
-  gap:.75rem;
-  width:268px;
-  flex-shrink:0;
-  padding-left:.4rem;
-}
-.top-brand-logo{
-  width:40px;height:40px;
-  background:linear-gradient(135deg,#1d4ed8,#38bdf8);
-  border-radius:11px;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 2px 8px rgba(29,78,216,.25);
-  flex-shrink:0;
-}
-.top-brand-logo svg{width:22px;height:22px;color:#fff;stroke:#fff}
-.top-brand-name{
-  font-size:1.12rem;font-weight:800;
-  color:var(--text);line-height:1.1
-}
-.top-brand-name span{color:var(--pri)}
-.top-brand-sub{font-size:.67rem;font-weight:500;color:var(--muted)}
-
-/* Parte derecha del topbar: estado + ventas + fecha */
-.top-bar-right{
-  display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;justify-content:flex-end
-}
-
-/* Status badge en topbar */
-.status-badge{
-  display:inline-flex;align-items:center;gap:6px;
-  background:var(--green-lt);border:1px solid var(--green-border);
-  border-radius:20px;padding:5px 12px;
-  font-size:.72rem;font-weight:700;color:var(--green);
-  flex-shrink:0
-}
-.status-dot{width:7px;height:7px;background:#22c55e;border-radius:50%;animation:pulse-g 2s ease-in-out infinite}
-@keyframes pulse-g{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
-
-/* Mini cards en topbar */
-.topbar-card{
-  background:var(--bg);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:.45rem .9rem;
-  text-align:right;
-  line-height:1.3;
   transition:background .3s,border-color .3s
 }
+.top-brand{display:flex;align-items:center;gap:.75rem;width:268px;flex-shrink:0;padding-left:.4rem}
+.top-brand-logo{width:40px;height:40px;background:linear-gradient(135deg,#1d4ed8,#38bdf8);border-radius:11px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(29,78,216,.25);flex-shrink:0}
+.top-brand-logo svg{width:22px;height:22px;color:#fff;stroke:#fff}
+.top-brand-name{font-size:1.12rem;font-weight:800;color:var(--text);line-height:1.1}
+.top-brand-name span{color:var(--pri)}
+.top-brand-sub{font-size:.67rem;font-weight:500;color:var(--muted)}
+.top-bar-right{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;justify-content:flex-end}
+.status-badge{display:inline-flex;align-items:center;gap:6px;background:var(--green-lt);border:1px solid var(--green-border);border-radius:20px;padding:5px 12px;font-size:.72rem;font-weight:700;color:var(--green);flex-shrink:0}
+.status-dot{width:7px;height:7px;background:#22c55e;border-radius:50%;animation:pulse-g 2s ease-in-out infinite}
+@keyframes pulse-g{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
+.topbar-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:.45rem .9rem;text-align:right;line-height:1.3;transition:background .3s,border-color .3s}
 .topbar-card.green-accent{border-left:3px solid #16a34a}
 .topbar-card p:first-child{font-size:.65rem;font-weight:600;color:var(--muted)}
 .topbar-card p:last-child{font-size:1rem;font-weight:800}
 
 /* ── LAYOUT ── */
-.main-content{
-  margin-left:268px;
-  /* empuja contenido debajo del topbar fijo */
-  padding:calc(var(--topbar-h) + 2rem) 2.2rem 2rem;
-  min-height:100vh;
-  transition:margin-left .3s
-}
-@media(max-width:900px){
-  .main-content{margin-left:0!important;padding:calc(var(--topbar-h) + 1rem) 1rem 1rem}
-  .top-brand{width:auto}
-}
+.main-content{margin-left:268px;padding:calc(var(--topbar-h) + 2rem) 2.2rem 2rem;min-height:100vh;transition:margin-left .3s}
+@media(max-width:900px){.main-content{margin-left:0!important;padding:calc(var(--topbar-h) + 1rem) 1rem 1rem}.top-brand{width:auto}}
 
 /* ── CARD BASE ── */
-.card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:1.4rem 1.6rem;
-  box-shadow:0 1px 4px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.04);
-  transition:transform .2s,box-shadow .2s,background .3s,border-color .3s
-}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.4rem 1.6rem;box-shadow:0 1px 4px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.04);transition:transform .2s,box-shadow .2s,background .3s,border-color .3s}
 .card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.09)}
 
-/* ── HEADER de página (AHORA SIN logo/fecha — esos van al topbar) ── */
-.page-header{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:1.2rem;
-  margin-bottom:2rem;
-  padding-bottom:1.5rem;
-  border-bottom:1px solid var(--border)
-}
+/* ── PAGE HEADER ── */
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
 .page-title{font-size:1.65rem;font-weight:800;color:var(--text);line-height:1.25}
 .page-title span{color:var(--pri)}
 .page-sub{font-size:.84rem;color:var(--muted);margin-top:.25rem}
 
-/* ── KPI CARDS ── */
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1.8rem}
-.kpi-card{
+/* ── KPI GRID ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1.8rem}
+
+/* ── TARJETA CLIENTES (nueva, llamativa) ── */
+.kpi-clientes{
   background:var(--surface);
   border:1px solid var(--border);
-  border-radius:16px;
-  padding:1.2rem 1.4rem;
-  display:flex;flex-direction:column;gap:.5rem;
-  box-shadow:0 1px 4px rgba(0,0,0,.04);
-  transition:background .3s,border-color .3s
+  border-radius:18px;
+  padding:1.4rem 1.5rem;
+  box-shadow:0 1px 4px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.04);
+  transition:transform .2s,box-shadow .2s,background .3s,border-color .3s;
+  position:relative;
+  overflow:hidden;
 }
-.kpi-icon{
-  width:38px;height:38px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0
-}
+.kpi-clientes:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.09)}
+.kpi-clientes-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem}
+.kpi-clientes-icon{width:40px;height:40px;border-radius:11px;background:#dbeafe;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.kpi-clientes-icon svg{width:20px;height:20px;stroke:#1d4ed8}
+.kpi-api-pill{display:inline-flex;align-items:center;gap:5px;font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:99px;transition:all .3s}
+.kpi-api-pill.ok{background:#dcfce7;color:#15803d}
+.kpi-api-pill.err{background:#fee2e2;color:#dc2626}
+.kpi-api-pill.loading{background:#f1f5f9;color:var(--muted)}
+.kpi-api-dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+.kpi-clientes-number{font-size:2.4rem;font-weight:800;line-height:1;color:var(--text);font-variant-numeric:tabular-nums;margin-bottom:.2rem}
+.kpi-clientes-label{font-size:.73rem;font-weight:600;color:var(--muted);margin-bottom:.9rem}
+.kpi-clientes-divider{height:1px;background:var(--border);margin-bottom:.85rem}
+.kpi-mini-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-bottom:.85rem}
+.kpi-mini-stat{background:var(--bg);border-radius:10px;padding:.5rem .6rem}
+.kpi-mini-stat-val{font-size:1.1rem;font-weight:800;color:var(--text)}
+.kpi-mini-stat-lbl{font-size:.65rem;font-weight:600;color:var(--muted);margin-top:1px}
+.kpi-clientes-trend-row{display:flex;align-items:center;justify-content:space-between}
+.kpi-trend-chip{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:99px}
+.kpi-trend-chip.up{background:#dcfce7;color:#15803d}
+.kpi-trend-chip.neu{background:#f1f5f9;color:var(--muted)}
+.kpi-trend-chip.down{background:#fee2e2;color:#dc2626}
+.kpi-mini-bars{display:flex;align-items:flex-end;gap:2px;height:26px}
+.kpi-mini-bar{width:8px;border-radius:2px 2px 0 0;background:#bfdbfe;transition:height .5s ease}
+.kpi-mini-bar.cur{background:#1d4ed8}
+.kpi-refresh-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:3px 6px;border-radius:7px;font-size:.7rem;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;display:inline-flex;align-items:center;gap:3px;transition:all .2s}
+.kpi-refresh-btn:hover{color:var(--pri);background:var(--pri-lt)}
+.kpi-refresh-btn svg{width:12px;height:12px;stroke:currentColor}
+
+/* ── KPI CARDS normales ── */
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.2rem 1.4rem;display:flex;flex-direction:column;gap:.5rem;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:background .3s,border-color .3s}
+.kpi-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .kpi-icon svg{width:18px;height:18px}
 .kpi-label{font-size:.73rem;font-weight:600;color:var(--muted)}
 .kpi-value{font-size:1.75rem;font-weight:800;line-height:1;color:var(--text)}
 .kpi-change{font-size:.72rem;font-weight:600}
 .kpi-change.up{color:#16a34a}
-.kpi-change.down{color:#dc2626}
 .kpi-change.neu{color:var(--muted)}
 
-/* ── MÓDULOS GRID ── */
-.modules-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:1rem;
-  margin-bottom:1.8rem
-}
-.module-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:1.4rem 1.5rem;
-  display:flex;flex-direction:column;gap:.8rem;
-  text-decoration:none;color:inherit;
-  transition:transform .2s,box-shadow .2s,border-color .2s,background .3s
-}
+/* ── MÓDULOS ── */
+.modules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:1.8rem}
+.module-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.4rem 1.5rem;display:flex;flex-direction:column;gap:.8rem;text-decoration:none;color:inherit;transition:transform .2s,box-shadow .2s,border-color .2s,background .3s}
 .module-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.1)}
-.module-icon{
-  width:46px;height:46px;border-radius:13px;
-  display:flex;align-items:center;justify-content:center;
-  transition:transform .2s
-}
+.module-icon{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;transition:transform .2s}
 .module-card:hover .module-icon{transform:scale(1.08)}
 .module-icon svg{width:22px;height:22px}
 .module-title{font-size:.97rem;font-weight:800;color:var(--text)}
 .module-desc{font-size:.78rem;color:var(--muted);line-height:1.55;flex:1}
-.module-cta{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:.78rem;font-weight:700;
-  padding:.5rem .9rem;border-radius:9px;
-  transition:all .18s;width:fit-content
-}
-
-/* ── COLORES MÓDULOS ── */
-.mod-blue  .module-icon{background:#dbeafe;color:#1d4ed8}
-.mod-blue  .module-cta{background:#eff6ff;color:#1d4ed8}
-.mod-blue  .module-cta:hover{background:#1d4ed8;color:#fff}
+.module-cta{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;padding:.5rem .9rem;border-radius:9px;transition:all .18s;width:fit-content}
+.mod-blue .module-icon{background:#dbeafe;color:#1d4ed8}
+.mod-blue .module-cta{background:#eff6ff;color:#1d4ed8}
+.mod-blue .module-cta:hover{background:#1d4ed8;color:#fff}
 .mod-blue:hover{border-color:#bfdbfe}
 .mod-green .module-icon{background:#dcfce7;color:#16a34a}
 .mod-green .module-cta{background:#f0fdf4;color:#16a34a}
 .mod-green .module-cta:hover{background:#16a34a;color:#fff}
 .mod-green:hover{border-color:#bbf7d0}
-.mod-sky   .module-icon{background:#e0f2fe;color:#0284c7}
-.mod-sky   .module-cta{background:#f0f9ff;color:#0284c7}
-.mod-sky   .module-cta:hover{background:#0284c7;color:#fff}
+.mod-sky .module-icon{background:#e0f2fe;color:#0284c7}
+.mod-sky .module-cta{background:#f0f9ff;color:#0284c7}
+.mod-sky .module-cta:hover{background:#0284c7;color:#fff}
 .mod-sky:hover{border-color:#bae6fd}
 .mod-amber .module-icon{background:#fef3c7;color:#d97706}
 .mod-amber .module-cta{background:#fffbeb;color:#d97706}
 .mod-amber .module-cta:hover{background:#d97706;color:#fff}
 .mod-amber:hover{border-color:#fde68a}
 
-/* ── PANEL SISTEMA + GRÁFICA ── */
+/* ── BOTTOM GRID ── */
 .bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.8rem}
 @media(max-width:768px){.bottom-grid{grid-template-columns:1fr}}
-
 .progress-bar{width:100%;height:8px;background:#e2e8f0;border-radius:99px;overflow:hidden;margin-top:.35rem}
 .progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#1d4ed8,#38bdf8);transition:width .8s ease}
 
 /* ── TABLA ── */
 .data-table{width:100%;border-collapse:collapse;font-size:.82rem}
-.data-table th{
-  text-align:left;font-size:.68rem;font-weight:700;
-  color:var(--muted);text-transform:uppercase;letter-spacing:.07em;
-  padding:.55rem .8rem;border-bottom:1px solid var(--border)
-}
+.data-table th{text-align:left;font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;padding:.55rem .8rem;border-bottom:1px solid var(--border)}
 .data-table td{padding:.65rem .8rem;border-bottom:1px solid #f1f5f9;color:var(--text)}
 .data-table tr:last-child td{border-bottom:none}
 .data-table tr:hover td{background:var(--pri-lt)}
@@ -242,47 +168,19 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 .tag-pend{background:#fef3c7;color:#b45309}
 .tag-cancel{background:#fee2e2;color:#dc2626}
 
-/* ── BOTÓN ACCESIBILIDAD ── */
-.a11y-btn{
-  position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:200;
-  background:var(--pri);color:#fff;border:none;
-  border-radius:12px 0 0 12px;
-  padding:.9rem .6rem;cursor:pointer;
-  display:flex;flex-direction:column;align-items:center;gap:4px;
-  font-size:.66em;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;
-  box-shadow:-3px 0 14px rgba(29,78,216,.2);
-  transition:background .2s,right .35s
-}
+/* ── ACCESIBILIDAD ── */
+.a11y-btn{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:200;background:var(--pri);color:#fff;border:none;border-radius:12px 0 0 12px;padding:.9rem .6rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.66em;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;box-shadow:-3px 0 14px rgba(29,78,216,.2);transition:background .2s,right .35s}
 .a11y-btn:hover{background:var(--pri-h)}
 .a11y-btn.open{right:292px}
-
-.a11y-panel{
-  position:fixed;right:-300px;top:0;height:100%;width:292px;
-  background:var(--surface);border-left:1.5px solid var(--border);
-  z-index:199;display:flex;flex-direction:column;
-  padding:1.8rem 1.4rem;
-  box-shadow:-8px 0 30px rgba(0,0,0,.07);
-  transition:right .35s cubic-bezier(.4,0,.2,1);
-  overflow-y:auto
-}
+.a11y-panel{position:fixed;right:-300px;top:0;height:100%;width:292px;background:var(--surface);border-left:1.5px solid var(--border);z-index:199;display:flex;flex-direction:column;padding:1.8rem 1.4rem;box-shadow:-8px 0 30px rgba(0,0,0,.07);transition:right .35s cubic-bezier(.4,0,.2,1);overflow-y:auto}
 .a11y-panel.open{right:0}
 .sec-lbl{display:block;font-size:.71em;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.09em;margin-bottom:.6rem}
 .temas{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
-.tema{
-  display:flex;flex-direction:column;align-items:center;gap:5px;
-  padding:.5rem .3rem;border-radius:9px;border:1.5px solid var(--border);
-  background:var(--pri-lt);cursor:pointer;
-  font-size:.72em;color:var(--muted);
-  font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;transition:all .2s
-}
+.tema{display:flex;flex-direction:column;align-items:center;gap:5px;padding:.5rem .3rem;border-radius:9px;border:1.5px solid var(--border);background:var(--pri-lt);cursor:pointer;font-size:.72em;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;transition:all .2s}
 .tema:hover,.tema.on{border-color:var(--pri);background:var(--pri-lt);color:var(--pri);font-weight:700}
 .tema-p{width:34px;height:20px;border-radius:5px;border:1px solid rgba(0,0,0,.07)}
 .font-row{display:flex;align-items:center;gap:.4rem}
-.font-b{
-  flex:1;padding:.5rem;border-radius:9px;border:1.5px solid var(--border);
-  background:var(--pri-lt);cursor:pointer;color:var(--muted);
-  font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;transition:all .2s
-}
+.font-b{flex:1;padding:.5rem;border-radius:9px;border:1.5px solid var(--border);background:var(--pri-lt);cursor:pointer;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;transition:all .2s}
 .font-b:hover{border-color:var(--pri);background:var(--pri-lt);color:var(--pri)}
 .tog-row{display:flex;align-items:center;justify-content:space-between;padding:.4rem 0}
 .tog-row span{font-size:.83em;color:var(--text)}
@@ -296,38 +194,33 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 .btn-reset:hover{border-color:#dc2626;color:#dc2626;background:#fff5f5}
 .div-a{height:1px;background:var(--border);margin:.75rem 0 1.1rem}
 
-/* ── ANIMACIÓN ── */
+/* ── ANIMACIONES ── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 .anim{animation:fadeUp .4s ease both}
 .anim-2{animation:fadeUp .4s .08s ease both}
 .anim-3{animation:fadeUp .4s .16s ease both}
 .anim-4{animation:fadeUp .4s .24s ease both}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin .7s linear infinite}
 </style>
 </head>
 <body>
 
-<!-- SIDEBAR (inyectado por sidebar.js) -->
+<!-- SIDEBAR -->
 <div id="sidebar-container"></div>
 
-<!-- ══════════════════════════════════════
-     TOP BAR FIJA — logo + branding + info
-══════════════════════════════════════ -->
+<!-- TOP BAR -->
 <header class="top-bar">
-  <!-- Branding izquierda -->
   <div class="top-brand">
-<div class="top-brand-logo" style="background:transparent;box-shadow:none">
-  <img src="../assets/Logo/Logo2.png" alt="Logo Frío Cars" style="width:40px;height:40px;object-fit:contain">
-</div>
+    <div class="top-brand-logo" style="background:transparent;box-shadow:none">
+      <img src="../assets/Logo/Logo2.png" alt="Logo Frío Cars" style="width:40px;height:40px;object-fit:contain">
+    </div>
     <div>
       <div class="top-brand-name">Frío <span>Cars</span></div>
       <div class="top-brand-sub">Sistema Automotriz</div>
     </div>
   </div>
-
-  <!-- Divisor vertical -->
   <div style="width:1px;height:36px;background:var(--border);flex-shrink:0"></div>
-
-  <!-- Derecha: badge + ventas + fecha -->
   <div class="top-bar-right">
     <div class="status-badge">
       <div class="status-dot"></div>
@@ -347,7 +240,7 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 <!-- CONTENIDO PRINCIPAL -->
 <main class="main-content">
 
-  <!-- HEADER de bienvenida (sin badge ni fecha, esos ya están arriba) -->
+  <!-- HEADER -->
   <div class="page-header anim">
     <div>
       <h1 class="page-title">Bienvenido <span>Frío Cars</span></h1>
@@ -357,14 +250,67 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 
   <!-- KPI ROW -->
   <div class="kpi-grid anim-2">
-    <div class="kpi-card">
-      <div class="kpi-icon" style="background:#dbeafe;color:#1d4ed8">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+
+    <!-- ✅ TARJETA CLIENTES MEJORADA -->
+    <div class="kpi-clientes">
+      <div class="kpi-clientes-top">
+        <div class="kpi-clientes-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div id="cli-api-pill" class="kpi-api-pill loading">
+          <span class="kpi-api-dot"></span>
+          <span id="cli-api-text">Conectando...</span>
+        </div>
       </div>
-      <div class="kpi-label">Clientes registrados</div>
-      <div class="kpi-value" id="totalClientes">—</div>
-      <div class="kpi-change neu">Cargando...</div>
+
+      <div id="cli-number" class="kpi-clientes-number">—</div>
+      <div class="kpi-clientes-label">Clientes registrados en el sistema</div>
+
+      <div class="kpi-clientes-divider"></div>
+
+      <div class="kpi-mini-stats">
+        <div class="kpi-mini-stat">
+          <div class="kpi-mini-stat-val" id="cli-stat-mes">—</div>
+          <div class="kpi-mini-stat-lbl">Este mes</div>
+        </div>
+        <div class="kpi-mini-stat">
+          <div class="kpi-mini-stat-val" id="cli-stat-vehiculos">—</div>
+          <div class="kpi-mini-stat-lbl">Con vehículo</div>
+        </div>
+        <div class="kpi-mini-stat">
+          <div class="kpi-mini-stat-val" id="cli-stat-ciudades">—</div>
+          <div class="kpi-mini-stat-lbl">Ciudades</div>
+        </div>
+      </div>
+
+      <div class="kpi-clientes-trend-row">
+        <div id="cli-trend" class="kpi-trend-chip neu">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Calculando...
+        </div>
+        <div style="display:flex;align-items:center;gap:.5rem">
+          <div class="kpi-mini-bars" id="cli-bars">
+            <div class="kpi-mini-bar" style="height:35%"></div>
+            <div class="kpi-mini-bar" style="height:50%"></div>
+            <div class="kpi-mini-bar" style="height:42%"></div>
+            <div class="kpi-mini-bar" style="height:65%"></div>
+            <div class="kpi-mini-bar" style="height:58%"></div>
+            <div class="kpi-mini-bar cur" style="height:75%"></div>
+          </div>
+          <button class="kpi-refresh-btn" id="cli-refresh-btn" title="Actualizar datos">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            Actualizar
+          </button>
+        </div>
+      </div>
     </div>
+    <!-- FIN tarjeta clientes -->
+
+    <!-- Tarjeta: Productos activos -->
     <div class="kpi-card">
       <div class="kpi-icon" style="background:#dcfce7;color:#16a34a">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
@@ -373,6 +319,8 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
       <div class="kpi-value">350+</div>
       <div class="kpi-change up">↑ 12 este mes</div>
     </div>
+
+    <!-- Tarjeta: Ventas del mes -->
     <div class="kpi-card">
       <div class="kpi-icon" style="background:#fef3c7;color:#d97706">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
@@ -381,6 +329,8 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
       <div class="kpi-value">$48.2M</div>
       <div class="kpi-change up">↑ 8.4% vs mes anterior</div>
     </div>
+
+    <!-- Tarjeta: Rendimiento sistema -->
     <div class="kpi-card">
       <div class="kpi-icon" style="background:#ede9fe;color:#7c3aed">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
@@ -389,7 +339,9 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
       <div class="kpi-value">94%</div>
       <div class="kpi-change up">↑ Todos los módulos OK</div>
     </div>
+
   </div>
+  <!-- FIN KPI ROW -->
 
   <!-- MÓDULOS -->
   <p style="font-size:.73rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.8rem" class="anim-3">Acceso rápido</p>
@@ -475,9 +427,7 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
       </div>
       <table class="data-table">
         <thead>
-          <tr>
-            <th>Cliente</th><th>Producto</th><th>Valor</th><th>Estado</th>
-          </tr>
+          <tr><th>Cliente</th><th>Producto</th><th>Valor</th><th>Estado</th></tr>
         </thead>
         <tbody>
           <tr><td style="font-weight:600">Carlos M.</td><td>Compresor AC</td><td style="font-weight:700;color:#16a34a">$320k</td><td><span class="tag tag-ok">Pagado</span></td></tr>
@@ -540,82 +490,202 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 <script src="../assets/js/sidebar.js"></script>
 <script src="../assets/js/auth.js"></script>
 <script src="../assets/js/asistente.js"></script>
+
 <script>
-  // ── Fecha actual
-  const d = new Date();
-  document.getElementById('today-date').textContent =
-    d.toLocaleDateString('es-CO', { weekday:'short', day:'numeric', month:'short' });
+/* ── Fecha actual ── */
+const d = new Date();
+document.getElementById('today-date').textContent =
+  d.toLocaleDateString('es-CO', { weekday:'short', day:'numeric', month:'short' });
 
-  // ── Cargar clientes
-  async function cargarTotalClientes() {
-    try {
-      const res = await fetch('http://localhost:8000/api/clientes');
-      const data = await res.json();
-      const el = document.getElementById('totalClientes');
-      el.textContent = data.length;
-      el.closest('.kpi-card').querySelector('.kpi-change').textContent = data.length + ' clientes en total';
-      el.closest('.kpi-card').querySelector('.kpi-change').className = 'kpi-change up';
-    } catch (_) {
-      document.getElementById('totalClientes').textContent = '—';
+/* ══════════════════════════════════════
+   TARJETA CLIENTES — lógica de datos
+══════════════════════════════════════ */
+const API_CLIENTES = 'http://localhost:8000/api/clientes';
+
+function countUp(el, target, duration) {
+  duration = duration || 800;
+  const start = Date.now();
+  const tick = function() {
+    const p = Math.min((Date.now() - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(ease * target).toLocaleString('es-CO');
+    if (p < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
+function actualizarTarjetaClientes(clientes) {
+  const total = clientes.length;
+
+  /* conteos por mes */
+  const ahora   = new Date();
+  const mesAct  = ahora.getMonth();
+  const anioAct = ahora.getFullYear();
+  const mesAnt  = mesAct === 0 ? 11 : mesAct - 1;
+  const anioAnt = mesAct === 0 ? anioAct - 1 : anioAct;
+
+  const esMesActual = function(c) {
+    if (!c.fecha_registro) return false;
+    const f = new Date(c.fecha_registro);
+    return f.getMonth() === mesAct && f.getFullYear() === anioAct;
+  };
+  const esMesAnterior = function(c) {
+    if (!c.fecha_registro) return false;
+    const f = new Date(c.fecha_registro);
+    return f.getMonth() === mesAnt && f.getFullYear() === anioAnt;
+  };
+
+  const esteMes   = clientes.filter(esMesActual).length;
+  const mesAnterior = clientes.filter(esMesAnterior).length;
+  const conVehiculo = clientes.filter(function(c) {
+    return c.vehiculo || c.placa || c.marca;
+  }).length;
+  const ciudadesSet = new Set(
+    clientes.map(function(c) { return c.ciudad || ''; }).filter(Boolean)
+  );
+  const numCiudades = ciudadesSet.size || '—';
+
+  /* número principal con animación */
+  const numEl = document.getElementById('cli-number');
+  numEl.textContent = '0';
+  countUp(numEl, total);
+
+  /* mini stats */
+  document.getElementById('cli-stat-mes').textContent      = esteMes;
+  document.getElementById('cli-stat-vehiculos').textContent = conVehiculo || '—';
+  document.getElementById('cli-stat-ciudades').textContent  = numCiudades;
+
+  /* pill de estado API */
+  const pill = document.getElementById('cli-api-pill');
+  pill.className = 'kpi-api-pill ok';
+  document.getElementById('cli-api-text').textContent = 'API conectada';
+
+  /* chip de tendencia */
+  const chip = document.getElementById('cli-trend');
+  if (mesAnterior > 0) {
+    const diff = esteMes - mesAnterior;
+    const pct  = Math.round(Math.abs(diff / mesAnterior * 100));
+    if (diff >= 0) {
+      chip.className = 'kpi-trend-chip up';
+      chip.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> +' + pct + '% vs mes anterior';
+    } else {
+      chip.className = 'kpi-trend-chip down';
+      chip.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg> −' + pct + '% vs mes anterior';
     }
+  } else {
+    chip.className = 'kpi-trend-chip neu';
+    chip.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg> ' + esteMes + ' nuevos este mes';
   }
-  cargarTotalClientes();
 
-  // ── Panel accesibilidad
-  const aBtn = document.getElementById('aBtn');
-  const aPanel = document.getElementById('aPanel');
-  const openA = () => { aPanel.classList.add('open'); aBtn.classList.add('open'); aPanel.setAttribute('aria-hidden','false'); aBtn.setAttribute('aria-expanded','true') };
-  const closeA = () => { aPanel.classList.remove('open'); aBtn.classList.remove('open'); aPanel.setAttribute('aria-hidden','true'); aBtn.setAttribute('aria-expanded','false') };
-  aBtn.addEventListener('click', () => aPanel.classList.contains('open') ? closeA() : openA());
-  document.getElementById('aClose').addEventListener('click', closeA);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeA() });
+  /* barra actual resaltada con altura proporcional al total */
+  const bars = document.querySelectorAll('#cli-bars .kpi-mini-bar');
+  const lastBar = bars[bars.length - 1];
+  lastBar.style.height = '100%';
+}
 
-  // ── Temas
-  const temas = ['normal','high-contrast','sepia','soft-dark'];
-  let tema = localStorage.getItem('a11y-tema') || 'normal';
-  function setTema(t) {
-    temas.forEach(x => document.body.classList.remove(x));
-    if (t !== 'normal') document.body.classList.add(t);
-    tema = t;
-    localStorage.setItem('a11y-tema', t);
-    document.querySelectorAll('.tema').forEach(b => {
-      const a = b.dataset.t === t;
-      b.classList.toggle('on', a);
-      b.setAttribute('aria-pressed', a ? 'true' : 'false');
-    });
+function mostrarErrorClientes() {
+  const pill = document.getElementById('cli-api-pill');
+  pill.className = 'kpi-api-pill err';
+  document.getElementById('cli-api-text').textContent = 'Backend offline';
+
+  document.getElementById('cli-number').textContent = '—';
+
+  const chip = document.getElementById('cli-trend');
+  chip.className = 'kpi-trend-chip neu';
+  chip.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55M5 5a10.9 10.9 0 0 0-1.956 2.428M10.5 13.5l-1 1"/></svg> Sin conexión';
+}
+
+function resetLoadingClientes() {
+  document.getElementById('cli-number').textContent = '—';
+  const pill = document.getElementById('cli-api-pill');
+  pill.className = 'kpi-api-pill loading';
+  document.getElementById('cli-api-text').textContent = 'Conectando...';
+  const chip = document.getElementById('cli-trend');
+  chip.className = 'kpi-trend-chip neu';
+  chip.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg> Calculando...';
+}
+
+async function cargarClientes() {
+  resetLoadingClientes();
+  const btn = document.getElementById('cli-refresh-btn');
+  btn.querySelector('svg').classList.add('spin');
+  btn.disabled = true;
+
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(function() { ctrl.abort(); }, 5000);
+    const res   = await fetch(API_CLIENTES, { signal: ctrl.signal });
+    clearTimeout(timer);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    actualizarTarjetaClientes(data);
+  } catch (e) {
+    mostrarErrorClientes();
+  } finally {
+    btn.querySelector('svg').classList.remove('spin');
+    btn.disabled = false;
   }
-  document.querySelectorAll('.tema').forEach(b => b.addEventListener('click', () => setTema(b.dataset.t)));
-  setTema(tema);
+}
 
-  // ── Escala texto
-  let esc = parseFloat(localStorage.getItem('a11y-esc') || '1');
-  const fVal = document.getElementById('fVal');
-  function setEsc(v) {
-    esc = Math.min(1.5, Math.max(.75, parseFloat(v.toFixed(2))));
-    document.documentElement.style.setProperty('--font-scale', esc);
-    fVal.textContent = Math.round(esc * 100) + '%';
-    localStorage.setItem('a11y-esc', esc);
-  }
-  document.getElementById('fInc').addEventListener('click', () => setEsc(esc + .1));
-  document.getElementById('fDec').addEventListener('click', () => setEsc(esc - .1));
-  setEsc(esc);
+document.getElementById('cli-refresh-btn').addEventListener('click', cargarClientes);
+cargarClientes();
 
-  // ── Líneas amplias
-  const tLin = document.getElementById('tLin');
-  const linS = localStorage.getItem('a11y-lin') === 'true';
-  tLin.checked = linS;
-  if (linS) document.body.style.lineHeight = '2.2';
-  tLin.addEventListener('change', () => {
-    document.body.style.lineHeight = tLin.checked ? '2.2' : '';
-    localStorage.setItem('a11y-lin', tLin.checked);
+/* ══════════════════════════════════════
+   PANEL ACCESIBILIDAD
+══════════════════════════════════════ */
+const aBtn = document.getElementById('aBtn');
+const aPanel = document.getElementById('aPanel');
+const openA  = function() { aPanel.classList.add('open'); aBtn.classList.add('open'); aPanel.setAttribute('aria-hidden','false'); aBtn.setAttribute('aria-expanded','true'); };
+const closeA = function() { aPanel.classList.remove('open'); aBtn.classList.remove('open'); aPanel.setAttribute('aria-hidden','true'); aBtn.setAttribute('aria-expanded','false'); };
+aBtn.addEventListener('click', function() { aPanel.classList.contains('open') ? closeA() : openA(); });
+document.getElementById('aClose').addEventListener('click', closeA);
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeA(); });
+
+/* Temas */
+const temas = ['normal','high-contrast','sepia','soft-dark'];
+let tema = localStorage.getItem('a11y-tema') || 'normal';
+function setTema(t) {
+  temas.forEach(function(x) { document.body.classList.remove(x); });
+  if (t !== 'normal') document.body.classList.add(t);
+  tema = t;
+  localStorage.setItem('a11y-tema', t);
+  document.querySelectorAll('.tema').forEach(function(b) {
+    const a = b.dataset.t === t;
+    b.classList.toggle('on', a);
+    b.setAttribute('aria-pressed', a ? 'true' : 'false');
   });
+}
+document.querySelectorAll('.tema').forEach(function(b) { b.addEventListener('click', function() { setTema(b.dataset.t); }); });
+setTema(tema);
 
-  // ── Reset
-  document.getElementById('bReset').addEventListener('click', () => {
-    setTema('normal'); setEsc(1); tLin.checked = false;
-    document.body.style.lineHeight = '';
-    ['a11y-tema','a11y-esc','a11y-lin'].forEach(k => localStorage.removeItem(k));
-  });
+/* Escala texto */
+let esc = parseFloat(localStorage.getItem('a11y-esc') || '1');
+const fVal = document.getElementById('fVal');
+function setEsc(v) {
+  esc = Math.min(1.5, Math.max(.75, parseFloat(v.toFixed(2))));
+  document.documentElement.style.setProperty('--font-scale', esc);
+  fVal.textContent = Math.round(esc * 100) + '%';
+  localStorage.setItem('a11y-esc', esc);
+}
+document.getElementById('fInc').addEventListener('click', function() { setEsc(esc + .1); });
+document.getElementById('fDec').addEventListener('click', function() { setEsc(esc - .1); });
+setEsc(esc);
+
+/* Líneas amplias */
+const tLin = document.getElementById('tLin');
+tLin.checked = localStorage.getItem('a11y-lin') === 'true';
+if (tLin.checked) document.body.style.lineHeight = '2.2';
+tLin.addEventListener('change', function() {
+  document.body.style.lineHeight = tLin.checked ? '2.2' : '';
+  localStorage.setItem('a11y-lin', tLin.checked);
+});
+
+/* Reset */
+document.getElementById('bReset').addEventListener('click', function() {
+  setTema('normal'); setEsc(1); tLin.checked = false;
+  document.body.style.lineHeight = '';
+  ['a11y-tema','a11y-esc','a11y-lin'].forEach(function(k) { localStorage.removeItem(k); });
+});
 </script>
 
 </body>
