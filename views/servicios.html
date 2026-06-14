@@ -22,9 +22,8 @@ body.high-contrast{background:#fff!important;--border:#000;--muted:#000}
 body.sepia{background:#f5ede0!important;--bg:#f5ede0;--surface:#fffbf3;--border:#d4b896;--pri:#7c4f1e;--pri-lt:#fdf0d8;--text:#3d2008;--muted:#5a3510}
 body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--pri-lt:#1e3a5f}
 
-/* ── TOP BAR ── */
 .top-bar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2.2rem 0 1.4rem;z-index:60;box-shadow:0 1px 8px rgba(0,0,0,.06);transition:background .3s,border-color .3s}
-.top-brand{display:flex;align-items:center;gap:.75rem;width:268px;flex-shrink:0;padding-left:.4rem}
+.top-brand{display:flex;align-items:center;gap:.75rem;width:268px;flex-shrink:0;padding-left:3rem}
 .top-brand-name{font-size:1.12rem;font-weight:800;color:var(--text);line-height:1.1}
 .top-brand-name span{color:var(--pri)}
 .top-brand-sub{font-size:.67rem;font-weight:500;color:var(--muted)}
@@ -34,19 +33,15 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 .topbar-card p:last-child{font-size:1rem;font-weight:800}
 .topbar-breadcrumb{display:flex;align-items:center;gap:.5rem;font-size:.78rem;font-weight:600;color:var(--muted)}
 .topbar-breadcrumb a{color:var(--pri);text-decoration:none}
-.topbar-breadcrumb a:hover{text-decoration:underline}
 
-/* ── LAYOUT ── */
 .main-content{margin-left:268px;padding:calc(var(--topbar-h) + 2rem) 2.2rem 2rem;min-height:100vh;transition:margin-left .3s}
-@media(max-width:900px){.main-content{margin-left:0!important;padding:calc(var(--topbar-h)+1rem) 1rem 1rem}.top-brand{width:auto}}
+@media(max-width:900px){.main-content{margin-left:0!important;padding:calc(var(--topbar-h)+1rem) 1rem 1rem}.top-brand{width:auto;padding-left:3rem}}
 
-/* ── PAGE HEADER ── */
 .page-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
 .page-title{font-size:1.65rem;font-weight:800;color:var(--text);line-height:1.25}
 .page-title span{color:var(--pri)}
 .page-sub{font-size:.84rem;color:var(--muted);margin-top:.25rem}
 
-/* ── TALLER BADGE ── */
 .taller-badge{display:flex;flex-direction:column;gap:.3rem;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:.9rem 1.3rem;box-shadow:0 2px 12px rgba(0,0,0,.05);flex-shrink:0}
 .taller-badge p{font-size:.7rem;font-weight:600;color:var(--muted)}
 .taller-badge-inner{display:flex;align-items:center;gap:.5rem}
@@ -54,58 +49,60 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 @keyframes pulse-g{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
 .taller-badge span{font-size:.88rem;font-weight:700;color:var(--text)}
 
-/* ── HERO ── */
 .hero-banner{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--pri) 0%,#0284c7 100%);border-radius:20px;padding:2rem 2.4rem;margin-bottom:2rem;color:#fff;box-shadow:0 8px 32px rgba(29,78,216,.2)}
 .hero-banner::before{content:'❄';position:absolute;right:-20px;top:-20px;font-size:160px;opacity:.07;line-height:1}
 .hero-banner h2{font-size:1.4rem;font-weight:800;margin-bottom:.5rem}
 .hero-banner p{font-size:.88rem;opacity:.88;max-width:600px;line-height:1.65}
 
-/* ── SECCIÓN ÓRDENES ACTIVAS ── */
+/* ÓRDENES */
 .ordenes-section{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:1.6rem;margin-bottom:2rem;box-shadow:0 1px 4px rgba(0,0,0,.05)}
 .ordenes-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.8rem}
 .ordenes-section-title{display:flex;align-items:center;gap:.7rem;font-size:1rem;font-weight:800;color:var(--text)}
 .ordenes-count-badge{background:#dbeafe;color:#1d4ed8;border-radius:99px;padding:2px 10px;font-size:.75rem;font-weight:800;display:none}
 .btn-nueva-orden{display:inline-flex;align-items:center;gap:.5rem;background:var(--pri);color:#fff;border:none;border-radius:12px;padding:.6rem 1.1rem;font-size:.84rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:background .2s;box-shadow:0 4px 14px rgba(29,78,216,.2)}
 .btn-nueva-orden:hover{background:var(--pri-h)}
-
-/* ── TARJETAS DE ÓRDENES ── */
 .ordenes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
 .orden-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:1.2rem 1.4rem;display:flex;flex-direction:column;gap:.9rem;transition:transform .2s,box-shadow .2s}
 .orden-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08)}
 .orden-card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem}
 .orden-estado-badge{font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:99px;flex-shrink:0}
 .orden-estado-badge.activa{background:#dcfce7;color:#15803d}
-.orden-estado-badge.finalizada{background:#f1f5f9;color:#64748b}
 .orden-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
 .orden-info-item{display:flex;flex-direction:column;gap:2px}
 .orden-info-label{font-size:.65rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
 .orden-info-val{font-size:.82rem;font-weight:600;color:var(--text)}
 .orden-card-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+.btn-editar-orden{background:var(--pri-lt);color:var(--pri);border:none;border-radius:9px;padding:.5rem .8rem;font-size:.76rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .2s}
+.btn-editar-orden:hover{background:var(--pri);color:#fff}
 .btn-finalizar{flex:1;background:#dcfce7;color:#15803d;border:none;border-radius:9px;padding:.5rem .8rem;font-size:.76rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .2s}
 .btn-finalizar:hover{background:#16a34a;color:#fff}
 .btn-eliminar-orden{background:#fee2e2;color:#dc2626;border:none;border-radius:9px;padding:.5rem .8rem;font-size:.76rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .2s}
 .btn-eliminar-orden:hover{background:#dc2626;color:#fff}
 
-/* ── SERVICIOS GRID ── */
+/* BUSCADOR CLIENTE */
+.cliente-result-item{padding:.65rem 1rem;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s}
+.cliente-result-item:last-child{border-bottom:none}
+.cliente-result-item:hover{background:var(--pri-lt)}
+
+/* SERVICIOS */
 .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;margin-bottom:2rem}
 .service-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:1.8rem 1.6rem;display:flex;flex-direction:column;gap:1rem;position:relative;overflow:hidden;transition:transform .22s,box-shadow .22s,border-color .22s,background .3s}
 .service-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.1)}
 .service-card::after{content:'';position:absolute;top:0;right:0;width:100px;height:100px;border-radius:50%;opacity:.08;transition:opacity .3s}
 .service-card:hover::after{opacity:.14}
-.svc-blue::after{background:#1d4ed8}.svc-blue:hover{border-color:#bfdbfe}.svc-blue .svc-icon{background:#dbeafe;color:#1d4ed8}.svc-blue .svc-btn{background:#1d4ed8;color:#fff;box-shadow:0 4px 14px rgba(29,78,216,.3)}.svc-blue .svc-btn:hover{background:#1e40af}
-.svc-cyan::after{background:#0284c7}.svc-cyan:hover{border-color:#bae6fd}.svc-cyan .svc-icon{background:#e0f2fe;color:#0284c7}.svc-cyan .svc-btn{background:#0284c7;color:#fff;box-shadow:0 4px 14px rgba(2,132,199,.3)}.svc-cyan .svc-btn:hover{background:#0369a1}
-.svc-amber::after{background:#d97706}.svc-amber:hover{border-color:#fde68a}.svc-amber .svc-icon{background:#fef3c7;color:#d97706}.svc-amber .svc-btn{background:#d97706;color:#fff;box-shadow:0 4px 14px rgba(217,119,6,.3)}.svc-amber .svc-btn:hover{background:#b45309}
-.svc-purple::after{background:#7c3aed}.svc-purple:hover{border-color:#ddd6fe}.svc-purple .svc-icon{background:#ede9fe;color:#7c3aed}.svc-purple .svc-btn{background:#7c3aed;color:#fff;box-shadow:0 4px 14px rgba(124,58,237,.3)}.svc-purple .svc-btn:hover{background:#6d28d9}
+.svc-blue::after{background:#1d4ed8}.svc-blue:hover{border-color:#bfdbfe}.svc-blue .svc-icon{background:#dbeafe;color:#1d4ed8}.svc-blue .svc-btn{background:#1d4ed8;color:#fff}.svc-blue .svc-btn:hover{background:#1e40af}
+.svc-cyan::after{background:#0284c7}.svc-cyan:hover{border-color:#bae6fd}.svc-cyan .svc-icon{background:#e0f2fe;color:#0284c7}.svc-cyan .svc-btn{background:#0284c7;color:#fff}.svc-cyan .svc-btn:hover{background:#0369a1}
+.svc-amber::after{background:#d97706}.svc-amber:hover{border-color:#fde68a}.svc-amber .svc-icon{background:#fef3c7;color:#d97706}.svc-amber .svc-btn{background:#d97706;color:#fff}.svc-amber .svc-btn:hover{background:#b45309}
+.svc-purple::after{background:#7c3aed}.svc-purple:hover{border-color:#ddd6fe}.svc-purple .svc-icon{background:#ede9fe;color:#7c3aed}.svc-purple .svc-btn{background:#7c3aed;color:#fff}.svc-purple .svc-btn:hover{background:#6d28d9}
 .svc-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;transition:transform .22s}
 .service-card:hover .svc-icon{transform:rotate(6deg) scale(1.08)}
 .svc-title{font-size:1.1rem;font-weight:800;color:var(--text)}
 .svc-desc{font-size:.82rem;color:var(--muted);line-height:1.65;flex:1}
 .svc-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.1rem;border-radius:11px;font-size:.82rem;font-weight:700;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;width:fit-content;transition:all .2s}
 
-/* ── CARD BASE ── */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.4rem 1.6rem;box-shadow:0 1px 4px rgba(0,0,0,.05);transition:background .3s,border-color .3s}
 
-/* ── MODAL NUEVA ORDEN ── */
+/* MODALES */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:none;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.visible{display:flex;animation:fadeUp .2s ease}
 .modal-box{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:2rem;max-width:540px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,.18);max-height:90vh;overflow-y:auto}
@@ -120,13 +117,13 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 .form-textarea{resize:vertical;min-height:90px}
 .form-select:disabled{opacity:.5;cursor:not-allowed}
 .modal-actions{display:flex;gap:.8rem;margin-top:1.4rem;flex-wrap:wrap}
-.btn-primary-modal{flex:1;background:var(--pri);color:#fff;border:none;border-radius:12px;padding:.8rem 1.2rem;font-size:.9rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:background .2s;box-shadow:0 4px 14px rgba(29,78,216,.2)}
+.btn-primary-modal{flex:1;background:var(--pri);color:#fff;border:none;border-radius:12px;padding:.8rem 1.2rem;font-size:.9rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:background .2s}
 .btn-primary-modal:hover{background:var(--pri-h)}
 .btn-primary-modal:disabled{opacity:.6;cursor:not-allowed}
 .btn-cancel-modal{background:var(--bg);color:var(--muted);border:1.5px solid var(--border);border-radius:12px;padding:.8rem 1.2rem;font-size:.9rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:all .2s}
 .btn-cancel-modal:hover{border-color:#dc2626;color:#dc2626}
 
-/* ── A11Y ── */
+/* A11Y */
 .a11y-btn{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:200;background:var(--pri);color:#fff;border:none;border-radius:12px 0 0 12px;padding:.9rem .6rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.66em;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;box-shadow:-3px 0 14px rgba(29,78,216,.2);transition:background .2s,right .35s}
 .a11y-btn:hover{background:var(--pri-h)}
 .a11y-btn.open{right:292px}
@@ -162,10 +159,9 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 
 <div id="sidebar-container"></div>
 
-<!-- TOP BAR -->
 <header class="top-bar">
   <div class="top-brand">
-    <div style="width:40px;height:40px;background:transparent;box-shadow:none;flex-shrink:0">
+    <div style="width:40px;height:40px;flex-shrink:0">
       <img src="../assets/Logo/Logo2.png" alt="Logo Frío Cars" style="width:40px;height:40px;object-fit:contain">
     </div>
     <div>
@@ -194,10 +190,8 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
   </div>
 </header>
 
-<!-- CONTENIDO -->
 <main class="main-content">
 
-  <!-- HEADER -->
   <div class="page-header anim">
     <div>
       <h1 class="page-title">Servicios <span>Automotrices</span></h1>
@@ -212,13 +206,12 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
     </div>
   </div>
 
-  <!-- HERO -->
   <div class="hero-banner anim-2">
     <h2>Servicios Técnicos Especializados</h2>
     <p>Gestiona órdenes de trabajo en tiempo real. Crea una orden desde el catálogo, asigna un técnico y monitorea el estado hasta su finalización.</p>
   </div>
 
-  <!-- ══ SECCIÓN: ÓRDENES ACTIVAS ══ -->
+  <!-- ÓRDENES ACTIVAS -->
   <div class="ordenes-section anim-2">
     <div class="ordenes-section-header">
       <div class="ordenes-section-title">
@@ -235,94 +228,55 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
         </button>
       </div>
     </div>
-    <div class="ordenes-grid" id="ordenes-activas-lista">
-      <div style="text-align:center;padding:2rem;color:var(--muted);grid-column:1/-1">
-        <div style="font-size:1.5rem;margin-bottom:.5rem">⏳</div>
-        Cargando órdenes...
-      </div>
-    </div>
+    <div class="ordenes-grid" id="ordenes-activas-lista"></div>
   </div>
 
-  <!-- ══ CATÁLOGO DE SERVICIOS ══ -->
+  <!-- CATÁLOGO -->
   <p style="font-size:.73rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.9rem" class="anim-3">Catálogo de servicios</p>
-
   <div class="services-grid anim-3">
-
-    <!-- Mantenimiento -->
     <div class="service-card svc-blue">
       <div class="svc-icon">❄️</div>
-      <div>
-        <div class="svc-title">Mantenimiento</div>
-        <p class="svc-desc">Revisión general del sistema de aire acondicionado, cambio de filtros y mantenimiento preventivo para alargar la vida útil del equipo.</p>
-      </div>
-      <button class="svc-btn" onclick="abrirModalOrden('Mantenimiento')">
-        + Crear orden →
-      </button>
+      <div><div class="svc-title">Mantenimiento</div><p class="svc-desc">Revisión general del sistema de aire acondicionado, cambio de filtros y mantenimiento preventivo.</p></div>
+      <button class="svc-btn" onclick="abrirModalOrden('Mantenimiento')">+ Crear orden →</button>
     </div>
-
-    <!-- Reparación -->
     <div class="service-card svc-cyan">
       <div class="svc-icon">🔧</div>
-      <div>
-        <div class="svc-title">Reparación</div>
-        <p class="svc-desc">Diagnóstico y reparación profesional de compresores, condensadores y evaporadores automotrices con garantía de trabajo.</p>
-      </div>
-      <button class="svc-btn" onclick="abrirModalOrden('Reparación')">
-        + Crear orden →
-      </button>
+      <div><div class="svc-title">Reparación</div><p class="svc-desc">Diagnóstico y reparación profesional de compresores, condensadores y evaporadores automotrices.</p></div>
+      <button class="svc-btn" onclick="abrirModalOrden('Reparación')">+ Crear orden →</button>
     </div>
-
-    <!-- Instalación -->
     <div class="service-card svc-amber">
       <div class="svc-icon">⚙️</div>
-      <div>
-        <div class="svc-title">Instalación</div>
-        <p class="svc-desc">Instalación completa de sistemas de aire acondicionado con herramientas y equipos especializados certificados.</p>
-      </div>
-      <button class="svc-btn" onclick="abrirModalOrden('Instalación')">
-        + Crear orden →
-      </button>
+      <div><div class="svc-title">Instalación</div><p class="svc-desc">Instalación completa de sistemas de aire acondicionado con equipos especializados certificados.</p></div>
+      <button class="svc-btn" onclick="abrirModalOrden('Instalación')">+ Crear orden →</button>
     </div>
-
-    <!-- Diagnóstico IA -->
     <div class="service-card svc-purple">
       <div class="svc-icon">🤖</div>
-      <div>
-        <div class="svc-title">Diagnóstico IA</div>
-        <p class="svc-desc">Generamos un diagnóstico inteligente basado en los síntomas del vehículo usando inteligencia artificial predictiva.</p>
-      </div>
-      <button class="svc-btn" onclick="abrirModalOrden('Diagnóstico IA')">
-        + Crear orden →
-      </button>
+      <div><div class="svc-title">Diagnóstico IA</div><p class="svc-desc">Diagnóstico inteligente basado en síntomas del vehículo usando inteligencia artificial predictiva.</p></div>
+      <button class="svc-btn" onclick="abrirModalOrden('Diagnóstico IA')">+ Crear orden →</button>
     </div>
-
   </div>
 
-  <!-- INFO FOOTER -->
   <div class="card anim-3" style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
     <div style="width:44px;height:44px;background:var(--pri-lt);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0">📞</div>
     <div style="flex:1">
       <p style="font-size:.88rem;font-weight:700;color:var(--text)">¿No encuentras lo que buscas?</p>
-      <p style="font-size:.78rem;color:var(--muted)">Usa el módulo de Cotizaciones IA para un diagnóstico personalizado o crea una orden personalizada.</p>
+      <p style="font-size:.78rem;color:var(--muted)">Usa el módulo de Cotizaciones IA para un diagnóstico personalizado.</p>
     </div>
-    <a href="./cotizacion.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--pri);color:#fff;padding:.65rem 1.2rem;border-radius:11px;font-size:.82rem;font-weight:700;text-decoration:none;transition:background .2s;flex-shrink:0" onmouseover="this.style.background='var(--pri-h)'" onmouseout="this.style.background='var(--pri)'">
+    <a href="./cotizacion.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--pri);color:#fff;padding:.65rem 1.2rem;border-radius:11px;font-size:.82rem;font-weight:700;text-decoration:none;flex-shrink:0;transition:background .2s" onmouseover="this.style.background='var(--pri-h)'" onmouseout="this.style.background='var(--pri)'">
       Ir a Cotizaciones IA →
     </a>
   </div>
 
 </main>
 
-<!-- ══ MODAL NUEVA ORDEN ══ -->
+<!-- MODAL NUEVA ORDEN -->
 <div id="modal-nueva-orden" class="modal-overlay" onclick="if(event.target===this)cerrarModalOrden()">
   <div class="modal-box">
     <div class="modal-header">
       <div class="modal-title">📋 Nueva Orden de Trabajo</div>
       <button class="modal-close" onclick="cerrarModalOrden()">✕</button>
     </div>
-
     <div style="display:flex;flex-direction:column;gap:1rem">
-
-      <!-- Tipo de servicio -->
       <div>
         <label class="form-label" for="orden-tipo">Tipo de servicio <span class="req">*</span></label>
         <select id="orden-tipo" class="form-select">
@@ -333,39 +287,33 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
           <option value="Diagnóstico IA">🤖 Diagnóstico IA</option>
         </select>
       </div>
-
-      <!-- Cliente -->
       <div>
-        <label class="form-label" for="orden-cliente">Cliente <span class="req">*</span></label>
-        <select id="orden-cliente" class="form-select" onchange="onClienteChange()">
-          <option value="">— Seleccionar cliente —</option>
-        </select>
+        <label class="form-label" for="cliente-search">Cliente <span class="req">*</span></label>
+        <div style="position:relative">
+          <input type="text" id="cliente-search" class="form-input"
+            placeholder="Escribe nombre o número de documento..."
+            autocomplete="off">
+          <input type="hidden" id="orden-cliente-id">
+          <div id="cliente-resultados" style="display:none;position:absolute;top:100%;left:0;right:0;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.1);z-index:100;max-height:200px;overflow-y:auto;margin-top:4px"></div>
+        </div>
       </div>
-
-      <!-- Vehículo -->
       <div>
         <label class="form-label" for="orden-vehiculo">Vehículo <span class="req">*</span></label>
         <select id="orden-vehiculo" class="form-select" disabled>
           <option value="">— Primero selecciona un cliente —</option>
         </select>
       </div>
-
-      <!-- Técnico -->
       <div>
         <label class="form-label" for="orden-tecnico">Técnico asignado <span style="font-size:.72rem;font-weight:500;color:var(--muted)">(opcional)</span></label>
         <select id="orden-tecnico" class="form-select">
           <option value="">— Sin asignar —</option>
         </select>
       </div>
-
-      <!-- Descripción -->
       <div>
         <label class="form-label" for="orden-desc">Descripción del problema</label>
         <textarea id="orden-desc" class="form-textarea" placeholder="Describe el problema o trabajo a realizar..."></textarea>
       </div>
-
     </div>
-
     <div class="modal-actions">
       <button class="btn-cancel-modal" onclick="cerrarModalOrden()">✕ Cancelar</button>
       <button class="btn-primary-modal" id="btn-guardar-orden" onclick="guardarOrden()">✓ Crear Orden</button>
@@ -373,16 +321,61 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
   </div>
 </div>
 
-<!-- BOTÓN ACCESIBILIDAD -->
+<!-- MODAL EDITAR ORDEN -->
+<div id="modal-editar-orden" class="modal-overlay" onclick="if(event.target===this)cerrarModalEditar()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">✏️ Editar Orden de Trabajo</div>
+      <button class="modal-close" onclick="cerrarModalEditar()">✕</button>
+    </div>
+    <input type="hidden" id="edit-id">
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:.75rem 1rem;margin-bottom:1rem;font-size:.82rem;color:var(--muted);font-weight:600" id="edit-info-cliente">—</div>
+    <div style="display:flex;flex-direction:column;gap:1rem">
+      <div>
+        <label class="form-label" for="edit-tipo">Tipo de servicio <span class="req">*</span></label>
+        <select id="edit-tipo" class="form-select">
+          <option value="Mantenimiento">❄️ Mantenimiento</option>
+          <option value="Reparación">🔧 Reparación</option>
+          <option value="Instalación">⚙️ Instalación</option>
+          <option value="Diagnóstico IA">🤖 Diagnóstico IA</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label" for="edit-tecnico">Técnico asignado</label>
+        <select id="edit-tecnico" class="form-select">
+          <option value="">— Sin asignar —</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label" for="edit-descripcion">Descripción del problema</label>
+        <textarea id="edit-descripcion" class="form-textarea" placeholder="Descripción original del problema..."></textarea>
+      </div>
+      <div>
+        <label class="form-label" for="edit-observaciones">
+          Observaciones durante la intervención
+          <span style="font-size:.72rem;font-weight:500;color:var(--muted)">(notas del técnico)</span>
+        </label>
+        <textarea id="edit-observaciones" class="form-textarea"
+          placeholder="Ej: Se encontró fuga en manguera, se reemplazó compresor..."
+          style="min-height:110px"></textarea>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel-modal" onclick="cerrarModalEditar()">✕ Cancelar</button>
+      <button class="btn-primary-modal" id="btn-guardar-edicion" onclick="guardarEdicionOrden()">✓ Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- A11Y -->
 <button class="a11y-btn" id="aBtn" aria-label="Abrir panel de accesibilidad" aria-expanded="false">
-  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="5" r="1.8" fill="currentColor" stroke="none"/><path d="M5 8.5h14"/><path d="M12 8.5V14"/><path d="M8.5 14l-2 5.5M15.5 14l2 5.5"/></svg>
+  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1.8" fill="currentColor" stroke="none"/><path d="M5 8.5h14"/><path d="M12 8.5V14"/><path d="M8.5 14l-2 5.5M15.5 14l2 5.5"/></svg>
   <span style="font-size:.62em;font-weight:700">Acceso</span>
 </button>
-
 <aside id="aPanel" class="a11y-panel" role="complementary" aria-hidden="true">
   <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.4rem;padding-bottom:.9rem;border-bottom:1px solid var(--border)">
     <div><h3 style="font-size:.97rem;font-weight:800;color:var(--text)">Accesibilidad</h3><p style="font-size:.72em;color:var(--muted);margin-top:2px">Personaliza la interfaz</p></div>
-    <button id="aClose" style="background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:8px;display:flex" aria-label="Cerrar">
+    <button id="aClose" style="background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:8px;display:flex">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
   </div>
@@ -413,7 +406,6 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
   <button class="btn-reset" id="bReset">↺ Restablecer ajustes</button>
 </aside>
 
-<!-- SCRIPTS -->
 <script src="../assets/js/sidebar.js"></script>
 <script src="../assets/js/auth.js"></script>
 <script src="../assets/js/asistente.js"></script>
@@ -421,14 +413,12 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 <script>
   document.getElementById('today-date').textContent =
     new Date().toLocaleDateString('es-CO',{weekday:'short',day:'numeric',month:'short'});
-
   const aBtn=document.getElementById('aBtn'),aPanel=document.getElementById('aPanel');
   const openA=()=>{aPanel.classList.add('open');aBtn.classList.add('open');aPanel.setAttribute('aria-hidden','false');aBtn.setAttribute('aria-expanded','true')};
   const closeA=()=>{aPanel.classList.remove('open');aBtn.classList.remove('open');aPanel.setAttribute('aria-hidden','true');aBtn.setAttribute('aria-expanded','false')};
   aBtn.addEventListener('click',()=>aPanel.classList.contains('open')?closeA():openA());
   document.getElementById('aClose').addEventListener('click',closeA);
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!document.getElementById('modal-nueva-orden').classList.contains('visible'))closeA()});
-
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!document.getElementById('modal-nueva-orden').classList.contains('visible')&&!document.getElementById('modal-editar-orden').classList.contains('visible'))closeA()});
   const temas=['normal','high-contrast','sepia','soft-dark'];
   let tema=localStorage.getItem('a11y-tema')||'normal';
   function setTema(t){temas.forEach(x=>document.body.classList.remove(x));if(t!=='normal')document.body.classList.add(t);tema=t;localStorage.setItem('a11y-tema',t);document.querySelectorAll('.tema').forEach(b=>{const a=b.dataset.t===t;b.classList.toggle('on',a);b.setAttribute('aria-pressed',a?'true':'false')})}
@@ -446,6 +436,5 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
   tLin.addEventListener('change',()=>{document.body.style.lineHeight=tLin.checked?'2.2':'';localStorage.setItem('a11y-lin',tLin.checked)});
   document.getElementById('bReset').addEventListener('click',()=>{setTema('normal');setEsc(1);tLin.checked=false;document.body.style.lineHeight='';['a11y-tema','a11y-esc','a11y-lin'].forEach(k=>localStorage.removeItem(k))});
 </script>
-
 </body>
 </html>
