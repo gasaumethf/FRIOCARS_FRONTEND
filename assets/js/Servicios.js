@@ -633,3 +633,7 @@ function mostrarToast(msg, tipo) {
     document.body.appendChild(t);
     setTimeout(() => t.remove(), 3200);
 }
+window.cargarOrdenesActivas = cargarOrdenesActivas;
+window.abrirModalOrden = abrirModalOrden;
+window.cerrarModalOrden = cerrarModalOrden;
+window.guardarOrden = guardarOrden;
