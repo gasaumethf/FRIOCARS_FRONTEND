@@ -5,13 +5,13 @@
 (function () {
   if (document.getElementById('fc-siri-root')) return;
 
-  const API_BASE  = 'https://friocars-backend.onrender.com/api';
+  const API_BASE = 'https://friocars-backend.onrender.com/api';
   const CLAUDE_API = 'https://friocars-backend.onrender.com/api/asistente/chat';
-  let historial      = [];
+  let historial = [];
   let stockProductos = [];
-  let expandido      = false;
-  let animando       = true;
-  let pensando       = false;
+  let expandido = false;
+  let animando = true;
+  let pensando = false;
   let arrastrandoOrb = false;
   let orbOffX = 0, orbOffY = 0, orbPosX = null, orbPosY = null;
 
@@ -328,15 +328,15 @@
   document.body.appendChild(root);
 
   // ── Refs ──────────────────────────────────────────────────
-  const panel     = document.getElementById('fc-siri-panel');
-  const orb       = document.getElementById('fc-siri-orb');
-  const msgs      = document.getElementById('fc-siri-msgs');
-  const input     = document.getElementById('fc-siri-input');
-  const sendBtn   = document.getElementById('fc-siri-send');
+  const panel = document.getElementById('fc-siri-panel');
+  const orb = document.getElementById('fc-siri-orb');
+  const msgs = document.getElementById('fc-siri-msgs');
+  const input = document.getElementById('fc-siri-input');
+  const sendBtn = document.getElementById('fc-siri-send');
   const btnCerrar = document.getElementById('fc-btn-cerrar');
-  const stockLbl  = document.getElementById('fc-stock-lbl');
-  const animBtn   = document.getElementById('fc-anim-toggle');
-  const badge     = document.getElementById('fc-orb-badge');
+  const stockLbl = document.getElementById('fc-stock-lbl');
+  const animBtn = document.getElementById('fc-anim-toggle');
+  const badge = document.getElementById('fc-orb-badge');
 
   // ── Animación toggle ──────────────────────────────────────
   if (localStorage.getItem('fc_anim') === '0') {
@@ -385,7 +385,7 @@
     d.className = `fc-msg ${tipo}`;
     if (typing) {
       d.id = 'fc-typing';
-      d.innerHTML = `<div class="fc-bicon">${tipo==='bot'?'🤖':'👤'}</div>
+      d.innerHTML = `<div class="fc-bicon">${tipo === 'bot' ? '🤖' : '👤'}</div>
         <div class="fc-bubble" style="padding:.4rem .65rem">
           <div class="fc-typing"><span></span><span></span><span></span></div>
         </div>`;
@@ -393,7 +393,7 @@
       const html = texto
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\n/g, '<br>');
-      d.innerHTML = `<div class="fc-bicon">${tipo==='bot'?'🤖':'👤'}</div>
+      d.innerHTML = `<div class="fc-bicon">${tipo === 'bot' ? '🤖' : '👤'}</div>
         <div class="fc-bubble">${html}</div>`;
     }
     msgs.appendChild(d);
@@ -405,8 +405,8 @@
   function sysPrompt() {
     const inv = stockProductos.length
       ? stockProductos.map(p =>
-          `• ${p.nombre} | $${Number(p.precio||0).toLocaleString('es-CO')} | Stock: ${p.stock} uds | Cat: ${p.categoria||'N/A'}`
-        ).join('\n')
+        `• ${p.nombre} | $${Number(p.precio || 0).toLocaleString('es-CO')} | Stock: ${p.stock} uds | Cat: ${p.categoria || 'N/A'}`
+      ).join('\n')
       : 'Inventario no disponible.';
     return `Eres el asistente inteligente de "Frío Cars", empresa automotriz colombiana especializada en refrigeración y aire acondicionado vehicular.
 
@@ -502,20 +502,26 @@ REGLAS:
         arrastrandoOrb = true; hasMoved = true;
       }
       if (!arrastrandoOrb) return;
-      const maxX = window.innerWidth  - root.offsetWidth;
+      const maxX = window.innerWidth - root.offsetWidth;
       const maxY = window.innerHeight - root.offsetHeight;
       orbPosX = Math.max(0, Math.min(maxX, ev.clientX - orbOffX));
       orbPosY = Math.max(0, Math.min(maxY, ev.clientY - orbOffY));
-      root.style.right  = 'auto'; root.style.bottom = 'auto';
-      root.style.left   = orbPosX + 'px';
-      root.style.top    = orbPosY + 'px';
+      root.style.right = 'auto'; root.style.bottom = 'auto';
+      root.style.left = orbPosX + 'px';
+      root.style.top = orbPosY + 'px';
     }
 
     function onUp() {
       window.removeEventListener('mousemove', onMove);
-      window.removeEventListener('mouseup',   onUp);
+      window.removeEventListener('mouseup', onUp);
       if (hasMoved) {
-        localStorage.setItem('fc_pos', JSON.stringify({ x: orbPosX, y: orbPosY }));
+        localStorage.setItem(
+          'fc_pos',
+          JSON.stringify({
+            xPercent: orbPosX / window.innerWidth,
+            yPercent: orbPosY / window.innerHeight
+          })
+        );
         setTimeout(() => { arrastrandoOrb = false; }, 50);
       } else {
         arrastrandoOrb = false;
@@ -523,16 +529,35 @@ REGLAS:
     }
 
     window.addEventListener('mousemove', onMove);
-    window.addEventListener('mouseup',   onUp);
+    window.addEventListener('mouseup', onUp);
   });
 
   // Restaurar posición
-  const saved = JSON.parse(localStorage.getItem('fc_pos') || 'null');
-  if (saved) {
-    root.style.right = 'auto'; root.style.bottom = 'auto';
-    root.style.left  = saved.x + 'px';
-    root.style.top   = saved.y + 'px';
-    orbPosX = saved.x; orbPosY = saved.y;
+  const saved = JSON.parse(
+    localStorage.getItem('fc_pos') || 'null'
+  );
+
+  if (saved?.xPercent !== undefined) {
+
+    const x = saved.xPercent * window.innerWidth;
+    const y = saved.yPercent * window.innerHeight;
+
+    root.style.right = 'auto';
+    root.style.bottom = 'auto';
+
+    root.style.left = x + 'px';
+    root.style.top = y + 'px';
+
+    orbPosX = x;
+    orbPosY = y;
+  }
+  if (!saved) {
+
+    root.style.left = 'auto';
+    root.style.top = 'auto';
+
+    root.style.right = '5.5rem';
+    root.style.bottom = '2.2rem';
   }
 
   // ── Notificación cuando está cerrado ─────────────────────
