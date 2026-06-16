@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cargarOrdenesActivas();
     cargarDatosFormulario();
     iniciarBuscadorCliente();
+    iniciarBuscadorProductos();
 });
 
 
@@ -309,17 +310,70 @@ async function abrirModalRepuestos(idOrden) {
         ? `Orden #${idOrden} · ${o.cliente_nombre||""} ${o.cliente_apellido||""} · ${o.placa||""}`
         : `Orden #${idOrden}`;
 
-    // Poblar selector de productos
-    const sel = document.getElementById("rep-producto");
-    sel.innerHTML = `<option value="">— Seleccionar producto —</option>`;
-    productos.filter(p => p.stock > 0 && p.activo !== false).forEach(p => {
-        sel.innerHTML += `<option value="${p.id_producto}" data-precio="${p.precio}" data-stock="${p.stock}">${p.nombre} — $${Number(p.precio).toLocaleString("es-CO")} (stock: ${p.stock})</option>`;
-    });
-
+    // Limpiar buscador
+    document.getElementById("rep-buscar").value = "";
+    document.getElementById("rep-resultados").style.display = "none";
+    document.getElementById("rep-resultados").innerHTML = "";
+    document.getElementById("rep-producto-id").value = "";
+    const infoEl = document.getElementById("rep-producto-info");
+    if (infoEl) infoEl.style.display = "none";
     document.getElementById("rep-cantidad").value = 1;
+
     document.getElementById("modal-repuestos").classList.add("visible");
     document.body.style.overflow = "hidden";
+    setTimeout(() => document.getElementById("rep-buscar").focus(), 100);
     await cargarRepuestosOrden(idOrden);
+}
+
+// Iniciar buscador de productos en modal repuestos
+function iniciarBuscadorProductos() {
+    const input      = document.getElementById("rep-buscar");
+    const resultados = document.getElementById("rep-resultados");
+    if (!input) return;
+
+    input.addEventListener("input", () => {
+        const q = input.value.trim().toLowerCase();
+        document.getElementById("rep-producto-id").value = "";
+        const infoEl = document.getElementById("rep-producto-info");
+        if (infoEl) infoEl.style.display = "none";
+
+        if (q.length < 1) { resultados.style.display = "none"; resultados.innerHTML = ""; return; }
+
+        const filtrados = productos.filter(p =>
+            p.activo !== false && p.stock > 0 &&
+            ((p.nombre||"").toLowerCase().includes(q) || (p.categoria||"").toLowerCase().includes(q))
+        );
+
+        if (filtrados.length === 0) {
+            resultados.innerHTML = `<div style="padding:.65rem 1rem;color:var(--muted);font-size:.82rem">No se encontraron productos con stock</div>`;
+        } else {
+            resultados.innerHTML = filtrados.slice(0, 8).map(p => `
+                <div class="rep-result-item" onclick="seleccionarProductoRep(${p.id_producto},'${p.nombre.replace(/'/g,"\'")}',${p.precio},${p.stock})">
+                    <div style="font-weight:700;color:var(--text);font-size:.84rem">${p.nombre}</div>
+                    <div style="font-size:.72rem;color:var(--muted)">
+                        ${p.categoria||""} · <strong style="color:var(--green)">$${Number(p.precio).toLocaleString("es-CO")}</strong> · Stock: <strong>${p.stock}</strong>
+                    </div>
+                </div>`).join("");
+        }
+        resultados.style.display = "block";
+    });
+
+    document.addEventListener("click", e => {
+        if (!input.contains(e.target) && !resultados.contains(e.target)) resultados.style.display = "none";
+    });
+}
+
+function seleccionarProductoRep(id, nombre, precio, stock) {
+    document.getElementById("rep-buscar").value = nombre;
+    document.getElementById("rep-producto-id").value = id;
+    document.getElementById("rep-resultados").style.display = "none";
+
+    const infoEl = document.getElementById("rep-producto-info");
+    if (infoEl) {
+        infoEl.textContent = `$${Number(precio).toLocaleString("es-CO")} · Stock disponible: ${stock}`;
+        infoEl.style.display = "block";
+    }
+    document.getElementById("rep-cantidad").focus();
 }
 
 function cerrarModalRepuestos() {
@@ -370,11 +424,10 @@ function renderListaRepuestos(repuestos) {
 }
 
 async function agregarRepuesto() {
-    const sel      = document.getElementById("rep-producto");
-    const id_producto = parseInt(sel.value);
-    const cantidad = parseInt(document.getElementById("rep-cantidad").value);
+    const id_producto = parseInt(document.getElementById("rep-producto-id").value);
+    const cantidad    = parseInt(document.getElementById("rep-cantidad").value);
 
-    if (!id_producto) { mostrarToast("Selecciona un producto", "warn"); return; }
+    if (!id_producto) { mostrarToast("Busca y selecciona un producto", "warn"); return; }
     if (!cantidad || cantidad < 1) { mostrarToast("Cantidad inválida", "warn"); return; }
 
     const btn = document.getElementById("btn-agregar-repuesto");
@@ -388,11 +441,14 @@ async function agregarRepuesto() {
         });
         if (!res.ok) { const e = await res.json(); throw new Error(e.error); }
         mostrarToast("Repuesto agregado ✓", "ok");
-        // Actualizar stock en lista local
+        // Actualizar stock local
         const prod = productos.find(p => p.id_producto === id_producto);
         if (prod) prod.stock -= cantidad;
-        // Resetear selector
-        sel.value = "";
+        // Limpiar buscador
+        document.getElementById("rep-buscar").value = "";
+        document.getElementById("rep-producto-id").value = "";
+        const infoEl = document.getElementById("rep-producto-info");
+        if (infoEl) infoEl.style.display = "none";
         document.getElementById("rep-cantidad").value = 1;
         await cargarRepuestosOrden(ordenRepuestosActual);
     } catch (err) { mostrarToast(err.message || "Error agregando repuesto", "error"); }
@@ -409,14 +465,6 @@ async function quitarRepuesto(idOrdenRepuesto) {
         // Recargar productos para actualizar stock
         const resP = await fetch(`${API}/productos`);
         if (resP.ok) productos = await resP.json();
-        // Refrescar selector
-        const sel = document.getElementById("rep-producto");
-        if (sel) {
-            sel.innerHTML = `<option value="">— Seleccionar producto —</option>`;
-            productos.filter(p => p.stock > 0 && p.activo !== false).forEach(p => {
-                sel.innerHTML += `<option value="${p.id_producto}" data-precio="${p.precio}" data-stock="${p.stock}">${p.nombre} — $${Number(p.precio).toLocaleString("es-CO")} (stock: ${p.stock})</option>`;
-            });
-        }
     } catch { mostrarToast("Error eliminando repuesto", "error"); }
 }
 

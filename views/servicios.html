@@ -155,6 +155,9 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 .btn-reset:hover{border-color:#dc2626;color:#dc2626;background:#fff5f5}
 .div-a{height:1px;background:var(--border);margin:.75rem 0 1.1rem}
 
+.rep-result-item{padding:.65rem 1rem;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s}
+.rep-result-item:last-child{border-bottom:none}
+.rep-result-item:hover{background:var(--pri-lt)}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 .anim{animation:fadeUp .4s ease both}
 .anim-2{animation:fadeUp .4s .08s ease both}
@@ -320,16 +323,23 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
     <!-- Agregar repuesto -->
     <div style="background:var(--pri-lt);border:1px solid #bfdbfe;border-radius:14px;padding:1rem 1.2rem;margin-bottom:1.2rem">
       <p style="font-size:.75rem;font-weight:700;color:var(--pri);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.7rem">Agregar repuesto</p>
-      <div style="display:grid;grid-template-columns:1fr auto auto;gap:.6rem;align-items:end">
+      <div style="display:flex;flex-direction:column;gap:.6rem">
         <div>
-          <label class="form-label" style="color:var(--pri)">Producto del inventario</label>
-          <select id="rep-producto" class="form-select"><option value="">— Seleccionar —</option></select>
+          <label class="form-label" style="color:var(--pri)">Buscar producto del inventario</label>
+          <div style="position:relative">
+            <input type="text" id="rep-buscar" class="form-input" placeholder="Escribe nombre o categoría..." autocomplete="off">
+            <input type="hidden" id="rep-producto-id">
+            <div id="rep-resultados" style="display:none;position:absolute;top:100%;left:0;right:0;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200;max-height:220px;overflow-y:auto;margin-top:4px"></div>
+          </div>
+          <div id="rep-producto-info" style="display:none;margin-top:.4rem;font-size:.75rem;font-weight:600;color:var(--green);background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:.35rem .75rem"></div>
         </div>
-        <div style="min-width:80px">
-          <label class="form-label" style="color:var(--pri)">Cantidad</label>
-          <input type="number" id="rep-cantidad" class="form-input" value="1" min="1" style="text-align:center">
+        <div style="display:flex;gap:.6rem;align-items:flex-end">
+          <div style="min-width:100px">
+            <label class="form-label" style="color:var(--pri)">Cantidad</label>
+            <input type="number" id="rep-cantidad" class="form-input" value="1" min="1" style="text-align:center">
+          </div>
+          <button id="btn-agregar-repuesto" onclick="agregarRepuesto()" style="background:var(--pri);color:#fff;border:none;border-radius:12px;padding:.75rem 1.2rem;font-size:.84rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;white-space:nowrap;flex:1">+ Agregar repuesto</button>
         </div>
-        <button id="btn-agregar-repuesto" onclick="agregarRepuesto()" style="background:var(--pri);color:#fff;border:none;border-radius:12px;padding:.75rem 1rem;font-size:.84rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;white-space:nowrap;height:fit-content;align-self:end">+ Agregar</button>
       </div>
     </div>
 
