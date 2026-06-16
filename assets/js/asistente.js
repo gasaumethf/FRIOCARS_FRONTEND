@@ -443,7 +443,6 @@ REGLAS:
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          system: sysPrompt(),
           messages: historial
         })
       });
@@ -553,12 +552,12 @@ REGLAS:
   }
   if (!saved) {
 
-  root.style.left = 'auto';
-  root.style.top = 'auto';
+    root.style.left = 'auto';
+    root.style.top = 'auto';
 
-  root.style.right = '5.5rem';
-  root.style.bottom = '2.2rem';
-}
+    root.style.right = '5.5rem';
+    root.style.bottom = '2.2rem';
+  }
 
   // ── Notificación cuando está cerrado ─────────────────────
   function mostrarBadge() {
