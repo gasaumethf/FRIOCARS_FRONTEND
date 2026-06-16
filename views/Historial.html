@@ -242,7 +242,7 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
           </tr>
         </thead>
         <tbody id="tablaHistorial">
-          <tr><td colspan="8"><div class="empty-state"><span>⏳</span>Cargando historial...</div></td></tr>
+          <tr><td colspan="8"><div class="empty-state"><span> </span>Cargando historial...</div></td></tr>
         </tbody>
       </table>
     </div>
@@ -301,7 +301,7 @@ document.getElementById('today-date').textContent =
 
 async function cargarHistorial() {
     const tbody = document.getElementById("tablaHistorial");
-    tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><span>⏳</span>Cargando...</div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><span> </span>Cargando...</div></td></tr>`;
     try {
         const res = await fetch(`${API}/ordenes`);
         if (!res.ok) throw new Error();
@@ -309,7 +309,7 @@ async function cargarHistorial() {
         actualizarKPIs(todasOrdenes);
         renderTabla(todasOrdenes);
     } catch {
-        tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><span>⚠️</span><p style="color:#dc2626;font-weight:600">Error cargando historial</p><button onclick="cargarHistorial()" style="margin-top:.8rem;background:var(--pri);color:#fff;border:none;border-radius:10px;padding:.5rem 1.2rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">↺ Reintentar</button></div></td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><span> </span><p style="color:#dc2626;font-weight:600">Error cargando historial</p><button onclick="cargarHistorial()" style="margin-top:.8rem;background:var(--pri);color:#fff;border:none;border-radius:10px;padding:.5rem 1.2rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">↺ Reintentar</button></div></td></tr>`;
     }
 }
 
@@ -332,11 +332,11 @@ function renderTabla(lista) {
     if (count) count.textContent = `${lista.length} orden${lista.length !== 1 ? 'es' : ''}`;
 
     if (lista.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><span>📋</span>No se encontraron órdenes</div></td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><span> </span>No se encontraron órdenes</div></td></tr>`;
         return;
     }
 
-    const iconos = { "Mantenimiento":"❄️","Reparación":"🔧","Instalación":"⚙️","Diagnóstico IA":"🤖" };
+    const iconos = { "Mantenimiento":" ","Reparación":"🔧","Instalación":" ","Diagnóstico IA":" " };
 
     tbody.innerHTML = "";
     lista.forEach(o => {
@@ -378,7 +378,7 @@ function renderTabla(lista) {
             <td colspan="8" style="padding:0">
                 <div class="detalle-content">
                     <div class="detalle-item">
-                        <span class="detalle-label">📝 Descripción del problema</span>
+                        <span class="detalle-label">  Descripción del problema</span>
                         <span class="detalle-val">${o.descripcion || 'Sin descripción registrada'}</span>
                     </div>
                     <div class="detalle-item">
@@ -386,7 +386,7 @@ function renderTabla(lista) {
                         <span class="detalle-val">${o.tecnico_especialidad || '—'}</span>
                     </div>
                     <div class="detalle-item">
-                        <span class="detalle-label">📅 Fecha de ingreso</span>
+                        <span class="detalle-label">  Fecha de ingreso</span>
                         <span class="detalle-val">${fecha}</span>
                     </div>
                     <div class="detalle-item">
