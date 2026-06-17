@@ -70,7 +70,7 @@ async function generarDiagnostico() {
 
   const btn = document.getElementById("btnGenerar");
   btn.disabled = true;
-  btn.textContent = "⏳ Analizando con IA...";
+  btn.textContent = " Analizando con IA...";
 
   const resultadoEl = document.getElementById("resultadoIA");
   const contenidoEl = document.getElementById("contenidoIA");
@@ -167,7 +167,7 @@ async function generarDiagnostico() {
 
   } catch (err) {
     console.error("Error IA:", err);
-    contenidoEl.innerHTML = `<span style="color:#dc2626">⚠️ Error al conectar con la IA. Intenta de nuevo.</span>`;
+    contenidoEl.innerHTML = `<span style="color:#dc2626"> Error al conectar con la IA. Intenta de nuevo.</span>`;
     mostrarToast("Error al generar diagnóstico", "error");
   }
 
@@ -208,19 +208,19 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 // ══════════════════════════════════════════════════════
 function extraerTags(texto) {
   const mapa = {
-    "compresor": "🔩 Compresor",
-    "gas": "💨 Gas refrigerante",
-    "fuga": "🔍 Fuga detectada",
-    "filtro": "🧹 Filtro",
-    "ventilador": "🌀 Ventilador",
-    "eléctric": "⚡ Eléctrico",
-    "termostato": "🌡️ Termostato",
-    "condensador": "❄️ Condensador",
-    "evaporador": "💧 Evaporador",
-    "correa": "⚙️ Correa",
-    "urgencia alta": "🔴 Alta urgencia",
-    "urgencia media": "🟡 Media urgencia",
-    "urgencia baja": "🟢 Baja urgencia",
+    "compresor": " Compresor",
+    "gas": " Gas refrigerante",
+    "fuga": " Fuga detectada",
+    "filtro": " Filtro",
+    "ventilador": " Ventilador",
+    "eléctric": " Eléctrico",
+    "termostato": " Termostato",
+    "condensador": " Condensador",
+    "evaporador": " Evaporador",
+    "correa": " Correa",
+    "urgencia alta": " Alta urgencia",
+    "urgencia media": " Media urgencia",
+    "urgencia baja": " Baja urgencia",
   };
   const tags = [];
   const bajo = texto.toLowerCase();
@@ -295,7 +295,7 @@ function imprimirCotizacion() {
     <div class="brand-sub">Sistema Automotriz · Diagnóstico IA</div>
   </div>
   <div>
-    <div class="badge">🤖 Cotización Inteligente</div>
+    <div class="badge"> Cotización Inteligente</div>
     <div style="font-size:.72rem;color:#64748b;text-align:right;margin-top:.3rem">${fecha}</div>
   </div>
 </div>
@@ -308,7 +308,7 @@ function imprimirCotizacion() {
   ${imagen_count > 0 ? `<div class="info-item"><label>Imágenes analizadas</label><span>${imagen_count} imagen(es)</span></div>` : ""}
 </div>
 
-<p class="section-title">📋 Diagnóstico generado por IA</p>
+<p class="section-title"> diagnóstico generado por IA</p>
 <div class="diagnostico">${diagnostico_ia.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</div>
 
 <div class="costo-box">
@@ -316,7 +316,7 @@ function imprimirCotizacion() {
   <div style="text-align:right;font-size:.7rem;color:#64748b">*Precio referencial<br>sujeto a revisión técnica</div>
 </div>
 
-<div class="validez">⏱️ Validez de esta cotización: 72 horas desde la fecha de emisión</div>
+<div class="validez">⏱ Validez de esta cotización: 72 horas desde la fecha de emisión</div>
 
 <div class="footer">
   <p style="font-weight:700;color:#1d4ed8;margin-bottom:.3rem">Frío Cars — Sistema Automotriz</p>
