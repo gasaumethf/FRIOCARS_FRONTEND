@@ -1,305 +1,1096 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cotización Inteligente | Frío Cars</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="icon" type="image/x-icon" href="../assets/Logo/fabicon.ico">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--pri:#1d4ed8;--pri-h:#1e40af;--pri-lt:#eff6ff;--bg:#f0f4fa;--surface:#ffffff;--border:#e2e8f0;--text:#0f172a;--muted:#64748b;--green:#16a34a;--green-lt:#f0fdf4;--green-border:#bbf7d0;--yellow:#d97706;--cyan:#0284c7;--cyan-lt:#f0f9ff;--font-scale:1;--topbar-h:64px}
-body{font-family:"Plus Jakarta Sans",sans-serif;font-size:calc(1rem * var(--font-scale));background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s}
-body.high-contrast{background:#fff!important;--border:#000;--muted:#000}
-body.sepia{background:#f5ede0!important;--bg:#f5ede0;--surface:#fffbf3;--border:#d4b896;--pri:#7c4f1e;--pri-lt:#fdf0d8;--text:#3d2008;--muted:#5a3510}
-body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--pri-lt:#1e3a5f}
-.top-bar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2.2rem 0 1.4rem;z-index:60;box-shadow:0 1px 8px rgba(0,0,0,.06)}
-.top-brand{display:flex;align-items:center;gap:.75rem;width:268px;flex-shrink:0;padding-left:.4rem}
-.top-brand-name{font-size:1.12rem;font-weight:800;color:var(--text);line-height:1.1}
-.top-brand-name span{color:var(--pri)}
-.top-brand-sub{font-size:.67rem;font-weight:500;color:var(--muted)}
-.top-bar-right{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;justify-content:flex-end}
-.topbar-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:.45rem .9rem;text-align:right;line-height:1.3}
-.topbar-card p:first-child{font-size:.65rem;font-weight:600;color:var(--muted)}
-.topbar-card p:last-child{font-size:1rem;font-weight:800}
-.topbar-breadcrumb{display:flex;align-items:center;gap:.5rem;font-size:.78rem;font-weight:600;color:var(--muted)}
-.topbar-breadcrumb a{color:var(--pri);text-decoration:none}
-.main-content{margin-left:268px;padding:calc(var(--topbar-h) + 2rem) 2.2rem 2rem;min-height:100vh}
-@media(max-width:900px){.main-content{margin-left:0!important;padding:calc(var(--topbar-h)+1rem) 1rem 1rem}}
-.page-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
-.page-title{font-size:1.65rem;font-weight:800;color:var(--text);line-height:1.25}
-.page-title span{color:var(--pri)}
-.page-sub{font-size:.84rem;color:var(--muted);margin-top:.25rem}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.4rem 1.6rem;box-shadow:0 1px 4px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.04)}
-.hero-banner{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--pri) 0%,#0284c7 100%);border-radius:20px;padding:2rem 2.4rem;margin-bottom:2rem;color:#fff;box-shadow:0 8px 32px rgba(29,78,216,.2)}
-.hero-banner::before{content:" ";position:absolute;right:-10px;top:-20px;font-size:150px;opacity:.08;line-height:1}
-.hero-banner h2{font-size:1.4rem;font-weight:800;margin-bottom:.5rem}
-.hero-banner p{font-size:.88rem;opacity:.88;max-width:600px;line-height:1.65}
-.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:2rem}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.1rem 1.3rem;text-align:center}
-.stat-val{font-size:1.8rem;font-weight:800;line-height:1;margin-bottom:.25rem}
-.stat-lbl{font-size:.72rem;font-weight:600;color:var(--muted)}
-.tipo-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem}
-@media(max-width:600px){.tipo-grid{grid-template-columns:1fr}}
-.tipo-card{background:var(--surface);border:2px solid var(--border);border-radius:18px;padding:1.4rem 1.5rem;cursor:pointer;transition:all .2s}
-.tipo-card:hover{border-color:#bfdbfe;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
-.tipo-card.activo{border-color:var(--pri);background:var(--pri-lt);box-shadow:0 0 0 3px rgba(29,78,216,.1)}
-.tipo-icon{font-size:2rem;margin-bottom:.8rem}
-.tipo-title{font-size:1rem;font-weight:800;color:var(--text);margin-bottom:.4rem}
-.tipo-desc{font-size:.78rem;color:var(--muted);line-height:1.6}
-.section-label{font-size:.73rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.9rem}
-.form-label{font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:.4rem;display:block}
-.form-input,.form-select,.form-textarea{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:.75rem 1rem;font-size:.88rem;font-family:"Plus Jakarta Sans",sans-serif;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s}
-.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(29,78,216,.1)}
-.form-textarea{resize:vertical;min-height:120px}
-.upload-zone{border:2px dashed var(--border);border-radius:14px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg);position:relative}
-.upload-zone:hover,.upload-zone.drag-over{border-color:var(--pri);background:var(--pri-lt)}
-.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.upload-zone-icon{font-size:2.2rem;margin-bottom:.6rem}
-.upload-zone p{font-size:.82rem;font-weight:600;color:var(--muted)}
-.upload-zone span{font-size:.72rem;color:var(--muted)}
-.img-preview-grid{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.8rem}
-.img-preview-item{position:relative;width:80px;height:80px;border-radius:10px;overflow:hidden;border:2px solid var(--border)}
-.img-preview-item img{width:100%;height:100%;object-fit:cover}
-.img-preview-item button{position:absolute;top:2px;right:2px;background:rgba(0,0,0,.6);color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:.65rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.ia-resultado{background:linear-gradient(135deg,var(--pri-lt),var(--cyan-lt));border:1.5px solid #bfdbfe;border-radius:18px;padding:1.6rem;margin-top:1.4rem;display:none}
-.ia-resultado.visible{display:block;animation:fadeUp .4s ease}
-.ia-tag{display:inline-flex;align-items:center;gap:.4rem;background:#fff;border:1px solid var(--border);border-radius:20px;padding:4px 10px;font-size:.72rem;font-weight:700;color:var(--pri);margin:.2rem}
-.ia-stream{font-size:.88rem;line-height:1.75;color:var(--text);white-space:pre-wrap}
-.cursor-blink{display:inline-block;width:2px;height:1em;background:var(--pri);margin-left:2px;animation:blink .7s step-end infinite;vertical-align:text-bottom}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.costo-box{background:var(--green-lt);border:1.5px solid var(--green-border);border-radius:14px;padding:1.1rem 1.4rem;margin-top:1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem}
-.costo-box p{font-size:.75rem;font-weight:700;color:var(--green)}
-.costo-box h3{font-size:2rem;font-weight:800;color:var(--green)}
-.btn-primary{display:inline-flex;align-items:center;gap:.5rem;background:var(--pri);color:#fff;border:none;border-radius:12px;padding:.8rem 1.5rem;font-size:.88rem;font-weight:700;font-family:"Plus Jakarta Sans",sans-serif;cursor:pointer;transition:background .2s,transform .15s;box-shadow:0 4px 14px rgba(29,78,216,.25)}
-.btn-primary:hover{background:var(--pri-h);transform:translateY(-1px)}
-.btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none}
-.btn-secondary{display:inline-flex;align-items:center;gap:.5rem;background:var(--green-lt);color:var(--green);border:1.5px solid var(--green-border);border-radius:12px;padding:.8rem 1.5rem;font-size:.88rem;font-weight:700;font-family:"Plus Jakarta Sans",sans-serif;cursor:pointer;transition:all .2s}
-.btn-secondary:hover{background:var(--green);color:#fff}
-.a11y-btn{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:200;background:var(--pri);color:#fff;border:none;border-radius:12px 0 0 12px;padding:.9rem .6rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.66em;font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;box-shadow:-3px 0 14px rgba(29,78,216,.2);transition:background .2s,right .35s}
-.a11y-btn:hover{background:var(--pri-h)}
-.a11y-btn.open{right:292px}
-.a11y-panel{position:fixed;right:-300px;top:0;height:100%;width:292px;background:var(--surface);border-left:1.5px solid var(--border);z-index:199;display:flex;flex-direction:column;padding:1.8rem 1.4rem;box-shadow:-8px 0 30px rgba(0,0,0,.07);transition:right .35s cubic-bezier(.4,0,.2,1);overflow-y:auto}
-.a11y-panel.open{right:0}
-.sec-lbl{display:block;font-size:.71em;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.09em;margin-bottom:.6rem}
-.temas{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
-.tema{display:flex;flex-direction:column;align-items:center;gap:5px;padding:.5rem .3rem;border-radius:9px;border:1.5px solid var(--border);background:var(--pri-lt);cursor:pointer;font-size:.72em;color:var(--muted);font-family:"Plus Jakarta Sans",sans-serif;font-weight:500;transition:all .2s}
-.tema:hover,.tema.on{border-color:var(--pri);color:var(--pri);font-weight:700}
-.tema-p{width:34px;height:20px;border-radius:5px;border:1px solid rgba(0,0,0,.07)}
-.font-row{display:flex;align-items:center;gap:.4rem}
-.font-b{flex:1;padding:.5rem;border-radius:9px;border:1.5px solid var(--border);background:var(--pri-lt);cursor:pointer;color:var(--muted);font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;transition:all .2s}
-.font-b:hover{border-color:var(--pri);color:var(--pri)}
-.tog-row{display:flex;align-items:center;justify-content:space-between;padding:.4rem 0}
-.tog-row span{font-size:.83em;color:var(--text)}
-.tog{position:relative;width:38px;height:21px}
-.tog input{opacity:0;width:0;height:0}
-.tog-sl{position:absolute;inset:0;background:var(--border);border-radius:21px;cursor:pointer;transition:background .2s}
-.tog-sl::before{content:"";position:absolute;width:15px;height:15px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .2s}
-.tog input:checked+.tog-sl{background:var(--pri)}
-.tog input:checked+.tog-sl::before{transform:translateX(17px)}
-.btn-reset{width:100%;padding:.6rem;border-radius:9px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-family:"Plus Jakarta Sans",sans-serif;font-size:.82em;font-weight:600;cursor:pointer;transition:all .2s}
-.btn-reset:hover{border-color:#dc2626;color:#dc2626;background:#fff5f5}
-.div-a{height:1px;background:var(--border);margin:.75rem 0 1.1rem}
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.anim{animation:fadeUp .4s ease both}
-.anim-2{animation:fadeUp .4s .08s ease both}
-.anim-3{animation:fadeUp .4s .16s ease both}
-.anim-4{animation:fadeUp .4s .24s ease both}
-@keyframes pulse-g{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cotización Inteligente | Frío Cars</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="../assets/Logo/fabicon.ico">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --pri: #1d4ed8;
+      --pri-h: #1e40af;
+      --pri-lt: #eff6ff;
+      --bg: #f0f4fa;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #64748b;
+      --green: #16a34a;
+      --green-lt: #f0fdf4;
+      --green-border: #bbf7d0;
+      --yellow: #d97706;
+      --cyan: #0284c7;
+      --cyan-lt: #f0f9ff;
+      --font-scale: 1;
+      --topbar-h: 64px
+    }
+
+    body {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: calc(1rem * var(--font-scale));
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background .3s, color .3s
+    }
+
+    body.high-contrast {
+      background: #fff !important;
+      --border: #000;
+      --muted: #000
+    }
+
+    body.sepia {
+      background: #f5ede0 !important;
+      --bg: #f5ede0;
+      --surface: #fffbf3;
+      --border: #d4b896;
+      --pri: #7c4f1e;
+      --pri-lt: #fdf0d8;
+      --text: #3d2008;
+      --muted: #5a3510
+    }
+
+    body.soft-dark {
+      background: #0a1628 !important;
+      --bg: #0a1628;
+      --surface: #1e293b;
+      --border: #334155;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --pri-lt: #1e3a5f
+    }
+
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--topbar-h);
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.2rem 0 1.4rem;
+      z-index: 60;
+      box-shadow: 0 1px 8px rgba(0, 0, 0, .06)
+    }
+
+    .top-brand {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      width: 268px;
+      flex-shrink: 0;
+      padding-left: .4rem
+    }
+
+    .top-brand-name {
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.1
+    }
+
+    .top-brand-name span {
+      color: var(--pri)
+    }
+
+    .top-brand-sub {
+      font-size: .67rem;
+      font-weight: 500;
+      color: var(--muted)
+    }
+
+    .top-bar-right {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      flex-wrap: wrap;
+      justify-content: flex-end
+    }
+
+    .topbar-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: .45rem .9rem;
+      text-align: right;
+      line-height: 1.3
+    }
+
+    .topbar-card p:first-child {
+      font-size: .65rem;
+      font-weight: 600;
+      color: var(--muted)
+    }
+
+    .topbar-card p:last-child {
+      font-size: 1rem;
+      font-weight: 800
+    }
+
+    .topbar-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--muted)
+    }
+
+    .topbar-breadcrumb a {
+      color: var(--pri);
+      text-decoration: none
+    }
+
+    .main-content {
+      margin-left: 268px;
+      padding: calc(var(--topbar-h) + 2rem) 2.2rem 2rem;
+      min-height: 100vh
+    }
+
+    @media(max-width:900px) {
+      .main-content {
+        margin-left: 0 !important;
+        padding: calc(var(--topbar-h)+1rem) 1rem 1rem
+      }
+    }
+
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .page-title {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.25
+    }
+
+    .page-title span {
+      color: var(--pri)
+    }
+
+    .page-sub {
+      font-size: .84rem;
+      color: var(--muted);
+      margin-top: .25rem
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.4rem 1.6rem;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .05), 0 4px 16px rgba(0, 0, 0, .04)
+    }
+
+    .hero-banner {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--pri) 0%, #0284c7 100%);
+      border-radius: 20px;
+      padding: 2rem 2.4rem;
+      margin-bottom: 2rem;
+      color: #fff;
+      box-shadow: 0 8px 32px rgba(29, 78, 216, .2)
+    }
+
+    .hero-banner::before {
+      content: " ";
+      position: absolute;
+      right: -10px;
+      top: -20px;
+      font-size: 150px;
+      opacity: .08;
+      line-height: 1
+    }
+
+    .hero-banner h2 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: .5rem
+    }
+
+    .hero-banner p {
+      font-size: .88rem;
+      opacity: .88;
+      max-width: 600px;
+      line-height: 1.65
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.1rem 1.3rem;
+      text-align: center
+    }
+
+    .stat-val {
+      font-size: 1.8rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: .25rem
+    }
+
+    .stat-lbl {
+      font-size: .72rem;
+      font-weight: 600;
+      color: var(--muted)
+    }
+
+    .tipo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem
+    }
+
+    @media(max-width:600px) {
+      .tipo-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .tipo-card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 18px;
+      padding: 1.4rem 1.5rem;
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .tipo-card:hover {
+      border-color: #bfdbfe;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .08)
+    }
+
+    .tipo-card.activo {
+      border-color: var(--pri);
+      background: var(--pri-lt);
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, .1)
+    }
+
+    .tipo-icon {
+      font-size: 2rem;
+      margin-bottom: .8rem
+    }
+
+    .tipo-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: .4rem
+    }
+
+    .tipo-desc {
+      font-size: .78rem;
+      color: var(--muted);
+      line-height: 1.6
+    }
+
+    .section-label {
+      font-size: .73rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: .9rem
+    }
+
+    .form-label {
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: .4rem;
+      display: block
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: .75rem 1rem;
+      font-size: .88rem;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      color: var(--text);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--pri);
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, .1)
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 120px
+    }
+
+    .upload-zone {
+      border: 2px dashed var(--border);
+      border-radius: 14px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all .2s;
+      background: var(--bg);
+      position: relative
+    }
+
+    .upload-zone:hover,
+    .upload-zone.drag-over {
+      border-color: var(--pri);
+      background: var(--pri-lt)
+    }
+
+    .upload-zone input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%
+    }
+
+    .upload-zone-icon {
+      font-size: 2.2rem;
+      margin-bottom: .6rem
+    }
+
+    .upload-zone p {
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--muted)
+    }
+
+    .upload-zone span {
+      font-size: .72rem;
+      color: var(--muted)
+    }
+
+    .img-preview-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+      margin-top: .8rem
+    }
+
+    .img-preview-item {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid var(--border)
+    }
+
+    .img-preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .img-preview-item button {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: rgba(0, 0, 0, .6);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: .65rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .ia-resultado {
+      background: linear-gradient(135deg, var(--pri-lt), var(--cyan-lt));
+      border: 1.5px solid #bfdbfe;
+      border-radius: 18px;
+      padding: 1.6rem;
+      margin-top: 1.4rem;
+      display: none
+    }
+
+    .ia-resultado.visible {
+      display: block;
+      animation: fadeUp .4s ease
+    }
+
+    .ia-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: .72rem;
+      font-weight: 700;
+      color: var(--pri);
+      margin: .2rem
+    }
+
+    .ia-stream {
+      font-size: .88rem;
+      line-height: 1.75;
+      color: var(--text);
+      white-space: pre-wrap
+    }
+
+    .cursor-blink {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: var(--pri);
+      margin-left: 2px;
+      animation: blink .7s step-end infinite;
+      vertical-align: text-bottom
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: 0
+      }
+    }
+
+    .costo-box {
+      background: var(--green-lt);
+      border: 1.5px solid var(--green-border);
+      border-radius: 14px;
+      padding: 1.1rem 1.4rem;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: .8rem
+    }
+
+    .costo-box p {
+      font-size: .75rem;
+      font-weight: 700;
+      color: var(--green)
+    }
+
+    .costo-box h3 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--green)
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: var(--pri);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: .8rem 1.5rem;
+      font-size: .88rem;
+      font-weight: 700;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+      box-shadow: 0 4px 14px rgba(29, 78, 216, .25)
+    }
+
+    .btn-primary:hover {
+      background: var(--pri-h);
+      transform: translateY(-1px)
+    }
+
+    .btn-primary:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: var(--green-lt);
+      color: var(--green);
+      border: 1.5px solid var(--green-border);
+      border-radius: 12px;
+      padding: .8rem 1.5rem;
+      font-size: .88rem;
+      font-weight: 700;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .btn-secondary:hover {
+      background: var(--green);
+      color: #fff
+    }
+
+    .a11y-btn {
+      position: fixed;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 200;
+      background: var(--pri);
+      color: #fff;
+      border: none;
+      border-radius: 12px 0 0 12px;
+      padding: .9rem .6rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: .66em;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-weight: 700;
+      box-shadow: -3px 0 14px rgba(29, 78, 216, .2);
+      transition: background .2s, right .35s
+    }
+
+    .a11y-btn:hover {
+      background: var(--pri-h)
+    }
+
+    .a11y-btn.open {
+      right: 292px
+    }
+
+    .a11y-panel {
+      position: fixed;
+      right: -300px;
+      top: 0;
+      height: 100%;
+      width: 292px;
+      background: var(--surface);
+      border-left: 1.5px solid var(--border);
+      z-index: 199;
+      display: flex;
+      flex-direction: column;
+      padding: 1.8rem 1.4rem;
+      box-shadow: -8px 0 30px rgba(0, 0, 0, .07);
+      transition: right .35s cubic-bezier(.4, 0, .2, 1);
+      overflow-y: auto
+    }
+
+    .a11y-panel.open {
+      right: 0
+    }
+
+    .sec-lbl {
+      display: block;
+      font-size: .71em;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+      margin-bottom: .6rem
+    }
+
+    .temas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .4rem
+    }
+
+    .tema {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      padding: .5rem .3rem;
+      border-radius: 9px;
+      border: 1.5px solid var(--border);
+      background: var(--pri-lt);
+      cursor: pointer;
+      font-size: .72em;
+      color: var(--muted);
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-weight: 500;
+      transition: all .2s
+    }
+
+    .tema:hover,
+    .tema.on {
+      border-color: var(--pri);
+      color: var(--pri);
+      font-weight: 700
+    }
+
+    .tema-p {
+      width: 34px;
+      height: 20px;
+      border-radius: 5px;
+      border: 1px solid rgba(0, 0, 0, .07)
+    }
+
+    .font-row {
+      display: flex;
+      align-items: center;
+      gap: .4rem
+    }
+
+    .font-b {
+      flex: 1;
+      padding: .5rem;
+      border-radius: 9px;
+      border: 1.5px solid var(--border);
+      background: var(--pri-lt);
+      cursor: pointer;
+      color: var(--muted);
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-weight: 700;
+      transition: all .2s
+    }
+
+    .font-b:hover {
+      border-color: var(--pri);
+      color: var(--pri)
+    }
+
+    .tog-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .4rem 0
+    }
+
+    .tog-row span {
+      font-size: .83em;
+      color: var(--text)
+    }
+
+    .tog {
+      position: relative;
+      width: 38px;
+      height: 21px
+    }
+
+    .tog input {
+      opacity: 0;
+      width: 0;
+      height: 0
+    }
+
+    .tog-sl {
+      position: absolute;
+      inset: 0;
+      background: var(--border);
+      border-radius: 21px;
+      cursor: pointer;
+      transition: background .2s
+    }
+
+    .tog-sl::before {
+      content: "";
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      left: 3px;
+      top: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform .2s
+    }
+
+    .tog input:checked+.tog-sl {
+      background: var(--pri)
+    }
+
+    .tog input:checked+.tog-sl::before {
+      transform: translateX(17px)
+    }
+
+    .btn-reset {
+      width: 100%;
+      padding: .6rem;
+      border-radius: 9px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: .82em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .btn-reset:hover {
+      border-color: #dc2626;
+      color: #dc2626;
+      background: #fff5f5
+    }
+
+    .div-a {
+      height: 1px;
+      background: var(--border);
+      margin: .75rem 0 1.1rem
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .anim {
+      animation: fadeUp .4s ease both
+    }
+
+    .anim-2 {
+      animation: fadeUp .4s .08s ease both
+    }
+
+    .anim-3 {
+      animation: fadeUp .4s .16s ease both
+    }
+
+    .anim-4 {
+      animation: fadeUp .4s .24s ease both
+    }
+
+    @keyframes pulse-g {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: .5;
+        transform: scale(.75)
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div id="sidebar-container"></div>
+  <div id="sidebar-container"></div>
 
-<header class="top-bar">
-  <div class="top-brand">
-    <div style="width:40px;height:40px;flex-shrink:0"><img src="../assets/Logo/Logo2.png" alt="Logo" style="width:40px;height:40px;object-fit:contain"></div>
-    <div><div class="top-brand-name">Frío <span>Cars</span></div><div class="top-brand-sub">Sistema Automotriz</div></div>
-  </div>
-  <div style="width:1px;height:36px;background:var(--border);flex-shrink:0"></div>
-  <div class="topbar-breadcrumb" style="flex:1;padding-left:1.4rem">
-    <a href="dashboard.html">Inicio</a><span style="color:var(--border)">›</span>
-    <span style="color:var(--text);font-weight:700">Cotización IA</span>
-  </div>
-  <div class="top-bar-right">
-    <div class="topbar-card" style="border-left:3px solid var(--cyan)"><p>Precisión IA</p><p style="color:var(--cyan)">98%</p></div>
-    <div class="topbar-card"><p>Hoy</p><p id="today-date">—</p></div>
-  </div>
-</header>
-
-<main class="main-content">
-
-  <div class="page-header anim">
-    <div>
-      <h1 class="page-title">Cotización <span>Inteligente</span></h1>
-      <p class="page-sub">Diagnostica problemas automotrices usando IA, inventario conectado y análisis predictivo avanzado.</p>
-    </div>
-    <div style="display:flex;align-items:center;gap:.6rem;background:var(--pri-lt);border:1px solid #bfdbfe;border-radius:16px;padding:.8rem 1.2rem;flex-shrink:0">
-      <div style="width:10px;height:10px;background:#22c55e;border-radius:50%;animation:pulse-g 2s ease-in-out infinite"></div>
-      <span style="font-size:.78rem;font-weight:700;color:var(--pri)">Sistema IA activo</span>
-    </div>
-  </div>
-
-  <div class="stats-row anim-2">
-    <div class="stat-card"><div class="stat-val" style="color:var(--cyan)">98%</div><div class="stat-lbl">Precisión IA</div></div>
-    <div class="stat-card"><div class="stat-val" style="color:var(--pri)">+2K</div><div class="stat-lbl">Diagnósticos realizados</div></div>
-    <div class="stat-card"><div class="stat-val" style="color:var(--green)">350+</div><div class="stat-lbl">Productos analizados</div></div>
-    <div class="stat-card"><div class="stat-val" style="color:var(--yellow)">93%</div><div class="stat-lbl">Detección de fugas</div></div>
-  </div>
-
-  <div class="hero-banner anim-2">
-    <h2>IA especializada en diagnóstico automotriz</h2>
-    <p>El sistema analiza síntomas, imágenes y comportamiento del aire acondicionado para generar predicciones inteligentes con costos estimados.</p>
-  </div>
-
-  <p class="section-label anim-3">Tipo de cotización</p>
-  <div class="tipo-grid anim-3">
-    <div class="tipo-card activo" id="cardAutomatica" onclick="seleccionarTipo('AUTOMATICA')">
-      <div class="tipo-icon">🤖</div>
-      <div class="tipo-title">Cotización Inteligente</div>
-      <p class="tipo-desc">La IA analiza automáticamente imágenes, descripción y síntomas para generar una predicción inmediata con costos estimados.</p>
-    </div>
-    <div class="tipo-card" id="cardManual" onclick="seleccionarTipo('MANUAL')">
-      <div class="tipo-icon">🔧</div>
-      <div class="tipo-title">Cotización Técnica</div>
-      <p class="tipo-desc">Un técnico especializado revisará manualmente la información y te contactará con una cotización detallada.</p>
-    </div>
-  </div>
-
-  <p class="section-label anim-3">Datos del cliente y vehículo</p>
-  <div class="card anim-4" style="margin-bottom:1.5rem">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem">
+  <header class="top-bar">
+    <div class="top-brand">
+      <div style="width:40px;height:40px;flex-shrink:0"><img src="../assets/Logo/Logo2.png" alt="Logo"
+          style="width:40px;height:40px;object-fit:contain"></div>
       <div>
-        <label class="form-label" for="nombre">Nombre completo *</label>
-        <input type="text" id="nombre" class="form-input" placeholder="Ej: Guillermo Saumeth">
+        <div class="top-brand-name">Frío <span>Cars</span></div>
+        <div class="top-brand-sub">Sistema Automotriz</div>
       </div>
+    </div>
+    <div style="width:1px;height:36px;background:var(--border);flex-shrink:0"></div>
+    <div class="topbar-breadcrumb" style="flex:1;padding-left:1.4rem">
+      <a href="dashboard.html">Inicio</a><span style="color:var(--border)">›</span>
+      <span style="color:var(--text);font-weight:700">Cotización IA</span>
+    </div>
+    <div class="top-bar-right">
+      <div class="topbar-card" style="border-left:3px solid var(--cyan)">
+        <p>Precisión IA</p>
+        <p style="color:var(--cyan)">98%</p>
+      </div>
+      <div class="topbar-card">
+        <p>Hoy</p>
+        <p id="today-date">—</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+
+    <div class="page-header anim">
       <div>
-        <label class="form-label" for="telefono">Teléfono</label>
-        <input type="tel" id="telefono" class="form-input" placeholder="Ej: 3001234567">
+        <h1 class="page-title">Cotización <span>Inteligente</span></h1>
+        <p class="page-sub">Diagnostica problemas automotrices usando IA, inventario conectado y análisis predictivo
+          avanzado.</p>
       </div>
-      <div style="grid-column:1/-1">
-        <label class="form-label" for="vehiculo">Vehículo *</label>
-        <input type="text" id="vehiculo" class="form-input" placeholder="Ej: Toyota Corolla 2018">
-      </div>
-      <div style="grid-column:1/-1">
-        <label class="form-label" for="descripcion">Descripción del problema *</label>
-        <textarea id="descripcion" class="form-textarea" placeholder="Describe detalladamente el problema: síntomas, ruidos, cuándo ocurre, si el aire enfría o no, etc."></textarea>
-      </div>
-      <div style="grid-column:1/-1">
-        <label class="form-label">Imágenes del vehículo / problema</label>
-        <div class="upload-zone" id="uploadZone">
-          <input type="file" id="archivos" multiple accept="image/*" onchange="previsualizarImagenes(this)">
-          <div class="upload-zone-icon">📷</div>
-          <p>Arrastra imágenes aquí o haz clic para seleccionar</p>
-          <span>PNG, JPG, WEBP — Máx. 5 imágenes · La IA las analizará automáticamente</span>
+      <div
+        style="display:flex;align-items:center;gap:.6rem;background:var(--pri-lt);border:1px solid #bfdbfe;border-radius:16px;padding:.8rem 1.2rem;flex-shrink:0">
+        <div
+          style="width:10px;height:10px;background:#22c55e;border-radius:50%;animation:pulse-g 2s ease-in-out infinite">
         </div>
-        <div class="img-preview-grid" id="previewGrid"></div>
+        <span style="font-size:.78rem;font-weight:700;color:var(--pri)">Sistema IA activo</span>
       </div>
     </div>
-  </div>
 
-  <!-- RESULTADO IA -->
-  <div class="ia-resultado" id="resultadoIA">
-    <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem">
-      <div style="width:36px;height:36px;background:var(--pri-lt);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem">🤖</div>
+    <div class="stats-row anim-2">
+      <div class="stat-card">
+        <div class="stat-val" style="color:var(--cyan)">98%</div>
+        <div class="stat-lbl">Precisión IA</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" style="color:var(--pri)">+2K</div>
+        <div class="stat-lbl">Diagnósticos realizados</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" style="color:var(--green)">350+</div>
+        <div class="stat-lbl">Productos analizados</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" style="color:var(--yellow)">93%</div>
+        <div class="stat-lbl">Detección de fugas</div>
+      </div>
+    </div>
+
+    <div class="hero-banner anim-2">
+      <h2>IA especializada en diagnóstico automotriz</h2>
+      <p>El sistema analiza síntomas, imágenes y comportamiento del aire acondicionado para generar predicciones
+        inteligentes con costos estimados.</p>
+    </div>
+
+    <p class="section-label anim-3">Tipo de cotización</p>
+    <div class="tipo-grid anim-3">
+      <div class="tipo-card activo" id="cardAutomatica" onclick="seleccionarTipo('AUTOMATICA')">
+        <div class="tipo-icon">
+          <img src="../assets/Logo/botspensando.png" alt="IA" class="icono-ia">
+        </div>
+        <div class="tipo-title">Cotización Inteligente</div>
+        <p class="tipo-desc">La IA analiza automáticamente imágenes, descripción y síntomas para generar una predicción
+          inmediata con costos estimados.</p>
+      </div>
+      <div class="tipo-card" id="cardManual" onclick="seleccionarTipo('MANUAL')">
+        <div class="tipo-icon"></div>
+        <div class="tipo-title">Cotización Técnica</div>
+        <p class="tipo-desc">Un técnico especializado revisará manualmente la información y te contactará con una
+          cotización detallada.</p>
+      </div>
+    </div>
+
+    <p class="section-label anim-3">Datos del cliente y vehículo</p>
+    <div class="card anim-4" style="margin-bottom:1.5rem">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem">
+        <div>
+          <label class="form-label" for="nombre">Nombre completo *</label>
+          <input type="text" id="nombre" class="form-input" placeholder="Ej: Guillermo Saumeth">
+        </div>
+        <div>
+          <label class="form-label" for="telefono">Teléfono</label>
+          <input type="tel" id="telefono" class="form-input" placeholder="Ej: 3001234567">
+        </div>
+        <div style="grid-column:1/-1">
+          <label class="form-label" for="vehiculo">Vehículo *</label>
+          <input type="text" id="vehiculo" class="form-input" placeholder="Ej: Toyota Corolla 2018">
+        </div>
+        <div style="grid-column:1/-1">
+          <label class="form-label" for="descripcion">Descripción del problema *</label>
+          <textarea id="descripcion" class="form-textarea"
+            placeholder="Describe detalladamente el problema: síntomas, ruidos, cuándo ocurre, si el aire enfría o no, etc."></textarea>
+        </div>
+        <div style="grid-column:1/-1">
+          <label class="form-label">Imágenes del vehículo / problema</label>
+          <div class="upload-zone" id="uploadZone">
+            <input type="file" id="archivos" multiple accept="image/*" onchange="previsualizarImagenes(this)">
+            <div class="upload-zone-icon">📷</div>
+            <p>Arrastra imágenes aquí o haz clic para seleccionar</p>
+            <span>PNG, JPG, WEBP — Máx. 5 imágenes · La IA las analizará automáticamente</span>
+          </div>
+          <div class="img-preview-grid" id="previewGrid"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTADO IA -->
+    <div class="ia-resultado" id="resultadoIA">
+      <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem">
+        <div
+          style="width:36px;height:36px;background:var(--pri-lt);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem">
+          🤖</div>
+        <div>
+          <p style="font-size:.95rem;font-weight:800;color:var(--pri)">Predicción Inteligente — Frío Cars AI</p>
+          <p style="font-size:.72rem;color:var(--muted)" id="ia-cliente-label"></p>
+        </div>
+        <div style="margin-left:auto">
+          <span
+            style="background:#dcfce7;color:#16a34a;font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:99px">✓
+            Guardado</span>
+        </div>
+      </div>
+      <div id="ia-tags" style="margin-bottom:1rem"></div>
+      <div class="ia-stream" id="contenidoIA"></div>
+      <div class="costo-box" id="costoBox" style="display:none">
+        <div>
+          <p>Costo estimado del servicio</p>
+          <h3 id="costoValor">$0</h3>
+        </div>
+        <div style="text-align:right">
+          <p style="font-size:.7rem;color:var(--muted);font-weight:500">*Precio referencial, sujeto a revisión técnica
+          </p>
+        </div>
+      </div>
+      <!-- ACCIONES -->
+      <div id="ia-acciones"
+        style="display:none;gap:.8rem;margin-top:1.2rem;flex-wrap:wrap;padding-top:1rem;border-top:1px solid #bfdbfe">
+        <button onclick="imprimirCotizacion()"
+          style="display:inline-flex;align-items:center;gap:.5rem;background:var(--pri);color:#fff;border:none;border-radius:12px;padding:.75rem 1.3rem;font-size:.85rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;box-shadow:0 4px 14px rgba(29,78,216,.2)">🖨️
+          Ver e Imprimir</button>
+        <button onclick="descargarPDF()"
+          style="display:inline-flex;align-items:center;gap:.5rem;background:#16a34a;color:#fff;border:none;border-radius:12px;padding:.75rem 1.3rem;font-size:.85rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;box-shadow:0 4px 14px rgba(22,163,74,.2)">📄
+          Guardar PDF</button>
+        <button onclick="nuevaCotizacion()"
+          style="display:inline-flex;align-items:center;gap:.5rem;background:var(--bg);color:var(--muted);border:1.5px solid var(--border);border-radius:12px;padding:.75rem 1.3rem;font-size:.85rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer">↺
+          Nueva cotización</button>
+      </div>
+    </div>
+
+    <!-- BOTONES PRINCIPALES -->
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.4rem" class="anim-4">
+      <button class="btn-primary" id="btnGenerar" onclick="generarDiagnostico()"> Generar Diagnóstico IA</button>
+      <button class="btn-secondary" id="btnEnviar" onclick="enviarSolicitud()"> Enviar Solicitud</button>
+    </div>
+
+  </main>
+
+  <button class="a11y-btn" id="aBtn" aria-label="Accesibilidad" aria-expanded="false">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round">
+      <circle cx="12" cy="5" r="1.8" fill="currentColor" stroke="none" />
+      <path d="M5 8.5h14" />
+      <path d="M12 8.5V14" />
+      <path d="M8.5 14l-2 5.5M15.5 14l2 5.5" />
+    </svg>
+    <span style="font-size:.62em;font-weight:700">Acceso</span>
+  </button>
+  <aside id="aPanel" class="a11y-panel" role="complementary" aria-hidden="true">
+    <div
+      style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.4rem;padding-bottom:.9rem;border-bottom:1px solid var(--border)">
       <div>
-        <p style="font-size:.95rem;font-weight:800;color:var(--pri)">Predicción Inteligente — Frío Cars AI</p>
-        <p style="font-size:.72rem;color:var(--muted)" id="ia-cliente-label"></p>
+        <h3 style="font-size:.97rem;font-weight:800;color:var(--text)">Accesibilidad</h3>
       </div>
-      <div style="margin-left:auto">
-        <span style="background:#dcfce7;color:#16a34a;font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:99px">✓ Guardado</span>
-      </div>
+      <button id="aClose"
+        style="background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:8px;display:flex"><svg
+          width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+          stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg></button>
     </div>
-    <div id="ia-tags" style="margin-bottom:1rem"></div>
-    <div class="ia-stream" id="contenidoIA"></div>
-    <div class="costo-box" id="costoBox" style="display:none">
-      <div>
-        <p>Costo estimado del servicio</p>
-        <h3 id="costoValor">$0</h3>
-      </div>
-      <div style="text-align:right">
-        <p style="font-size:.7rem;color:var(--muted);font-weight:500">*Precio referencial, sujeto a revisión técnica</p>
-      </div>
+    <div style="margin-bottom:1.2rem"><span class="sec-lbl">Tema</span>
+      <div class="temas"><button class="tema on" data-t="normal">
+          <div class="tema-p" style="background:linear-gradient(135deg,#f0f4fa 50%,#1d4ed8 50%)"></div>Normal
+        </button><button class="tema" data-t="high-contrast">
+          <div class="tema-p" style="background:linear-gradient(135deg,#fff 50%,#0028b0 50%)"></div>Alto contraste
+        </button><button class="tema" data-t="sepia">
+          <div class="tema-p" style="background:linear-gradient(135deg,#f5ede0 50%,#7c4f1e 50%)"></div>Sepia
+        </button><button class="tema" data-t="soft-dark">
+          <div class="tema-p" style="background:linear-gradient(135deg,#0a1628 50%,#60a5fa 50%)"></div>Noche suave
+        </button></div>
     </div>
-    <!-- ACCIONES -->
-    <div id="ia-acciones" style="display:none;gap:.8rem;margin-top:1.2rem;flex-wrap:wrap;padding-top:1rem;border-top:1px solid #bfdbfe">
-      <button onclick="imprimirCotizacion()" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--pri);color:#fff;border:none;border-radius:12px;padding:.75rem 1.3rem;font-size:.85rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;box-shadow:0 4px 14px rgba(29,78,216,.2)">🖨️ Ver e Imprimir</button>
-      <button onclick="descargarPDF()" style="display:inline-flex;align-items:center;gap:.5rem;background:#16a34a;color:#fff;border:none;border-radius:12px;padding:.75rem 1.3rem;font-size:.85rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;box-shadow:0 4px 14px rgba(22,163,74,.2)">📄 Guardar PDF</button>
-      <button onclick="nuevaCotizacion()" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--bg);color:var(--muted);border:1.5px solid var(--border);border-radius:12px;padding:.75rem 1.3rem;font-size:.85rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer">↺ Nueva cotización</button>
+    <div class="div-a"></div>
+    <div style="margin-bottom:1.2rem"><span class="sec-lbl">Tamaño</span>
+      <div class="font-row"><button class="font-b" id="fDec" style="font-size:.84em">A−</button><span
+          style="font-size:.82em;color:var(--muted);min-width:34px;text-align:center" id="fVal">100%</span><button
+          class="font-b" id="fInc">A+</button></div>
     </div>
-  </div>
+    <div class="div-a"></div>
+    <div style="margin-bottom:1.2rem"><span class="sec-lbl">Lectura</span>
+      <div class="tog-row"><span>Líneas amplias</span><label class="tog"><input type="checkbox" id="tLin"><span
+            class="tog-sl"></span></label></div>
+    </div>
+    <div style="flex:1"></div>
+    <button class="btn-reset" id="bReset">↺ Restablecer</button>
+  </aside>
 
-  <!-- BOTONES PRINCIPALES -->
-  <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.4rem" class="anim-4">
-    <button class="btn-primary" id="btnGenerar" onclick="generarDiagnostico()">🤖 Generar Diagnóstico IA</button>
-    <button class="btn-secondary" id="btnEnviar" onclick="enviarSolicitud()">📤 Enviar Solicitud</button>
-  </div>
+  <script src="../assets/js/sidebar.js"></script>
+  <script src="../assets/js/cotizacion.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/asistente.js"></script>
+  <script>
+    document.getElementById("today-date").textContent = new Date().toLocaleDateString("es-CO", { weekday: "short", day: "numeric", month: "short" });
 
-</main>
+    // Nueva cotización — limpiar formulario
+    function nuevaCotizacion() {
+      document.getElementById("nombre").value = "";
+      document.getElementById("telefono").value = "";
+      document.getElementById("vehiculo").value = "";
+      document.getElementById("descripcion").value = "";
+      document.getElementById("previewGrid").innerHTML = "";
+      document.getElementById("resultadoIA").classList.remove("visible");
+      document.getElementById("ia-acciones").style.display = "none";
+      imagenesBase64 = [];
+      ultimaCotizacion = null;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
 
-<button class="a11y-btn" id="aBtn" aria-label="Accesibilidad" aria-expanded="false">
-  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1.8" fill="currentColor" stroke="none"/><path d="M5 8.5h14"/><path d="M12 8.5V14"/><path d="M8.5 14l-2 5.5M15.5 14l2 5.5"/></svg>
-  <span style="font-size:.62em;font-weight:700">Acceso</span>
-</button>
-<aside id="aPanel" class="a11y-panel" role="complementary" aria-hidden="true">
-  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.4rem;padding-bottom:.9rem;border-bottom:1px solid var(--border)">
-    <div><h3 style="font-size:.97rem;font-weight:800;color:var(--text)">Accesibilidad</h3></div>
-    <button id="aClose" style="background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:8px;display:flex"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-  </div>
-  <div style="margin-bottom:1.2rem"><span class="sec-lbl">Tema</span><div class="temas"><button class="tema on" data-t="normal"><div class="tema-p" style="background:linear-gradient(135deg,#f0f4fa 50%,#1d4ed8 50%)"></div>Normal</button><button class="tema" data-t="high-contrast"><div class="tema-p" style="background:linear-gradient(135deg,#fff 50%,#0028b0 50%)"></div>Alto contraste</button><button class="tema" data-t="sepia"><div class="tema-p" style="background:linear-gradient(135deg,#f5ede0 50%,#7c4f1e 50%)"></div>Sepia</button><button class="tema" data-t="soft-dark"><div class="tema-p" style="background:linear-gradient(135deg,#0a1628 50%,#60a5fa 50%)"></div>Noche suave</button></div></div>
-  <div class="div-a"></div>
-  <div style="margin-bottom:1.2rem"><span class="sec-lbl">Tamaño</span><div class="font-row"><button class="font-b" id="fDec" style="font-size:.84em">A−</button><span style="font-size:.82em;color:var(--muted);min-width:34px;text-align:center" id="fVal">100%</span><button class="font-b" id="fInc">A+</button></div></div>
-  <div class="div-a"></div>
-  <div style="margin-bottom:1.2rem"><span class="sec-lbl">Lectura</span><div class="tog-row"><span>Líneas amplias</span><label class="tog"><input type="checkbox" id="tLin"><span class="tog-sl"></span></label></div></div>
-  <div style="flex:1"></div>
-  <button class="btn-reset" id="bReset">↺ Restablecer</button>
-</aside>
-
-<script src="../assets/js/sidebar.js"></script>
-<script src="../assets/js/cotizacion.js"></script>
-<script src="../assets/js/auth.js"></script>
-<script src="../assets/js/asistente.js"></script>
-<script>
-  document.getElementById("today-date").textContent = new Date().toLocaleDateString("es-CO",{weekday:"short",day:"numeric",month:"short"});
-
-  // Nueva cotización — limpiar formulario
-  function nuevaCotizacion() {
-    document.getElementById("nombre").value = "";
-    document.getElementById("telefono").value = "";
-    document.getElementById("vehiculo").value = "";
-    document.getElementById("descripcion").value = "";
-    document.getElementById("previewGrid").innerHTML = "";
-    document.getElementById("resultadoIA").classList.remove("visible");
-    document.getElementById("ia-acciones").style.display = "none";
-    imagenesBase64 = [];
-    ultimaCotizacion = null;
-    window.scrollTo({top:0,behavior:"smooth"});
-  }
-
-  const aBtn=document.getElementById("aBtn"),aPanel=document.getElementById("aPanel");
-  const openA=()=>{aPanel.classList.add("open");aBtn.classList.add("open");aPanel.setAttribute("aria-hidden","false");aBtn.setAttribute("aria-expanded","true")};
-  const closeA=()=>{aPanel.classList.remove("open");aBtn.classList.remove("open");aPanel.setAttribute("aria-hidden","true");aBtn.setAttribute("aria-expanded","false")};
-  aBtn.addEventListener("click",()=>aPanel.classList.contains("open")?closeA():openA());
-  document.getElementById("aClose").addEventListener("click",closeA);
-  document.addEventListener("keydown",e=>{if(e.key==="Escape")closeA()});
-  const temas=["normal","high-contrast","sepia","soft-dark"];
-  let tema=localStorage.getItem("a11y-tema")||"normal";
-  function setTema(t){temas.forEach(x=>document.body.classList.remove(x));if(t!=="normal")document.body.classList.add(t);tema=t;localStorage.setItem("a11y-tema",t);document.querySelectorAll(".tema").forEach(b=>{const a=b.dataset.t===t;b.classList.toggle("on",a);b.setAttribute("aria-pressed",a?"true":"false")})}
-  document.querySelectorAll(".tema").forEach(b=>b.addEventListener("click",()=>setTema(b.dataset.t)));
-  setTema(tema);
-  let esc=parseFloat(localStorage.getItem("a11y-esc")||"1");
-  const fVal=document.getElementById("fVal");
-  function setEsc(v){esc=Math.min(1.5,Math.max(.75,parseFloat(v.toFixed(2))));document.documentElement.style.setProperty("--font-scale",esc);fVal.textContent=Math.round(esc*100)+"%";localStorage.setItem("a11y-esc",esc)}
-  document.getElementById("fInc").addEventListener("click",()=>setEsc(esc+.1));
-  document.getElementById("fDec").addEventListener("click",()=>setEsc(esc-.1));
-  setEsc(esc);
-  const tLin=document.getElementById("tLin");
-  tLin.checked=localStorage.getItem("a11y-lin")==="true";
-  if(tLin.checked)document.body.style.lineHeight="2.2";
-  tLin.addEventListener("change",()=>{document.body.style.lineHeight=tLin.checked?"2.2":"";localStorage.setItem("a11y-lin",tLin.checked)});
-  document.getElementById("bReset").addEventListener("click",()=>{setTema("normal");setEsc(1);tLin.checked=false;document.body.style.lineHeight="";["a11y-tema","a11y-esc","a11y-lin"].forEach(k=>localStorage.removeItem(k))});
-</script>
+    const aBtn = document.getElementById("aBtn"), aPanel = document.getElementById("aPanel");
+    const openA = () => { aPanel.classList.add("open"); aBtn.classList.add("open"); aPanel.setAttribute("aria-hidden", "false"); aBtn.setAttribute("aria-expanded", "true") };
+    const closeA = () => { aPanel.classList.remove("open"); aBtn.classList.remove("open"); aPanel.setAttribute("aria-hidden", "true"); aBtn.setAttribute("aria-expanded", "false") };
+    aBtn.addEventListener("click", () => aPanel.classList.contains("open") ? closeA() : openA());
+    document.getElementById("aClose").addEventListener("click", closeA);
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closeA() });
+    const temas = ["normal", "high-contrast", "sepia", "soft-dark"];
+    let tema = localStorage.getItem("a11y-tema") || "normal";
+    function setTema(t) { temas.forEach(x => document.body.classList.remove(x)); if (t !== "normal") document.body.classList.add(t); tema = t; localStorage.setItem("a11y-tema", t); document.querySelectorAll(".tema").forEach(b => { const a = b.dataset.t === t; b.classList.toggle("on", a); b.setAttribute("aria-pressed", a ? "true" : "false") }) }
+    document.querySelectorAll(".tema").forEach(b => b.addEventListener("click", () => setTema(b.dataset.t)));
+    setTema(tema);
+    let esc = parseFloat(localStorage.getItem("a11y-esc") || "1");
+    const fVal = document.getElementById("fVal");
+    function setEsc(v) { esc = Math.min(1.5, Math.max(.75, parseFloat(v.toFixed(2)))); document.documentElement.style.setProperty("--font-scale", esc); fVal.textContent = Math.round(esc * 100) + "%"; localStorage.setItem("a11y-esc", esc) }
+    document.getElementById("fInc").addEventListener("click", () => setEsc(esc + .1));
+    document.getElementById("fDec").addEventListener("click", () => setEsc(esc - .1));
+    setEsc(esc);
+    const tLin = document.getElementById("tLin");
+    tLin.checked = localStorage.getItem("a11y-lin") === "true";
+    if (tLin.checked) document.body.style.lineHeight = "2.2";
+    tLin.addEventListener("change", () => { document.body.style.lineHeight = tLin.checked ? "2.2" : ""; localStorage.setItem("a11y-lin", tLin.checked) });
+    document.getElementById("bReset").addEventListener("click", () => { setTema("normal"); setEsc(1); tLin.checked = false; document.body.style.lineHeight = "";["a11y-tema", "a11y-esc", "a11y-lin"].forEach(k => localStorage.removeItem(k)) });
+  </script>
 </body>
+
 </html>
