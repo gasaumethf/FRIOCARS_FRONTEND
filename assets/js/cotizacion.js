@@ -87,14 +87,19 @@ async function generarDiagnostico() {
   clienteLabel.textContent = `Cliente: ${nombre} · ${vehiculo}${telefono ? " · " + telefono : ""}`;
 
   // Construir mensaje con imágenes
+
+
   const contenidoMensaje = [];
-  imagenesBase64.forEach((img, i) => {
+  /*imagenesBase64.forEach((img, i) => {
     contenidoMensaje.push({
       type: "image",
       source: { type: "base64", media_type: img.mediaType, data: img.data }
     });
-    contenidoMensaje.push({ type: "text", text: `Imagen ${i + 1}: ${img.nombre}` });
-  });
+    contenidoMensaje.push({
+     type: "text", 
+     text: `Imagen ${i + 1}: ${img.nombre}`
+      });
+  });*/
 
   contenidoMensaje.push({
     type: "text",
@@ -107,39 +112,19 @@ async function generarDiagnostico() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "claude-sonnet-4-6",
-        max_tokens: 1000,
-        system: `Eres el asistente de diagnóstico automotriz de Frío Cars, especializado en sistemas de aire acondicionado vehicular colombiano.
-
-Analiza síntomas, descripción e imágenes del vehículo y genera un diagnóstico profesional.
-
-ESTRUCTURA OBLIGATORIA DE RESPUESTA:
- DIAGNÓSTICO
-[Explica qué le puede estar pasando al vehículo]
-
- SERVICIOS NECESARIOS
-[Lista los servicios recomendados]
-
- REPUESTOS PROBABLES
-[Partes que pueden necesitarse]
-
- COSTO ESTIMADO: $XXX.000 - $XXX.000 COP
-[Rango de precio en pesos colombianos]
-
- URGENCIA: [Baja / Media / Alta]
-[Justificación breve]
-
-REGLAS:
-- Responde siempre en español colombiano
-- Sé directo y práctico
-- Si hay imágenes, analízalas visualmente y menciona lo que ves
-- El costo SIEMPRE debe incluir el patrón: $XXX.XXX - $XXX.XXX COP`,
-        messages: [{ role: "user", content: contenidoMensaje }]
+        nombre,
+        telefono,
+        vehiculo,
+        descripcion,
+        imagenes: []
       })
     });
 
     const data = await response.json();
-    const texto = data.content?.[0]?.text || "No se pudo obtener respuesta de la IA.";
+    console.log("RESPUESTA BACKEND:", data);
+    const texto =
+      data.diagnostico ||
+      "No se pudo obtener respuesta de la IA.";
 
     await renderStreamText(contenidoEl, texto);
 
