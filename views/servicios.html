@@ -43,57 +43,149 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 .taller-badge span{font-size:.88rem;font-weight:700;color:var(--text)}
 
 .hero-banner{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--pri) 0%,#0284c7 100%);border-radius:20px;padding:2rem 2.4rem;margin-bottom:2rem;color:#fff;box-shadow:0 8px 32px rgba(29,78,216,.2)}
-.hero-banner::before{content:'❄';position:absolute;right:-20px;top:-20px;font-size:160px;opacity:.07;line-height:1}
-.hero-banner h2{font-size:1.4rem;font-weight:800;margin-bottom:.5rem}
-.hero-banner p{font-size:.88rem;opacity:.88;max-width:600px;line-height:1.65}
+.hero-banner::before{content:'';position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.06)}
+.hero-banner::after{content:'';position:absolute;right:80px;bottom:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.04)}
+.hero-banner h2{font-size:1.4rem;font-weight:800;margin-bottom:.5rem;position:relative;z-index:1}
+.hero-banner p{font-size:.88rem;opacity:.88;max-width:600px;line-height:1.65;position:relative;z-index:1}
 
-/* ÓRDENES */
+/* ── ÓRDENES ── */
 .ordenes-section{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:1.6rem;margin-bottom:2rem;box-shadow:0 1px 4px rgba(0,0,0,.05)}
 .ordenes-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.8rem}
 .ordenes-section-title{display:flex;align-items:center;gap:.7rem;font-size:1rem;font-weight:800;color:var(--text)}
 .ordenes-count-badge{background:#dbeafe;color:#1d4ed8;border-radius:99px;padding:2px 10px;font-size:.75rem;font-weight:800;display:none}
-.btn-nueva-orden{display:inline-flex;align-items:center;gap:.5rem;background:var(--pri);color:#fff;border:none;border-radius:12px;padding:.6rem 1.1rem;font-size:.84rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:background .2s}
+.btn-icon{display:inline-flex;align-items:center;justify-content:center;background:var(--bg);border:1px solid var(--border);border-radius:10px;width:36px;height:36px;cursor:pointer;transition:all .18s;color:var(--muted)}
+.btn-icon:hover{border-color:var(--pri);color:var(--pri);background:var(--pri-lt)}
+.btn-nueva-orden{display:inline-flex;align-items:center;gap:.5rem;background:var(--pri);color:#fff;border:none;border-radius:10px;padding:.55rem 1.1rem;font-size:.82rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:background .2s;height:36px}
 .btn-nueva-orden:hover{background:var(--pri-h)}
+
 .ordenes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
-.orden-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:1.2rem 1.4rem;display:flex;flex-direction:column;gap:.9rem;transition:transform .2s,box-shadow .2s}
+
+/* orden card — flex column con botones pegados abajo */
+.orden-card{
+  background:var(--bg);border:1px solid var(--border);border-radius:16px;
+  padding:1.2rem 1.3rem;
+  display:flex;flex-direction:column;
+  transition:transform .2s,box-shadow .2s;
+}
 .orden-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08)}
-.orden-card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem}
-.orden-estado-badge{font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:99px;flex-shrink:0}
+
+.orden-card-top{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.9rem}
+.orden-tipo-wrap{display:flex;align-items:center;gap:.55rem}
+.orden-tipo-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.orden-tipo-icon svg{width:15px;height:15px;stroke:currentColor;stroke-width:2;fill:none}
+.orden-tipo-text{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.orden-num{font-size:1rem;font-weight:800;color:var(--text);margin-top:1px}
+
+.orden-estado-badge{font-size:.65rem;font-weight:700;padding:3px 9px;border-radius:99px;flex-shrink:0;display:flex;align-items:center;gap:4px}
 .orden-estado-badge.activa{background:#dcfce7;color:#15803d}
-.orden-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.orden-estado-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+
+.orden-body{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:.5rem .8rem;margin-bottom:.9rem}
 .orden-info-item{display:flex;flex-direction:column;gap:2px}
-.orden-info-label{font-size:.65rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
-.orden-info-val{font-size:.82rem;font-weight:600;color:var(--text)}
-.orden-card-actions{display:flex;gap:.4rem;flex-wrap:wrap}
-.btn-repuestos{background:#fef3c7;color:#d97706;border:none;border-radius:9px;padding:.5rem .8rem;font-size:.76rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .2s}
-.btn-repuestos:hover{background:#d97706;color:#fff}
-.btn-editar-orden{background:var(--pri-lt);color:var(--pri);border:none;border-radius:9px;padding:.5rem .8rem;font-size:.76rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .2s}
-.btn-editar-orden:hover{background:var(--pri);color:#fff}
-.btn-finalizar{flex:1;background:#dcfce7;color:#15803d;border:none;border-radius:9px;padding:.5rem .8rem;font-size:.76rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .2s}
-.btn-finalizar:hover{background:#16a34a;color:#fff}
-.btn-eliminar-orden{background:#fee2e2;color:#dc2626;border:none;border-radius:9px;padding:.5rem .8rem;font-size:.76rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .2s}
-.btn-eliminar-orden:hover{background:#dc2626;color:#fff}
+.orden-info-label{font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.orden-info-val{font-size:.8rem;font-weight:600;color:var(--text);line-height:1.35}
+.orden-info-val.placa{color:var(--pri);font-weight:800}
 
-/* BUSCADOR CLIENTE */
-.cliente-result-item{padding:.65rem 1rem;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s}
-.cliente-result-item:last-child{border-bottom:none}
-.cliente-result-item:hover{background:var(--pri-lt)}
+.orden-divider{height:1px;background:var(--border);margin-bottom:.9rem}
 
-/* SERVICIOS */
-.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;margin-bottom:2rem}
-.service-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:1.8rem 1.6rem;display:flex;flex-direction:column;gap:1rem;position:relative;overflow:hidden;transition:transform .22s,box-shadow .22s,border-color .22s,background .3s}
-.service-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.1)}
-.service-card::after{content:'';position:absolute;top:0;right:0;width:100px;height:100px;border-radius:50%;opacity:.08;transition:opacity .3s}
-.service-card:hover::after{opacity:.14}
-.svc-blue::after{background:#1d4ed8}.svc-blue:hover{border-color:#bfdbfe}.svc-blue .svc-icon{background:#dbeafe;color:#1d4ed8}.svc-blue .svc-btn{background:#1d4ed8;color:#fff}.svc-blue .svc-btn:hover{background:#1e40af}
-.svc-cyan::after{background:#0284c7}.svc-cyan:hover{border-color:#bae6fd}.svc-cyan .svc-icon{background:#e0f2fe;color:#0284c7}.svc-cyan .svc-btn{background:#0284c7;color:#fff}.svc-cyan .svc-btn:hover{background:#0369a1}
-.svc-amber::after{background:#d97706}.svc-amber:hover{border-color:#fde68a}.svc-amber .svc-icon{background:#fef3c7;color:#d97706}.svc-amber .svc-btn{background:#d97706;color:#fff}.svc-amber .svc-btn:hover{background:#b45309}
-.svc-purple::after{background:#7c3aed}.svc-purple:hover{border-color:#ddd6fe}.svc-purple .svc-icon{background:#ede9fe;color:#7c3aed}.svc-purple .svc-btn{background:#7c3aed;color:#fff}.svc-purple .svc-btn:hover{background:#6d28d9}
-.svc-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;transition:transform .22s}
-.service-card:hover .svc-icon{transform:rotate(6deg) scale(1.08)}
-.svc-title{font-size:1.1rem;font-weight:800;color:var(--text)}
-.svc-desc{font-size:.82rem;color:var(--muted);line-height:1.65;flex:1}
-.svc-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.1rem;border-radius:11px;font-size:.82rem;font-weight:700;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;width:fit-content;transition:all .2s}
+.orden-desc-block{margin-bottom:.9rem}
+.orden-desc-block .orden-info-label{margin-bottom:3px}
+.orden-desc-block p{font-size:.78rem;color:var(--text);line-height:1.5}
+
+/* botones SIEMPRE al fondo */
+.orden-card-actions{display:flex;gap:.4rem;margin-top:auto}
+.btn-ord{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:.35rem;border:none;border-radius:9px;padding:.55rem .5rem;font-size:.74rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .18s;white-space:nowrap}
+.btn-ord svg{width:12px;height:12px;stroke:currentColor;stroke-width:2.5;fill:none;flex-shrink:0}
+.btn-ord-repuestos{background:#fef3c7;color:#b45309}
+.btn-ord-repuestos:hover{background:#d97706;color:#fff}
+.btn-ord-editar{background:var(--pri-lt);color:var(--pri)}
+.btn-ord-editar:hover{background:var(--pri);color:#fff}
+.btn-ord-finalizar{background:#dcfce7;color:#15803d}
+.btn-ord-finalizar:hover{background:#16a34a;color:#fff}
+.btn-ord-eliminar{background:#fee2e2;color:#dc2626;flex:0 0 auto;padding:.55rem .65rem}
+.btn-ord-eliminar:hover{background:#dc2626;color:#fff}
+
+/* ── CATÁLOGO ── */
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;margin-bottom:2rem}
+
+.service-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:20px;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  transition:transform .22s,box-shadow .22s,border-color .22s;
+  position:relative;
+}
+.service-card:hover{transform:translateY(-3px);box-shadow:0 10px 32px rgba(0,0,0,.09)}
+
+/* franja de color superior con patrón geométrico */
+.svc-visual{height:90px;position:relative;overflow:hidden;flex-shrink:0}
+.svc-visual::before{
+  content:'';position:absolute;inset:0;
+}
+.svc-visual::after{
+  content:'';position:absolute;
+  width:120px;height:120px;border-radius:50%;
+  bottom:-50px;right:-30px;
+  opacity:.25;
+}
+.svc-circle-inner{
+  position:absolute;width:70px;height:70px;border-radius:50%;
+  top:-20px;left:20px;opacity:.2;
+}
+
+.svc-blue .svc-visual{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%)}
+.svc-blue .svc-visual::after{background:#fff}
+.svc-blue .svc-circle-inner{background:#fff}
+.svc-blue:hover{border-color:#bfdbfe}
+
+.svc-cyan .svc-visual{background:linear-gradient(135deg,#0369a1 0%,#0284c7 60%,#38bdf8 100%)}
+.svc-cyan .svc-visual::after{background:#fff}
+.svc-cyan .svc-circle-inner{background:#fff}
+.svc-cyan:hover{border-color:#bae6fd}
+
+.svc-amber .svc-visual{background:linear-gradient(135deg,#b45309 0%,#d97706 60%,#f59e0b 100%)}
+.svc-amber .svc-visual::after{background:#fff}
+.svc-amber .svc-circle-inner{background:#fff}
+.svc-amber:hover{border-color:#fde68a}
+
+.svc-violet .svc-visual{background:linear-gradient(135deg,#6d28d9 0%,#7c3aed 60%,#8b5cf6 100%)}
+.svc-violet .svc-visual::after{background:#fff}
+.svc-violet .svc-circle-inner{background:#fff}
+.svc-violet:hover{border-color:#ddd6fe}
+
+/* icono flotante sobre la franja */
+.svc-icon-badge{
+  position:absolute;bottom:-18px;left:1.2rem;
+  width:40px;height:40px;border-radius:11px;
+  background:var(--surface);box-shadow:0 2px 10px rgba(0,0,0,.12);
+  display:flex;align-items:center;justify-content:center;
+}
+.svc-icon-badge svg{width:18px;height:18px;stroke-width:2;fill:none}
+.svc-blue .svc-icon-badge svg{stroke:#1d4ed8}
+.svc-cyan .svc-icon-badge svg{stroke:#0284c7}
+.svc-amber .svc-icon-badge svg{stroke:#d97706}
+.svc-violet .svc-icon-badge svg{stroke:#7c3aed}
+
+.svc-body{padding:1.5rem 1.2rem 1.2rem;flex:1;display:flex;flex-direction:column;gap:.6rem}
+.svc-title{font-size:.98rem;font-weight:800;color:var(--text)}
+.svc-desc{font-size:.78rem;color:var(--muted);line-height:1.65;flex:1}
+
+.svc-btn{
+  display:flex;align-items:center;justify-content:center;gap:.45rem;
+  padding:.65rem 1rem;border-radius:10px;
+  font-size:.8rem;font-weight:700;border:none;cursor:pointer;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  transition:all .18s;margin-top:.3rem;
+}
+.svc-blue .svc-btn{background:var(--pri);color:#fff}
+.svc-blue .svc-btn:hover{background:var(--pri-h)}
+.svc-cyan .svc-btn{background:#0284c7;color:#fff}
+.svc-cyan .svc-btn:hover{background:#0369a1}
+.svc-amber .svc-btn{background:#d97706;color:#fff}
+.svc-amber .svc-btn:hover{background:#b45309}
+.svc-violet .svc-btn{background:#7c3aed;color:#fff}
+.svc-violet .svc-btn:hover{background:#6d28d9}
+.svc-btn svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.5;fill:none}
 
 .card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.4rem 1.6rem;box-shadow:0 1px 4px rgba(0,0,0,.05)}
 
@@ -122,14 +214,19 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 .btn-cancel-modal{background:var(--bg);color:var(--muted);border:1.5px solid var(--border);border-radius:12px;padding:.8rem 1.2rem;font-size:.9rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:all .2s}
 .btn-cancel-modal:hover{border-color:#dc2626;color:#dc2626}
 
-/* RESUMEN COBRO */
+.cliente-result-item{padding:.65rem 1rem;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s}
+.cliente-result-item:last-child{border-bottom:none}
+.cliente-result-item:hover{background:var(--pri-lt)}
+.rep-result-item{padding:.65rem 1rem;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s}
+.rep-result-item:last-child{border-bottom:none}
+.rep-result-item:hover{background:var(--pri-lt)}
+
 .resumen-row-cobro{display:flex;justify-content:space-between;padding:.45rem 0;font-size:.84rem;border-bottom:1px solid var(--border)}
 .resumen-row-cobro:last-child{border-bottom:none}
 .total-cobro-box{background:var(--green-lt);border:1.5px solid var(--green-border);border-radius:14px;padding:1rem 1.2rem;text-align:center;margin-top:1rem}
 .total-cobro-box p{font-size:.72rem;font-weight:700;color:var(--green);margin-bottom:.2rem}
 .total-cobro-box h3{font-size:2rem;font-weight:800;color:var(--green);line-height:1}
 
-/* A11Y */
 .a11y-btn{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:200;background:var(--pri);color:#fff;border:none;border-radius:12px 0 0 12px;padding:.9rem .6rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.66em;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;box-shadow:-3px 0 14px rgba(29,78,216,.2);transition:background .2s,right .35s}
 .a11y-btn:hover{background:var(--pri-h)}
 .a11y-btn.open{right:292px}
@@ -155,9 +252,6 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 .btn-reset:hover{border-color:#dc2626;color:#dc2626;background:#fff5f5}
 .div-a{height:1px;background:var(--border);margin:.75rem 0 1.1rem}
 
-.rep-result-item{padding:.65rem 1rem;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s}
-.rep-result-item:last-child{border-bottom:none}
-.rep-result-item:hover{background:var(--pri-lt)}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 .anim{animation:fadeUp .4s ease both}
 .anim-2{animation:fadeUp .4s .08s ease both}
@@ -210,13 +304,16 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
   <!-- ÓRDENES ACTIVAS -->
   <div class="ordenes-section anim-2">
     <div class="ordenes-section-header">
-      <div class="ordenes-section-title"> Órdenes activas<span class="ordenes-count-badge" id="ordenes-count-badge">0</span></div>
-      <div style="display:flex;gap:.6rem;align-items:center">
-        <button class="btn-nueva-orden" onclick="cargarOrdenesActivas()" title="Actualizar">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      <div class="ordenes-section-title">
+        Órdenes activas
+        <span class="ordenes-count-badge" id="ordenes-count-badge">0</span>
+      </div>
+      <div style="display:flex;gap:.5rem;align-items:center">
+        <button class="btn-icon" onclick="cargarOrdenesActivas()" title="Actualizar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
         </button>
         <button class="btn-nueva-orden" onclick="abrirModalOrden('')">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           Nueva orden
         </button>
       </div>
@@ -227,16 +324,93 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
   <!-- CATÁLOGO -->
   <p style="font-size:.73rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.9rem" class="anim-3">Catálogo de servicios</p>
   <div class="services-grid anim-3">
-    <div class="service-card svc-blue"><div class="svc-icon"> </div><div><div class="svc-title">Mantenimiento</div><p class="svc-desc">Revisión general del sistema de aire acondicionado, cambio de filtros y mantenimiento preventivo.</p></div><button class="svc-btn" onclick="abrirModalOrden('Mantenimiento')">+ Crear orden →</button></div>
-    <div class="service-card svc-cyan"><div class="svc-icon"> </div><div><div class="svc-title">Reparación</div><p class="svc-desc">Diagnóstico y reparación profesional de compresores, condensadores y evaporadores automotrices.</p></div><button class="svc-btn" onclick="abrirModalOrden('Reparación')">+ Crear orden →</button></div>
-    <div class="service-card svc-amber"><div class="svc-icon"> </div><div><div class="svc-title">Instalación</div><p class="svc-desc">Instalación completa de sistemas de aire acondicionado con equipos especializados certificados.</p></div><button class="svc-btn" onclick="abrirModalOrden('Instalación')">+ Crear orden →</button></div>
-    <div class="service-card svc-purple"><div class="svc-icon"> </div><div><div class="svc-title">Diagnóstico IA</div><p class="svc-desc">Diagnóstico inteligente basado en síntomas del vehículo usando inteligencia artificial predictiva.</p></div><button class="svc-btn" onclick="abrirModalOrden('Diagnóstico IA')">+ Crear orden →</button></div>
+
+    <!-- Mantenimiento -->
+    <div class="service-card svc-blue">
+      <div class="svc-visual">
+        <div class="svc-circle-inner"></div>
+        <div class="svc-icon-badge">
+          <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+      </div>
+      <div class="svc-body">
+        <div class="svc-title">Mantenimiento</div>
+        <p class="svc-desc">Revisión general del sistema de aire acondicionado, cambio de filtros y mantenimiento preventivo.</p>
+        <button class="svc-btn" onclick="abrirModalOrden('Mantenimiento')">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Crear orden
+        </button>
+      </div>
+    </div>
+
+    <!-- Reparación -->
+    <div class="service-card svc-cyan">
+      <div class="svc-visual">
+        <div class="svc-circle-inner"></div>
+        <div class="svc-icon-badge">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        </div>
+      </div>
+      <div class="svc-body">
+        <div class="svc-title">Reparación</div>
+        <p class="svc-desc">Diagnóstico y reparación profesional de compresores, condensadores y evaporadores automotrices.</p>
+        <button class="svc-btn" onclick="abrirModalOrden('Reparación')">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Crear orden
+        </button>
+      </div>
+    </div>
+
+    <!-- Instalación -->
+    <div class="service-card svc-amber">
+      <div class="svc-visual">
+        <div class="svc-circle-inner"></div>
+        <div class="svc-icon-badge">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+      </div>
+      <div class="svc-body">
+        <div class="svc-title">Instalación</div>
+        <p class="svc-desc">Instalación completa de sistemas de aire acondicionado con equipos especializados certificados.</p>
+        <button class="svc-btn" onclick="abrirModalOrden('Instalación')">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Crear orden
+        </button>
+      </div>
+    </div>
+
+    <!-- Diagnóstico IA -->
+    <div class="service-card svc-violet">
+      <div class="svc-visual">
+        <div class="svc-circle-inner"></div>
+        <div class="svc-icon-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>
+        </div>
+      </div>
+      <div class="svc-body">
+        <div class="svc-title">Diagnóstico IA</div>
+        <p class="svc-desc">Diagnóstico inteligente basado en síntomas del vehículo usando inteligencia artificial predictiva.</p>
+        <button class="svc-btn" onclick="abrirModalOrden('Diagnóstico IA')">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Crear orden
+        </button>
+      </div>
+    </div>
+
   </div>
 
   <div class="card anim-3" style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
-    <div style="width:44px;height:44px;background:var(--pri-lt);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0"> </div>
-    <div style="flex:1"><p style="font-size:.88rem;font-weight:700;color:var(--text)">¿No encuentras lo que buscas?</p><p style="font-size:.78rem;color:var(--muted)">Usa el módulo de Cotizaciones IA para un diagnóstico personalizado.</p></div>
-    <a href="./cotizacion.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--pri);color:#fff;padding:.65rem 1.2rem;border-radius:11px;font-size:.82rem;font-weight:700;text-decoration:none;flex-shrink:0;transition:background .2s" onmouseover="this.style.background='var(--pri-h)'" onmouseout="this.style.background='var(--pri)'">Ir a Cotizaciones IA →</a>
+    <div style="width:44px;height:44px;background:var(--pri-lt);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    </div>
+    <div style="flex:1">
+      <p style="font-size:.88rem;font-weight:700;color:var(--text)">¿No encuentras lo que buscas?</p>
+      <p style="font-size:.78rem;color:var(--muted)">Usa el módulo de Cotizaciones IA para un diagnóstico personalizado.</p>
+    </div>
+    <a href="./cotizacion.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--pri);color:#fff;padding:.65rem 1.2rem;border-radius:11px;font-size:.82rem;font-weight:700;text-decoration:none;flex-shrink:0;transition:background .2s" onmouseover="this.style.background='var(--pri-h)'" onmouseout="this.style.background='var(--pri)'">
+      Ir a Cotizaciones IA
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
   </div>
 
 </main>
@@ -244,16 +418,16 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 <!-- MODAL NUEVA ORDEN -->
 <div id="modal-nueva-orden" class="modal-overlay" onclick="if(event.target===this)cerrarModalOrden()">
   <div class="modal-box">
-    <div class="modal-header"><div class="modal-title"> Nueva Orden de Trabajo</div><button class="modal-close" onclick="cerrarModalOrden()">✕</button></div>
+    <div class="modal-header"><div class="modal-title">Nueva Orden de Trabajo</div><button class="modal-close" onclick="cerrarModalOrden()">✕</button></div>
     <div style="display:flex;flex-direction:column;gap:1rem">
       <div>
         <label class="form-label">Tipo de servicio <span class="req">*</span></label>
         <select id="orden-tipo" class="form-select">
           <option value="">— Seleccionar —</option>
-          <option value="Mantenimiento"> Mantenimiento</option>
-          <option value="Reparación"> Reparación</option>
-          <option value="Instalación"> Instalación</option>
-          <option value="Diagnóstico IA"> Diagnóstico IA</option>
+          <option value="Mantenimiento">Mantenimiento</option>
+          <option value="Reparación">Reparación</option>
+          <option value="Instalación">Instalación</option>
+          <option value="Diagnóstico IA">Diagnóstico IA</option>
         </select>
       </div>
       <div>
@@ -278,8 +452,8 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
       </div>
     </div>
     <div class="modal-actions">
-      <button class="btn-cancel-modal" onclick="cerrarModalOrden()">✕ Cancelar</button>
-      <button class="btn-primary-modal" id="btn-guardar-orden" onclick="guardarOrden()">✓ Crear Orden</button>
+      <button class="btn-cancel-modal" onclick="cerrarModalOrden()">Cancelar</button>
+      <button class="btn-primary-modal" id="btn-guardar-orden" onclick="guardarOrden()">Crear Orden</button>
     </div>
   </div>
 </div>
@@ -287,17 +461,17 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 <!-- MODAL EDITAR ORDEN -->
 <div id="modal-editar-orden" class="modal-overlay" onclick="if(event.target===this)cerrarModalEditar()">
   <div class="modal-box">
-    <div class="modal-header"><div class="modal-title"> Editar Orden de Trabajo</div><button class="modal-close" onclick="cerrarModalEditar()">✕</button></div>
+    <div class="modal-header"><div class="modal-title">Editar Orden de Trabajo</div><button class="modal-close" onclick="cerrarModalEditar()">✕</button></div>
     <input type="hidden" id="edit-id">
     <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:.75rem 1rem;margin-bottom:1rem;font-size:.82rem;color:var(--muted);font-weight:600" id="edit-info-cliente">—</div>
     <div style="display:flex;flex-direction:column;gap:1rem">
       <div>
         <label class="form-label">Tipo de servicio <span class="req">*</span></label>
         <select id="edit-tipo" class="form-select">
-          <option value="Mantenimiento"> Mantenimiento</option>
-          <option value="Reparación"> Reparación</option>
-          <option value="Instalación"> Instalación</option>
-          <option value="Diagnóstico IA"> Diagnóstico IA</option>
+          <option value="Mantenimiento">Mantenimiento</option>
+          <option value="Reparación">Reparación</option>
+          <option value="Instalación">Instalación</option>
+          <option value="Diagnóstico IA">Diagnóstico IA</option>
         </select>
       </div>
       <div><label class="form-label">Técnico asignado</label><select id="edit-tecnico" class="form-select"><option value="">— Sin asignar —</option></select></div>
@@ -305,8 +479,8 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
       <div><label class="form-label">Observaciones durante la intervención <span style="font-size:.72rem;font-weight:500;color:var(--muted)">(notas del técnico)</span></label><textarea id="edit-observaciones" class="form-textarea" placeholder="Ej: Se encontró fuga en manguera..." style="min-height:110px"></textarea></div>
     </div>
     <div class="modal-actions">
-      <button class="btn-cancel-modal" onclick="cerrarModalEditar()">✕ Cancelar</button>
-      <button class="btn-primary-modal" id="btn-guardar-edicion" onclick="guardarEdicionOrden()">✓ Guardar cambios</button>
+      <button class="btn-cancel-modal" onclick="cerrarModalEditar()">Cancelar</button>
+      <button class="btn-primary-modal" id="btn-guardar-edicion" onclick="guardarEdicionOrden()">Guardar cambios</button>
     </div>
   </div>
 </div>
@@ -315,12 +489,10 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 <div id="modal-repuestos" class="modal-overlay" onclick="if(event.target===this)cerrarModalRepuestos()">
   <div class="modal-box modal-box-lg">
     <div class="modal-header">
-      <div class="modal-title"> Repuestos de la Orden</div>
+      <div class="modal-title">Repuestos de la Orden</div>
       <button class="modal-close" onclick="cerrarModalRepuestos()">✕</button>
     </div>
     <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:.75rem 1rem;margin-bottom:1.2rem;font-size:.82rem;color:var(--muted);font-weight:600" id="rep-info-orden">—</div>
-
-    <!-- Agregar repuesto -->
     <div style="background:var(--pri-lt);border:1px solid #bfdbfe;border-radius:14px;padding:1rem 1.2rem;margin-bottom:1.2rem">
       <p style="font-size:.75rem;font-weight:700;color:var(--pri);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.7rem">Agregar repuesto</p>
       <div style="display:flex;flex-direction:column;gap:.6rem">
@@ -338,20 +510,16 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
             <label class="form-label" style="color:var(--pri)">Cantidad</label>
             <input type="number" id="rep-cantidad" class="form-input" value="1" min="1" style="text-align:center">
           </div>
-          <button id="btn-agregar-repuesto" onclick="agregarRepuesto()" style="background:var(--pri);color:#fff;border:none;border-radius:12px;padding:.75rem 1.2rem;font-size:.84rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;white-space:nowrap;flex:1">+ Agregar repuesto</button>
+          <button id="btn-agregar-repuesto" onclick="agregarRepuesto()" style="background:var(--pri);color:#fff;border:none;border-radius:12px;padding:.75rem 1.2rem;font-size:.84rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;white-space:nowrap;flex:1">Agregar repuesto</button>
         </div>
       </div>
     </div>
-
-    <!-- Lista de repuestos -->
     <p style="font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem">Repuestos agregados</p>
     <div id="rep-lista" style="min-height:80px;max-height:220px;overflow-y:auto"></div>
-
     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1rem;padding-top:.8rem;border-top:2px solid var(--border)">
       <span style="font-size:.82rem;font-weight:600;color:var(--muted)">Total repuestos (sin IVA):</span>
       <span style="font-size:1.2rem;font-weight:800;color:var(--green)" id="rep-total">$0</span>
     </div>
-
     <div class="modal-actions">
       <button class="btn-cancel-modal" onclick="cerrarModalRepuestos()">Cerrar</button>
     </div>
@@ -362,32 +530,26 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 <div id="modal-resumen-orden" class="modal-overlay" onclick="if(event.target===this)cerrarModalResumen()">
   <div class="modal-box modal-box-lg">
     <div class="modal-header">
-      <div class="modal-title"> Resumen de Cobro — Finalizar Orden</div>
+      <div class="modal-title">Resumen de Cobro — Finalizar Orden</div>
       <button class="modal-close" onclick="cerrarModalResumen()">✕</button>
     </div>
-
     <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:1.2rem" id="resumen-orden-info">—</div>
-
     <p style="font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem">Repuestos utilizados</p>
     <div id="resumen-repuestos-lista" style="max-height:180px;overflow-y:auto;margin-bottom:1rem"></div>
-
     <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem">
       <div class="resumen-row-cobro"><span style="color:var(--muted)">Subtotal repuestos</span><span id="resumen-subtotal" style="font-weight:700">$0</span></div>
       <div class="resumen-row-cobro"><span style="color:var(--muted)">IVA (19%)</span><span id="resumen-iva" style="font-weight:700">$0</span></div>
     </div>
-
     <div class="total-cobro-box">
       <p>Total a cobrar</p>
       <h3 id="resumen-total-final">$0</h3>
     </div>
-
     <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:.8rem 1rem;margin-top:1rem;font-size:.82rem;color:#92400e;font-weight:500">
-       Al confirmar, la orden quedará <strong>Finalizada</strong> y los repuestos se enviarán al <strong>carrito</strong> para generar la factura.
+      Al confirmar, la orden quedará <strong>Finalizada</strong> y los repuestos se enviarán al <strong>carrito</strong> para generar la factura.
     </div>
-
     <div class="modal-actions">
-      <button class="btn-cancel-modal" onclick="cerrarModalResumen()">✕ Cancelar</button>
-      <button class="btn-success-modal" id="btn-confirmar-finalizar" onclick="confirmarFinalizarOrden()">✓ Finalizar y Cobrar</button>
+      <button class="btn-cancel-modal" onclick="cerrarModalResumen()">Cancelar</button>
+      <button class="btn-success-modal" id="btn-confirmar-finalizar" onclick="confirmarFinalizarOrden()">Finalizar y Cobrar</button>
     </div>
   </div>
 </div>
@@ -399,12 +561,12 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 </button>
 <aside id="aPanel" class="a11y-panel" role="complementary" aria-hidden="true">
   <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.4rem;padding-bottom:.9rem;border-bottom:1px solid var(--border)">
-    <div><h3 style="font-size:.97rem;font-weight:800;color:var(--text)">Accesibilidad</h3><p style="font-size:.72em;color:var(--muted);margin-top:2px">Personaliza la interfaz</p></div>
+    <div><h3 style="font-size:.97rem;font-weight:800;color:var(--text)">Accesibilidad</h3></div>
     <button id="aClose" style="background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:8px;display:flex"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
   </div>
   <div style="margin-bottom:1.2rem"><span class="sec-lbl">Tema</span><div class="temas"><button class="tema on" data-t="normal"><div class="tema-p" style="background:linear-gradient(135deg,#f0f4fa 50%,#1d4ed8 50%)"></div>Normal</button><button class="tema" data-t="high-contrast"><div class="tema-p" style="background:linear-gradient(135deg,#fff 50%,#0028b0 50%)"></div>Alto contraste</button><button class="tema" data-t="sepia"><div class="tema-p" style="background:linear-gradient(135deg,#f5ede0 50%,#7c4f1e 50%)"></div>Sepia</button><button class="tema" data-t="soft-dark"><div class="tema-p" style="background:linear-gradient(135deg,#0a1628 50%,#60a5fa 50%)"></div>Noche suave</button></div></div>
   <div class="div-a"></div>
-  <div style="margin-bottom:1.2rem"><span class="sec-lbl">Tamaño de texto</span><div class="font-row"><button class="font-b" id="fDec" style="font-size:.84em">A−</button><span style="font-size:.82em;color:var(--muted);min-width:34px;text-align:center" id="fVal">100%</span><button class="font-b" id="fInc">A+</button></div></div>
+  <div style="margin-bottom:1.2rem"><span class="sec-lbl">Tamaño</span><div class="font-row"><button class="font-b" id="fDec" style="font-size:.84em">A−</button><span style="font-size:.82em;color:var(--muted);min-width:34px;text-align:center" id="fVal">100%</span><button class="font-b" id="fInc">A+</button></div></div>
   <div class="div-a"></div>
   <div style="margin-bottom:1.2rem"><span class="sec-lbl">Lectura</span><div class="tog-row"><span>Líneas amplias</span><label class="tog"><input type="checkbox" id="tLin"><span class="tog-sl"></span></label></div></div>
   <div style="flex:1"></div>
