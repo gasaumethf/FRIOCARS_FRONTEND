@@ -15,7 +15,7 @@ body.high-contrast{background:#fff!important;--border:#000;--muted:#000}
 body.sepia{background:#f5ede0!important;--bg:#f5ede0;--surface:#fffbf3;--border:#d4b896;--pri:#7c4f1e;--pri-lt:#fdf0d8;--text:#3d2008;--muted:#5a3510}
 body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--pri-lt:#1e3a5f}
 
-.top-bar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2.2rem 0 1.4rem;z-index:60;box-shadow:0 1px 8px rgba(0,0,0,.06);transition:background .3s,border-color .3s}
+.top-bar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2.2rem 0 1.4rem;z-index:60;box-shadow:0 1px 8px rgba(0,0,0,.06)}
 .top-brand{display:flex;align-items:center;gap:.75rem;width:268px;flex-shrink:0;padding-left:.4rem}
 .top-brand-name{font-size:1.12rem;font-weight:800;color:var(--text);line-height:1.1}
 .top-brand-name span{color:var(--pri)}
@@ -27,7 +27,7 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 .topbar-breadcrumb{display:flex;align-items:center;gap:.5rem;font-size:.78rem;font-weight:600;color:var(--muted)}
 .topbar-breadcrumb a{color:var(--pri);text-decoration:none}
 
-.main-content{margin-left:268px;padding:calc(var(--topbar-h) + 2rem) 2.2rem 2rem;min-height:100vh;transition:margin-left .3s}
+.main-content{margin-left:268px;padding:calc(var(--topbar-h) + 2rem) 2.2rem 2rem;min-height:100vh}
 @media(max-width:900px){.main-content{margin-left:0!important;padding:calc(var(--topbar-h)+1rem) 1rem 1rem}}
 
 .page-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
@@ -43,10 +43,9 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 .taller-badge span{font-size:.88rem;font-weight:700;color:var(--text)}
 
 .hero-banner{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--pri) 0%,#0284c7 100%);border-radius:20px;padding:2rem 2.4rem;margin-bottom:2rem;color:#fff;box-shadow:0 8px 32px rgba(29,78,216,.2)}
-.hero-banner::before{content:'';position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.06)}
-.hero-banner::after{content:'';position:absolute;right:80px;bottom:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.04)}
-.hero-banner h2{font-size:1.4rem;font-weight:800;margin-bottom:.5rem;position:relative;z-index:1}
-.hero-banner p{font-size:.88rem;opacity:.88;max-width:600px;line-height:1.65;position:relative;z-index:1}
+.hero-banner::before{content:'❄';position:absolute;right:-20px;top:-20px;font-size:160px;opacity:.07;line-height:1}
+.hero-banner h2{font-size:1.4rem;font-weight:800;margin-bottom:.5rem}
+.hero-banner p{font-size:.88rem;opacity:.88;max-width:600px;line-height:1.65}
 
 /* ── ÓRDENES ── */
 .ordenes-section{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:1.6rem;margin-bottom:2rem;box-shadow:0 1px 4px rgba(0,0,0,.05)}
@@ -60,132 +59,95 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 
 .ordenes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
 
-/* orden card — flex column con botones pegados abajo */
-.orden-card{
-  background:var(--bg);border:1px solid var(--border);border-radius:16px;
-  padding:1.2rem 1.3rem;
-  display:flex;flex-direction:column;
-  transition:transform .2s,box-shadow .2s;
-}
+/* ── ORDEN CARD ── */
+.orden-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
 .orden-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08)}
+.orden-card-accent{height:4px;flex-shrink:0}
+.orden-card-accent.mant{background:linear-gradient(90deg,#1d4ed8,#60a5fa)}
+.orden-card-accent.rep{background:linear-gradient(90deg,#475569,#94a3b8)}
+.orden-card-accent.inst{background:linear-gradient(90deg,#4338ca,#818cf8)}
+.orden-card-accent.diag{background:linear-gradient(90deg,#0369a1,#38bdf8)}
+.orden-card-accent.gen{background:linear-gradient(90deg,#1d4ed8,#60a5fa)}
 
-.orden-card-top{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.9rem}
-.orden-tipo-wrap{display:flex;align-items:center;gap:.55rem}
-.orden-tipo-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.orden-tipo-icon svg{width:15px;height:15px;stroke:currentColor;stroke-width:2;fill:none}
-.orden-tipo-text{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
-.orden-num{font-size:1rem;font-weight:800;color:var(--text);margin-top:1px}
+.orden-card-inner{padding:1.1rem 1.3rem;display:flex;flex-direction:column;flex:1;gap:.8rem}
 
-.orden-estado-badge{font-size:.65rem;font-weight:700;padding:3px 9px;border-radius:99px;flex-shrink:0;display:flex;align-items:center;gap:4px}
+.orden-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem}
+.orden-tipo-wrap{display:flex;flex-direction:column;gap:2px}
+.orden-tipo-label{font-size:.62rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.orden-num{font-size:1rem;font-weight:800;color:var(--text)}
+.orden-estado-badge{font-size:.65rem;font-weight:700;padding:3px 9px;border-radius:99px;display:flex;align-items:center;gap:4px;flex-shrink:0}
 .orden-estado-badge.activa{background:#dcfce7;color:#15803d}
-.orden-estado-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+.orden-estado-dot{width:5px;height:5px;border-radius:50%;background:currentColor}
 
-.orden-body{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:.5rem .8rem;margin-bottom:.9rem}
+.orden-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem .8rem}
 .orden-info-item{display:flex;flex-direction:column;gap:2px}
-.orden-info-label{font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-.orden-info-val{font-size:.8rem;font-weight:600;color:var(--text);line-height:1.35}
+.orden-info-label{font-size:.59rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.orden-info-val{font-size:.79rem;font-weight:600;color:var(--text);line-height:1.35}
 .orden-info-val.placa{color:var(--pri);font-weight:800}
 
-.orden-divider{height:1px;background:var(--border);margin-bottom:.9rem}
-
-.orden-desc-block{margin-bottom:.9rem}
+.orden-desc-block{border-top:1px solid var(--border);padding-top:.7rem}
 .orden-desc-block .orden-info-label{margin-bottom:3px}
-.orden-desc-block p{font-size:.78rem;color:var(--text);line-height:1.5}
+.orden-desc-block p{font-size:.77rem;color:var(--text);line-height:1.5}
 
-/* botones SIEMPRE al fondo */
-.orden-card-actions{display:flex;gap:.4rem;margin-top:auto}
-.btn-ord{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:.35rem;border:none;border-radius:9px;padding:.55rem .5rem;font-size:.74rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .18s;white-space:nowrap}
-.btn-ord svg{width:12px;height:12px;stroke:currentColor;stroke-width:2.5;fill:none;flex-shrink:0}
-.btn-ord-repuestos{background:#fef3c7;color:#b45309}
-.btn-ord-repuestos:hover{background:#d97706;color:#fff}
-.btn-ord-editar{background:var(--pri-lt);color:var(--pri)}
-.btn-ord-editar:hover{background:var(--pri);color:#fff}
-.btn-ord-finalizar{background:#dcfce7;color:#15803d}
-.btn-ord-finalizar:hover{background:#16a34a;color:#fff}
-.btn-ord-eliminar{background:#fee2e2;color:#dc2626;flex:0 0 auto;padding:.55rem .65rem}
-.btn-ord-eliminar:hover{background:#dc2626;color:#fff}
+/* botones siempre al fondo */
+.orden-card-actions{display:flex;gap:.4rem;margin-top:auto;padding-top:.8rem;border-top:1px solid var(--border)}
+.btn-ord{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:.3rem;border:none;border-radius:9px;padding:.52rem .4rem;font-size:.73rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .18s}
+.btn-ord svg{width:11px;height:11px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round;flex-shrink:0}
+.btn-ord-repuestos{background:#fef9ee;color:#92400e;box-shadow:0 1px 3px rgba(146,64,14,.15)}
+.btn-ord-repuestos:hover{background:#d97706;color:#fff;box-shadow:0 3px 10px rgba(217,119,6,.3)}
+.btn-ord-editar{background:#f0f4ff;color:#3730a3;box-shadow:0 1px 3px rgba(55,48,163,.15)}
+.btn-ord-editar:hover{background:#4338ca;color:#fff;box-shadow:0 3px 10px rgba(67,56,202,.3)}
+.btn-ord-finalizar{background:#f0fdf4;color:#15803d;box-shadow:0 1px 3px rgba(21,128,61,.15)}
+.btn-ord-finalizar:hover{background:#16a34a;color:#fff;box-shadow:0 3px 10px rgba(22,163,74,.3)}
+.btn-ord-eliminar{background:#fff1f2;color:#be123c;box-shadow:0 1px 3px rgba(190,18,60,.12);flex:0 0 auto;padding:.52rem .6rem}
+.btn-ord-eliminar:hover{background:#e11d48;color:#fff;box-shadow:0 3px 10px rgba(225,29,72,.3)}
 
 /* ── CATÁLOGO ── */
 .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;margin-bottom:2rem}
 
 .service-card{
-  background:var(--surface);border:1px solid var(--border);border-radius:20px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:18px;
   display:flex;flex-direction:column;
   overflow:hidden;
-  transition:transform .22s,box-shadow .22s,border-color .22s;
-  position:relative;
+  transition:transform .22s,box-shadow .22s;
 }
-.service-card:hover{transform:translateY(-3px);box-shadow:0 10px 32px rgba(0,0,0,.09)}
+.service-card:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.08)}
 
-/* franja de color superior con patrón geométrico */
-.svc-visual{height:90px;position:relative;overflow:hidden;flex-shrink:0}
-.svc-visual::before{
-  content:'';position:absolute;inset:0;
-}
-.svc-visual::after{
-  content:'';position:absolute;
-  width:120px;height:120px;border-radius:50%;
-  bottom:-50px;right:-30px;
-  opacity:.25;
-}
-.svc-circle-inner{
-  position:absolute;width:70px;height:70px;border-radius:50%;
-  top:-20px;left:20px;opacity:.2;
-}
+/* franja fina de color arriba */
+.svc-stripe{height:4px;flex-shrink:0}
+.svc-blue .svc-stripe{background:linear-gradient(90deg,#1d4ed8,#60a5fa)}
+.svc-slate .svc-stripe{background:linear-gradient(90deg,#475569,#94a3b8)}
+.svc-indigo .svc-stripe{background:linear-gradient(90deg,#4338ca,#818cf8)}
+.svc-sky .svc-stripe{background:linear-gradient(90deg,#0369a1,#38bdf8)}
 
-.svc-blue .svc-visual{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%)}
-.svc-blue .svc-visual::after{background:#fff}
-.svc-blue .svc-circle-inner{background:#fff}
-.svc-blue:hover{border-color:#bfdbfe}
-
-.svc-cyan .svc-visual{background:linear-gradient(135deg,#0369a1 0%,#0284c7 60%,#38bdf8 100%)}
-.svc-cyan .svc-visual::after{background:#fff}
-.svc-cyan .svc-circle-inner{background:#fff}
-.svc-cyan:hover{border-color:#bae6fd}
-
-.svc-amber .svc-visual{background:linear-gradient(135deg,#b45309 0%,#d97706 60%,#f59e0b 100%)}
-.svc-amber .svc-visual::after{background:#fff}
-.svc-amber .svc-circle-inner{background:#fff}
-.svc-amber:hover{border-color:#fde68a}
-
-.svc-violet .svc-visual{background:linear-gradient(135deg,#6d28d9 0%,#7c3aed 60%,#8b5cf6 100%)}
-.svc-violet .svc-visual::after{background:#fff}
-.svc-violet .svc-circle-inner{background:#fff}
-.svc-violet:hover{border-color:#ddd6fe}
-
-/* icono flotante sobre la franja */
-.svc-icon-badge{
-  position:absolute;bottom:-18px;left:1.2rem;
-  width:40px;height:40px;border-radius:11px;
-  background:var(--surface);box-shadow:0 2px 10px rgba(0,0,0,.12);
-  display:flex;align-items:center;justify-content:center;
-}
-.svc-icon-badge svg{width:18px;height:18px;stroke-width:2;fill:none}
-.svc-blue .svc-icon-badge svg{stroke:#1d4ed8}
-.svc-cyan .svc-icon-badge svg{stroke:#0284c7}
-.svc-amber .svc-icon-badge svg{stroke:#d97706}
-.svc-violet .svc-icon-badge svg{stroke:#7c3aed}
-
-.svc-body{padding:1.5rem 1.2rem 1.2rem;flex:1;display:flex;flex-direction:column;gap:.6rem}
+.svc-body{padding:1.4rem 1.3rem;display:flex;flex-direction:column;gap:.7rem;flex:1}
+.svc-chip{display:inline-flex;align-items:center;width:fit-content;font-size:.62rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:99px}
+.svc-blue .svc-chip{background:#eff6ff;color:#1d4ed8}
+.svc-slate .svc-chip{background:#f1f5f9;color:#475569}
+.svc-indigo .svc-chip{background:#eef2ff;color:#4338ca}
+.svc-sky .svc-chip{background:#f0f9ff;color:#0369a1}
 .svc-title{font-size:.98rem;font-weight:800;color:var(--text)}
 .svc-desc{font-size:.78rem;color:var(--muted);line-height:1.65;flex:1}
 
+.svc-footer{border-top:1px solid var(--border);padding:.9rem 1.3rem}
 .svc-btn{
-  display:flex;align-items:center;justify-content:center;gap:.45rem;
-  padding:.65rem 1rem;border-radius:10px;
-  font-size:.8rem;font-weight:700;border:none;cursor:pointer;
-  font-family:'Plus Jakarta Sans',sans-serif;
-  transition:all .18s;margin-top:.3rem;
+  width:100%;border:none;border-radius:10px;
+  padding:.62rem 1rem;font-size:.78rem;font-weight:700;
+  cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;
+  display:flex;align-items:center;justify-content:center;gap:.4rem;
+  transition:all .18s;
 }
-.svc-blue .svc-btn{background:var(--pri);color:#fff}
-.svc-blue .svc-btn:hover{background:var(--pri-h)}
-.svc-cyan .svc-btn{background:#0284c7;color:#fff}
-.svc-cyan .svc-btn:hover{background:#0369a1}
-.svc-amber .svc-btn{background:#d97706;color:#fff}
-.svc-amber .svc-btn:hover{background:#b45309}
-.svc-violet .svc-btn{background:#7c3aed;color:#fff}
-.svc-violet .svc-btn:hover{background:#6d28d9}
-.svc-btn svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.5;fill:none}
+.svc-btn svg{width:12px;height:12px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round}
+.svc-blue .svc-btn{background:#eff6ff;color:#1d4ed8;box-shadow:0 1px 4px rgba(29,78,216,.15)}
+.svc-blue .svc-btn:hover{background:#1d4ed8;color:#fff;box-shadow:0 4px 14px rgba(29,78,216,.3)}
+.svc-slate .svc-btn{background:#f1f5f9;color:#334155;box-shadow:0 1px 4px rgba(71,85,105,.12)}
+.svc-slate .svc-btn:hover{background:#475569;color:#fff;box-shadow:0 4px 14px rgba(71,85,105,.28)}
+.svc-indigo .svc-btn{background:#eef2ff;color:#4338ca;box-shadow:0 1px 4px rgba(67,56,202,.15)}
+.svc-indigo .svc-btn:hover{background:#4338ca;color:#fff;box-shadow:0 4px 14px rgba(67,56,202,.3)}
+.svc-sky .svc-btn{background:#f0f9ff;color:#0369a1;box-shadow:0 1px 4px rgba(3,105,161,.15)}
+.svc-sky .svc-btn:hover{background:#0369a1;color:#fff;box-shadow:0 4px 14px rgba(3,105,161,.3)}
 
 .card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.4rem 1.6rem;box-shadow:0 1px 4px rgba(0,0,0,.05)}
 
@@ -323,76 +285,65 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 
   <!-- CATÁLOGO -->
   <p style="font-size:.73rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.9rem" class="anim-3">Catálogo de servicios</p>
+
   <div class="services-grid anim-3">
 
-    <!-- Mantenimiento -->
     <div class="service-card svc-blue">
-      <div class="svc-visual">
-        <div class="svc-circle-inner"></div>
-        <div class="svc-icon-badge">
-          <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-        </div>
-      </div>
+      <div class="svc-stripe"></div>
       <div class="svc-body">
+        <span class="svc-chip">Servicio</span>
         <div class="svc-title">Mantenimiento</div>
         <p class="svc-desc">Revisión general del sistema de aire acondicionado, cambio de filtros y mantenimiento preventivo.</p>
+      </div>
+      <div class="svc-footer">
         <button class="svc-btn" onclick="abrirModalOrden('Mantenimiento')">
-          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           Crear orden
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
       </div>
     </div>
 
-    <!-- Reparación -->
-    <div class="service-card svc-cyan">
-      <div class="svc-visual">
-        <div class="svc-circle-inner"></div>
-        <div class="svc-icon-badge">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
-        </div>
-      </div>
+    <div class="service-card svc-slate">
+      <div class="svc-stripe"></div>
       <div class="svc-body">
+        <span class="svc-chip">Servicio</span>
         <div class="svc-title">Reparación</div>
         <p class="svc-desc">Diagnóstico y reparación profesional de compresores, condensadores y evaporadores automotrices.</p>
+      </div>
+      <div class="svc-footer">
         <button class="svc-btn" onclick="abrirModalOrden('Reparación')">
-          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           Crear orden
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
       </div>
     </div>
 
-    <!-- Instalación -->
-    <div class="service-card svc-amber">
-      <div class="svc-visual">
-        <div class="svc-circle-inner"></div>
-        <div class="svc-icon-badge">
-          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        </div>
-      </div>
+    <div class="service-card svc-indigo">
+      <div class="svc-stripe"></div>
       <div class="svc-body">
+        <span class="svc-chip">Servicio</span>
         <div class="svc-title">Instalación</div>
         <p class="svc-desc">Instalación completa de sistemas de aire acondicionado con equipos especializados certificados.</p>
+      </div>
+      <div class="svc-footer">
         <button class="svc-btn" onclick="abrirModalOrden('Instalación')">
-          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           Crear orden
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
       </div>
     </div>
 
-    <!-- Diagnóstico IA -->
-    <div class="service-card svc-violet">
-      <div class="svc-visual">
-        <div class="svc-circle-inner"></div>
-        <div class="svc-icon-badge">
-          <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>
-        </div>
-      </div>
+    <div class="service-card svc-sky">
+      <div class="svc-stripe"></div>
       <div class="svc-body">
+        <span class="svc-chip">IA</span>
         <div class="svc-title">Diagnóstico IA</div>
         <p class="svc-desc">Diagnóstico inteligente basado en síntomas del vehículo usando inteligencia artificial predictiva.</p>
+      </div>
+      <div class="svc-footer">
         <button class="svc-btn" onclick="abrirModalOrden('Diagnóstico IA')">
-          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           Crear orden
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
       </div>
     </div>
@@ -420,41 +371,13 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
   <div class="modal-box">
     <div class="modal-header"><div class="modal-title">Nueva Orden de Trabajo</div><button class="modal-close" onclick="cerrarModalOrden()">✕</button></div>
     <div style="display:flex;flex-direction:column;gap:1rem">
-      <div>
-        <label class="form-label">Tipo de servicio <span class="req">*</span></label>
-        <select id="orden-tipo" class="form-select">
-          <option value="">— Seleccionar —</option>
-          <option value="Mantenimiento">Mantenimiento</option>
-          <option value="Reparación">Reparación</option>
-          <option value="Instalación">Instalación</option>
-          <option value="Diagnóstico IA">Diagnóstico IA</option>
-        </select>
-      </div>
-      <div>
-        <label class="form-label">Cliente <span class="req">*</span></label>
-        <div style="position:relative">
-          <input type="text" id="cliente-search" class="form-input" placeholder="Escribe nombre o número de documento..." autocomplete="off">
-          <input type="hidden" id="orden-cliente-id">
-          <div id="cliente-resultados" style="display:none;position:absolute;top:100%;left:0;right:0;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.1);z-index:100;max-height:200px;overflow-y:auto;margin-top:4px"></div>
-        </div>
-      </div>
-      <div>
-        <label class="form-label">Vehículo <span class="req">*</span></label>
-        <select id="orden-vehiculo" class="form-select" disabled><option value="">— Primero selecciona un cliente —</option></select>
-      </div>
-      <div>
-        <label class="form-label">Técnico asignado <span style="font-size:.72rem;font-weight:500;color:var(--muted)">(opcional)</span></label>
-        <select id="orden-tecnico" class="form-select"><option value="">— Sin asignar —</option></select>
-      </div>
-      <div>
-        <label class="form-label">Descripción del problema</label>
-        <textarea id="orden-desc" class="form-textarea" placeholder="Describe el problema o trabajo a realizar..."></textarea>
-      </div>
+      <div><label class="form-label">Tipo de servicio <span class="req">*</span></label><select id="orden-tipo" class="form-select"><option value="">— Seleccionar —</option><option value="Mantenimiento">Mantenimiento</option><option value="Reparación">Reparación</option><option value="Instalación">Instalación</option><option value="Diagnóstico IA">Diagnóstico IA</option></select></div>
+      <div><label class="form-label">Cliente <span class="req">*</span></label><div style="position:relative"><input type="text" id="cliente-search" class="form-input" placeholder="Escribe nombre o número de documento..." autocomplete="off"><input type="hidden" id="orden-cliente-id"><div id="cliente-resultados" style="display:none;position:absolute;top:100%;left:0;right:0;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.1);z-index:100;max-height:200px;overflow-y:auto;margin-top:4px"></div></div></div>
+      <div><label class="form-label">Vehículo <span class="req">*</span></label><select id="orden-vehiculo" class="form-select" disabled><option value="">— Primero selecciona un cliente —</option></select></div>
+      <div><label class="form-label">Técnico asignado <span style="font-size:.72rem;font-weight:500;color:var(--muted)">(opcional)</span></label><select id="orden-tecnico" class="form-select"><option value="">— Sin asignar —</option></select></div>
+      <div><label class="form-label">Descripción del problema</label><textarea id="orden-desc" class="form-textarea" placeholder="Describe el problema o trabajo a realizar..."></textarea></div>
     </div>
-    <div class="modal-actions">
-      <button class="btn-cancel-modal" onclick="cerrarModalOrden()">Cancelar</button>
-      <button class="btn-primary-modal" id="btn-guardar-orden" onclick="guardarOrden()">Crear Orden</button>
-    </div>
+    <div class="modal-actions"><button class="btn-cancel-modal" onclick="cerrarModalOrden()">Cancelar</button><button class="btn-primary-modal" id="btn-guardar-orden" onclick="guardarOrden()">Crear Orden</button></div>
   </div>
 </div>
 
@@ -465,74 +388,38 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
     <input type="hidden" id="edit-id">
     <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:.75rem 1rem;margin-bottom:1rem;font-size:.82rem;color:var(--muted);font-weight:600" id="edit-info-cliente">—</div>
     <div style="display:flex;flex-direction:column;gap:1rem">
-      <div>
-        <label class="form-label">Tipo de servicio <span class="req">*</span></label>
-        <select id="edit-tipo" class="form-select">
-          <option value="Mantenimiento">Mantenimiento</option>
-          <option value="Reparación">Reparación</option>
-          <option value="Instalación">Instalación</option>
-          <option value="Diagnóstico IA">Diagnóstico IA</option>
-        </select>
-      </div>
+      <div><label class="form-label">Tipo de servicio <span class="req">*</span></label><select id="edit-tipo" class="form-select"><option value="Mantenimiento">Mantenimiento</option><option value="Reparación">Reparación</option><option value="Instalación">Instalación</option><option value="Diagnóstico IA">Diagnóstico IA</option></select></div>
       <div><label class="form-label">Técnico asignado</label><select id="edit-tecnico" class="form-select"><option value="">— Sin asignar —</option></select></div>
       <div><label class="form-label">Descripción del problema</label><textarea id="edit-descripcion" class="form-textarea" placeholder="Descripción original..."></textarea></div>
-      <div><label class="form-label">Observaciones durante la intervención <span style="font-size:.72rem;font-weight:500;color:var(--muted)">(notas del técnico)</span></label><textarea id="edit-observaciones" class="form-textarea" placeholder="Ej: Se encontró fuga en manguera..." style="min-height:110px"></textarea></div>
+      <div><label class="form-label">Observaciones <span style="font-size:.72rem;font-weight:500;color:var(--muted)">(notas del técnico)</span></label><textarea id="edit-observaciones" class="form-textarea" placeholder="Ej: Se encontró fuga en manguera..." style="min-height:110px"></textarea></div>
     </div>
-    <div class="modal-actions">
-      <button class="btn-cancel-modal" onclick="cerrarModalEditar()">Cancelar</button>
-      <button class="btn-primary-modal" id="btn-guardar-edicion" onclick="guardarEdicionOrden()">Guardar cambios</button>
-    </div>
+    <div class="modal-actions"><button class="btn-cancel-modal" onclick="cerrarModalEditar()">Cancelar</button><button class="btn-primary-modal" id="btn-guardar-edicion" onclick="guardarEdicionOrden()">Guardar cambios</button></div>
   </div>
 </div>
 
 <!-- MODAL REPUESTOS -->
 <div id="modal-repuestos" class="modal-overlay" onclick="if(event.target===this)cerrarModalRepuestos()">
   <div class="modal-box modal-box-lg">
-    <div class="modal-header">
-      <div class="modal-title">Repuestos de la Orden</div>
-      <button class="modal-close" onclick="cerrarModalRepuestos()">✕</button>
-    </div>
+    <div class="modal-header"><div class="modal-title">Repuestos de la Orden</div><button class="modal-close" onclick="cerrarModalRepuestos()">✕</button></div>
     <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:.75rem 1rem;margin-bottom:1.2rem;font-size:.82rem;color:var(--muted);font-weight:600" id="rep-info-orden">—</div>
     <div style="background:var(--pri-lt);border:1px solid #bfdbfe;border-radius:14px;padding:1rem 1.2rem;margin-bottom:1.2rem">
       <p style="font-size:.75rem;font-weight:700;color:var(--pri);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.7rem">Agregar repuesto</p>
       <div style="display:flex;flex-direction:column;gap:.6rem">
-        <div>
-          <label class="form-label" style="color:var(--pri)">Buscar producto del inventario</label>
-          <div style="position:relative">
-            <input type="text" id="rep-buscar" class="form-input" placeholder="Escribe nombre o categoría..." autocomplete="off">
-            <input type="hidden" id="rep-producto-id">
-            <div id="rep-resultados" style="display:none;position:absolute;top:100%;left:0;right:0;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200;max-height:220px;overflow-y:auto;margin-top:4px"></div>
-          </div>
-          <div id="rep-producto-info" style="display:none;margin-top:.4rem;font-size:.75rem;font-weight:600;color:var(--green);background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:.35rem .75rem"></div>
-        </div>
-        <div style="display:flex;gap:.6rem;align-items:flex-end">
-          <div style="min-width:100px">
-            <label class="form-label" style="color:var(--pri)">Cantidad</label>
-            <input type="number" id="rep-cantidad" class="form-input" value="1" min="1" style="text-align:center">
-          </div>
-          <button id="btn-agregar-repuesto" onclick="agregarRepuesto()" style="background:var(--pri);color:#fff;border:none;border-radius:12px;padding:.75rem 1.2rem;font-size:.84rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;white-space:nowrap;flex:1">Agregar repuesto</button>
-        </div>
+        <div><label class="form-label" style="color:var(--pri)">Buscar producto del inventario</label><div style="position:relative"><input type="text" id="rep-buscar" class="form-input" placeholder="Escribe nombre o categoría..." autocomplete="off"><input type="hidden" id="rep-producto-id"><div id="rep-resultados" style="display:none;position:absolute;top:100%;left:0;right:0;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200;max-height:220px;overflow-y:auto;margin-top:4px"></div></div><div id="rep-producto-info" style="display:none;margin-top:.4rem;font-size:.75rem;font-weight:600;color:var(--green);background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:.35rem .75rem"></div></div>
+        <div style="display:flex;gap:.6rem;align-items:flex-end"><div style="min-width:100px"><label class="form-label" style="color:var(--pri)">Cantidad</label><input type="number" id="rep-cantidad" class="form-input" value="1" min="1" style="text-align:center"></div><button id="btn-agregar-repuesto" onclick="agregarRepuesto()" style="background:var(--pri);color:#fff;border:none;border-radius:12px;padding:.75rem 1.2rem;font-size:.84rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;white-space:nowrap;flex:1">Agregar repuesto</button></div>
       </div>
     </div>
     <p style="font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem">Repuestos agregados</p>
     <div id="rep-lista" style="min-height:80px;max-height:220px;overflow-y:auto"></div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1rem;padding-top:.8rem;border-top:2px solid var(--border)">
-      <span style="font-size:.82rem;font-weight:600;color:var(--muted)">Total repuestos (sin IVA):</span>
-      <span style="font-size:1.2rem;font-weight:800;color:var(--green)" id="rep-total">$0</span>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-cancel-modal" onclick="cerrarModalRepuestos()">Cerrar</button>
-    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1rem;padding-top:.8rem;border-top:2px solid var(--border)"><span style="font-size:.82rem;font-weight:600;color:var(--muted)">Total repuestos (sin IVA):</span><span style="font-size:1.2rem;font-weight:800;color:var(--green)" id="rep-total">$0</span></div>
+    <div class="modal-actions"><button class="btn-cancel-modal" onclick="cerrarModalRepuestos()">Cerrar</button></div>
   </div>
 </div>
 
-<!-- MODAL RESUMEN DE COBRO -->
+<!-- MODAL RESUMEN COBRO -->
 <div id="modal-resumen-orden" class="modal-overlay" onclick="if(event.target===this)cerrarModalResumen()">
   <div class="modal-box modal-box-lg">
-    <div class="modal-header">
-      <div class="modal-title">Resumen de Cobro — Finalizar Orden</div>
-      <button class="modal-close" onclick="cerrarModalResumen()">✕</button>
-    </div>
+    <div class="modal-header"><div class="modal-title">Resumen de Cobro — Finalizar Orden</div><button class="modal-close" onclick="cerrarModalResumen()">✕</button></div>
     <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:1.2rem" id="resumen-orden-info">—</div>
     <p style="font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem">Repuestos utilizados</p>
     <div id="resumen-repuestos-lista" style="max-height:180px;overflow-y:auto;margin-bottom:1rem"></div>
@@ -540,17 +427,9 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
       <div class="resumen-row-cobro"><span style="color:var(--muted)">Subtotal repuestos</span><span id="resumen-subtotal" style="font-weight:700">$0</span></div>
       <div class="resumen-row-cobro"><span style="color:var(--muted)">IVA (19%)</span><span id="resumen-iva" style="font-weight:700">$0</span></div>
     </div>
-    <div class="total-cobro-box">
-      <p>Total a cobrar</p>
-      <h3 id="resumen-total-final">$0</h3>
-    </div>
-    <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:.8rem 1rem;margin-top:1rem;font-size:.82rem;color:#92400e;font-weight:500">
-      Al confirmar, la orden quedará <strong>Finalizada</strong> y los repuestos se enviarán al <strong>carrito</strong> para generar la factura.
-    </div>
-    <div class="modal-actions">
-      <button class="btn-cancel-modal" onclick="cerrarModalResumen()">Cancelar</button>
-      <button class="btn-success-modal" id="btn-confirmar-finalizar" onclick="confirmarFinalizarOrden()">Finalizar y Cobrar</button>
-    </div>
+    <div class="total-cobro-box"><p>Total a cobrar</p><h3 id="resumen-total-final">$0</h3></div>
+    <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:.8rem 1rem;margin-top:1rem;font-size:.82rem;color:#92400e;font-weight:500">Al confirmar, la orden quedará <strong>Finalizada</strong> y los repuestos se enviarán al <strong>carrito</strong> para generar la factura.</div>
+    <div class="modal-actions"><button class="btn-cancel-modal" onclick="cerrarModalResumen()">Cancelar</button><button class="btn-success-modal" id="btn-confirmar-finalizar" onclick="confirmarFinalizarOrden()">Finalizar y Cobrar</button></div>
   </div>
 </div>
 
@@ -578,7 +457,7 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 <script src="../assets/js/asistente.js"></script>
 <script src="../assets/js/Servicios.js"></script>
 <script>
-  document.getElementById('today-date').textContent = new Date().toLocaleDateString('es-CO',{weekday:'short',day:'numeric',month:'short'});
+  document.getElementById('today-date').textContent=new Date().toLocaleDateString('es-CO',{weekday:'short',day:'numeric',month:'short'});
   const aBtn=document.getElementById('aBtn'),aPanel=document.getElementById('aPanel');
   const openA=()=>{aPanel.classList.add('open');aBtn.classList.add('open');aPanel.setAttribute('aria-hidden','false');aBtn.setAttribute('aria-expanded','true')};
   const closeA=()=>{aPanel.classList.remove('open');aBtn.classList.remove('open');aPanel.setAttribute('aria-hidden','true');aBtn.setAttribute('aria-expanded','false')};
