@@ -4,8 +4,8 @@
 
 const API_BACKEND = "https://friocars-backend.onrender.com/api";
 
-let tipoCotizacion  = "AUTOMATICA";
-let imagenesBase64  = [];
+let tipoCotizacion = "AUTOMATICA";
+let imagenesBase64 = [];
 let ultimaCotizacion = null; // datos de la última generada
 
 
@@ -13,9 +13,9 @@ let ultimaCotizacion = null; // datos de la última generada
 //  TIPO
 // ══════════════════════════════════════════════════════
 function seleccionarTipo(tipo) {
-    tipoCotizacion = tipo;
-    document.getElementById("cardAutomatica").classList.toggle("activo", tipo === "AUTOMATICA");
-    document.getElementById("cardManual").classList.toggle("activo",     tipo === "MANUAL");
+  tipoCotizacion = tipo;
+  document.getElementById("cardAutomatica").classList.toggle("activo", tipo === "AUTOMATICA");
+  document.getElementById("cardManual").classList.toggle("activo", tipo === "MANUAL");
 }
 
 
@@ -23,34 +23,34 @@ function seleccionarTipo(tipo) {
 //  IMÁGENES
 // ══════════════════════════════════════════════════════
 function previsualizarImagenes(input) {
-    const grid     = document.getElementById("previewGrid");
-    const archivos = Array.from(input.files).slice(0, 5);
-    imagenesBase64 = [];
-    grid.innerHTML = "";
+  const grid = document.getElementById("previewGrid");
+  const archivos = Array.from(input.files).slice(0, 5);
+  imagenesBase64 = [];
+  grid.innerHTML = "";
 
-    archivos.forEach((file, i) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const base64Full = e.target.result;
-            const base64Data = base64Full.split(",")[1];
-            imagenesBase64.push({ data: base64Data, mediaType: file.type, nombre: file.name });
+  archivos.forEach((file, i) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const base64Full = e.target.result;
+      const base64Data = base64Full.split(",")[1];
+      imagenesBase64.push({ data: base64Data, mediaType: file.type, nombre: file.name });
 
-            const wrap = document.createElement("div");
-            wrap.className = "img-preview-item";
-            wrap.id = `img-prev-${i}`;
-            wrap.innerHTML = `
-                <img src="${base64Full}" alt="Imagen ${i+1}">
+      const wrap = document.createElement("div");
+      wrap.className = "img-preview-item";
+      wrap.id = `img-prev-${i}`;
+      wrap.innerHTML = `
+                <img src="${base64Full}" alt="Imagen ${i + 1}">
                 <button onclick="eliminarImagen(${i})" title="Eliminar">✕</button>
             `;
-            grid.appendChild(wrap);
-        };
-        reader.readAsDataURL(file);
-    });
+      grid.appendChild(wrap);
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
 function eliminarImagen(index) {
-    imagenesBase64.splice(index, 1);
-    document.getElementById(`img-prev-${index}`)?.remove();
+  imagenesBase64.splice(index, 1);
+  document.getElementById(`img-prev-${index}`)?.remove();
 }
 
 
@@ -58,73 +58,75 @@ function eliminarImagen(index) {
 //  GENERAR DIAGNÓSTICO IA
 // ══════════════════════════════════════════════════════
 async function generarDiagnostico() {
-    const nombre      = document.getElementById("nombre").value.trim();
-    const telefono    = document.getElementById("telefono").value.trim();
-    const vehiculo    = document.getElementById("vehiculo").value.trim();
-    const descripcion = document.getElementById("descripcion").value.trim();
 
-    if (!nombre)      { mostrarToast("Ingresa el nombre del cliente", "warn"); return; }
-    if (!vehiculo)    { mostrarToast("Ingresa el vehículo", "warn"); return; }
-    if (!descripcion) { mostrarToast("Describe el problema", "warn"); return; }
+  const nombre = document.getElementById("nombre").value.trim();
+  const telefono = document.getElementById("telefono").value.trim();
+  const vehiculo = document.getElementById("vehiculo").value.trim();
+  const descripcion = document.getElementById("descripcion").value.trim();
 
-    const btn = document.getElementById("btnGenerar");
-    btn.disabled    = true;
-    btn.textContent = "⏳ Analizando con IA...";
+  if (!nombre) { mostrarToast("Ingresa el nombre del cliente", "warn"); return; }
+  if (!vehiculo) { mostrarToast("Ingresa el vehículo", "warn"); return; }
+  if (!descripcion) { mostrarToast("Describe el problema", "warn"); return; }
 
-    const resultadoEl  = document.getElementById("resultadoIA");
-    const contenidoEl  = document.getElementById("contenidoIA");
-    const tagsEl       = document.getElementById("ia-tags");
-    const costoBox     = document.getElementById("costoBox");
-    const clienteLabel = document.getElementById("ia-cliente-label");
-    const accionesEl   = document.getElementById("ia-acciones");
+  const btn = document.getElementById("btnGenerar");
+  btn.disabled = true;
+  btn.textContent = "⏳ Analizando con IA...";
 
-    resultadoEl.classList.add("visible");
-    contenidoEl.innerHTML   = `<span style="color:var(--muted);font-size:.85rem">⏳ La IA está analizando la información y las imágenes...</span>`;
-    tagsEl.innerHTML        = "";
-    costoBox.style.display  = "none";
-    if (accionesEl) accionesEl.style.display = "none";
-    clienteLabel.textContent = `Cliente: ${nombre} · ${vehiculo}${telefono ? " · " + telefono : ""}`;
+  const resultadoEl = document.getElementById("resultadoIA");
+  const contenidoEl = document.getElementById("contenidoIA");
+  const tagsEl = document.getElementById("ia-tags");
+  const costoBox = document.getElementById("costoBox");
+  const clienteLabel = document.getElementById("ia-cliente-label");
+  const accionesEl = document.getElementById("ia-acciones");
 
-    // Construir mensaje con imágenes
-    const contenidoMensaje = [];
-    imagenesBase64.forEach((img, i) => {
-        contenidoMensaje.push({
-            type: "image",
-            source: { type: "base64", media_type: img.mediaType, data: img.data }
-        });
-        contenidoMensaje.push({ type: "text", text: `Imagen ${i+1}: ${img.nombre}` });
-    });
+  resultadoEl.classList.add("visible");
+  contenidoEl.innerHTML = `<span style="color:var(--muted);font-size:.85rem">  La IA está analizando la información y las imágenes...</span>`;
+  tagsEl.innerHTML = "";
+  costoBox.style.display = "none";
+  if (accionesEl) accionesEl.style.display = "none";
+  clienteLabel.textContent = `Cliente: ${nombre} · ${vehiculo}${telefono ? " · " + telefono : ""}`;
 
+  // Construir mensaje con imágenes
+  const contenidoMensaje = [];
+  imagenesBase64.forEach((img, i) => {
     contenidoMensaje.push({
-        type: "text",
-        text: `Cliente: ${nombre}\nTeléfono: ${telefono || "No indicado"}\nVehículo: ${vehiculo}\n\nProblema descrito:\n"${descripcion}"\n\n${imagenesBase64.length > 0 ? `Se adjuntaron ${imagenesBase64.length} imagen(es) del vehículo.` : "No se adjuntaron imágenes."}\n\nGenera el diagnóstico completo.`
+      type: "image",
+      source: { type: "base64", media_type: img.mediaType, data: img.data }
     });
+    contenidoMensaje.push({ type: "text", text: `Imagen ${i + 1}: ${img.nombre}` });
+  });
 
-    try {
-        const response = await fetch("https://api.anthropic.com/v1/messages", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                model: "claude-sonnet-4-6",
-                max_tokens: 1000,
-                system: `Eres el asistente de diagnóstico automotriz de Frío Cars, especializado en sistemas de aire acondicionado vehicular colombiano.
+  contenidoMensaje.push({
+    type: "text",
+    text: `Cliente: ${nombre}\nTeléfono: ${telefono || "No indicado"}\nVehículo: ${vehiculo}\n\nProblema descrito:\n"${descripcion}"\n\n${imagenesBase64.length > 0 ? `Se adjuntaron ${imagenesBase64.length} imagen(es) del vehículo.` : "No se adjuntaron imágenes."}\n\nGenera el diagnóstico completo.`
+  });
+
+  try {
+    const response = await fetch(
+      `${API_BACKEND}/cotizaciones/diagnostico`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        system: `Eres el asistente de diagnóstico automotriz de Frío Cars, especializado en sistemas de aire acondicionado vehicular colombiano.
 
 Analiza síntomas, descripción e imágenes del vehículo y genera un diagnóstico profesional.
 
 ESTRUCTURA OBLIGATORIA DE RESPUESTA:
-🔍 DIAGNÓSTICO
+ DIAGNÓSTICO
 [Explica qué le puede estar pasando al vehículo]
 
-🛠️ SERVICIOS NECESARIOS
+ SERVICIOS NECESARIOS
 [Lista los servicios recomendados]
 
-📦 REPUESTOS PROBABLES
+ REPUESTOS PROBABLES
 [Partes que pueden necesitarse]
 
-💰 COSTO ESTIMADO: $XXX.000 - $XXX.000 COP
+ COSTO ESTIMADO: $XXX.000 - $XXX.000 COP
 [Rango de precio en pesos colombianos]
 
-⚠️ URGENCIA: [Baja / Media / Alta]
+ URGENCIA: [Baja / Media / Alta]
 [Justificación breve]
 
 REGLAS:
@@ -132,60 +134,60 @@ REGLAS:
 - Sé directo y práctico
 - Si hay imágenes, analízalas visualmente y menciona lo que ves
 - El costo SIEMPRE debe incluir el patrón: $XXX.XXX - $XXX.XXX COP`,
-                messages: [{ role: "user", content: contenidoMensaje }]
-            })
-        });
+        messages: [{ role: "user", content: contenidoMensaje }]
+      })
+    });
 
-        const data  = await response.json();
-        const texto = data.content?.[0]?.text || "No se pudo obtener respuesta de la IA.";
+    const data = await response.json();
+    const texto = data.content?.[0]?.text || "No se pudo obtener respuesta de la IA.";
 
-        await renderStreamText(contenidoEl, texto);
+    await renderStreamText(contenidoEl, texto);
 
-        // Extraer costo
-        const costoMatch = texto.match(/\$[\d.,]+\s*-\s*\$[\d.,]+\s*COP/i)
-                        || texto.match(/\$[\d.]+(?:\.\d{3})*(?:\s*COP)?/i);
-        let costoTexto = costoMatch ? costoMatch[0] : "A consultar";
-        let costoNum   = 0;
-        if (costoMatch) {
-            const nums = costoMatch[0].replace(/[^0-9]/g, "");
-            costoNum = parseInt(nums) || 0;
-        }
-
-        document.getElementById("costoValor").textContent = costoTexto;
-        costoBox.style.display = "flex";
-
-        // Tags
-        const tags = extraerTags(texto);
-        tagsEl.innerHTML = tags.map(t => `<span class="ia-tag">${t}</span>`).join("");
-
-        // Guardar datos para acciones
-        ultimaCotizacion = {
-            nombre_cliente: nombre,
-            telefono,
-            vehiculo_texto: vehiculo,
-            descripcion,
-            diagnostico_ia: texto,
-            costo_estimado: costoNum,
-            tipo:           "AUTOMATICA",
-            imagen_count:   imagenesBase64.length,
-            costoTexto
-        };
-
-        // Mostrar acciones
-        if (accionesEl) accionesEl.style.display = "flex";
-
-        // Guardar automáticamente en BD
-        await guardarCotizacionBD(ultimaCotizacion);
-        mostrarToast("Diagnóstico generado y guardado ✓", "ok");
-
-    } catch (err) {
-        console.error("Error IA:", err);
-        contenidoEl.innerHTML = `<span style="color:#dc2626">⚠️ Error al conectar con la IA. Intenta de nuevo.</span>`;
-        mostrarToast("Error al generar diagnóstico", "error");
+    // Extraer costo
+    const costoMatch = texto.match(/\$[\d.,]+\s*-\s*\$[\d.,]+\s*COP/i)
+      || texto.match(/\$[\d.]+(?:\.\d{3})*(?:\s*COP)?/i);
+    let costoTexto = costoMatch ? costoMatch[0] : "A consultar";
+    let costoNum = 0;
+    if (costoMatch) {
+      const nums = costoMatch[0].replace(/[^0-9]/g, "");
+      costoNum = parseInt(nums) || 0;
     }
 
-    btn.disabled    = false;
-    btn.textContent = "🤖 Generar Diagnóstico IA";
+    document.getElementById("costoValor").textContent = costoTexto;
+    costoBox.style.display = "flex";
+
+    // Tags
+    const tags = extraerTags(texto);
+    tagsEl.innerHTML = tags.map(t => `<span class="ia-tag">${t}</span>`).join("");
+
+    // Guardar datos para acciones
+    ultimaCotizacion = {
+      nombre_cliente: nombre,
+      telefono,
+      vehiculo_texto: vehiculo,
+      descripcion,
+      diagnostico_ia: texto,
+      costo_estimado: costoNum,
+      tipo: "AUTOMATICA",
+      imagen_count: imagenesBase64.length,
+      costoTexto
+    };
+
+    // Mostrar acciones
+    if (accionesEl) accionesEl.style.display = "flex";
+
+    // Guardar automáticamente en BD
+    await guardarCotizacionBD(ultimaCotizacion);
+    mostrarToast("Diagnóstico generado y guardado ✓", "ok");
+
+  } catch (err) {
+    console.error("Error IA:", err);
+    contenidoEl.innerHTML = `<span style="color:#dc2626">⚠️ Error al conectar con la IA. Intenta de nuevo.</span>`;
+    mostrarToast("Error al generar diagnóstico", "error");
+  }
+
+  btn.disabled = false;
+  btn.textContent = " Generar Diagnóstico IA";
 }
 
 
@@ -193,24 +195,24 @@ REGLAS:
 //  RENDER CON EFECTO ESCRITURA
 // ══════════════════════════════════════════════════════
 async function renderStreamText(el, texto) {
-    el.innerHTML = "";
-    const cursor = document.createElement("span");
-    cursor.className = "cursor-blink";
-    el.appendChild(cursor);
+  el.innerHTML = "";
+  const cursor = document.createElement("span");
+  cursor.className = "cursor-blink";
+  el.appendChild(cursor);
 
-    const chars = texto.split("");
-    let acumulado = "";
-    for (let i = 0; i < chars.length; i++) {
-        acumulado += chars[i];
-        el.childNodes[0].textContent = acumulado;
-        const delay = i < 20 ? 12 : i < 100 ? 5 : 2;
-        if (i % 4 === 0) await sleep(delay);
-    }
-    cursor.remove();
-    // Formato final con saltos de línea
-    el.innerHTML = texto
-        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-        .replace(/\n/g, "<br>");
+  const chars = texto.split("");
+  let acumulado = "";
+  for (let i = 0; i < chars.length; i++) {
+    acumulado += chars[i];
+    el.childNodes[0].textContent = acumulado;
+    const delay = i < 20 ? 12 : i < 100 ? 5 : 2;
+    if (i % 4 === 0) await sleep(delay);
+  }
+  cursor.remove();
+  // Formato final con saltos de línea
+  el.innerHTML = texto
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\n/g, "<br>");
 }
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
@@ -220,27 +222,27 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 //  TAGS
 // ══════════════════════════════════════════════════════
 function extraerTags(texto) {
-    const mapa = {
-        "compresor":    "🔩 Compresor",
-        "gas":          "💨 Gas refrigerante",
-        "fuga":         "🔍 Fuga detectada",
-        "filtro":       "🧹 Filtro",
-        "ventilador":   "🌀 Ventilador",
-        "eléctric":     "⚡ Eléctrico",
-        "termostato":   "🌡️ Termostato",
-        "condensador":  "❄️ Condensador",
-        "evaporador":   "💧 Evaporador",
-        "correa":       "⚙️ Correa",
-        "urgencia alta":  "🔴 Alta urgencia",
-        "urgencia media": "🟡 Media urgencia",
-        "urgencia baja":  "🟢 Baja urgencia",
-    };
-    const tags = [];
-    const bajo = texto.toLowerCase();
-    for (const [clave, etiqueta] of Object.entries(mapa)) {
-        if (bajo.includes(clave)) tags.push(etiqueta);
-    }
-    return tags.slice(0, 6);
+  const mapa = {
+    "compresor": "🔩 Compresor",
+    "gas": "💨 Gas refrigerante",
+    "fuga": "🔍 Fuga detectada",
+    "filtro": "🧹 Filtro",
+    "ventilador": "🌀 Ventilador",
+    "eléctric": "⚡ Eléctrico",
+    "termostato": "🌡️ Termostato",
+    "condensador": "❄️ Condensador",
+    "evaporador": "💧 Evaporador",
+    "correa": "⚙️ Correa",
+    "urgencia alta": "🔴 Alta urgencia",
+    "urgencia media": "🟡 Media urgencia",
+    "urgencia baja": "🟢 Baja urgencia",
+  };
+  const tags = [];
+  const bajo = texto.toLowerCase();
+  for (const [clave, etiqueta] of Object.entries(mapa)) {
+    if (bajo.includes(clave)) tags.push(etiqueta);
+  }
+  return tags.slice(0, 6);
 }
 
 
@@ -248,19 +250,19 @@ function extraerTags(texto) {
 //  GUARDAR EN BD
 // ══════════════════════════════════════════════════════
 async function guardarCotizacionBD(datos) {
-    try {
-        const res = await fetch(`${API_BACKEND}/cotizaciones`, {
-            method:  "POST",
-            headers: { "Content-Type": "application/json" },
-            body:    JSON.stringify(datos)
-        });
-        if (res.ok) {
-            const saved = await res.json();
-            if (ultimaCotizacion) ultimaCotizacion.id = saved.id_cotizacion;
-        }
-    } catch (e) {
-        console.warn("No se pudo guardar en BD:", e.message);
+  try {
+    const res = await fetch(`${API_BACKEND}/cotizaciones`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(datos)
+    });
+    if (res.ok) {
+      const saved = await res.json();
+      if (ultimaCotizacion) ultimaCotizacion.id = saved.id_cotizacion;
     }
+  } catch (e) {
+    console.warn("No se pudo guardar en BD:", e.message);
+  }
 }
 
 
@@ -268,12 +270,12 @@ async function guardarCotizacionBD(datos) {
 //  IMPRIMIR COTIZACIÓN
 // ══════════════════════════════════════════════════════
 function imprimirCotizacion() {
-    if (!ultimaCotizacion) { mostrarToast("Primero genera un diagnóstico", "warn"); return; }
-    const { nombre_cliente, telefono, vehiculo_texto, descripcion, diagnostico_ia, costoTexto, imagen_count } = ultimaCotizacion;
-    const fecha = new Date().toLocaleDateString("es-CO", { day:"numeric", month:"long", year:"numeric" });
+  if (!ultimaCotizacion) { mostrarToast("Primero genera un diagnóstico", "warn"); return; }
+  const { nombre_cliente, telefono, vehiculo_texto, descripcion, diagnostico_ia, costoTexto, imagen_count } = ultimaCotizacion;
+  const fecha = new Date().toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric" });
 
-    const ventana = window.open("", "_blank");
-    ventana.document.write(`
+  const ventana = window.open("", "_blank");
+  ventana.document.write(`
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -342,8 +344,8 @@ function imprimirCotizacion() {
 </div>
 </body>
 </html>`);
-    ventana.document.close();
-    setTimeout(() => ventana.focus(), 300);
+  ventana.document.close();
+  setTimeout(() => ventana.focus(), 300);
 }
 
 
@@ -351,10 +353,10 @@ function imprimirCotizacion() {
 //  DESCARGAR PDF
 // ══════════════════════════════════════════════════════
 function descargarPDF() {
-    if (!ultimaCotizacion) { mostrarToast("Primero genera un diagnóstico", "warn"); return; }
-    // Abrir ventana de impresión y el navegador permite guardar como PDF
-    imprimirCotizacion();
-    mostrarToast("En la ventana de impresión selecciona 'Guardar como PDF'", "ok");
+  if (!ultimaCotizacion) { mostrarToast("Primero genera un diagnóstico", "warn"); return; }
+  // Abrir ventana de impresión y el navegador permite guardar como PDF
+  imprimirCotizacion();
+  mostrarToast("En la ventana de impresión selecciona 'Guardar como PDF'", "ok");
 }
 
 
@@ -362,29 +364,29 @@ function descargarPDF() {
 //  ENVIAR SOLICITUD (tipo MANUAL)
 // ══════════════════════════════════════════════════════
 async function enviarSolicitud() {
-    const nombre      = document.getElementById("nombre").value.trim();
-    const telefono    = document.getElementById("telefono").value.trim();
-    const vehiculo    = document.getElementById("vehiculo").value.trim();
-    const descripcion = document.getElementById("descripcion").value.trim();
+  const nombre = document.getElementById("nombre").value.trim();
+  const telefono = document.getElementById("telefono").value.trim();
+  const vehiculo = document.getElementById("vehiculo").value.trim();
+  const descripcion = document.getElementById("descripcion").value.trim();
 
-    if (!nombre || !vehiculo || !descripcion) {
-        mostrarToast("Completa los campos requeridos", "warn");
-        return;
-    }
+  if (!nombre || !vehiculo || !descripcion) {
+    mostrarToast("Completa los campos requeridos", "warn");
+    return;
+  }
 
-    const btn = document.getElementById("btnEnviar");
-    btn.disabled    = true;
-    btn.textContent = "Enviando...";
+  const btn = document.getElementById("btnEnviar");
+  btn.disabled = true;
+  btn.textContent = "Enviando...";
 
-    await guardarCotizacionBD({
-        nombre_cliente: nombre, telefono, vehiculo_texto: vehiculo,
-        descripcion, diagnostico_ia: "", costo_estimado: 0,
-        tipo: "MANUAL", imagen_count: imagenesBase64.length
-    });
+  await guardarCotizacionBD({
+    nombre_cliente: nombre, telefono, vehiculo_texto: vehiculo,
+    descripcion, diagnostico_ia: "", costo_estimado: 0,
+    tipo: "MANUAL", imagen_count: imagenesBase64.length
+  });
 
-    mostrarToast("Solicitud enviada. Un técnico te contactará pronto ✓", "ok");
-    btn.disabled    = false;
-    btn.textContent = "📤 Enviar Solicitud";
+  mostrarToast("Solicitud enviada. Un técnico te contactará pronto ✓", "ok");
+  btn.disabled = false;
+  btn.textContent = " Enviar Solicitud";
 }
 
 
@@ -392,23 +394,23 @@ async function enviarSolicitud() {
 //  TOAST
 // ══════════════════════════════════════════════════════
 function mostrarToast(msg, tipo) {
-    tipo = tipo || "ok";
-    const c = {
-        ok:    { bg:"var(--green-lt)", border:"var(--green-border)", text:"var(--green)", icon:"✓" },
-        warn:  { bg:"#fffbeb",         border:"#fde68a",             text:"#d97706",      icon:"⚠" },
-        error: { bg:"#fff1f2",         border:"#fecdd3",             text:"#e11d48",      icon:"✕" }
-    }[tipo] || {};
-    document.getElementById("fc-toast")?.remove();
-    const t = document.createElement("div");
-    t.id = "fc-toast";
-    t.style.cssText = `position:fixed;bottom:1.8rem;right:1.8rem;z-index:9999;background:${c.bg};border:1.5px solid ${c.border};color:${c.text};padding:.75rem 1.2rem;border-radius:14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.84rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.1);display:flex;align-items:center;gap:.6rem;max-width:340px`;
-    t.innerHTML = `<span>${c.icon}</span>${msg}`;
-    if (!document.getElementById("toast-style")) {
-        const s = document.createElement("style");
-        s.id = "toast-style";
-        s.textContent = `@keyframes slideToast{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}`;
-        document.head.appendChild(s);
-    }
-    document.body.appendChild(t);
-    setTimeout(() => t.remove(), 4000);
+  tipo = tipo || "ok";
+  const c = {
+    ok: { bg: "var(--green-lt)", border: "var(--green-border)", text: "var(--green)", icon: "✓" },
+    warn: { bg: "#fffbeb", border: "#fde68a", text: "#d97706", icon: "⚠" },
+    error: { bg: "#fff1f2", border: "#fecdd3", text: "#e11d48", icon: "✕" }
+  }[tipo] || {};
+  document.getElementById("fc-toast")?.remove();
+  const t = document.createElement("div");
+  t.id = "fc-toast";
+  t.style.cssText = `position:fixed;bottom:1.8rem;right:1.8rem;z-index:9999;background:${c.bg};border:1.5px solid ${c.border};color:${c.text};padding:.75rem 1.2rem;border-radius:14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.84rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.1);display:flex;align-items:center;gap:.6rem;max-width:340px`;
+  t.innerHTML = `<span>${c.icon}</span>${msg}`;
+  if (!document.getElementById("toast-style")) {
+    const s = document.createElement("style");
+    s.id = "toast-style";
+    s.textContent = `@keyframes slideToast{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}`;
+    document.head.appendChild(s);
+  }
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 4000);
 }
