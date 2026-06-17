@@ -36,7 +36,7 @@ async function cargarOrdenesActivas() {
         if (badge) { badge.textContent = ordenes.length; badge.style.display = ordenes.length > 0 ? "inline-flex" : "none"; }
         renderOrdenesActivas(ordenes);
     } catch {
-        contenedor.innerHTML = `<div style="text-align:center;padding:2rem;color:#dc2626;grid-column:1/-1"><div style="font-size:1.5rem;margin-bottom:.5rem">⚠️</div>Error conectando con el servidor.<br><button onclick="cargarOrdenesActivas()" style="margin-top:.8rem;background:var(--pri);color:#fff;border:none;border-radius:10px;padding:.5rem 1.2rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem">↺ Reintentar</button></div>`;
+        contenedor.innerHTML = `<div style="text-align:center;padding:2rem;color:#dc2626;grid-column:1/-1"><div style="font-size:1.5rem;margin-bottom:.5rem"> </div>Error conectando con el servidor.<br><button onclick="cargarOrdenesActivas()" style="margin-top:.8rem;background:var(--pri);color:#fff;border:none;border-radius:10px;padding:.5rem 1.2rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem">↺ Reintentar</button></div>`;
         if (badge) badge.style.display = "none";
     }
 }
@@ -49,14 +49,14 @@ function renderOrdenesActivas(lista) {
     const contenedor = document.getElementById("ordenes-activas-lista");
 
     if (lista.length === 0) {
-        contenedor.innerHTML = `<div style="text-align:center;padding:3rem 1rem;color:var(--muted);grid-column:1/-1"><div style="font-size:2.5rem;margin-bottom:.8rem">📋</div><p style="font-weight:600;margin-bottom:.3rem">No hay órdenes activas</p><p style="font-size:.82rem">Usa los botones del catálogo para crear una nueva orden.</p></div>`;
+        contenedor.innerHTML = `<div style="text-align:center;padding:3rem 1rem;color:var(--muted);grid-column:1/-1"><div style="font-size:2.5rem;margin-bottom:.8rem"> </div><p style="font-weight:600;margin-bottom:.3rem">No hay órdenes activas</p><p style="font-size:.82rem">Usa los botones del catálogo para crear una nueva orden.</p></div>`;
         return;
     }
 
     contenedor.innerHTML = "";
     lista.forEach(o => {
         const fecha = new Date(o.fecha_ingreso).toLocaleDateString("es-CO", { day:"numeric", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit" });
-        const iconos  = { "Mantenimiento":"❄️","Reparación":"🔧","Instalación":"⚙️","Diagnóstico IA":"🤖" };
+        const iconos  = { "Mantenimiento":"❄️","Reparación":"🔧","Instalación":"⚙️"};
         const colores = { "Mantenimiento":{bg:"#dbeafe",color:"#1d4ed8"},"Reparación":{bg:"#e0f2fe",color:"#0284c7"},"Instalación":{bg:"#fef3c7",color:"#d97706"},"Diagnóstico IA":{bg:"#ede9fe",color:"#7c3aed"} };
         const icono = iconos[o.tipo_servicio]  || "🔩";
         const col   = colores[o.tipo_servicio] || { bg:"#f1f5f9", color:"#64748b" };
@@ -76,20 +76,20 @@ function renderOrdenesActivas(lista) {
             </div>
 
             <div class="orden-info-grid">
-                <div class="orden-info-item"><span class="orden-info-label">👤 Cliente</span><span class="orden-info-val">${o.cliente_nombre||"—"} ${o.cliente_apellido||""}</span></div>
-                <div class="orden-info-item"><span class="orden-info-label">🚗 Vehículo</span><span class="orden-info-val">${o.marca||"—"} ${o.modelo||""} ${o.anio||""}</span></div>
-                <div class="orden-info-item"><span class="orden-info-label">🔑 Placa</span><span class="orden-info-val" style="font-weight:800;color:var(--pri)">${o.placa||"—"}</span></div>
-                <div class="orden-info-item"><span class="orden-info-label">🔧 Técnico</span><span class="orden-info-val">${o.tecnico_nombre ? o.tecnico_nombre+" "+(o.tecnico_apellido||"") : "Sin asignar"}</span></div>
-                <div class="orden-info-item" style="grid-column:1/-1"><span class="orden-info-label">📅 Ingreso</span><span class="orden-info-val">${fecha}</span></div>
-                ${o.descripcion ? `<div class="orden-info-item" style="grid-column:1/-1"><span class="orden-info-label">📝 Descripción</span><span class="orden-info-val" style="color:var(--muted)">${o.descripcion}</span></div>` : ""}
-                ${o.observaciones ? `<div class="orden-info-item" style="grid-column:1/-1"><span class="orden-info-label">🔍 Observaciones</span><span class="orden-info-val" style="color:var(--muted);white-space:pre-line">${o.observaciones}</span></div>` : ""}
+                <div class="orden-info-item"><span class="orden-info-label"> Cliente</span><span class="orden-info-val">${o.cliente_nombre||"—"} ${o.cliente_apellido||""}</span></div>
+                <div class="orden-info-item"><span class="orden-info-label">  Vehículo</span><span class="orden-info-val">${o.marca||"—"} ${o.modelo||""} ${o.anio||""}</span></div>
+                <div class="orden-info-item"><span class="orden-info-label">  Placa</span><span class="orden-info-val" style="font-weight:800;color:var(--pri)">${o.placa||"—"}</span></div>
+                <div class="orden-info-item"><span class="orden-info-label">  Técnico</span><span class="orden-info-val">${o.tecnico_nombre ? o.tecnico_nombre+" "+(o.tecnico_apellido||"") : "Sin asignar"}</span></div>
+                <div class="orden-info-item" style="grid-column:1/-1"><span class="orden-info-label">  Ingreso</span><span class="orden-info-val">${fecha}</span></div>
+                ${o.descripcion ? `<div class="orden-info-item" style="grid-column:1/-1"><span class="orden-info-label">  Descripción</span><span class="orden-info-val" style="color:var(--muted)">${o.descripcion}</span></div>` : ""}
+                ${o.observaciones ? `<div class="orden-info-item" style="grid-column:1/-1"><span class="orden-info-label">  Observaciones</span><span class="orden-info-val" style="color:var(--muted);white-space:pre-line">${o.observaciones}</span></div>` : ""}
             </div>
 
             <div class="orden-card-actions">
-                <button class="btn-repuestos" onclick="abrirModalRepuestos(${o.id_orden})">🔩 Repuestos</button>
-                <button class="btn-editar-orden" onclick="abrirModalEditar(${o.id_orden})">✏️ Editar</button>
+                <button class="btn-repuestos" onclick="abrirModalRepuestos(${o.id_orden})">  Repuestos</button>
+                <button class="btn-editar-orden" onclick="abrirModalEditar(${o.id_orden})">  Editar</button>
                 <button class="btn-finalizar" onclick="finalizarOrdenConResumen(${o.id_orden})">✓ Finalizar</button>
-                <button class="btn-eliminar-orden" onclick="eliminarOrden(${o.id_orden})">🗑</button>
+                <button class="btn-eliminar-orden" onclick="eliminarOrden(${o.id_orden})"> </button>
             </div>
         `;
         contenedor.appendChild(card);
@@ -247,7 +247,7 @@ async function guardarOrden() {
         await cargarOrdenesActivas();
     } catch (err) { mostrarToast(err.message || "Error al crear la orden", "error"); }
 
-    btn.disabled = false; btn.textContent = "✓ Crear Orden";
+    btn.disabled = false; btn.textContent = " Crear Orden";
 }
 
 
@@ -384,7 +384,7 @@ function cerrarModalRepuestos() {
 
 async function cargarRepuestosOrden(idOrden) {
     const lista = document.getElementById("rep-lista");
-    lista.innerHTML = `<div style="text-align:center;padding:1rem;color:var(--muted);font-size:.82rem">⏳ Cargando...</div>`;
+    lista.innerHTML = `<div style="text-align:center;padding:1rem;color:var(--muted);font-size:.82rem"> Cargando...</div>`;
     try {
         const res = await fetch(`${API}/ordenes/${idOrden}/repuestos`);
         const repuestos = res.ok ? await res.json() : [];
@@ -399,7 +399,7 @@ function renderListaRepuestos(repuestos) {
     const total = document.getElementById("rep-total");
 
     if (repuestos.length === 0) {
-        lista.innerHTML = `<div style="text-align:center;padding:1.5rem;color:var(--muted);font-size:.82rem">🔩 No hay repuestos agregados</div>`;
+        lista.innerHTML = `<div style="text-align:center;padding:1.5rem;color:var(--muted);font-size:.82rem"> No hay repuestos agregados</div>`;
         if (total) total.textContent = "$0";
         return;
     }
@@ -440,7 +440,7 @@ async function agregarRepuesto() {
             body: JSON.stringify({ id_producto, cantidad })
         });
         if (!res.ok) { const e = await res.json(); throw new Error(e.error); }
-        mostrarToast("Repuesto agregado ✓", "ok");
+        mostrarToast("Repuesto agregado ", "ok");
         // Actualizar stock local
         const prod = productos.find(p => p.id_producto === id_producto);
         if (prod) prod.stock -= cantidad;
@@ -568,14 +568,14 @@ async function confirmarFinalizarOrden() {
             cerrarModalResumen();
             setTimeout(() => { window.location.href = "carrito.html"; }, 1000);
         } else {
-            mostrarToast("Orden finalizada exitosamente ✓", "ok");
+            mostrarToast("Orden finalizada exitosamente ", "ok");
             cerrarModalResumen();
             await cargarOrdenesActivas();
         }
 
     } catch (err) {
         mostrarToast(err.message || "Error al finalizar", "error");
-        btn.disabled = false; btn.textContent = "✓ Finalizar y Cobrar";
+        btn.disabled = false; btn.textContent = " Finalizar y Cobrar";
     }
 }
 
@@ -588,7 +588,7 @@ async function finalizarOrden(id) {
     try {
         const res = await fetch(`${API}/ordenes/${id}/finalizar`, { method: "PATCH" });
         if (!res.ok) throw new Error();
-        mostrarToast("Orden finalizada ✓", "ok");
+        mostrarToast("Orden finalizada ", "ok");
         await cargarOrdenesActivas();
     } catch { mostrarToast("Error al finalizar la orden", "error"); }
 }
