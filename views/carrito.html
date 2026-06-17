@@ -75,27 +75,74 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 .empty-cart{text-align:center;padding:3rem 1rem;color:var(--muted)}
 .empty-cart span{font-size:2.5rem;display:block;margin-bottom:.6rem}
 
-/* RESUMEN */
-.resumen-card{background:var(--surface);border:1.5px solid #bfdbfe;border-radius:20px;padding:1.6rem;box-shadow:0 4px 24px rgba(29,78,216,.10);position:sticky;top:calc(var(--topbar-h) + 1rem);color:var(--text)}
-.resumen-label{font-size:.68rem;font-weight:700;color:var(--pri);text-transform:uppercase;letter-spacing:.09em;margin-bottom:1rem}
-.total-box{background:linear-gradient(135deg,#1d4ed8 0%,#0284c7 100%);border-radius:16px;padding:1.2rem;text-align:center;margin-bottom:1.2rem;box-shadow:0 4px 16px rgba(29,78,216,.25)}
-.total-box p{font-size:.72rem;font-weight:600;color:rgba(255,255,255,.8);margin-bottom:.3rem}
-.total-box h3{font-size:2.2rem;font-weight:800;color:#fff;line-height:1}
-.resumen-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;font-size:.84rem;border-bottom:1px solid var(--border)}
+/* ─── RESUMEN (rediseñado, integrado a la paleta) ─── */
+.resumen-card{
+  background:var(--surface);
+  border:1.5px solid #bfdbfe;
+  border-radius:20px;
+  padding:1.6rem;
+  box-shadow:0 4px 24px rgba(29,78,216,.10);
+  position:sticky;
+  top:calc(var(--topbar-h) + 1rem);
+  color:var(--text);
+}
+.resumen-label{
+  font-size:.68rem;
+  font-weight:700;
+  color:var(--pri);
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  margin-bottom:1rem;
+}
+.total-box{
+  background:linear-gradient(135deg,#1d4ed8 0%,#0284c7 100%);
+  border-radius:16px;
+  padding:1.2rem;
+  text-align:center;
+  margin-bottom:1.2rem;
+  box-shadow:0 4px 16px rgba(29,78,216,.25);
+}
+.total-box p{
+  font-size:.72rem;
+  font-weight:600;
+  color:rgba(255,255,255,.85);
+  margin-bottom:.3rem;
+}
+.total-box h3{
+  font-size:2.2rem;
+  font-weight:800;
+  color:#fff;
+  line-height:1;
+}
+.resumen-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:.5rem 0;
+  font-size:.84rem;
+  border-bottom:1px solid var(--border);
+}
 .resumen-row:last-child{border-bottom:none}
 .resumen-row span:first-child{color:var(--muted)}
 .resumen-row span:last-child{font-weight:700;color:var(--text)}
-.resumen-total-row{display:flex;justify-content:space-between;align-items:center;padding:.9rem 0 0;border-top:2px solid #bfdbfe;margin-top:.3rem}
+.resumen-total-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:.9rem 0 0;
+  border-top:2px solid #bfdbfe;
+  margin-top:.3rem;
+}
 .resumen-total-row span:first-child{font-size:.9rem;font-weight:800;color:var(--text)}
 .resumen-total-row span:last-child{font-size:1.5rem;font-weight:800;color:var(--pri)}
 
-.btn-pagar{width:100%;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;border:none;border-radius:14px;padding:1rem;font-size:.95rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(22,163,74,.4);transition:all .2s;margin-top:1.2rem;margin-bottom:.7rem}
-.btn-pagar:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(22,163,74,.5)}
+.btn-pagar{width:100%;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;border:none;border-radius:14px;padding:1rem;font-size:.95rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(22,163,74,.3);transition:all .2s;margin-top:1.2rem;margin-bottom:.7rem}
+.btn-pagar:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(22,163,74,.45)}
 .btn-pagar:disabled{opacity:.6;cursor:not-allowed;transform:none}
-.btn-vaciar{width:100%;background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3);border-radius:12px;padding:.75rem;font-size:.84rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:all .2s}
-.btn-vaciar:hover{background:rgba(239,68,68,.25);color:#fff}
-.btn-seguir{width:100%;background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:.75rem;font-size:.84rem;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:all .2s;text-decoration:none;display:block;text-align:center;margin-top:.5rem}
-.btn-seguir:hover{background:rgba(255,255,255,.15);color:#fff}
+.btn-vaciar{width:100%;background:#fee2e2;color:#dc2626;border:1px solid #fecaca;border-radius:12px;padding:.75rem;font-size:.84rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:all .2s}
+.btn-vaciar:hover{background:#dc2626;color:#fff}
+.btn-seguir{width:100%;background:var(--bg);color:var(--muted);border:1.5px solid var(--border);border-radius:12px;padding:.75rem;font-size:.84rem;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:all .2s;text-decoration:none;display:block;text-align:center;margin-top:.5rem}
+.btn-seguir:hover{border-color:var(--pri);color:var(--pri);background:var(--pri-lt)}
 
 /* A11Y */
 .a11y-btn{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:200;background:var(--pri);color:#fff;border:none;border-radius:12px 0 0 12px;padding:.9rem .6rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.66em;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;box-shadow:-3px 0 14px rgba(29,78,216,.2);transition:background .2s,right .35s}
@@ -127,7 +174,6 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 .anim{animation:fadeUp .4s ease both}
 .anim-2{animation:fadeUp .4s .08s ease both}
 .anim-3{animation:fadeUp .4s .16s ease both}
-@keyframes pulse-g{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
 @keyframes slideToast{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
@@ -218,9 +264,9 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 
     </div>
 
-    <!-- RESUMEN (oscuro) -->
+    <!-- RESUMEN -->
     <div class="resumen-card anim">
-      <p class="resumen-label">  Resumen del pedido</p>
+      <p class="resumen-label">🧾 Resumen del pedido</p>
 
       <div class="total-box">
         <p>Total a pagar (con IVA)</p>
@@ -230,7 +276,7 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
       <div style="margin-bottom:1rem">
         <div class="resumen-row"><span>Subtotal</span><span id="resumen-subtotal">$0</span></div>
         <div class="resumen-row"><span>IVA (19%)</span><span id="resumen-iva">$0</span></div>
-        <div class="resumen-row"><span>Envío</span><span style="color:#4ade80">Gratis</span></div>
+        <div class="resumen-row"><span>Envío</span><span style="color:var(--green);font-weight:700">Gratis</span></div>
         <div class="resumen-row"><span>Garantía</span><span>Incluida ✓</span></div>
         <div class="resumen-total-row">
           <span>TOTAL</span>
@@ -239,7 +285,7 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
       </div>
 
       <button class="btn-pagar" id="btnPagar" onclick="procesarPago()">✓ Procesar Pago</button>
-      <button class="btn-vaciar" onclick="vaciarCarrito()">  Vaciar carrito</button>
+      <button class="btn-vaciar" onclick="vaciarCarrito()">🗑 Vaciar carrito</button>
       <a href="ventas.html" class="btn-seguir">← Seguir comprando</a>
     </div>
 
