@@ -57,50 +57,72 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 .btn-nueva-orden{display:inline-flex;align-items:center;gap:.5rem;background:var(--pri);color:#fff;border:none;border-radius:10px;padding:.55rem 1.1rem;font-size:.82rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:background .2s;height:36px}
 .btn-nueva-orden:hover{background:var(--pri-h)}
 
-.ordenes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.ordenes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:1.2rem}
 
 /* ── ORDEN CARD ── */
-.orden-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
-.orden-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08)}
-.orden-card-accent{height:4px;flex-shrink:0}
-.orden-card-accent.mant{background:linear-gradient(90deg,#1d4ed8,#60a5fa)}
-.orden-card-accent.rep{background:linear-gradient(90deg,#475569,#94a3b8)}
-.orden-card-accent.inst{background:linear-gradient(90deg,#4338ca,#818cf8)}
-.orden-card-accent.diag{background:linear-gradient(90deg,#0369a1,#38bdf8)}
-.orden-card-accent.gen{background:linear-gradient(90deg,#1d4ed8,#60a5fa)}
+.orden-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+.orden-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
 
-.orden-card-inner{padding:1.1rem 1.3rem;display:flex;flex-direction:column;flex:1;gap:.8rem}
-
-.orden-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem}
+/* cabecera: tipo + número */
+.orden-card-header{padding:1.1rem 1.3rem .6rem;display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem}
+/* ocultar el ícono/emoji cuadrado de tipo que viene del JS */
+.orden-tipo-icon{display:none!important}
 .orden-tipo-wrap{display:flex;flex-direction:column;gap:2px}
-.orden-tipo-label{font-size:.62rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
-.orden-num{font-size:1rem;font-weight:800;color:var(--text)}
-.orden-estado-badge{font-size:.65rem;font-weight:700;padding:3px 9px;border-radius:99px;display:flex;align-items:center;gap:4px;flex-shrink:0}
-.orden-estado-badge.activa{background:#dcfce7;color:#15803d}
-.orden-estado-dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+.orden-tipo-label,.orden-tipo-text{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.orden-num{font-size:1.05rem;font-weight:800;color:var(--text)}
 
-.orden-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem .8rem}
+/* badge Activa — solo alrededor del texto, NO ancho completo */
+.orden-estado-badge{display:inline-flex!important;align-items:center;gap:5px;padding:3px 10px!important;border-radius:99px!important;font-size:.68rem!important;font-weight:700!important;width:fit-content!important;margin:0 1.3rem .9rem!important;background:none}
+.orden-estado-badge.activa{background:#dcfce7!important;color:#15803d!important}
+.orden-estado-dot{width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;animation:pulse-g 2s ease-in-out infinite;flex-shrink:0}
+
+/* grid de info — con margen lateral */
+.orden-info-grid,.orden-card-body{padding:0 1.3rem;display:grid;grid-template-columns:1fr 1fr;gap:.6rem 1rem;margin-bottom:.9rem}
 .orden-info-item{display:flex;flex-direction:column;gap:2px}
-.orden-info-label{font-size:.59rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-.orden-info-val{font-size:.79rem;font-weight:600;color:var(--text);line-height:1.35}
+
+/* ocultar emojis de los labels usando font-size 0 en el primer char */
+.orden-info-label{font-size:.59rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;
+  /* truco para ocultar emojis iniciales del JS */
+  overflow:hidden;white-space:nowrap}
+/* El emoji siempre va primero — lo hacemos invisible reduciendo el tamaño del elemento antes del texto real */
+.orden-info-label > *:first-child{display:none}
+
+.orden-info-val{font-size:.81rem;font-weight:600;color:var(--text);line-height:1.35}
 .orden-info-val.placa{color:var(--pri);font-weight:800}
 
-.orden-desc-block{border-top:1px solid var(--border);padding-top:.7rem}
-.orden-desc-block .orden-info-label{margin-bottom:3px}
-.orden-desc-block p{font-size:.77rem;color:var(--text);line-height:1.5}
+/* descripción y observaciones — con margen */
+.orden-desc-wrap,.orden-desc-block-outer{padding:0 1.3rem;margin-bottom:.9rem;display:flex;flex-direction:column;gap:.55rem}
+.orden-desc-block{display:flex;flex-direction:column;gap:3px;border-top:1px solid var(--border);padding-top:.7rem}
+.orden-desc-block:first-child{border-top:none;padding-top:0}
+.orden-desc-block .orden-info-label{margin-bottom:2px}
+.orden-desc-block p{font-size:.79rem;color:var(--text);line-height:1.5}
 
-/* botones siempre al fondo */
-.orden-card-actions{display:flex;gap:.4rem;margin-top:auto;padding-top:.8rem;border-top:1px solid var(--border)}
-.btn-ord{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:.3rem;border:none;border-radius:9px;padding:.52rem .4rem;font-size:.73rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .18s}
-.btn-ord svg{width:11px;height:11px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round;flex-shrink:0}
-.btn-ord-repuestos{background:#fef9ee;color:#92400e;box-shadow:0 1px 3px rgba(146,64,14,.15)}
-.btn-ord-repuestos:hover{background:#d97706;color:#fff;box-shadow:0 3px 10px rgba(217,119,6,.3)}
-.btn-ord-editar{background:#f0f4ff;color:#3730a3;box-shadow:0 1px 3px rgba(55,48,163,.15)}
-.btn-ord-editar:hover{background:#4338ca;color:#fff;box-shadow:0 3px 10px rgba(67,56,202,.3)}
-.btn-ord-finalizar{background:#f0fdf4;color:#15803d;box-shadow:0 1px 3px rgba(21,128,61,.15)}
-.btn-ord-finalizar:hover{background:#16a34a;color:#fff;box-shadow:0 3px 10px rgba(22,163,74,.3)}
-.btn-ord-eliminar{background:#fff1f2;color:#be123c;box-shadow:0 1px 3px rgba(190,18,60,.12);flex:0 0 auto;padding:.52rem .6rem}
-.btn-ord-eliminar:hover{background:#e11d48;color:#fff;box-shadow:0 3px 10px rgba(225,29,72,.3)}
+/* separador antes de botones */
+.orden-card-divider{height:1px;background:var(--border)}
+
+/* botones — siempre al fondo, con padding lateral como la card */
+.orden-card-actions{display:flex;align-items:center;gap:.45rem;padding:.9rem 1.3rem;margin-top:auto}
+
+/* reset total y estilo cápsula */
+.btn-repuestos,.btn-editar-orden,.btn-finalizar,.btn-eliminar-orden{
+  flex:1;display:inline-flex;align-items:center;justify-content:center;
+  border:none;border-radius:99px;
+  padding:.48rem .7rem;font-size:.73rem;font-weight:700;
+  cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;
+  transition:all .18s;white-space:nowrap;gap:.3rem;
+}
+/* Repuestos — ámbar muy suave */
+.btn-repuestos{background:#fef9ee;color:#92400e;box-shadow:0 1px 4px rgba(146,64,14,.15)}
+.btn-repuestos:hover{background:#d97706;color:#fff;box-shadow:0 3px 12px rgba(217,119,6,.3)}
+/* Editar — índigo suave */
+.btn-editar-orden{background:#eef2ff;color:#3730a3;box-shadow:0 1px 4px rgba(55,48,163,.15)}
+.btn-editar-orden:hover{background:#4338ca;color:#fff;box-shadow:0 3px 12px rgba(67,56,202,.3)}
+/* Finalizar — verde suave */
+.btn-finalizar{background:#f0fdf4;color:#15803d;box-shadow:0 1px 4px rgba(21,128,61,.15)}
+.btn-finalizar:hover{background:#16a34a;color:#fff;box-shadow:0 3px 12px rgba(22,163,74,.3)}
+/* Eliminar — rojo suave, no flex:1 */
+.btn-eliminar-orden{flex:0 0 auto;padding:.48rem .65rem;background:#fff1f2;color:#be123c;box-shadow:0 1px 4px rgba(190,18,60,.12)}
+.btn-eliminar-orden:hover{background:#e11d48;color:#fff;box-shadow:0 3px 12px rgba(225,29,72,.28)}
 
 /* ── CATÁLOGO ── */
 .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;margin-bottom:2rem}
@@ -213,6 +235,9 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
 .btn-reset{width:100%;padding:.6rem;border-radius:9px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif;font-size:.82em;font-weight:600;cursor:pointer;transition:all .2s}
 .btn-reset:hover{border-color:#dc2626;color:#dc2626;background:#fff5f5}
 .div-a{height:1px;background:var(--border);margin:.75rem 0 1.1rem}
+
+/* suprimir emojis del JS en labels y botones */
+.orden-info-label,.btn-repuestos,.btn-editar-orden,.btn-finalizar,.btn-eliminar-orden{font-variant-emoji:text}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 .anim{animation:fadeUp .4s ease both}
