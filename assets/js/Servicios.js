@@ -1,15 +1,20 @@
 // ══════════════════════════════════════════════════════
-//  FRÍO CARS — servicios.js
+//  FRÍO CARS — Servicios.js
+//  Cambio: quitarRepuesto() solo permitido para admin
 // ══════════════════════════════════════════════════════
 
 const API = "https://friocars-backend.onrender.com/api";
 
-let clientes  = [];
-let tecnicos  = [];
-let ordenes   = [];
+let clientes = [];
+let tecnicos = [];
+let ordenes = [];
 let productos = [];
 let clienteSeleccionado = null;
 let ordenRepuestosActual = null;
+
+// Leer rol del usuario logueado
+const _usuarioActual = JSON.parse(localStorage.getItem("usuario") || "{}");
+const _esAdmin = _usuarioActual.rol === "admin";
 
 document.addEventListener("DOMContentLoaded", () => {
     cargarOrdenesActivas();
@@ -24,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // ══════════════════════════════════════════════════════
 async function cargarOrdenesActivas() {
     const contenedor = document.getElementById("ordenes-activas-lista");
-    const badge      = document.getElementById("ordenes-count-badge");
+    const badge = document.getElementById("ordenes-count-badge");
 
     contenedor.innerHTML = `<div style="text-align:center;padding:2rem;color:var(--muted);grid-column:1/-1"><div style="font-size:1.5rem;margin-bottom:.5rem">⏳</div>Cargando órdenes activas...</div>`;
 
@@ -36,7 +41,7 @@ async function cargarOrdenesActivas() {
         if (badge) { badge.textContent = ordenes.length; badge.style.display = ordenes.length > 0 ? "inline-flex" : "none"; }
         renderOrdenesActivas(ordenes);
     } catch {
-        contenedor.innerHTML = `<div style="text-align:center;padding:2rem;color:#dc2626;grid-column:1/-1"><div style="font-size:1.5rem;margin-bottom:.5rem"> </div>Error conectando con el servidor.<br><button onclick="cargarOrdenesActivas()" style="margin-top:.8rem;background:var(--pri);color:#fff;border:none;border-radius:10px;padding:.5rem 1.2rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem">↺ Reintentar</button></div>`;
+        contenedor.innerHTML = `<div style="text-align:center;padding:2rem;color:#dc2626;grid-column:1/-1"><div style="font-size:1.5rem;margin-bottom:.5rem">⚠️</div>Error conectando con el servidor.<br><button onclick="cargarOrdenesActivas()" style="margin-top:.8rem;background:var(--pri);color:#fff;border:none;border-radius:10px;padding:.5rem 1.2rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem">↺ Reintentar</button></div>`;
         if (badge) badge.style.display = "none";
     }
 }
@@ -49,17 +54,17 @@ function renderOrdenesActivas(lista) {
     const contenedor = document.getElementById("ordenes-activas-lista");
 
     if (lista.length === 0) {
-        contenedor.innerHTML = `<div style="text-align:center;padding:3rem 1rem;color:var(--muted);grid-column:1/-1"><div style="font-size:2.5rem;margin-bottom:.8rem"> </div><p style="font-weight:600;margin-bottom:.3rem">No hay órdenes activas</p><p style="font-size:.82rem">Usa los botones del catálogo para crear una nueva orden.</p></div>`;
+        contenedor.innerHTML = `<div style="text-align:center;padding:3rem 1rem;color:var(--muted);grid-column:1/-1"><div style="font-size:2.5rem;margin-bottom:.8rem">📋</div><p style="font-weight:600;margin-bottom:.3rem">No hay órdenes activas</p><p style="font-size:.82rem">Usa los botones del catálogo para crear una nueva orden.</p></div>`;
         return;
     }
 
     contenedor.innerHTML = "";
     lista.forEach(o => {
-        const fecha = new Date(o.fecha_ingreso).toLocaleDateString("es-CO", { day:"numeric", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit" });
-        const iconos  = { "Mantenimiento":"❄️","Reparación":"🔧","Instalación":"⚙️"};
-        const colores = { "Mantenimiento":{bg:"#dbeafe",color:"#1d4ed8"},"Reparación":{bg:"#e0f2fe",color:"#0284c7"},"Instalación":{bg:"#fef3c7",color:"#d97706"},"Diagnóstico IA":{bg:"#ede9fe",color:"#7c3aed"} };
-        const icono = iconos[o.tipo_servicio]  || "🔩";
-        const col   = colores[o.tipo_servicio] || { bg:"#f1f5f9", color:"#64748b" };
+        const fecha = new Date(o.fecha_ingreso).toLocaleDateString("es-CO", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+        const iconos = { "Mantenimiento": "❄️", "Reparación": "🔧", "Instalación": "⚙️" };
+        const colores = { "Mantenimiento": { bg: "#dbeafe", color: "#1d4ed8" }, "Reparación": { bg: "#e0f2fe", color: "#0284c7" }, "Instalación": { bg: "#fef3c7", color: "#d97706" }, "Diagnóstico IA": { bg: "#ede9fe", color: "#7c3aed" } };
+        const icono = iconos[o.tipo_servicio] || "🔩";
+        const col = colores[o.tipo_servicio] || { bg: "#f1f5f9", color: "#64748b" };
 
         const card = document.createElement("div");
         card.className = "orden-card";
@@ -76,20 +81,20 @@ function renderOrdenesActivas(lista) {
             </div>
 
             <div class="orden-info-grid">
-                <div class="orden-info-item"><span class="orden-info-label"> Cliente</span><span class="orden-info-val">${o.cliente_nombre||"—"} ${o.cliente_apellido||""}</span></div>
-                <div class="orden-info-item"><span class="orden-info-label">  Vehículo</span><span class="orden-info-val">${o.marca||"—"} ${o.modelo||""} ${o.anio||""}</span></div>
-                <div class="orden-info-item"><span class="orden-info-label">  Placa</span><span class="orden-info-val" style="font-weight:800;color:var(--pri)">${o.placa||"—"}</span></div>
-                <div class="orden-info-item"><span class="orden-info-label">  Técnico</span><span class="orden-info-val">${o.tecnico_nombre ? o.tecnico_nombre+" "+(o.tecnico_apellido||"") : "Sin asignar"}</span></div>
-                <div class="orden-info-item" style="grid-column:1/-1"><span class="orden-info-label">  Ingreso</span><span class="orden-info-val">${fecha}</span></div>
-                ${o.descripcion ? `<div class="orden-info-item" style="grid-column:1/-1"><span class="orden-info-label">  Descripción</span><span class="orden-info-val" style="color:var(--muted)">${o.descripcion}</span></div>` : ""}
-                ${o.observaciones ? `<div class="orden-info-item" style="grid-column:1/-1"><span class="orden-info-label">  Observaciones</span><span class="orden-info-val" style="color:var(--muted);white-space:pre-line">${o.observaciones}</span></div>` : ""}
+                <div class="orden-info-item"><span class="orden-info-label">Cliente</span><span class="orden-info-val">${o.cliente_nombre || "—"} ${o.cliente_apellido || ""}</span></div>
+                <div class="orden-info-item"><span class="orden-info-label">Vehículo</span><span class="orden-info-val">${o.marca || "—"} ${o.modelo || ""} ${o.anio || ""}</span></div>
+                <div class="orden-info-item"><span class="orden-info-label">Placa</span><span class="orden-info-val" style="font-weight:800;color:var(--pri)">${o.placa || "—"}</span></div>
+                <div class="orden-info-item"><span class="orden-info-label">Técnico</span><span class="orden-info-val">${o.tecnico_nombre ? o.tecnico_nombre + " " + (o.tecnico_apellido || "") : "Sin asignar"}</span></div>
+                <div class="orden-info-item" style="grid-column:1/-1"><span class="orden-info-label">Ingreso</span><span class="orden-info-val">${fecha}</span></div>
+                ${o.descripcion ? `<div class="orden-info-item" style="grid-column:1/-1"><span class="orden-info-label">Descripción</span><span class="orden-info-val" style="color:var(--muted)">${o.descripcion}</span></div>` : ""}
+                ${o.observaciones ? `<div class="orden-info-item" style="grid-column:1/-1"><span class="orden-info-label">Observaciones</span><span class="orden-info-val" style="color:var(--muted);white-space:pre-line">${o.observaciones}</span></div>` : ""}
             </div>
 
             <div class="orden-card-actions">
-                <button class="btn-repuestos" onclick="abrirModalRepuestos(${o.id_orden})">  Repuestos</button>
-                <button class="btn-editar-orden" onclick="abrirModalEditar(${o.id_orden})">  Editar</button>
+                <button class="btn-repuestos" onclick="abrirModalRepuestos(${o.id_orden})">Repuestos</button>
+                <button class="btn-editar-orden" onclick="abrirModalEditar(${o.id_orden})">Editar</button>
                 <button class="btn-finalizar" onclick="finalizarOrdenConResumen(${o.id_orden})">✓ Finalizar</button>
-                <button class="btn-eliminar-orden" onclick="eliminarOrden(${o.id_orden})"> </button>
+                <button class="btn-eliminar-orden" onclick="eliminarOrden(${o.id_orden})" title="Eliminar">✕</button>
             </div>
         `;
         contenedor.appendChild(card);
@@ -107,8 +112,8 @@ async function cargarDatosFormulario() {
             fetch(`${API}/tecnicos`),
             fetch(`${API}/productos`)
         ]);
-        clientes  = resC.ok ? await resC.json() : [];
-        tecnicos  = resT.ok ? await resT.json() : [];
+        clientes = resC.ok ? await resC.json() : [];
+        tecnicos = resT.ok ? await resT.json() : [];
         productos = resP.ok ? await resP.json() : [];
 
         poblarSelectTecnico("orden-tecnico");
@@ -124,7 +129,7 @@ function poblarSelectTecnico(selectId) {
     sel.innerHTML = `<option value="">— Sin asignar —</option>`;
     tecnicos.forEach(t => {
         if (t.estado === "Activo" || !t.estado) {
-            sel.innerHTML += `<option value="${t.id_tecnico}">${t.nombre} ${t.apellido}${t.especialidad ? " · "+t.especialidad : ""}</option>`;
+            sel.innerHTML += `<option value="${t.id_tecnico}">${t.nombre} ${t.apellido}${t.especialidad ? " · " + t.especialidad : ""}</option>`;
         }
     });
 }
@@ -134,9 +139,9 @@ function poblarSelectTecnico(selectId) {
 //  BUSCADOR CLIENTE EN TIEMPO REAL
 // ══════════════════════════════════════════════════════
 function iniciarBuscadorCliente() {
-    const input      = document.getElementById("cliente-search");
+    const input = document.getElementById("cliente-search");
     const resultados = document.getElementById("cliente-resultados");
-    const hiddenId   = document.getElementById("orden-cliente-id");
+    const hiddenId = document.getElementById("orden-cliente-id");
     if (!input) return;
 
     input.addEventListener("input", () => {
@@ -146,17 +151,17 @@ function iniciarBuscadorCliente() {
         if (q.length < 1) { resultados.style.display = "none"; resultados.innerHTML = ""; return; }
 
         const filtrados = clientes.filter(c =>
-            (c.nombre||"").toLowerCase().includes(q) ||
-            (c.apellido||"").toLowerCase().includes(q) ||
-            ((c.nombre||"")+" "+(c.apellido||"")).toLowerCase().includes(q) ||
-            (c.numero_documento||"").toLowerCase().includes(q)
+            (c.nombre || "").toLowerCase().includes(q) ||
+            (c.apellido || "").toLowerCase().includes(q) ||
+            ((c.nombre || "") + " " + (c.apellido || "")).toLowerCase().includes(q) ||
+            (c.numero_documento || "").toLowerCase().includes(q)
         );
 
         if (filtrados.length === 0) {
             resultados.innerHTML = `<div class="cliente-result-item" style="color:var(--muted);cursor:default">No se encontraron clientes</div>`;
         } else {
             resultados.innerHTML = filtrados.map(c => `
-                <div class="cliente-result-item" onclick="seleccionarCliente(${c.id_cliente},'${(c.nombre+" "+c.apellido).replace(/'/g,"\\'")}','${c.numero_documento}')">
+                <div class="cliente-result-item" onclick="seleccionarCliente(${c.id_cliente},'${(c.nombre + " " + c.apellido).replace(/'/g, "\\'")}','${c.numero_documento}')">
                     <div style="font-weight:700;color:var(--text)">${c.nombre} ${c.apellido}</div>
                     <div style="font-size:.72rem;color:var(--muted)">Doc: ${c.numero_documento}</div>
                 </div>`).join("");
@@ -171,7 +176,7 @@ function iniciarBuscadorCliente() {
 
 function seleccionarCliente(id, nombre, documento) {
     clienteSeleccionado = id;
-    document.getElementById("cliente-search").value   = `${nombre} — ${documento}`;
+    document.getElementById("cliente-search").value = `${nombre} — ${documento}`;
     document.getElementById("orden-cliente-id").value = id;
     document.getElementById("cliente-resultados").style.display = "none";
     onClienteChange(id);
@@ -183,7 +188,7 @@ async function onClienteChange(idCliente) {
     sel.disabled = true;
     if (!idCliente) { sel.innerHTML = `<option value="">— Primero selecciona un cliente —</option>`; return; }
     try {
-        const res  = await fetch(`${API}/vehiculos`);
+        const res = await fetch(`${API}/vehiculos`);
         const todos = await res.json();
         const vehiculosCliente = todos.filter(v => v.id_cliente == idCliente);
         sel.innerHTML = `<option value="">— Seleccionar vehículo —</option>`;
@@ -201,13 +206,13 @@ async function onClienteChange(idCliente) {
 //  MODAL NUEVA ORDEN
 // ══════════════════════════════════════════════════════
 function abrirModalOrden(tipoServicio) {
-    document.getElementById("cliente-search").value   = "";
+    document.getElementById("cliente-search").value = "";
     document.getElementById("orden-cliente-id").value = "";
     document.getElementById("cliente-resultados").style.display = "none";
     document.getElementById("orden-vehiculo").innerHTML = `<option value="">— Primero selecciona un cliente —</option>`;
-    document.getElementById("orden-vehiculo").disabled  = true;
+    document.getElementById("orden-vehiculo").disabled = true;
     document.getElementById("orden-tecnico").value = "";
-    document.getElementById("orden-desc").value    = "";
+    document.getElementById("orden-desc").value = "";
     clienteSeleccionado = null;
     const sel = document.getElementById("orden-tipo");
     if (sel && tipoServicio) sel.value = tipoServicio;
@@ -223,14 +228,14 @@ function cerrarModalOrden() {
 
 async function guardarOrden() {
     const tipo_servicio = document.getElementById("orden-tipo").value;
-    const id_cliente    = document.getElementById("orden-cliente-id").value;
-    const id_vehiculo   = document.getElementById("orden-vehiculo").value;
-    const id_tecnico    = document.getElementById("orden-tecnico").value;
-    const descripcion   = document.getElementById("orden-desc").value.trim();
+    const id_cliente = document.getElementById("orden-cliente-id").value;
+    const id_vehiculo = document.getElementById("orden-vehiculo").value;
+    const id_tecnico = document.getElementById("orden-tecnico").value;
+    const descripcion = document.getElementById("orden-desc").value.trim();
 
     if (!tipo_servicio) { mostrarToast("Selecciona el tipo de servicio", "warn"); return; }
-    if (!id_cliente)    { mostrarToast("Selecciona un cliente", "warn"); return; }
-    if (!id_vehiculo)   { mostrarToast("Selecciona un vehículo", "warn"); return; }
+    if (!id_cliente) { mostrarToast("Selecciona un cliente", "warn"); return; }
+    if (!id_vehiculo) { mostrarToast("Selecciona un vehículo", "warn"); return; }
 
     const btn = document.getElementById("btn-guardar-orden");
     btn.disabled = true; btn.textContent = "Guardando...";
@@ -247,7 +252,7 @@ async function guardarOrden() {
         await cargarOrdenesActivas();
     } catch (err) { mostrarToast(err.message || "Error al crear la orden", "error"); }
 
-    btn.disabled = false; btn.textContent = " Crear Orden";
+    btn.disabled = false; btn.textContent = "Crear Orden";
 }
 
 
@@ -257,11 +262,11 @@ async function guardarOrden() {
 function abrirModalEditar(id) {
     const o = ordenes.find(x => x.id_orden === id);
     if (!o) return;
-    document.getElementById("edit-id").value            = o.id_orden;
-    document.getElementById("edit-tipo").value          = o.tipo_servicio || "";
-    document.getElementById("edit-descripcion").value   = o.descripcion   || "";
-    document.getElementById("edit-observaciones").value = o.observaciones  || "";
-    document.getElementById("edit-info-cliente").textContent = `${o.cliente_nombre||"—"} ${o.cliente_apellido||""} · ${o.marca||""} ${o.modelo||""} · Placa: ${o.placa||"—"}`;
+    document.getElementById("edit-id").value = o.id_orden;
+    document.getElementById("edit-tipo").value = o.tipo_servicio || "";
+    document.getElementById("edit-descripcion").value = o.descripcion || "";
+    document.getElementById("edit-observaciones").value = o.observaciones || "";
+    document.getElementById("edit-info-cliente").textContent = `${o.cliente_nombre || "—"} ${o.cliente_apellido || ""} · ${o.marca || ""} ${o.modelo || ""} · Placa: ${o.placa || "—"}`;
     poblarSelectTecnico("edit-tecnico");
     setTimeout(() => { if (o.id_tecnico) document.getElementById("edit-tecnico").value = o.id_tecnico; }, 80);
     document.getElementById("modal-editar-orden").classList.add("visible");
@@ -274,11 +279,11 @@ function cerrarModalEditar() {
 }
 
 async function guardarEdicionOrden() {
-    const id            = document.getElementById("edit-id").value;
+    const id = document.getElementById("edit-id").value;
     const tipo_servicio = document.getElementById("edit-tipo").value;
-    const descripcion   = document.getElementById("edit-descripcion").value.trim();
+    const descripcion = document.getElementById("edit-descripcion").value.trim();
     const observaciones = document.getElementById("edit-observaciones").value.trim();
-    const id_tecnico    = document.getElementById("edit-tecnico").value;
+    const id_tecnico = document.getElementById("edit-tecnico").value;
     if (!tipo_servicio) { mostrarToast("Selecciona el tipo de servicio", "warn"); return; }
 
     const btn = document.getElementById("btn-guardar-edicion");
@@ -288,7 +293,7 @@ async function guardarEdicionOrden() {
         const res = await fetch(`${API}/ordenes/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ tipo_servicio, descripcion, observaciones, estado:"Activa", id_tecnico: id_tecnico ? parseInt(id_tecnico) : null })
+            body: JSON.stringify({ tipo_servicio, descripcion, observaciones, estado: "Activa", id_tecnico: id_tecnico ? parseInt(id_tecnico) : null })
         });
         if (!res.ok) throw new Error();
         mostrarToast("Orden actualizada ✓", "ok");
@@ -307,10 +312,9 @@ async function abrirModalRepuestos(idOrden) {
     ordenRepuestosActual = idOrden;
     const o = ordenes.find(x => x.id_orden === idOrden);
     document.getElementById("rep-info-orden").textContent = o
-        ? `Orden #${idOrden} · ${o.cliente_nombre||""} ${o.cliente_apellido||""} · ${o.placa||""}`
+        ? `Orden #${idOrden} · ${o.cliente_nombre || ""} ${o.cliente_apellido || ""} · ${o.placa || ""}`
         : `Orden #${idOrden}`;
 
-    // Limpiar buscador
     document.getElementById("rep-buscar").value = "";
     document.getElementById("rep-resultados").style.display = "none";
     document.getElementById("rep-resultados").innerHTML = "";
@@ -325,9 +329,8 @@ async function abrirModalRepuestos(idOrden) {
     await cargarRepuestosOrden(idOrden);
 }
 
-// Iniciar buscador de productos en modal repuestos
 function iniciarBuscadorProductos() {
-    const input      = document.getElementById("rep-buscar");
+    const input = document.getElementById("rep-buscar");
     const resultados = document.getElementById("rep-resultados");
     if (!input) return;
 
@@ -341,17 +344,17 @@ function iniciarBuscadorProductos() {
 
         const filtrados = productos.filter(p =>
             p.activo !== false && p.stock > 0 &&
-            ((p.nombre||"").toLowerCase().includes(q) || (p.categoria||"").toLowerCase().includes(q))
+            ((p.nombre || "").toLowerCase().includes(q) || (p.categoria || "").toLowerCase().includes(q))
         );
 
         if (filtrados.length === 0) {
             resultados.innerHTML = `<div style="padding:.65rem 1rem;color:var(--muted);font-size:.82rem">No se encontraron productos con stock</div>`;
         } else {
             resultados.innerHTML = filtrados.slice(0, 8).map(p => `
-                <div class="rep-result-item" onclick="seleccionarProductoRep(${p.id_producto},'${p.nombre.replace(/'/g,"\'")}',${p.precio},${p.stock})">
+                <div class="rep-result-item" onclick="seleccionarProductoRep(${p.id_producto},'${p.nombre.replace(/'/g, "\\'")}',${p.precio},${p.stock})">
                     <div style="font-weight:700;color:var(--text);font-size:.84rem">${p.nombre}</div>
                     <div style="font-size:.72rem;color:var(--muted)">
-                        ${p.categoria||""} · <strong style="color:var(--green)">$${Number(p.precio).toLocaleString("es-CO")}</strong> · Stock: <strong>${p.stock}</strong>
+                        ${p.categoria || ""} · <strong style="color:var(--green)">$${Number(p.precio).toLocaleString("es-CO")}</strong> · Stock: <strong>${p.stock}</strong>
                     </div>
                 </div>`).join("");
         }
@@ -367,7 +370,6 @@ function seleccionarProductoRep(id, nombre, precio, stock) {
     document.getElementById("rep-buscar").value = nombre;
     document.getElementById("rep-producto-id").value = id;
     document.getElementById("rep-resultados").style.display = "none";
-
     const infoEl = document.getElementById("rep-producto-info");
     if (infoEl) {
         infoEl.textContent = `$${Number(precio).toLocaleString("es-CO")} · Stock disponible: ${stock}`;
@@ -384,7 +386,7 @@ function cerrarModalRepuestos() {
 
 async function cargarRepuestosOrden(idOrden) {
     const lista = document.getElementById("rep-lista");
-    lista.innerHTML = `<div style="text-align:center;padding:1rem;color:var(--muted);font-size:.82rem"> Cargando...</div>`;
+    lista.innerHTML = `<div style="text-align:center;padding:1rem;color:var(--muted);font-size:.82rem">Cargando...</div>`;
     try {
         const res = await fetch(`${API}/ordenes/${idOrden}/repuestos`);
         const repuestos = res.ok ? await res.json() : [];
@@ -399,7 +401,7 @@ function renderListaRepuestos(repuestos) {
     const total = document.getElementById("rep-total");
 
     if (repuestos.length === 0) {
-        lista.innerHTML = `<div style="text-align:center;padding:1.5rem;color:var(--muted);font-size:.82rem"> No hay repuestos agregados</div>`;
+        lista.innerHTML = `<div style="text-align:center;padding:1.5rem;color:var(--muted);font-size:.82rem">No hay repuestos agregados</div>`;
         if (total) total.textContent = "$0";
         return;
     }
@@ -410,12 +412,18 @@ function renderListaRepuestos(repuestos) {
         totalVal += parseFloat(r.subtotal);
         const div = document.createElement("div");
         div.style.cssText = "display:flex;align-items:center;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--border);gap:.5rem";
+
+        // ── RESTRICCIÓN: solo admin puede quitar repuestos ──
+        const btnQuitar = _esAdmin
+            ? `<button onclick="quitarRepuesto(${r.id_orden_repuesto})" style="background:#fee2e2;color:#dc2626;border:none;border-radius:7px;padding:.3rem .6rem;font-size:.7rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;flex-shrink:0">Quitar</button>`
+            : `<span style="font-size:.65rem;color:var(--muted);background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:.3rem .6rem;flex-shrink:0">Solo admin</span>`;
+
         div.innerHTML = `
             <div style="flex:1">
                 <div style="font-size:.84rem;font-weight:700;color:var(--text)">${r.producto_nombre}</div>
                 <div style="font-size:.72rem;color:var(--muted)">${r.cantidad} × $${Number(r.precio_aplicado).toLocaleString("es-CO")} = <strong style="color:var(--green)">$${Number(r.subtotal).toLocaleString("es-CO")}</strong></div>
             </div>
-            <button onclick="quitarRepuesto(${r.id_orden_repuesto})" style="background:#fee2e2;color:#dc2626;border:none;border-radius:7px;padding:.3rem .6rem;font-size:.7rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;flex-shrink:0">Quitar</button>
+            ${btnQuitar}
         `;
         lista.appendChild(div);
     });
@@ -425,7 +433,7 @@ function renderListaRepuestos(repuestos) {
 
 async function agregarRepuesto() {
     const id_producto = parseInt(document.getElementById("rep-producto-id").value);
-    const cantidad    = parseInt(document.getElementById("rep-cantidad").value);
+    const cantidad = parseInt(document.getElementById("rep-cantidad").value);
 
     if (!id_producto) { mostrarToast("Busca y selecciona un producto", "warn"); return; }
     if (!cantidad || cantidad < 1) { mostrarToast("Cantidad inválida", "warn"); return; }
@@ -440,11 +448,9 @@ async function agregarRepuesto() {
             body: JSON.stringify({ id_producto, cantidad })
         });
         if (!res.ok) { const e = await res.json(); throw new Error(e.error); }
-        mostrarToast("Repuesto agregado ", "ok");
-        // Actualizar stock local
+        mostrarToast("Repuesto agregado ✓", "ok");
         const prod = productos.find(p => p.id_producto === id_producto);
         if (prod) prod.stock -= cantidad;
-        // Limpiar buscador
         document.getElementById("rep-buscar").value = "";
         document.getElementById("rep-producto-id").value = "";
         const infoEl = document.getElementById("rep-producto-info");
@@ -453,16 +459,20 @@ async function agregarRepuesto() {
         await cargarRepuestosOrden(ordenRepuestosActual);
     } catch (err) { mostrarToast(err.message || "Error agregando repuesto", "error"); }
 
-    btn.disabled = false; btn.textContent = "+ Agregar";
+    btn.disabled = false; btn.textContent = "Agregar repuesto";
 }
 
+// ── Solo admin puede quitar repuestos ─────────────────
 async function quitarRepuesto(idOrdenRepuesto) {
+    if (!_esAdmin) {
+        mostrarToast("Solo el administrador puede quitar repuestos", "warn");
+        return;
+    }
     try {
         const res = await fetch(`${API}/ordenes/${ordenRepuestosActual}/repuestos/${idOrdenRepuesto}`, { method: "DELETE" });
         if (!res.ok) throw new Error();
         mostrarToast("Repuesto eliminado ✓", "ok");
         await cargarRepuestosOrden(ordenRepuestosActual);
-        // Recargar productos para actualizar stock
         const resP = await fetch(`${API}/productos`);
         if (resP.ok) productos = await resP.json();
     } catch { mostrarToast("Error eliminando repuesto", "error"); }
@@ -480,11 +490,10 @@ async function finalizarOrdenConResumen(idOrden) {
 
         const o = data.orden;
         const repuestos = data.repuestos;
-        const totalRep  = data.totalRepuestos;
-        const iva       = data.iva;
-        const total     = data.totalConIva;
+        const totalRep = data.totalRepuestos;
+        const iva = data.iva;
+        const total = data.totalConIva;
 
-        // Construir contenido del modal de resumen
         let repuestosHtml = repuestos.length > 0
             ? repuestos.map(r => `
                 <div style="display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid var(--border);font-size:.82rem">
@@ -502,19 +511,19 @@ async function finalizarOrdenConResumen(idOrden) {
             </div>`;
         document.getElementById("resumen-repuestos-lista").innerHTML = repuestosHtml;
         document.getElementById("resumen-subtotal").textContent = `$${Number(totalRep).toLocaleString("es-CO")}`;
-        document.getElementById("resumen-iva").textContent      = `$${Number(iva).toLocaleString("es-CO")}`;
+        document.getElementById("resumen-iva").textContent = `$${Number(iva).toLocaleString("es-CO")}`;
         document.getElementById("resumen-total-final").textContent = `$${Number(total).toLocaleString("es-CO")}`;
 
-        // Guardar datos para el carrito
-        document.getElementById("modal-resumen-orden").dataset.idOrden    = idOrden;
-        document.getElementById("modal-resumen-orden").dataset.idCliente  = o.id_cliente;
-        document.getElementById("modal-resumen-orden").dataset.repuestos  = JSON.stringify(repuestos);
-        document.getElementById("modal-resumen-orden").dataset.totalFinal = total;
-        document.getElementById("modal-resumen-orden").dataset.iva        = iva;
-        document.getElementById("modal-resumen-orden").dataset.subtotal   = totalRep;
-        document.getElementById("modal-resumen-orden").dataset.cliente    = `${o.cliente_nombre} ${o.cliente_apellido}`;
+        const modal = document.getElementById("modal-resumen-orden");
+        modal.dataset.idOrden = idOrden;
+        modal.dataset.idCliente = o.id_cliente;
+        modal.dataset.repuestos = JSON.stringify(repuestos);
+        modal.dataset.totalFinal = total;
+        modal.dataset.iva = iva;
+        modal.dataset.subtotal = totalRep;
+        modal.dataset.cliente = `${o.cliente_nombre} ${o.cliente_apellido}`;
 
-        document.getElementById("modal-resumen-orden").classList.add("visible");
+        modal.classList.add("visible");
         document.body.style.overflow = "hidden";
 
     } catch { mostrarToast("Error cargando resumen de la orden", "error"); }
@@ -526,71 +535,51 @@ function cerrarModalResumen() {
 }
 
 async function confirmarFinalizarOrden() {
-    const modal      = document.getElementById("modal-resumen-orden");
-    const idOrden    = modal.dataset.idOrden;
-    const idCliente  = modal.dataset.idCliente;
-    const repuestos  = JSON.parse(modal.dataset.repuestos || "[]");
+    const modal = document.getElementById("modal-resumen-orden");
+    const idOrden = modal.dataset.idOrden;
+    const idCliente = modal.dataset.idCliente;
+    const repuestos = JSON.parse(modal.dataset.repuestos || "[]");
     const totalFinal = parseFloat(modal.dataset.totalFinal);
-    const iva        = parseFloat(modal.dataset.iva);
-    const subtotal   = parseFloat(modal.dataset.subtotal);
-    const cliente    = modal.dataset.cliente;
+    const iva = parseFloat(modal.dataset.iva);
+    const subtotal = parseFloat(modal.dataset.subtotal);
+    const cliente = modal.dataset.cliente;
 
     const btn = document.getElementById("btn-confirmar-finalizar");
     btn.disabled = true; btn.textContent = "Finalizando...";
 
     try {
-        // 1. Finalizar la orden
         const res = await fetch(`${API}/ordenes/${idOrden}/finalizar`, { method: "PATCH" });
         if (!res.ok) throw new Error("Error finalizando orden");
 
-        // 2. Si hay repuestos, enviar al carrito para pago
         if (repuestos.length > 0) {
             const carritoItems = repuestos.map(r => ({
                 id_producto: r.id_producto,
-                nombre:      r.producto_nombre,
-                precio:      parseFloat(r.precio_aplicado),
-                cantidad:    r.cantidad,
+                nombre: r.producto_nombre,
+                precio: parseFloat(r.precio_aplicado),
+                cantidad: r.cantidad,
                 desde_orden: idOrden
             }));
-
-            // Agregar al carrito existente o reemplazar
             const carritoActual = JSON.parse(localStorage.getItem("carrito") || "[]");
-            const carritoMerged = [...carritoActual, ...carritoItems];
-            localStorage.setItem("carrito",         JSON.stringify(carritoMerged));
-            localStorage.setItem("clienteId",       idCliente);
+            localStorage.setItem("carrito", JSON.stringify([...carritoActual, ...carritoItems]));
+            localStorage.setItem("clienteId", idCliente);
             localStorage.setItem("subtotalFactura", subtotal);
-            localStorage.setItem("ivaFactura",      iva.toFixed(2));
-            localStorage.setItem("totalFactura",    totalFinal.toFixed(2));
-            localStorage.setItem("cliente",         cliente);
-            localStorage.setItem("desde_orden",     idOrden);
+            localStorage.setItem("ivaFactura", iva.toFixed(2));
+            localStorage.setItem("totalFactura", totalFinal.toFixed(2));
+            localStorage.setItem("cliente", cliente);
+            localStorage.setItem("desde_orden", idOrden);
 
             mostrarToast("Orden finalizada — redirigiendo al carrito ✓", "ok");
             cerrarModalResumen();
             setTimeout(() => { window.location.href = "carrito.html"; }, 1000);
         } else {
-            mostrarToast("Orden finalizada exitosamente ", "ok");
+            mostrarToast("Orden finalizada exitosamente ✓", "ok");
             cerrarModalResumen();
             await cargarOrdenesActivas();
         }
-
     } catch (err) {
         mostrarToast(err.message || "Error al finalizar", "error");
-        btn.disabled = false; btn.textContent = " Finalizar y Cobrar";
+        btn.disabled = false; btn.textContent = "Finalizar y Cobrar";
     }
-}
-
-
-// ══════════════════════════════════════════════════════
-//  FINALIZAR SIN REPUESTOS (directo)
-// ══════════════════════════════════════════════════════
-async function finalizarOrden(id) {
-    if (!await confirmar("¿Marcar esta orden como finalizada?", "Finalizar", "#16a34a")) return;
-    try {
-        const res = await fetch(`${API}/ordenes/${id}/finalizar`, { method: "PATCH" });
-        if (!res.ok) throw new Error();
-        mostrarToast("Orden finalizada ", "ok");
-        await cargarOrdenesActivas();
-    } catch { mostrarToast("Error al finalizar la orden", "error"); }
 }
 
 async function eliminarOrden(id) {
@@ -617,14 +606,14 @@ function confirmar(mensaje, textoBtn, colorBtn) {
         overlay.innerHTML = `<div style="background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.8rem;max-width:360px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.15)"><p style="font-size:.9rem;font-weight:600;color:var(--text);margin-bottom:1.4rem;line-height:1.5">${mensaje}</p><div style="display:flex;gap:.7rem;justify-content:flex-end"><button id="fc-no" style="background:var(--bg);border:1.5px solid var(--border);color:var(--muted);border-radius:10px;padding:.55rem 1.1rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:.84rem">Cancelar</button><button id="fc-yes" style="background:${colorBtn};color:#fff;border:none;border-radius:10px;padding:.55rem 1.1rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:.84rem">${textoBtn}</button></div></div>`;
         document.body.appendChild(overlay);
         document.getElementById("fc-yes").onclick = () => { overlay.remove(); resolve(true); };
-        document.getElementById("fc-no").onclick  = () => { overlay.remove(); resolve(false); };
+        document.getElementById("fc-no").onclick = () => { overlay.remove(); resolve(false); };
         overlay.addEventListener("click", e => { if (e.target === overlay) { overlay.remove(); resolve(false); } });
     });
 }
 
 function mostrarToast(msg, tipo) {
     tipo = tipo || "ok";
-    const c = { ok:{bg:"var(--green-lt)",border:"var(--green-border)",text:"var(--green)",icon:"✓"}, warn:{bg:"#fffbeb",border:"#fde68a",text:"#d97706",icon:"⚠"}, error:{bg:"#fff1f2",border:"#fecdd3",text:"#e11d48",icon:"✕"} }[tipo] || {};
+    const c = { ok: { bg: "var(--green-lt)", border: "var(--green-border)", text: "var(--green)", icon: "✓" }, warn: { bg: "#fffbeb", border: "#fde68a", text: "#d97706", icon: "⚠" }, error: { bg: "#fff1f2", border: "#fecdd3", text: "#e11d48", icon: "✕" } }[tipo] || {};
     document.getElementById("fc-toast")?.remove();
     const t = document.createElement("div");
     t.id = "fc-toast";
@@ -633,6 +622,7 @@ function mostrarToast(msg, tipo) {
     document.body.appendChild(t);
     setTimeout(() => t.remove(), 3200);
 }
+
 window.cargarOrdenesActivas = cargarOrdenesActivas;
 window.abrirModalOrden = abrirModalOrden;
 window.cerrarModalOrden = cerrarModalOrden;

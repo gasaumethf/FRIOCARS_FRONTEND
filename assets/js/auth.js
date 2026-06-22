@@ -19,6 +19,7 @@ const PERMISOS = {
     'servicios.html': ['admin', 'trabajador'],
     'Historial.html': ['admin', 'trabajador'],
     'ordenes.html': ['admin', 'trabajador'],
+    'dashboard_trabajador.html': ['admin', 'trabajador'],
 
     // Admin y cliente
     'ventas.html': ['admin', 'cliente'],

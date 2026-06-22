@@ -8,8 +8,9 @@ const mensaje = document.getElementById('mensaje');
 // Rutas por rol
 const RUTAS_ROL = {
     admin: '../views/dashboard.html',
-    trabajador: '../views/servicios.html',
+    trabajador: '../views/dashboard_trabajador.html',
     cliente: '../views/ventas.html'
+
 };
 
 form.addEventListener('submit', async (e) => {
