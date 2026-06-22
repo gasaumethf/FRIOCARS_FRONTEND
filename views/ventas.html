@@ -1,279 +1,1066 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ventas | Frío Cars</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="icon" type="image/x-icon" href="../assets/Logo/fabicon.ico">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--pri:#1d4ed8;--pri-h:#1e40af;--pri-lt:#eff6ff;--bg:#f0f4fa;--surface:#ffffff;--border:#e2e8f0;--text:#0f172a;--muted:#64748b;--green:#16a34a;--green-lt:#f0fdf4;--green-border:#bbf7d0;--yellow:#d97706;--font-scale:1;--topbar-h:64px}
-body{font-family:'Plus Jakarta Sans',sans-serif;font-size:calc(1rem * var(--font-scale));background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s}
-body.high-contrast{background:#fff!important;--border:#000;--muted:#000}
-body.sepia{background:#f5ede0!important;--bg:#f5ede0;--surface:#fffbf3;--border:#d4b896;--pri:#7c4f1e;--pri-lt:#fdf0d8;--text:#3d2008;--muted:#5a3510}
-body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--pri-lt:#1e3a5f}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ventas | Frío Cars</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="../assets/Logo/fabicon.ico">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
 
-.top-bar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2.2rem 0 1.4rem;z-index:60;box-shadow:0 1px 8px rgba(0,0,0,.06)}
-.top-brand{display:flex;align-items:center;gap:.75rem;width:268px;flex-shrink:0;padding-left:.4rem}
-.top-brand-name{font-size:1.12rem;font-weight:800;color:var(--text);line-height:1.1}
-.top-brand-name span{color:var(--pri)}
-.top-brand-sub{font-size:.67rem;font-weight:500;color:var(--muted)}
-.top-bar-right{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;justify-content:flex-end}
-.topbar-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:.45rem .9rem;text-align:right;line-height:1.3}
-.topbar-card p:first-child{font-size:.65rem;font-weight:600;color:var(--muted)}
-.topbar-card p:last-child{font-size:1rem;font-weight:800}
-.topbar-breadcrumb{display:flex;align-items:center;gap:.5rem;font-size:.78rem;font-weight:600;color:var(--muted)}
-.topbar-breadcrumb a{color:var(--pri);text-decoration:none}
+    :root {
+      --pri: #1d4ed8;
+      --pri-h: #1e40af;
+      --pri-lt: #eff6ff;
+      --bg: #f0f4fa;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #64748b;
+      --green: #16a34a;
+      --green-lt: #f0fdf4;
+      --green-border: #bbf7d0;
+      --yellow: #d97706;
+      --font-scale: 1;
+      --topbar-h: 64px
+    }
 
-/* Botón carrito en topbar con badge */
-.topbar-cart-btn{position:relative;display:inline-flex;align-items:center;gap:.5rem;background:var(--green-lt);border:1.5px solid var(--green-border);color:var(--green);border-radius:12px;padding:.45rem .9rem;font-size:.84rem;font-weight:700;text-decoration:none;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif}
-.topbar-cart-btn:hover{background:var(--green);color:#fff;border-color:var(--green)}
-#topbar-cart-badge{position:absolute;top:-6px;right:-6px;background:#ef4444;color:#fff;font-size:.62rem;font-weight:800;min-width:18px;height:18px;padding:0 4px;border-radius:99px;display:none;align-items:center;justify-content:center;line-height:1}
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: calc(1rem * var(--font-scale));
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background .3s, color .3s
+    }
 
-.main-content{margin-left:268px;padding:calc(var(--topbar-h) + 2rem) 2.2rem 2rem;min-height:100vh}
-@media(max-width:900px){.main-content{margin-left:0!important;padding:calc(var(--topbar-h)+1rem) 1rem 1rem}}
+    body.high-contrast {
+      background: #fff !important;
+      --border: #000;
+      --muted: #000
+    }
 
-.page-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
-.page-title{font-size:1.65rem;font-weight:800;color:var(--text);line-height:1.25}
-.page-title span{color:var(--pri)}
-.page-sub{font-size:.84rem;color:var(--muted);margin-top:.25rem}
+    body.sepia {
+      background: #f5ede0 !important;
+      --bg: #f5ede0;
+      --surface: #fffbf3;
+      --border: #d4b896;
+      --pri: #7c4f1e;
+      --pri-lt: #fdf0d8;
+      --text: #3d2008;
+      --muted: #5a3510
+    }
 
-.card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.4rem 1.6rem;box-shadow:0 1px 4px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.04)}
+    body.soft-dark {
+      background: #0a1628 !important;
+      --bg: #0a1628;
+      --surface: #1e293b;
+      --border: #334155;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --pri-lt: #1e3a5f
+    }
 
-.hero-banner{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--pri) 0%,#0284c7 100%);border-radius:20px;padding:2rem 2.4rem;margin-bottom:2rem;color:#fff;box-shadow:0 8px 32px rgba(29,78,216,.2)}
-.hero-banner::before{content:'🛒';position:absolute;right:-20px;top:-20px;font-size:160px;opacity:.07;line-height:1}
-.hero-banner h2{font-size:1.4rem;font-weight:800;margin-bottom:.5rem}
-.hero-banner p{font-size:.88rem;opacity:.88;max-width:600px;line-height:1.65}
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--topbar-h);
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.2rem 0 1.4rem;
+      z-index: 60;
+      box-shadow: 0 1px 8px rgba(0, 0, 0, .06)
+    }
 
-.section-label{font-size:.73rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.9rem}
+    .top-brand {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      width: 268px;
+      flex-shrink: 0;
+      padding-left: .4rem
+    }
 
-/* Buscador cliente */
-.cliente-result-item{padding:.65rem 1rem;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s}
-.cliente-result-item:last-child{border-bottom:none}
-.cliente-result-item:hover{background:var(--pri-lt)}
-.cliente-box{background:var(--pri-lt);border:1px solid #bfdbfe;border-radius:12px;padding:.8rem 1rem;display:flex;align-items:center;gap:.7rem;margin-top:.6rem}
-.cliente-avatar{width:32px;height:32px;background:var(--pri);border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;flex-shrink:0}
+    .top-brand-name {
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.1
+    }
 
-.form-input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:.75rem 1rem;font-size:.88rem;font-family:'Plus Jakarta Sans',sans-serif;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s}
-.form-input:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(29,78,216,.1)}
+    .top-brand-name span {
+      color: var(--pri)
+    }
 
-/* Productos */
-.productos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-bottom:2rem}
-.producto-card{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:1.2rem 1.3rem;display:flex;flex-direction:column;gap:.7rem;transition:transform .2s,box-shadow .2s,border-color .2s}
-.producto-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.09);border-color:#bfdbfe}
-.producto-nombre{font-size:.95rem;font-weight:700;color:var(--text)}
-.producto-precio{font-size:1.2rem;font-weight:800;color:var(--green)}
-.producto-stock{font-size:.73rem;font-weight:600;color:var(--muted)}
-.btn-agregar{display:flex;align-items:center;justify-content:center;gap:.4rem;background:var(--pri);color:#fff;border:none;border-radius:10px;padding:.6rem 1rem;font-size:.82rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:background .18s,transform .18s;width:100%}
-.btn-agregar:hover{background:var(--pri-h);transform:scale(1.02)}
+    .top-brand-sub {
+      font-size: .67rem;
+      font-weight: 500;
+      color: var(--muted)
+    }
 
-/* CTA ir al carrito */
-.cta-carrito{background:var(--surface);border:2px solid var(--green-border);border-radius:18px;padding:1.4rem 1.6rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:2rem;box-shadow:0 1px 4px rgba(0,0,0,.05)}
-.btn-ir-carrito{display:inline-flex;align-items:center;gap:.6rem;background:var(--green);color:#fff;border:none;border-radius:14px;padding:.85rem 1.6rem;font-size:.95rem;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;text-decoration:none;transition:background .2s,transform .15s;box-shadow:0 4px 20px rgba(22,163,74,.3)}
-.btn-ir-carrito:hover{background:#15803d;transform:translateY(-1px)}
-.carrito-count-bubble{display:inline-flex;align-items:center;justify-content:center;background:#fff;color:var(--green);border-radius:99px;min-width:24px;height:24px;padding:0 6px;font-size:.8rem;font-weight:800}
+    .top-bar-right {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      flex-wrap: wrap;
+      justify-content: flex-end
+    }
 
-/* A11Y */
-.a11y-btn{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:200;background:var(--pri);color:#fff;border:none;border-radius:12px 0 0 12px;padding:.9rem .6rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.66em;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;box-shadow:-3px 0 14px rgba(29,78,216,.2);transition:background .2s,right .35s}
-.a11y-btn:hover{background:var(--pri-h)}
-.a11y-btn.open{right:292px}
-.a11y-panel{position:fixed;right:-300px;top:0;height:100%;width:292px;background:var(--surface);border-left:1.5px solid var(--border);z-index:199;display:flex;flex-direction:column;padding:1.8rem 1.4rem;box-shadow:-8px 0 30px rgba(0,0,0,.07);transition:right .35s cubic-bezier(.4,0,.2,1);overflow-y:auto}
-.a11y-panel.open{right:0}
-.sec-lbl{display:block;font-size:.71em;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.09em;margin-bottom:.6rem}
-.temas{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
-.tema{display:flex;flex-direction:column;align-items:center;gap:5px;padding:.5rem .3rem;border-radius:9px;border:1.5px solid var(--border);background:var(--pri-lt);cursor:pointer;font-size:.72em;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;transition:all .2s}
-.tema:hover,.tema.on{border-color:var(--pri);color:var(--pri);font-weight:700}
-.tema-p{width:34px;height:20px;border-radius:5px;border:1px solid rgba(0,0,0,.07)}
-.font-row{display:flex;align-items:center;gap:.4rem}
-.font-b{flex:1;padding:.5rem;border-radius:9px;border:1.5px solid var(--border);background:var(--pri-lt);cursor:pointer;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;transition:all .2s}
-.font-b:hover{border-color:var(--pri);color:var(--pri)}
-.tog-row{display:flex;align-items:center;justify-content:space-between;padding:.4rem 0}
-.tog-row span{font-size:.83em;color:var(--text)}
-.tog{position:relative;width:38px;height:21px}
-.tog input{opacity:0;width:0;height:0}
-.tog-sl{position:absolute;inset:0;background:var(--border);border-radius:21px;cursor:pointer;transition:background .2s}
-.tog-sl::before{content:'';position:absolute;width:15px;height:15px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .2s}
-.tog input:checked+.tog-sl{background:var(--pri)}
-.tog input:checked+.tog-sl::before{transform:translateX(17px)}
-.btn-reset{width:100%;padding:.6rem;border-radius:9px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif;font-size:.82em;font-weight:600;cursor:pointer;transition:all .2s}
-.btn-reset:hover{border-color:#dc2626;color:#dc2626;background:#fff5f5}
-.div-a{height:1px;background:var(--border);margin:.75rem 0 1.1rem}
+    .topbar-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: .45rem .9rem;
+      text-align: right;
+      line-height: 1.3
+    }
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.anim{animation:fadeUp .4s ease both}
-.anim-2{animation:fadeUp .4s .08s ease both}
-.anim-3{animation:fadeUp .4s .16s ease both}
-@keyframes pulse-g{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
-</style>
+    .topbar-card p:first-child {
+      font-size: .65rem;
+      font-weight: 600;
+      color: var(--muted)
+    }
+
+    .topbar-card p:last-child {
+      font-size: 1rem;
+      font-weight: 800
+    }
+
+    .topbar-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--muted)
+    }
+
+    .topbar-breadcrumb a {
+      color: var(--pri);
+      text-decoration: none
+    }
+
+    .topbar-cart-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: var(--green-lt);
+      border: 1.5px solid var(--green-border);
+      color: var(--green);
+      border-radius: 12px;
+      padding: .45rem .9rem;
+      font-size: .84rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all .2s;
+      font-family: 'Plus Jakarta Sans', sans-serif
+    }
+
+    .topbar-cart-btn:hover {
+      background: var(--green);
+      color: #fff;
+      border-color: var(--green)
+    }
+
+    #topbar-cart-badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: #ef4444;
+      color: #fff;
+      font-size: .62rem;
+      font-weight: 800;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 4px;
+      border-radius: 99px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      line-height: 1
+    }
+
+    .main-content {
+      margin-left: 268px;
+      padding: calc(var(--topbar-h) + 2rem) 2.2rem 2rem;
+      min-height: 100vh
+    }
+
+    @media(max-width:900px) {
+      .main-content {
+        margin-left: 0 !important;
+        padding: calc(var(--topbar-h)+1rem) 1rem 1rem
+      }
+    }
+
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .page-title {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.25
+    }
+
+    .page-title span {
+      color: var(--pri)
+    }
+
+    .page-sub {
+      font-size: .84rem;
+      color: var(--muted);
+      margin-top: .25rem
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.4rem 1.6rem;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .05), 0 4px 16px rgba(0, 0, 0, .04)
+    }
+
+    .hero-banner {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--pri) 0%, #0284c7 100%);
+      border-radius: 20px;
+      padding: 2rem 2.4rem;
+      margin-bottom: 2rem;
+      color: #fff;
+      box-shadow: 0 8px 32px rgba(29, 78, 216, .2)
+    }
+
+    .hero-banner::before {
+      content: '🛒';
+      position: absolute;
+      right: -20px;
+      top: -20px;
+      font-size: 160px;
+      opacity: .07;
+      line-height: 1
+    }
+
+    .hero-banner h2 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: .5rem
+    }
+
+    .hero-banner p {
+      font-size: .88rem;
+      opacity: .88;
+      max-width: 600px;
+      line-height: 1.65
+    }
+
+    .section-label {
+      font-size: .73rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: .9rem
+    }
+
+    /* Buscador cliente */
+    .cliente-result-item {
+      padding: .65rem 1rem;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      transition: background .15s
+    }
+
+    .cliente-result-item:last-child {
+      border-bottom: none
+    }
+
+    .cliente-result-item:hover {
+      background: var(--pri-lt)
+    }
+
+    .cliente-box {
+      background: var(--pri-lt);
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: .8rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      margin-top: .6rem
+    }
+
+    .cliente-avatar {
+      width: 32px;
+      height: 32px;
+      background: var(--pri);
+      border-radius: 50%;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .78rem;
+      font-weight: 800;
+      flex-shrink: 0
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: .75rem 1rem;
+      font-size: .88rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s
+    }
+
+    .form-input:focus {
+      border-color: var(--pri);
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, .1)
+    }
+
+    /* ── Buscador de productos ── */
+    .vs-search-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1rem 1.2rem .85rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .04)
+    }
+
+    .vs-search-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      gap: .65rem;
+      align-items: center
+    }
+
+    @media(max-width:700px) {
+      .vs-search-row {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .vs-search-main {
+        grid-column: 1/-1
+      }
+    }
+
+    .vs-search-main {
+      position: relative
+    }
+
+    .vs-search-main input {
+      width: 100%;
+      padding: .7rem 1rem .7rem 2.5rem;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-size: .88rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s
+    }
+
+    .vs-search-main input:focus {
+      border-color: var(--pri);
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, .1)
+    }
+
+    .vs-search-icon {
+      position: absolute;
+      left: .82rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+      font-size: .95rem
+    }
+
+    .vs-filter-sel {
+      padding: .7rem .85rem;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-size: .82rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      cursor: pointer;
+      min-width: 148px;
+      transition: border-color .2s
+    }
+
+    .vs-filter-sel:focus {
+      border-color: var(--pri)
+    }
+
+    .vs-clear-btn {
+      padding: .7rem .95rem;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-size: .82rem;
+      font-weight: 700;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--muted);
+      background: var(--bg);
+      cursor: pointer;
+      transition: all .2s;
+      white-space: nowrap
+    }
+
+    .vs-clear-btn:hover {
+      border-color: #dc2626;
+      color: #dc2626
+    }
+
+    .vs-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+      margin-top: .75rem
+    }
+
+    /* Productos */
+    .productos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem
+    }
+
+    .producto-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 1.2rem 1.3rem;
+      display: flex;
+      flex-direction: column;
+      gap: .7rem;
+      transition: transform .2s, box-shadow .2s, border-color .2s
+    }
+
+    .producto-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .09);
+      border-color: #bfdbfe
+    }
+
+    .producto-nombre {
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--text)
+    }
+
+    .producto-precio {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--green)
+    }
+
+    .producto-stock {
+      font-size: .73rem;
+      font-weight: 600;
+      color: var(--muted)
+    }
+
+    .btn-agregar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+      background: var(--pri);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: .6rem 1rem;
+      font-size: .82rem;
+      font-weight: 700;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      cursor: pointer;
+      transition: background .18s, transform .18s;
+      width: 100%
+    }
+
+    .btn-agregar:hover {
+      background: var(--pri-h);
+      transform: scale(1.02)
+    }
+
+    /* CTA carrito */
+    .cta-carrito {
+      background: var(--surface);
+      border: 2px solid var(--green-border);
+      border-radius: 18px;
+      padding: 1.4rem 1.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .05)
+    }
+
+    .btn-ir-carrito {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: .85rem 1.6rem;
+      font-size: .95rem;
+      font-weight: 700;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .2s, transform .15s;
+      box-shadow: 0 4px 20px rgba(22, 163, 74, .3)
+    }
+
+    .btn-ir-carrito:hover {
+      background: #15803d;
+      transform: translateY(-1px)
+    }
+
+    .carrito-count-bubble {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      color: var(--green);
+      border-radius: 99px;
+      min-width: 24px;
+      height: 24px;
+      padding: 0 6px;
+      font-size: .8rem;
+      font-weight: 800
+    }
+
+    /* Estado vacío buscador */
+    .vs-empty {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--muted);
+      font-size: .9rem;
+      display: none;
+      grid-column: 1/-1
+    }
+
+    /* A11Y */
+    .a11y-btn {
+      position: fixed;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 200;
+      background: var(--pri);
+      color: #fff;
+      border: none;
+      border-radius: 12px 0 0 12px;
+      padding: .9rem .6rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: .66em;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      box-shadow: -3px 0 14px rgba(29, 78, 216, .2);
+      transition: background .2s, right .35s
+    }
+
+    .a11y-btn:hover {
+      background: var(--pri-h)
+    }
+
+    .a11y-btn.open {
+      right: 292px
+    }
+
+    .a11y-panel {
+      position: fixed;
+      right: -300px;
+      top: 0;
+      height: 100%;
+      width: 292px;
+      background: var(--surface);
+      border-left: 1.5px solid var(--border);
+      z-index: 199;
+      display: flex;
+      flex-direction: column;
+      padding: 1.8rem 1.4rem;
+      box-shadow: -8px 0 30px rgba(0, 0, 0, .07);
+      transition: right .35s cubic-bezier(.4, 0, .2, 1);
+      overflow-y: auto
+    }
+
+    .a11y-panel.open {
+      right: 0
+    }
+
+    .sec-lbl {
+      display: block;
+      font-size: .71em;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+      margin-bottom: .6rem
+    }
+
+    .temas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .4rem
+    }
+
+    .tema {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      padding: .5rem .3rem;
+      border-radius: 9px;
+      border: 1.5px solid var(--border);
+      background: var(--pri-lt);
+      cursor: pointer;
+      font-size: .72em;
+      color: var(--muted);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 500;
+      transition: all .2s
+    }
+
+    .tema:hover,
+    .tema.on {
+      border-color: var(--pri);
+      color: var(--pri);
+      font-weight: 700
+    }
+
+    .tema-p {
+      width: 34px;
+      height: 20px;
+      border-radius: 5px;
+      border: 1px solid rgba(0, 0, 0, .07)
+    }
+
+    .font-row {
+      display: flex;
+      align-items: center;
+      gap: .4rem
+    }
+
+    .font-b {
+      flex: 1;
+      padding: .5rem;
+      border-radius: 9px;
+      border: 1.5px solid var(--border);
+      background: var(--pri-lt);
+      cursor: pointer;
+      color: var(--muted);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      transition: all .2s
+    }
+
+    .font-b:hover {
+      border-color: var(--pri);
+      color: var(--pri)
+    }
+
+    .tog-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .4rem 0
+    }
+
+    .tog-row span {
+      font-size: .83em;
+      color: var(--text)
+    }
+
+    .tog {
+      position: relative;
+      width: 38px;
+      height: 21px
+    }
+
+    .tog input {
+      opacity: 0;
+      width: 0;
+      height: 0
+    }
+
+    .tog-sl {
+      position: absolute;
+      inset: 0;
+      background: var(--border);
+      border-radius: 21px;
+      cursor: pointer;
+      transition: background .2s
+    }
+
+    .tog-sl::before {
+      content: '';
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      left: 3px;
+      top: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform .2s
+    }
+
+    .tog input:checked+.tog-sl {
+      background: var(--pri)
+    }
+
+    .tog input:checked+.tog-sl::before {
+      transform: translateX(17px)
+    }
+
+    .btn-reset {
+      width: 100%;
+      padding: .6rem;
+      border-radius: 9px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .82em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .btn-reset:hover {
+      border-color: #dc2626;
+      color: #dc2626;
+      background: #fff5f5
+    }
+
+    .div-a {
+      height: 1px;
+      background: var(--border);
+      margin: .75rem 0 1.1rem
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .anim {
+      animation: fadeUp .4s ease both
+    }
+
+    .anim-2 {
+      animation: fadeUp .4s .08s ease both
+    }
+
+    .anim-3 {
+      animation: fadeUp .4s .16s ease both
+    }
+
+    @keyframes pulse-g {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: .5;
+        transform: scale(.75)
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div id="sidebar-container"></div>
+  <div id="sidebar-container"></div>
 
-<header class="top-bar">
-  <div class="top-brand">
-    <div style="width:40px;height:40px;flex-shrink:0"><img src="../assets/Logo/Logo2.png" alt="Logo" style="width:40px;height:40px;object-fit:contain"></div>
-    <div><div class="top-brand-name">Frío <span>Cars</span></div><div class="top-brand-sub">Sistema Automotriz</div></div>
-  </div>
-  <div style="width:1px;height:36px;background:var(--border);flex-shrink:0"></div>
-  <div class="topbar-breadcrumb" style="flex:1;padding-left:1.4rem">
-    <a href="dashboard.html">Inicio</a><span style="color:var(--border)">›</span>
-    <span style="color:var(--text);font-weight:700">Ventas</span>
-  </div>
-  <div class="top-bar-right">
-    <div class="topbar-card" style="border-left:3px solid #16a34a">
-      <p>Estado ventas</p>
-      <p style="color:#16a34a;display:flex;align-items:center;gap:.4rem;font-size:.85rem">
-        <span style="width:8px;height:8px;background:#22c55e;border-radius:50%;display:inline-block;animation:pulse-g 2s ease-in-out infinite"></span>Activo
-      </p>
-    </div>
-    <!-- Botón carrito con badge -->
-    <a href="carrito.html" class="topbar-cart-btn">
-      🛒 Carrito
-      <span id="topbar-cart-badge">0</span>
-    </a>
-    <div class="topbar-card"><p>Hoy</p><p id="today-date">—</p></div>
-  </div>
-</header>
-
-<main class="main-content">
-
-  <div class="page-header anim">
-    <div>
-      <h1 class="page-title">Gestión de <span>Ventas</span></h1>
-      <p class="page-sub">Selecciona un cliente, agrega productos al carrito y procesa el pago.</p>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:.3rem;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:.9rem 1.3rem;box-shadow:0 2px 12px rgba(0,0,0,.05);flex-shrink:0">
-      <p style="font-size:.7rem;font-weight:600;color:var(--muted)">Estado de ventas</p>
-      <div style="display:flex;align-items:center;gap:.5rem">
-        <div style="width:10px;height:10px;background:#22c55e;border-radius:50%;animation:pulse-g 2s ease-in-out infinite;flex-shrink:0"></div>
-        <span style="font-size:.88rem;font-weight:700;color:var(--text)">Sistema activo</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="hero-banner anim-2">
-    <h2>Plataforma Inteligente de Ventas</h2>
-    <p>Agrega productos al carrito, selecciona el cliente y procesa el pago desde una sola pantalla.</p>
-  </div>
-
-  <!-- CLIENTE -->
-  <p class="section-label anim-2">1 — Seleccionar cliente</p>
-  <div class="card anim-2" style="margin-bottom:1.5rem">
-    <input type="hidden" id="cliente-id-hidden">
-    <div style="position:relative">
-      <input type="text" id="cliente-buscar" class="form-input" placeholder="Escribe nombre o número de documento..." autocomplete="off">
-      <div id="cliente-resultados" style="display:none;position:absolute;top:100%;left:0;right:0;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.1);z-index:100;max-height:220px;overflow-y:auto;margin-top:4px"></div>
-    </div>
-    <div id="clienteInfo" style="display:none" class="cliente-box">
-      <div class="cliente-avatar" id="cliente-avatar">?</div>
+  <header class="top-bar">
+    <div class="top-brand">
+      <div style="width:40px;height:40px;flex-shrink:0"><img src="../assets/Logo/Logo2.png" alt="Logo"
+          style="width:40px;height:40px;object-fit:contain"></div>
       <div>
-        <p style="font-size:.82rem;font-weight:700;color:var(--pri)" id="cliente-nombre-info">—</p>
-        <p style="font-size:.72rem;color:var(--muted)" id="cliente-detalle-info">—</p>
+        <div class="top-brand-name">Frío <span>Cars</span></div>
+        <div class="top-brand-sub">Sistema Automotriz</div>
       </div>
     </div>
-  </div>
-
-  <!-- CTA CARRITO -->
-  <div class="cta-carrito anim-2" id="cta-carrito" style="display:none">
-    <div>
-      <p style="font-size:.9rem;font-weight:800;color:var(--text)">🛒 Tienes productos en el carrito</p>
-      <p style="font-size:.78rem;color:var(--muted);margin-top:.2rem">Revisa, ajusta cantidades y procesa el pago.</p>
+    <div style="width:1px;height:36px;background:var(--border);flex-shrink:0"></div>
+    <div class="topbar-breadcrumb" style="flex:1;padding-left:1.4rem">
+      <a href="dashboard.html">Inicio</a><span style="color:var(--border)">›</span>
+      <span style="color:var(--text);font-weight:700">Ventas</span>
     </div>
-    <a href="carrito.html" class="btn-ir-carrito">
-      Ir al carrito
-      <span class="carrito-count-bubble" id="carrito-count-cta">0</span>
-    </a>
-  </div>
+    <div class="top-bar-right">
+      <div class="topbar-card" style="border-left:3px solid #16a34a">
+        <p>Estado ventas</p>
+        <p style="color:#16a34a;display:flex;align-items:center;gap:.4rem;font-size:.85rem">
+          <span
+            style="width:8px;height:8px;background:#22c55e;border-radius:50%;display:inline-block;animation:pulse-g 2s ease-in-out infinite"></span>Activo
+        </p>
+      </div>
+      <a href="carrito.html" class="topbar-cart-btn">
+        🛒 Carrito
+        <span id="topbar-cart-badge">0</span>
+      </a>
+      <div class="topbar-card">
+        <p>Hoy</p>
+        <p id="today-date">—</p>
+      </div>
+    </div>
+  </header>
 
-  <!-- PRODUCTOS -->
-  <p class="section-label anim-3">2 — Productos disponibles</p>
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem" class="anim-3">
-    <span style="font-size:.82rem;color:var(--muted)" id="productos-count">Cargando catálogo...</span>
-    <div style="background:var(--pri-lt);color:var(--pri);border:1px solid #bfdbfe;padding:.35rem .9rem;border-radius:20px;font-size:.72rem;font-weight:700">Catálogo Inteligente</div>
-  </div>
-  <div id="listaProductos" class="productos-grid anim-3"></div>
+  <main class="main-content">
 
-</main>
+    <div class="page-header anim">
+      <div>
+        <h1 class="page-title">Gestión de <span>Ventas</span></h1>
+        <p class="page-sub">Selecciona un cliente, agrega productos al carrito y procesa el pago.</p>
+      </div>
+      <div
+        style="display:flex;flex-direction:column;gap:.3rem;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:.9rem 1.3rem;box-shadow:0 2px 12px rgba(0,0,0,.05);flex-shrink:0">
+        <p style="font-size:.7rem;font-weight:600;color:var(--muted)">Estado de ventas</p>
+        <div style="display:flex;align-items:center;gap:.5rem">
+          <div
+            style="width:10px;height:10px;background:#22c55e;border-radius:50%;animation:pulse-g 2s ease-in-out infinite;flex-shrink:0">
+          </div>
+          <span style="font-size:.88rem;font-weight:700;color:var(--text)">Sistema activo</span>
+        </div>
+      </div>
+    </div>
 
-<button class="a11y-btn" id="aBtn" aria-label="Accesibilidad" aria-expanded="false">
-  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1.8" fill="currentColor" stroke="none"/><path d="M5 8.5h14"/><path d="M12 8.5V14"/><path d="M8.5 14l-2 5.5M15.5 14l2 5.5"/></svg>
-  <span style="font-size:.62em;font-weight:700">Acceso</span>
-</button>
-<aside id="aPanel" class="a11y-panel" role="complementary" aria-hidden="true">
-  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.4rem;padding-bottom:.9rem;border-bottom:1px solid var(--border)">
-    <div><h3 style="font-size:.97rem;font-weight:800;color:var(--text)">Accesibilidad</h3></div>
-    <button id="aClose" style="background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:8px;display:flex"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-  </div>
-  <div style="margin-bottom:1.2rem"><span class="sec-lbl">Tema</span><div class="temas"><button class="tema on" data-t="normal"><div class="tema-p" style="background:linear-gradient(135deg,#f0f4fa 50%,#1d4ed8 50%)"></div>Normal</button><button class="tema" data-t="high-contrast"><div class="tema-p" style="background:linear-gradient(135deg,#fff 50%,#0028b0 50%)"></div>Alto contraste</button><button class="tema" data-t="sepia"><div class="tema-p" style="background:linear-gradient(135deg,#f5ede0 50%,#7c4f1e 50%)"></div>Sepia</button><button class="tema" data-t="soft-dark"><div class="tema-p" style="background:linear-gradient(135deg,#0a1628 50%,#60a5fa 50%)"></div>Noche suave</button></div></div>
-  <div class="div-a"></div>
-  <div style="margin-bottom:1.2rem"><span class="sec-lbl">Tamaño</span><div class="font-row"><button class="font-b" id="fDec" style="font-size:.84em">A−</button><span style="font-size:.82em;color:var(--muted);min-width:34px;text-align:center" id="fVal">100%</span><button class="font-b" id="fInc">A+</button></div></div>
-  <div class="div-a"></div>
-  <div style="margin-bottom:1.2rem"><span class="sec-lbl">Lectura</span><div class="tog-row"><span>Líneas amplias</span><label class="tog"><input type="checkbox" id="tLin"><span class="tog-sl"></span></label></div></div>
-  <div style="flex:1"></div>
-  <button class="btn-reset" id="bReset">↺ Restablecer</button>
-</aside>
+    <div class="hero-banner anim-2">
+      <h2>Plataforma Inteligente de Ventas</h2>
+      <p>Agrega productos al carrito, selecciona el cliente y procesa el pago desde una sola pantalla.</p>
+    </div>
 
-<script src="../assets/js/sidebar.js"></script>
-<script src="../assets/js/ventas.js"></script>
-<script src="../assets/js/auth.js"></script>
-<script src="../assets/js/asistente.js"></script>
-<script>
-  document.getElementById('today-date').textContent = new Date().toLocaleDateString('es-CO',{weekday:'short',day:'numeric',month:'short'});
+    <!-- ── 1. CLIENTE ─────────────────────────────────── -->
+    <p class="section-label anim-2">1 — Seleccionar cliente</p>
+    <div class="card anim-2" style="margin-bottom:1.5rem">
+      <input type="hidden" id="cliente-id-hidden">
+      <div style="position:relative">
+        <input type="text" id="cliente-buscar" class="form-input" placeholder="Escribe nombre o número de documento..."
+          autocomplete="off">
+        <div id="cliente-resultados"
+          style="display:none;position:absolute;top:100%;left:0;right:0;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.1);z-index:100;max-height:220px;overflow-y:auto;margin-top:4px">
+        </div>
+      </div>
+      <div id="clienteInfo" style="display:none" class="cliente-box">
+        <div class="cliente-avatar" id="cliente-avatar">?</div>
+        <div>
+          <p style="font-size:.82rem;font-weight:700;color:var(--pri)" id="cliente-nombre-info">—</p>
+          <p style="font-size:.72rem;color:var(--muted)" id="cliente-detalle-info">—</p>
+        </div>
+      </div>
+    </div>
 
-  // Mostrar CTA carrito si hay productos
-  function actualizarCtaCarrito() {
-    const carrito = JSON.parse(localStorage.getItem("carrito") || "[]");
-    const total   = carrito.reduce((s,p) => s+p.cantidad, 0);
-    const cta     = document.getElementById("cta-carrito");
-    const count   = document.getElementById("carrito-count-cta");
-    if (cta)   cta.style.display   = total > 0 ? "flex" : "none";
-    if (count) count.textContent   = total;
-  }
+    <!-- ── CTA CARRITO ───────────────────────────────── -->
+    <div class="cta-carrito anim-2" id="cta-carrito" style="display:none">
+      <div>
+        <p style="font-size:.9rem;font-weight:800;color:var(--text)">🛒 Tienes productos en el carrito</p>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:.2rem">Revisa, ajusta cantidades y procesa el pago.</p>
+      </div>
+      <a href="carrito.html" class="btn-ir-carrito">
+        Ir al carrito
+        <span class="carrito-count-bubble" id="carrito-count-cta">0</span>
+      </a>
+    </div>
 
-  // Actualizar CTA cada vez que se agrega algo
-  const _orig = window.agregarAlCarrito;
-  document.addEventListener("DOMContentLoaded", () => {
-    actualizarCtaCarrito();
-    // Observer para detectar cambios en localStorage
-    window.addEventListener("storage", actualizarCtaCarrito);
-    // Monkey-patch agregarAlCarrito para actualizar CTA
-    const origFn = window.agregarAlCarrito;
-    if (origFn) {
-      window.agregarAlCarrito = function(p) {
-        origFn(p);
-        actualizarCtaCarrito();
-      };
-    }
-  });
+    <!-- ── 2. PRODUCTOS ──────────────────────────────── -->
+    <p class="section-label anim-3">2 — Productos disponibles</p>
 
-  // También actualizar después de que ventas.js se cargue
-  setTimeout(actualizarCtaCarrito, 500);
+    <!-- Barra de búsqueda triple -->
+    <div class="vs-search-block anim-3">
+      <div class="vs-search-row">
+        <div class="vs-search-main">
+          <span class="vs-search-icon">🔍</span>
+          <input type="text" id="vs-q" placeholder="Buscar por nombre, referencia o categoría…" oninput="vsFiltrar()"
+            autocomplete="off">
+        </div>
+        <select id="vs-cat" class="vs-filter-sel" onchange="vsFiltrar()">
+          <option value="">Todas las categorías</option>
+        </select>
+        <select id="vs-stock" class="vs-filter-sel" onchange="vsFiltrar()">
+          <option value="">Cualquier stock</option>
+          <option value="alto">Stock alto</option>
+          <option value="medio">Stock medio</option>
+          <option value="bajo">Bajo stock</option>
+          <option value="agotado">Agotado</option>
+        </select>
+        <button class="vs-clear-btn" onclick="vsLimpiar()">✕ Limpiar</button>
+      </div>
+      <!-- Chips de filtros activos -->
+      <div class="vs-chips" id="vs-chips"></div>
+    </div>
 
-  const aBtn=document.getElementById('aBtn'),aPanel=document.getElementById('aPanel');
-  const openA=()=>{aPanel.classList.add('open');aBtn.classList.add('open');aPanel.setAttribute('aria-hidden','false');aBtn.setAttribute('aria-expanded','true')};
-  const closeA=()=>{aPanel.classList.remove('open');aBtn.classList.remove('open');aPanel.setAttribute('aria-hidden','true');aBtn.setAttribute('aria-expanded','false')};
-  aBtn.addEventListener('click',()=>aPanel.classList.contains('open')?closeA():openA());
-  document.getElementById('aClose').addEventListener('click',closeA);
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeA()});
-  const temas=['normal','high-contrast','sepia','soft-dark'];
-  let tema=localStorage.getItem('a11y-tema')||'normal';
-  function setTema(t){temas.forEach(x=>document.body.classList.remove(x));if(t!=='normal')document.body.classList.add(t);tema=t;localStorage.setItem('a11y-tema',t);document.querySelectorAll('.tema').forEach(b=>{const a=b.dataset.t===t;b.classList.toggle('on',a);b.setAttribute('aria-pressed',a?'true':'false')})}
-  document.querySelectorAll('.tema').forEach(b=>b.addEventListener('click',()=>setTema(b.dataset.t)));
-  setTema(tema);
-  let esc=parseFloat(localStorage.getItem('a11y-esc')||'1');
-  const fVal=document.getElementById('fVal');
-  function setEsc(v){esc=Math.min(1.5,Math.max(.75,parseFloat(v.toFixed(2))));document.documentElement.style.setProperty('--font-scale',esc);fVal.textContent=Math.round(esc*100)+'%';localStorage.setItem('a11y-esc',esc)}
-  document.getElementById('fInc').addEventListener('click',()=>setEsc(esc+.1));
-  document.getElementById('fDec').addEventListener('click',()=>setEsc(esc-.1));
-  setEsc(esc);
-  const tLin=document.getElementById('tLin');
-  tLin.checked=localStorage.getItem('a11y-lin')==='true';
-  if(tLin.checked)document.body.style.lineHeight='2.2';
-  tLin.addEventListener('change',()=>{document.body.style.lineHeight=tLin.checked?'2.2':'';localStorage.setItem('a11y-lin',tLin.checked)});
-  document.getElementById('bReset').addEventListener('click',()=>{setTema('normal');setEsc(1);tLin.checked=false;document.body.style.lineHeight='';['a11y-tema','a11y-esc','a11y-lin'].forEach(k=>localStorage.removeItem(k))});
-</script>
+    <!-- Contador de resultados -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem" class="anim-3">
+      <span style="font-size:.82rem;color:var(--muted)" id="productos-count">Cargando catálogo...</span>
+      <div
+        style="background:var(--pri-lt);color:var(--pri);border:1px solid #bfdbfe;padding:.35rem .9rem;border-radius:20px;font-size:.72rem;font-weight:700">
+        Catálogo Inteligente</div>
+    </div>
+
+    <!-- Grid de productos -->
+    <div id="listaProductos" class="productos-grid anim-3"></div>
+
+    <!-- Estado vacío -->
+    <div id="vs-empty" class="vs-empty">
+      <div style="font-size:2.2rem;margin-bottom:.6rem">🔎</div>
+      <p style="font-weight:700;color:var(--text);margin-bottom:.3rem">Sin resultados</p>
+      <p>Prueba con otro nombre o cambia los filtros.</p>
+    </div>
+
+  </main>
+
+  <!-- ── ACCESIBILIDAD ─────────────────────────────────── -->
+  <button class="a11y-btn" id="aBtn" aria-label="Accesibilidad" aria-expanded="false">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round">
+      <circle cx="12" cy="5" r="1.8" fill="currentColor" stroke="none" />
+      <path d="M5 8.5h14" />
+      <path d="M12 8.5V14" />
+      <path d="M8.5 14l-2 5.5M15.5 14l2 5.5" />
+    </svg>
+    <span style="font-size:.62em;font-weight:700">Acceso</span>
+  </button>
+
+  <aside id="aPanel" class="a11y-panel" role="complementary" aria-hidden="true">
+    <div
+      style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.4rem;padding-bottom:.9rem;border-bottom:1px solid var(--border)">
+      <div>
+        <h3 style="font-size:.97rem;font-weight:800;color:var(--text)">Accesibilidad</h3>
+      </div>
+      <button id="aClose"
+        style="background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:8px;display:flex"><svg
+          width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+          stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg></button>
+    </div>
+    <div style="margin-bottom:1.2rem"><span class="sec-lbl">Tema</span>
+      <div class="temas"><button class="tema on" data-t="normal">
+          <div class="tema-p" style="background:linear-gradient(135deg,#f0f4fa 50%,#1d4ed8 50%)"></div>Normal
+        </button><button class="tema" data-t="high-contrast">
+          <div class="tema-p" style="background:linear-gradient(135deg,#fff 50%,#0028b0 50%)"></div>Alto contraste
+        </button><button class="tema" data-t="sepia">
+          <div class="tema-p" style="background:linear-gradient(135deg,#f5ede0 50%,#7c4f1e 50%)"></div>Sepia
+        </button><button class="tema" data-t="soft-dark">
+          <div class="tema-p" style="background:linear-gradient(135deg,#0a1628 50%,#60a5fa 50%)"></div>Noche suave
+        </button></div>
+    </div>
+    <div class="div-a"></div>
+    <div style="margin-bottom:1.2rem"><span class="sec-lbl">Tamaño</span>
+      <div class="font-row"><button class="font-b" id="fDec" style="font-size:.84em">A−</button><span
+          style="font-size:.82em;color:var(--muted);min-width:34px;text-align:center" id="fVal">100%</span><button
+          class="font-b" id="fInc">A+</button></div>
+    </div>
+    <div class="div-a"></div>
+    <div style="margin-bottom:1.2rem"><span class="sec-lbl">Lectura</span>
+      <div class="tog-row"><span>Líneas amplias</span><label class="tog"><input type="checkbox" id="tLin"><span
+            class="tog-sl"></span></label></div>
+    </div>
+    <div style="flex:1"></div>
+    <button class="btn-reset" id="bReset">↺ Restablecer</button>
+  </aside>
+
+  <script src="../assets/js/sidebar.js"></script>
+  <script src="../assets/js/ventas.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/asistente.js"></script>
+  <script>
+    // Fecha
+    document.getElementById('today-date').textContent =
+      new Date().toLocaleDateString('es-CO', { weekday: 'short', day: 'numeric', month: 'short' });
+
+    // CTA carrito al cargar
+    (function actualizarCtaCarrito() {
+      const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
+      const total = carrito.reduce((s, p) => s + p.cantidad, 0);
+      const cta = document.getElementById('cta-carrito');
+      const count = document.getElementById('carrito-count-cta');
+      if (cta) cta.style.display = total > 0 ? 'flex' : 'none';
+      if (count) count.textContent = total;
+    })();
+
+    // Accesibilidad
+    const aBtn = document.getElementById('aBtn');
+    const aPanel = document.getElementById('aPanel');
+    const openA = () => { aPanel.classList.add('open'); aBtn.classList.add('open'); aPanel.setAttribute('aria-hidden', 'false'); aBtn.setAttribute('aria-expanded', 'true'); };
+    const closeA = () => { aPanel.classList.remove('open'); aBtn.classList.remove('open'); aPanel.setAttribute('aria-hidden', 'true'); aBtn.setAttribute('aria-expanded', 'false'); };
+    aBtn.addEventListener('click', () => aPanel.classList.contains('open') ? closeA() : openA());
+    document.getElementById('aClose').addEventListener('click', closeA);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeA(); });
+
+    const temas = ['normal', 'high-contrast', 'sepia', 'soft-dark'];
+    let tema = localStorage.getItem('a11y-tema') || 'normal';
+    function setTema(t) { temas.forEach(x => document.body.classList.remove(x)); if (t !== 'normal') document.body.classList.add(t); tema = t; localStorage.setItem('a11y-tema', t); document.querySelectorAll('.tema').forEach(b => { const a = b.dataset.t === t; b.classList.toggle('on', a); b.setAttribute('aria-pressed', a ? 'true' : 'false'); }); }
+    document.querySelectorAll('.tema').forEach(b => b.addEventListener('click', () => setTema(b.dataset.t)));
+    setTema(tema);
+
+    let esc = parseFloat(localStorage.getItem('a11y-esc') || '1');
+    const fVal = document.getElementById('fVal');
+    function setEsc(v) { esc = Math.min(1.5, Math.max(.75, parseFloat(v.toFixed(2)))); document.documentElement.style.setProperty('--font-scale', esc); fVal.textContent = Math.round(esc * 100) + '%'; localStorage.setItem('a11y-esc', esc); }
+    document.getElementById('fInc').addEventListener('click', () => setEsc(esc + .1));
+    document.getElementById('fDec').addEventListener('click', () => setEsc(esc - .1));
+    setEsc(esc);
+
+    const tLin = document.getElementById('tLin');
+    tLin.checked = localStorage.getItem('a11y-lin') === 'true';
+    if (tLin.checked) document.body.style.lineHeight = '2.2';
+    tLin.addEventListener('change', () => { document.body.style.lineHeight = tLin.checked ? '2.2' : ''; localStorage.setItem('a11y-lin', tLin.checked); });
+    document.getElementById('bReset').addEventListener('click', () => { setTema('normal'); setEsc(1); tLin.checked = false; document.body.style.lineHeight = '';['a11y-tema', 'a11y-esc', 'a11y-lin'].forEach(k => localStorage.removeItem(k)); });
+  </script>
 </body>
+
 </html>
