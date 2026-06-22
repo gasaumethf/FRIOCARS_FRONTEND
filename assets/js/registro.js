@@ -1,122 +1,116 @@
-const formulario = document.getElementById('registroForm');
+// ══════════════════════════════════════════════════════
+//  FRÍO CARS — registro.js  (v3 — rol + pendiente)
+// ══════════════════════════════════════════════════════
 
-formulario.addEventListener('submit', async (e) => {
+const API = 'https://friocars-backend.onrender.com/api';
+
+document.getElementById('registroForm').addEventListener('submit', async (e) => {
 
     e.preventDefault();
 
-    // CAPTURAR DATOS
+    const btn = document.getElementById('btnReg');
 
+    // ── Capturar datos ────────────────────────────────
     const nombre = document.getElementById('nombre').value.trim();
-
     const apellido = document.getElementById('apellido').value.trim();
-
     const username = document.getElementById('username').value.trim();
-
     const correo = document.getElementById('correo').value.trim();
-
     const password = document.getElementById('password').value;
+    const confirmar = document.getElementById('confirmar').value;
+    const terminos = document.getElementById('terminos').checked;
 
-    const confirmarPassword = document.getElementById('confirmarPassword').value;
+    // Rol seleccionado
+    const rolInput = document.querySelector('input[name="rol"]:checked');
+    const rol = rolInput ? rolInput.value : null;
 
-    const mensaje = document.getElementById('mensaje');
-
-    // LIMPIAR MENSAJES
-
-    mensaje.innerHTML = '';
-
-    // VALIDAR PASSWORDS
-
-    if (password !== confirmarPassword) {
-
-        mensaje.innerHTML = `
-            <p class="text-red-500">
-                Las contraseñas no coinciden
-            </p>
-        `;
-
-        return;
+    // ── Validaciones ──────────────────────────────────
+    if (!rol) {
+        return showAlert('Selecciona cómo vas a usar el sistema (Trabajador o Cliente).', 'err');
+    }
+    if (!nombre || !apellido || !username || !correo || !password || !confirmar) {
+        return showAlert('Por favor completa todos los campos.', 'err');
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+        return showAlert('Ingresa un correo electrónico válido.', 'err');
+    }
+    if (password.length < 8) {
+        return showAlert('La contraseña debe tener al menos 8 caracteres.', 'err');
+    }
+    if (password !== confirmar) {
+        return showAlert('Las contraseñas no coinciden.', 'err');
+    }
+    if (!terminos) {
+        return showAlert('Debes aceptar los términos y condiciones.', 'err');
     }
 
-    // VALIDAR PASSWORD
-
-    if (password.length < 6) {
-
-        mensaje.innerHTML = `
-            <p class="text-red-500">
-                La contraseña debe tener mínimo 6 caracteres
-            </p>
-        `;
-
-        return;
-    }
+    // ── Loading ───────────────────────────────────────
+    btn.disabled = true;
+    btn.innerHTML = `
+        <svg viewBox="0 0 24 24" style="width:17px;height:17px;stroke:#fff;stroke-width:2;fill:none;animation:spin .8s linear infinite">
+            <path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/>
+        </svg>
+        Enviando solicitud...`;
+    document.getElementById('alert').style.display = 'none';
 
     try {
 
-        // ENVIAR DATOS
-
-        const respuesta = await fetch('https://friocars-backend.onrender.com/api/auth/register', {
-
+        // ── Petición al backend ───────────────────────
+        const response = await fetch(`${API}/auth/register`, {
             method: 'POST',
-
-            headers: {
-                'Content-Type': 'application/json'
-            },
-
-            body: JSON.stringify({
-
-                nombre,
-                apellido,
-                username,
-                correo,
-                password
-
-            })
-
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre, apellido, username, correo, password, rol })
         });
 
-        const data = await respuesta.json();
+        const data = await response.json();
 
-        // SI TODO SALE BIEN
+        if (response.ok) {
 
-        if (respuesta.ok) {
+            // ── Éxito — solicitud pendiente ───────────
+            const rolLabel = rol === 'trabajador' ? 'Trabajador' : 'Cliente';
 
-            mensaje.innerHTML = `
-                <p class="text-green-600 font-semibold">
-             Usuario registrado cor  rectamente.
-             Redirigiendo al inicio de sesión...
-            </p>
-            `;
+            showAlert(
+                `✅ Solicitud enviada como ${rolLabel}. Un administrador revisará tu cuenta y te dará acceso pronto. Puedes cerrar esta ventana.`,
+                'ok'
+            );
 
-            // GUARDAR SESION
+            // Marcar progreso completo
+            ['pd2', 'pd3'].forEach(id => document.getElementById(id).classList.add('done'));
+            ['pt2', 'pt3'].forEach(id => document.getElementById(id).classList.add('done'));
 
-            localStorage.setItem('usuario', JSON.stringify(data.usuario));
+            // Deshabilitar formulario
+            document.getElementById('registroForm').querySelectorAll('input, button').forEach(el => el.disabled = true);
 
-            // REDIRECCIONAR
+            btn.innerHTML = '✓ Solicitud enviada';
+            btn.style.background = '#16a34a';
 
+            // Redirigir al login después de 4 segundos
             setTimeout(() => {
-
                 window.location.href = 'login.html';
-
-            }, 1500);
+            }, 4500);
 
         } else {
 
-            mensaje.innerHTML = `
-                <p class="text-red-500">
-                    ${data.message}
-                </p>
-            `;
+            // ── Error del backend ─────────────────────
+            showAlert(data.message || 'Error al enviar la solicitud. Intenta de nuevo.', 'err');
+            btn.disabled = false;
+            btn.innerHTML = 'Enviar solicitud de acceso';
         }
 
     } catch (error) {
 
-        console.error(error);
-
-        mensaje.innerHTML = `
-            <p class="text-red-500">
-                Error de conexión con el servidor
-            </p>
-        `;
+        console.error('Error registro:', error);
+        showAlert('Error de conexión con el servidor. Verifica tu internet e intenta de nuevo.', 'err');
+        btn.disabled = false;
+        btn.innerHTML = 'Enviar solicitud de acceso';
     }
 
 });
+
+// ── Helper alert ─────────────────────────────────────
+function showAlert(msg, type) {
+    const el = document.getElementById('alert');
+    el.textContent = msg;
+    el.className = 'alert ' + type;
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
