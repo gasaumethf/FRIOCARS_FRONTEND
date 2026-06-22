@@ -9,7 +9,7 @@ const mensaje = document.getElementById('mensaje');
 const RUTAS_ROL = {
     admin: '../views/dashboard.html',
     trabajador: '../views/dashboard_trabajador.html',
-    cliente: '../views/ventas.html'
+    cliente: '../views/dashboard_cliente.html',
 
 };
 

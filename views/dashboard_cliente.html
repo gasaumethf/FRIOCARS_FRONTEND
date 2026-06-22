@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Panel | Frío Cars</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../assets/Logo/fabicon.ico">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --pri: #1d4ed8;
+            --pri-h: #1e40af;
+            --pri-lt: #eff6ff;
+            --bg: #f0f4fa;
+            --surface: #ffffff;
+            --surface-2: #f8fafc;
+            --border: #e2e8f0;
+            --text: #0f172a;
+            --text-2: #334155;
+            --muted: #64748b;
+            --muted-lt: #94a3b8;
+            --green: #16a34a;
+            --green-lt: #f0fdf4;
+            --green-border: #bbf7d0;
+            --green-mid: #22c55e;
+            --amber: #d97706;
+            --amber-lt: #fffbeb;
+            --amber-border: #fde68a;
+            --cyan: #0284c7;
+            --cyan-lt: #f0f9ff;
+            --topbar-h: 64px;
+            --sidebar-w: 268px;
+            --font-scale: 1;
+            --radius-md: 14px;
+            --radius-lg: 18px;
+            --radius-xl: 22px;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: calc(.9rem * var(--font-scale));
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background .3s, color .3s
+        }
+
+        body.high-contrast {
+            background: #fff !important;
+            --border: #000;
+            --muted: #000
+        }
+
+        body.sepia {
+            background: #f5ede0 !important;
+            --bg: #f5ede0;
+            --surface: #fffbf3;
+            --border: #d4b896;
+            --pri: #7c4f1e;
+            --pri-lt: #fdf0d8;
+            --text: #3d2008;
+            --muted: #5a3510
+        }
+
+        body.soft-dark {
+            background: #0a1628 !important;
+            --bg: #0a1628;
+            --surface: #1e293b;
+            --border: #334155;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --pri-lt: #1e3a5f;
+            --surface-2: #1a2540
+        }
+
+        /* TOP BAR */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--topbar-h);
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 1.8rem 0 1.4rem;
+            z-index: 60;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .04);
+            gap: 1rem
+        }
+
+        .top-brand {
+            display: flex;
+            align-items: center;
+            gap: .7rem;
+            width: var(--sidebar-w);
+            flex-shrink: 0
+        }
+
+        .top-brand img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain
+        }
+
+        .top-brand-name {
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: var(--text);
+            letter-spacing: -.02em
+        }
+
+        .top-brand-name span {
+            color: var(--pri)
+        }
+
+        .top-brand-sub {
+            font-size: .62rem;
+            font-weight: 600;
+            color: var(--muted);
+            letter-spacing: .04em;
+            text-transform: uppercase
+        }
+
+        .top-divider {
+            width: 1px;
+            height: 32px;
+            background: var(--border);
+            flex-shrink: 0
+        }
+
+        .topbar-breadcrumb {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            font-size: .78rem;
+            font-weight: 600;
+            color: var(--muted);
+            padding-left: 1rem
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            margin-left: auto
+        }
+
+        .tb-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: .45rem;
+            background: var(--green-lt);
+            border: 1px solid var(--green-border);
+            border-radius: 99px;
+            padding: .4rem .85rem;
+            font-size: .71rem;
+            font-weight: 700;
+            color: var(--green);
+            white-space: nowrap
+        }
+
+        .tb-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--green-mid);
+            border-radius: 50%;
+            animation: pulse-g 2s ease-in-out infinite;
+            flex-shrink: 0
+        }
+
+        .tb-card {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: .4rem .85rem;
+            text-align: right;
+            line-height: 1.3;
+            flex-shrink: 0
+        }
+
+        .tb-card p:first-child {
+            font-size: .6rem;
+            font-weight: 600;
+            color: var(--muted);
+            letter-spacing: .05em;
+            text-transform: uppercase
+        }
+
+        .tb-card p:last-child {
+            font-size: .9rem;
+            font-weight: 800
+        }
+
+        /* LAYOUT */
+        .main-content {
+            margin-left: var(--sidebar-w);
+            padding: calc(var(--topbar-h) + 1.8rem) 2rem 2rem;
+            min-height: 100vh
+        }
+
+        @media(max-width:900px) {
+            .main-content {
+                margin-left: 0;
+                padding: calc(var(--topbar-h)+1rem) 1rem 1rem
+            }
+        }
+
+        /* PAGE HEADER */
+        .page-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.8rem
+        }
+
+        .page-title {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--text);
+            letter-spacing: -.03em;
+            line-height: 1.2
+        }
+
+        .page-title span {
+            color: var(--pri)
+        }
+
+        .page-sub {
+            font-size: .8rem;
+            color: var(--muted);
+            margin-top: .2rem
+        }
+
+        /* SALUDO */
+        .saludo-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.2rem 1.4rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .04)
+        }
+
+        .saludo-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #16a34a, #0284c7);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 800;
+            flex-shrink: 0
+        }
+
+        .saludo-name {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--text)
+        }
+
+        .saludo-role {
+            font-size: .72rem;
+            font-weight: 600;
+            color: var(--muted);
+            margin-top: 2px
+        }
+
+        /* HERO */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #16a34a 0%, #0284c7 100%);
+            border-radius: var(--radius-xl);
+            padding: 1.8rem 2.2rem;
+            margin-bottom: 1.8rem;
+            color: #fff;
+            box-shadow: 0 8px 32px rgba(22, 163, 74, .2)
+        }
+
+        .hero::before {
+            content: '🛒';
+            position: absolute;
+            right: -10px;
+            top: -20px;
+            font-size: 130px;
+            opacity: .07;
+            line-height: 1
+        }
+
+        .hero h2 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: .4rem
+        }
+
+        .hero p {
+            font-size: .84rem;
+            opacity: .88;
+            max-width: 500px;
+            line-height: 1.6
+        }
+
+        /* KPI strip */
+        .kpi-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem
+        }
+
+        @media(max-width:600px) {
+            .kpi-strip {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .kpi-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.1rem 1.3rem;
+            position: relative;
+            overflow: hidden
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0
+        }
+
+        .kpi-card.accent-green::before {
+            background: linear-gradient(90deg, #16a34a, #4ade80)
+        }
+
+        .kpi-card.accent-blue::before {
+            background: linear-gradient(90deg, #1d4ed8, #38bdf8)
+        }
+
+        .kpi-card.accent-cyan::before {
+            background: linear-gradient(90deg, #0284c7, #38bdf8)
+        }
+
+        .kpi-val {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -.04em;
+            color: var(--text);
+            line-height: 1;
+            margin-bottom: .15rem
+        }
+
+        .kpi-lbl {
+            font-size: .68rem;
+            font-weight: 600;
+            color: var(--muted)
+        }
+
+        /* ACCESOS */
+        .accesos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem
+        }
+
+        .acceso-card {
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.3rem 1.4rem;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            gap: .65rem;
+            transition: all .2s;
+            position: relative;
+            overflow: hidden
+        }
+
+        .acceso-card::after {
+            content: '→';
+            position: absolute;
+            right: 1rem;
+            bottom: 1rem;
+            font-size: .85rem;
+            font-weight: 800;
+            opacity: 0;
+            transition: all .2s;
+            transform: translateX(-4px)
+        }
+
+        .acceso-card:hover::after {
+            opacity: 1;
+            transform: translateX(0)
+        }
+
+        .acceso-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .09)
+        }
+
+        .acceso-green {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-color: #bbf7d0
+        }
+
+        .acceso-green:hover {
+            border-color: #86efac
+        }
+
+        .acceso-blue {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border-color: #bfdbfe
+        }
+
+        .acceso-blue:hover {
+            border-color: #93c5fd
+        }
+
+        .acceso-amber {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border-color: #fde68a
+        }
+
+        .acceso-amber:hover {
+            border-color: #fcd34d
+        }
+
+        .acceso-cyan {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-color: #bae6fd
+        }
+
+        .acceso-cyan:hover {
+            border-color: #7dd3fc
+        }
+
+        .acceso-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .acceso-icon svg {
+            width: 18px;
+            height: 18px
+        }
+
+        .acceso-green .acceso-icon {
+            background: rgba(22, 163, 74, .12);
+            color: #16a34a
+        }
+
+        .acceso-blue .acceso-icon {
+            background: rgba(29, 78, 216, .12);
+            color: #1d4ed8
+        }
+
+        .acceso-amber .acceso-icon {
+            background: rgba(217, 119, 6, .12);
+            color: #d97706
+        }
+
+        .acceso-cyan .acceso-icon {
+            background: rgba(2, 132, 199, .12);
+            color: #0284c7
+        }
+
+        .acceso-title {
+            font-size: .9rem;
+            font-weight: 800;
+            color: var(--text)
+        }
+
+        .acceso-desc {
+            font-size: .73rem;
+            color: var(--text-2);
+            line-height: 1.5
+        }
+
+        .acceso-tag {
+            display: inline-flex;
+            font-size: .63rem;
+            font-weight: 700;
+            border-radius: 99px;
+            padding: 2px 8px;
+            width: fit-content
+        }
+
+        .acceso-green .acceso-tag {
+            background: rgba(22, 163, 74, .1);
+            color: #16a34a
+        }
+
+        .acceso-blue .acceso-tag {
+            background: rgba(29, 78, 216, .1);
+            color: #1d4ed8
+        }
+
+        .acceso-amber .acceso-tag {
+            background: rgba(217, 119, 6, .1);
+            color: #d97706
+        }
+
+        .acceso-cyan .acceso-tag {
+            background: rgba(2, 132, 199, .1);
+            color: #0284c7
+        }
+
+        /* CARRITO RESUMEN */
+        .section-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 1.4rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .04);
+            margin-bottom: 1.2rem
+        }
+
+        .section-hdr {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem
+        }
+
+        .section-title {
+            font-size: .72rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .09em
+        }
+
+        .see-all {
+            font-size: .72rem;
+            font-weight: 700;
+            color: var(--pri);
+            text-decoration: none;
+            padding: .25rem .5rem;
+            border-radius: 6px
+        }
+
+        .see-all:hover {
+            background: var(--pri-lt)
+        }
+
+        /* PROMO banner */
+        .promo-banner {
+            background: linear-gradient(135deg, var(--pri-lt), var(--cyan-lt));
+            border: 1.5px solid #bfdbfe;
+            border-radius: var(--radius-lg);
+            padding: 1.2rem 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem
+        }
+
+        .promo-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--pri);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.2rem
+        }
+
+        .promo-body {
+            flex: 1
+        }
+
+        .promo-title {
+            font-size: .88rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: .2rem
+        }
+
+        .promo-desc {
+            font-size: .75rem;
+            color: var(--muted);
+            line-height: 1.5
+        }
+
+        .promo-btn {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: .75rem;
+            font-weight: 700;
+            padding: .5rem 1rem;
+            border-radius: 9px;
+            border: none;
+            cursor: pointer;
+            background: var(--pri);
+            color: #fff;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+            white-space: nowrap;
+            transition: background .18s;
+            flex-shrink: 0
+        }
+
+        .promo-btn:hover {
+            background: var(--pri-h)
+        }
+
+        /* CARRITO ITEMS */
+        .carrito-mini {
+            display: flex;
+            flex-direction: column;
+            gap: .5rem
+        }
+
+        .carrito-mini-item {
+            display: flex;
+            align-items: center;
+            gap: .85rem;
+            padding: .65rem .8rem;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 10px
+        }
+
+        .carrito-mini-info {
+            flex: 1;
+            min-width: 0
+        }
+
+        .carrito-mini-name {
+            font-size: .82rem;
+            font-weight: 700;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .carrito-mini-sub {
+            font-size: .68rem;
+            color: var(--muted);
+            margin-top: 1px
+        }
+
+        .carrito-mini-price {
+            font-size: .88rem;
+            font-weight: 800;
+            color: var(--green);
+            flex-shrink: 0
+        }
+
+        .empty-mini {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--muted);
+            font-size: .8rem
+        }
+
+        /* BTN */
+        .btn-sm {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: .78rem;
+            font-weight: 700;
+            border-radius: 10px;
+            padding: .5rem .9rem;
+            cursor: pointer;
+            transition: all .18s;
+            border: none
+        }
+
+        .btn-primary {
+            background: var(--pri);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(29, 78, 216, .25)
+        }
+
+        .btn-primary:hover {
+            background: var(--pri-h);
+            transform: translateY(-1px)
+        }
+
+        /* A11Y */
+        .a11y-btn {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 200;
+            background: var(--pri);
+            color: #fff;
+            border: none;
+            border-radius: 12px 0 0 12px;
+            padding: .9rem .6rem;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: .62em;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            box-shadow: -3px 0 14px rgba(29, 78, 216, .2);
+            transition: background .2s, right .35s
+        }
+
+        .a11y-btn:hover {
+            background: var(--pri-h)
+        }
+
+        .a11y-btn.open {
+            right: 292px
+        }
+
+        .a11y-panel {
+            position: fixed;
+            right: -300px;
+            top: 0;
+            height: 100%;
+            width: 292px;
+            background: var(--surface);
+            border-left: 1.5px solid var(--border);
+            z-index: 199;
+            display: flex;
+            flex-direction: column;
+            padding: 1.8rem 1.4rem;
+            box-shadow: -8px 0 30px rgba(0, 0, 0, .07);
+            transition: right .35s cubic-bezier(.4, 0, .2, 1);
+            overflow-y: auto
+        }
+
+        .a11y-panel.open {
+            right: 0
+        }
+
+        .sec-lbl {
+            display: block;
+            font-size: .71em;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: .09em;
+            margin-bottom: .6rem
+        }
+
+        .temas {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .4rem
+        }
+
+        .tema {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            padding: .5rem .3rem;
+            border-radius: 9px;
+            border: 1.5px solid var(--border);
+            background: var(--pri-lt);
+            cursor: pointer;
+            font-size: .72em;
+            color: var(--muted);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 500;
+            transition: all .2s
+        }
+
+        .tema:hover,
+        .tema.on {
+            border-color: var(--pri);
+            color: var(--pri);
+            font-weight: 700
+        }
+
+        .tema-p {
+            width: 34px;
+            height: 20px;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 0, 0, .07)
+        }
+
+        .font-row {
+            display: flex;
+            align-items: center;
+            gap: .4rem
+        }
+
+        .font-b {
+            flex: 1;
+            padding: .5rem;
+            border-radius: 9px;
+            border: 1.5px solid var(--border);
+            background: var(--pri-lt);
+            cursor: pointer;
+            color: var(--muted);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            transition: all .2s
+        }
+
+        .font-b:hover {
+            border-color: var(--pri);
+            color: var(--pri)
+        }
+
+        .tog-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: .4rem 0
+        }
+
+        .tog-row span {
+            font-size: .83em;
+            color: var(--text)
+        }
+
+        .tog {
+            position: relative;
+            width: 38px;
+            height: 21px
+        }
+
+        .tog input {
+            opacity: 0;
+            width: 0;
+            height: 0
+        }
+
+        .tog-sl {
+            position: absolute;
+            inset: 0;
+            background: var(--border);
+            border-radius: 21px;
+            cursor: pointer;
+            transition: background .2s
+        }
+
+        .tog-sl::before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            left: 3px;
+            top: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform .2s
+        }
+
+        .tog input:checked+.tog-sl {
+            background: var(--pri)
+        }
+
+        .tog input:checked+.tog-sl::before {
+            transform: translateX(17px)
+        }
+
+        .btn-reset-a11y {
+            width: 100%;
+            padding: .6rem;
+            border-radius: 9px;
+            border: 1.5px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: .82em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s
+        }
+
+        .btn-reset-a11y:hover {
+            border-color: #dc2626;
+            color: #dc2626;
+            background: #fff5f5
+        }
+
+        .div-a {
+            height: 1px;
+            background: var(--border);
+            margin: .75rem 0 1.1rem
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes pulse-g {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: .5;
+                transform: scale(.75)
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .anim {
+            animation: fadeUp .35s ease both
+        }
+
+        .anim-2 {
+            animation: fadeUp .35s .07s ease both
+        }
+
+        .anim-3 {
+            animation: fadeUp .35s .14s ease both
+        }
+
+        .spin {
+            animation: spin .7s linear infinite
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="sidebar-container"></div>
+
+    <header class="top-bar">
+        <div class="top-brand">
+            <img src="../assets/Logo/Logo2.png" alt="Frío Cars">
+            <div>
+                <div class="top-brand-name">Frío <span>Cars</span></div>
+                <div class="top-brand-sub">Sistema Automotriz</div>
+            </div>
+        </div>
+        <div class="top-divider"></div>
+        <div class="topbar-breadcrumb"><span style="color:var(--text)">Mi Panel</span></div>
+        <div class="top-bar-right">
+            <div class="tb-pill">
+                <div class="tb-dot"></div>Tienda activa
+            </div>
+            <div class="tb-card" style="border-left:3px solid var(--green)">
+                <p>Carrito</p>
+                <p style="color:var(--green)" id="tb-carrito">0 items</p>
+            </div>
+            <div class="tb-card">
+                <p>Hoy</p>
+                <p id="today-date">—</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+
+        <!-- SALUDO -->
+        <div class="saludo-card anim">
+            <div class="saludo-avatar" id="saludo-avatar">?</div>
+            <div>
+                <div class="saludo-name" id="saludo-name">Cargando...</div>
+                <div class="saludo-role">Cliente · Frío Cars</div>
+            </div>
+        </div>
+
+        <!-- PAGE HEADER -->
+        <div class="page-header anim">
+            <div>
+                <h1 class="page-title">Mi <span>Panel de Compras</span></h1>
+                <p class="page-sub">Compra productos, solicita cotizaciones y gestiona tu perfil.</p>
+            </div>
+            <button class="btn-sm btn-primary" onclick="refreshAll()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                    stroke-linecap="round" id="refresh-icon">
+                    <polyline points="23 4 23 10 17 10" />
+                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                </svg>
+                Actualizar
+            </button>
+        </div>
+
+        <!-- HERO -->
+        <div class="hero anim-2">
+            <h2>Bienvenido a Frío Cars</h2>
+            <p>Encuentra los mejores productos para el sistema de refrigeración de tu vehículo y solicita diagnósticos
+                con IA.</p>
+        </div>
+
+        <!-- KPI STRIP -->
+        <div class="kpi-strip anim-2">
+            <div class="kpi-card accent-green">
+                <div class="kpi-val" id="kpi-carrito">0</div>
+                <div class="kpi-lbl">Productos en carrito</div>
+            </div>
+            <div class="kpi-card accent-blue">
+                <div class="kpi-val" id="kpi-productos">—</div>
+                <div class="kpi-lbl">Productos disponibles</div>
+            </div>
+            <div class="kpi-card accent-cyan">
+                <div class="kpi-val" style="color:var(--cyan)">98%</div>
+                <div class="kpi-lbl">Precisión diagnóstico IA</div>
+            </div>
+        </div>
+
+        <!-- PROMO IA -->
+        <div class="promo-banner anim-2">
+            <div class="promo-icon">🤖</div>
+            <div class="promo-body">
+                <div class="promo-title">¿Problemas con el aire acondicionado de tu vehículo?</div>
+                <div class="promo-desc">Usa nuestro diagnóstico con Inteligencia Artificial — describe los síntomas y
+                    obtén un análisis detallado con costo estimado en segundos.</div>
+            </div>
+            <a href="./cotizacion.html" class="promo-btn">
+                🤖 Diagnóstico IA
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                </svg>
+            </a>
+        </div>
+
+        <!-- ACCESOS RÁPIDOS -->
+        <div class="accesos anim-3">
+            <a href="./ventas.html" class="acceso-card acceso-green">
+                <div class="acceso-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <path d="M16 10a4 4 0 0 1-8 0" />
+                    </svg>
+                </div>
+                <div class="acceso-title">Tienda de Productos</div>
+                <p class="acceso-desc">Explora nuestro catálogo de repuestos y productos para el sistema de
+                    refrigeración de tu vehículo.</p>
+                <span class="acceso-tag">🛒 Ir a la tienda</span>
+            </a>
+
+            <a href="./cotizacion.html" class="acceso-card acceso-cyan">
+                <div class="acceso-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                </div>
+                <div class="acceso-title">Cotización con IA</div>
+                <p class="acceso-desc">Diagnóstico inteligente de tu vehículo usando inteligencia artificial. Obtén
+                    costos estimados al instante.</p>
+                <span class="acceso-tag">🤖 Solicitar diagnóstico</span>
+            </a>
+
+            <a href="./carrito.html" class="acceso-card acceso-amber">
+                <div class="acceso-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <circle cx="9" cy="21" r="1" />
+                        <circle cx="20" cy="21" r="1" />
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                    </svg>
+                </div>
+                <div class="acceso-title">Mi Carrito</div>
+                <p class="acceso-desc">Revisa los productos que tienes seleccionados, ajusta cantidades y procesa el
+                    pago.</p>
+                <span class="acceso-tag" id="acceso-carrito-tag">🛒 Ver carrito</span>
+            </a>
+
+            <a href="./Usuarios.html" class="acceso-card acceso-blue">
+                <div class="acceso-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                </div>
+                <div class="acceso-title">Mi Perfil</div>
+                <p class="acceso-desc">Gestiona tu información personal, datos de contacto y preferencias de tu cuenta.
+                </p>
+                <span class="acceso-tag">👤 Ver perfil</span>
+            </a>
+        </div>
+
+        <!-- CARRITO RESUMEN -->
+        <div class="section-card anim-3">
+            <div class="section-hdr">
+                <span class="section-title">Productos en tu carrito</span>
+                <a href="./carrito.html" class="see-all">Ver carrito →</a>
+            </div>
+            <div id="carrito-preview" class="carrito-mini">
+                <div class="empty-mini">Tu carrito está vacío — <a href="ventas.html"
+                        style="color:var(--pri);font-weight:700">explorar productos</a></div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- A11Y -->
+    <button class="a11y-btn" id="aBtn" aria-label="Accesibilidad" aria-expanded="false">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round">
+            <circle cx="12" cy="5" r="1.8" fill="currentColor" stroke="none" />
+            <path d="M5 8.5h14" />
+            <path d="M12 8.5V14" />
+            <path d="M8.5 14l-2 5.5M15.5 14l2 5.5" />
+        </svg>
+        <span style="font-size:.62em">Acceso</span>
+    </button>
+    <aside id="aPanel" class="a11y-panel" role="complementary" aria-hidden="true">
+        <div
+            style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.4rem;padding-bottom:.9rem;border-bottom:1px solid var(--border)">
+            <div>
+                <h3 style="font-size:.97rem;font-weight:800;color:var(--text)">Accesibilidad</h3>
+            </div>
+            <button id="aClose"
+                style="background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:8px;display:flex"><svg
+                    width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                    stroke-linecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg></button>
+        </div>
+        <div style="margin-bottom:1.2rem"><span class="sec-lbl">Tema</span>
+            <div class="temas">
+                <button class="tema on" data-t="normal">
+                    <div class="tema-p" style="background:linear-gradient(135deg,#f0f4fa 50%,#1d4ed8 50%)"></div>Normal
+                </button>
+                <button class="tema" data-t="high-contrast">
+                    <div class="tema-p" style="background:linear-gradient(135deg,#fff 50%,#0028b0 50%)"></div>Alto
+                    contraste
+                </button>
+                <button class="tema" data-t="sepia">
+                    <div class="tema-p" style="background:linear-gradient(135deg,#f5ede0 50%,#7c4f1e 50%)"></div>Sepia
+                </button>
+                <button class="tema" data-t="soft-dark">
+                    <div class="tema-p" style="background:linear-gradient(135deg,#0a1628 50%,#60a5fa 50%)"></div>Noche
+                    suave
+                </button>
+            </div>
+        </div>
+        <div class="div-a"></div>
+        <div style="margin-bottom:1.2rem"><span class="sec-lbl">Tamaño</span>
+            <div class="font-row"><button class="font-b" id="fDec" style="font-size:.84em">A−</button><span
+                    style="font-size:.82em;color:var(--muted);min-width:34px;text-align:center"
+                    id="fVal">100%</span><button class="font-b" id="fInc">A+</button></div>
+        </div>
+        <div class="div-a"></div>
+        <div style="margin-bottom:1.2rem"><span class="sec-lbl">Lectura</span>
+            <div class="tog-row"><span>Líneas amplias</span><label class="tog"><input type="checkbox" id="tLin"><span
+                        class="tog-sl"></span></label></div>
+        </div>
+        <div style="flex:1"></div>
+        <button class="btn-reset-a11y" id="bReset">↺ Restablecer</button>
+    </aside>
+
+    <script src="../assets/js/sidebar.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/asistente.js"></script>
+    <script>
+        const API = "https://friocars-backend.onrender.com/api";
+
+        document.getElementById("today-date").textContent =
+            new Date().toLocaleDateString("es-CO", { weekday: "short", day: "numeric", month: "short" });
+
+        // Saludo
+        (function initSaludo() {
+            const u = JSON.parse(localStorage.getItem("usuario") || "{}");
+            const nombre = u.nombre || u.username || "Cliente";
+            const iniciales = nombre.split(" ").slice(0, 2).map(w => w[0]).join("").toUpperCase();
+            document.getElementById("saludo-avatar").textContent = iniciales;
+            document.getElementById("saludo-name").textContent = `Hola, ${nombre} 👋`;
+        })();
+
+        // Carrito desde localStorage
+        function cargarCarrito() {
+            const carrito = JSON.parse(localStorage.getItem("carrito") || "[]");
+            const total = carrito.reduce((s, p) => s + p.cantidad, 0);
+
+            document.getElementById("kpi-carrito").textContent = total;
+            document.getElementById("tb-carrito").textContent = `${total} item${total !== 1 ? 's' : ''}`;
+            document.getElementById("acceso-carrito-tag").textContent = total > 0 ? `🛒 ${total} producto${total !== 1 ? 's' : ''}` : '🛒 Ver carrito';
+
+            const preview = document.getElementById("carrito-preview");
+            if (!carrito.length) {
+                preview.innerHTML = `<div class="empty-mini">Tu carrito está vacío — <a href="ventas.html" style="color:var(--pri);font-weight:700">explorar productos</a></div>`;
+                return;
+            }
+
+            preview.innerHTML = carrito.slice(0, 5).map(p => `
+    <div class="carrito-mini-item">
+      <div style="width:34px;height:34px;border-radius:9px;background:var(--green-lt);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.85rem">📦</div>
+      <div class="carrito-mini-info">
+        <div class="carrito-mini-name">${p.nombre}</div>
+        <div class="carrito-mini-sub">Cantidad: ${p.cantidad} · ${p.categoria || 'Producto'}</div>
+      </div>
+      <div class="carrito-mini-price">$${(Number(p.precio) * p.cantidad).toLocaleString("es-CO")}</div>
+    </div>`).join("");
+
+            if (carrito.length > 5) {
+                preview.innerHTML += `<div style="text-align:center;padding:.6rem;font-size:.75rem;color:var(--muted);font-weight:600">+${carrito.length - 5} producto${carrito.length - 5 !== 1 ? 's' : ''} más → <a href="carrito.html" style="color:var(--pri)">ver todos</a></div>`;
+            }
+        }
+
+        // Productos disponibles
+        async function cargarProductos() {
+            try {
+                const res = await fetch(`${API}/productos`);
+                const data = res.ok ? await res.json() : [];
+                document.getElementById("kpi-productos").textContent = data.length || "—";
+            } catch {
+                document.getElementById("kpi-productos").textContent = "—";
+            }
+        }
+
+        function refreshAll() {
+            const icon = document.getElementById("refresh-icon");
+            icon.classList.add("spin");
+            cargarCarrito();
+            cargarProductos();
+            setTimeout(() => icon.classList.remove("spin"), 600);
+        }
+
+        cargarCarrito();
+        cargarProductos();
+
+        // A11Y
+        const aBtn = document.getElementById("aBtn"), aPanel = document.getElementById("aPanel");
+        const openA = () => { aPanel.classList.add("open"); aBtn.classList.add("open"); aPanel.setAttribute("aria-hidden", "false"); aBtn.setAttribute("aria-expanded", "true") };
+        const closeA = () => { aPanel.classList.remove("open"); aBtn.classList.remove("open"); aPanel.setAttribute("aria-hidden", "true"); aBtn.setAttribute("aria-expanded", "false") };
+        aBtn.addEventListener("click", () => aPanel.classList.contains("open") ? closeA() : openA());
+        document.getElementById("aClose").addEventListener("click", closeA);
+        document.addEventListener("keydown", e => { if (e.key === "Escape") closeA() });
+        const temas = ["normal", "high-contrast", "sepia", "soft-dark"];
+        let tema = localStorage.getItem("a11y-tema") || "normal";
+        function setTema(t) { temas.forEach(x => document.body.classList.remove(x)); if (t !== "normal") document.body.classList.add(t); tema = t; localStorage.setItem("a11y-tema", t); document.querySelectorAll(".tema").forEach(b => { const a = b.dataset.t === t; b.classList.toggle("on", a); b.setAttribute("aria-pressed", a ? "true" : "false") }) }
+        document.querySelectorAll(".tema").forEach(b => b.addEventListener("click", () => setTema(b.dataset.t)));
+        setTema(tema);
+        let esc = parseFloat(localStorage.getItem("a11y-esc") || "1");
+        const fVal = document.getElementById("fVal");
+        function setEsc(v) { esc = Math.min(1.5, Math.max(.75, parseFloat(v.toFixed(2)))); document.documentElement.style.setProperty("--font-scale", esc); fVal.textContent = Math.round(esc * 100) + "%"; localStorage.setItem("a11y-esc", esc) }
+        document.getElementById("fInc").addEventListener("click", () => setEsc(esc + .1));
+        document.getElementById("fDec").addEventListener("click", () => setEsc(esc - .1));
+        setEsc(esc);
+        const tLin = document.getElementById("tLin");
+        tLin.checked = localStorage.getItem("a11y-lin") === "true";
+        if (tLin.checked) document.body.style.lineHeight = "2.2";
+        tLin.addEventListener("change", () => { document.body.style.lineHeight = tLin.checked ? "2.2" : ""; localStorage.setItem("a11y-lin", tLin.checked) });
+        document.getElementById("bReset").addEventListener("click", () => { setTema("normal"); setEsc(1); tLin.checked = false; document.body.style.lineHeight = "";["a11y-tema", "a11y-esc", "a11y-lin"].forEach(k => localStorage.removeItem(k)) });
+    </script>
+</body>
+
+</html>

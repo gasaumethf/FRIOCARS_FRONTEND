@@ -36,6 +36,7 @@ function filtrarMenuPorRol() {
             'dashboard_trabajador.html'
         ],
         cliente: [
+            'dashboard_cliente.html',
             'ventas.html',
             'cotizacion.html',
             'carrito.html',

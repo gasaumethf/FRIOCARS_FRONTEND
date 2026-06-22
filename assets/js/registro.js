@@ -74,7 +74,7 @@ document.getElementById('registroForm').addEventListener('submit', async (e) => 
                 btn.style.background = '#16a34a';
 
                 setTimeout(() => {
-                    window.location.href = 'ventas.html';
+                    window.location.href = '../views/dashboard_cliente.html';
                 }, 1500);
 
             } else {
