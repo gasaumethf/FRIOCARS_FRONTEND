@@ -1,22 +1,22 @@
 // ══════════════════════════════════════════════════════
-//  FRÍO CARS — cotizacion.js  (v4 — catálogo desde BD)
+//  FRÍO CARS — cotizacion.js  (v5 — alineado con HTML)
 // ══════════════════════════════════════════════════════
 
 const API_BACKEND = "https://friocars-backend.onrender.com/api";
 
-let tipoCotizacion   = "AUTOMATICA";
-let imagenesBase64   = [];
+let tipoCotizacion = "AUTOMATICA";
+let imagenesBase64 = [];
 let ultimaCotizacion = null;
-let clientesCache    = [];
-let modelosCache     = []; // modelos de la marca seleccionada
+let clientesCache = [];
 
 // ══════════════════════════════════════════════════════
 //  INIT
 // ══════════════════════════════════════════════════════
 document.addEventListener("DOMContentLoaded", () => {
   cargarClientesCache();
-  cargarMarcas();
   document.getElementById("veh-anio").value = new Date().getFullYear();
+  // El año ya tiene valor, así que cargamos marcas de inmediato
+  cargarMarcas();
 });
 
 // ══════════════════════════════════════════════════════
@@ -33,7 +33,7 @@ function seleccionarTipo(tipo) {
 // ══════════════════════════════════════════════════════
 async function cargarClientesCache() {
   try {
-    const res  = await fetch(`${API_BACKEND}/clientes`);
+    const res = await fetch(`${API_BACKEND}/clientes`);
     clientesCache = await res.json();
   } catch (e) {
     console.warn("No se pudo cargar clientes:", e.message);
@@ -41,7 +41,7 @@ async function cargarClientesCache() {
 }
 
 function onNombreInput() {
-  const val   = document.getElementById("nombre").value.trim().toLowerCase();
+  const val = document.getElementById("nombre").value.trim().toLowerCase();
   const lista = document.getElementById("sugerencias-cliente");
   lista.innerHTML = "";
 
@@ -64,15 +64,16 @@ function onNombreInput() {
 }
 
 function seleccionarCliente(c) {
-  document.getElementById("nombre").value   = `${c.nombre} ${c.apellido || ""}`.trim();
+  document.getElementById("nombre").value = `${c.nombre} ${c.apellido || ""}`.trim();
   document.getElementById("telefono").value = c.telefono || "";
   document.getElementById("sugerencias-cliente").style.display = "none";
 
   if (c.vehiculos?.length > 0) {
     const v = c.vehiculos[0];
-    if (v.anio)  document.getElementById("veh-anio").value = v.anio;
-    if (v.marca) document.getElementById("veh-marca").value = v.marca;
-    if (v.modelo) document.getElementById("veh-modelo-input").value = v.modelo;
+    if (v.anio) document.getElementById("veh-anio").value = v.anio;
+    // Si el cliente tiene vehículo, poner el texto en el campo libre
+    const modeloCustom = [v.marca, v.modelo].filter(Boolean).join(" ");
+    if (modeloCustom) document.getElementById("veh-modelo-custom").value = modeloCustom;
     actualizarVehiculoTexto();
     mostrarToast(`Vehículo cargado: ${v.marca || ""} ${v.modelo || ""} ${v.anio || ""}`, "ok");
   }
@@ -81,110 +82,110 @@ function seleccionarCliente(c) {
 document.addEventListener("click", e => {
   if (!e.target.closest("#wrapper-nombre"))
     document.getElementById("sugerencias-cliente").style.display = "none";
-  if (!e.target.closest("#wrapper-modelo"))
-    document.getElementById("sugerencias-modelo").style.display = "none";
 });
 
 // ══════════════════════════════════════════════════════
 //  MARCAS — carga desde BD
+//  Llamado: al cargar la página y cuando cambia el año
 // ══════════════════════════════════════════════════════
 async function cargarMarcas() {
   const sel = document.getElementById("veh-marca");
+  // Resetear modelo al recargar marcas
+  const selModelo = document.getElementById("veh-modelo");
+  selModelo.innerHTML = `<option value="">— primero elige marca —</option>`;
+  selModelo.disabled = true;
+
   sel.innerHTML = `<option value="">Cargando...</option>`;
+  sel.disabled = true;
+
   try {
-    const res    = await fetch(`${API_BACKEND}/catalogo/marcas`);
+    const res = await fetch(`${API_BACKEND}/catalogo/marcas`);
     const marcas = await res.json();
     sel.innerHTML = `<option value="">— Selecciona marca —</option>` +
-      marcas.map(m => `<option value="${m.id_marca}" data-nombre="${m.nombre}">${m.nombre}</option>`).join("");
+      marcas.map(m => `<option value="${m.id_marca}">${m.nombre}</option>`).join("");
+    sel.disabled = false; // ← habilitar después de cargar
   } catch (e) {
     sel.innerHTML = `<option value="">Error cargando marcas</option>`;
+    sel.disabled = false;
     console.error("Error cargando marcas:", e);
   }
+  actualizarVehiculoTexto();
 }
 
 // ══════════════════════════════════════════════════════
 //  MODELOS — carga desde BD al cambiar marca
+//  El HTML llama cargarModelos() en el onchange del select
 // ══════════════════════════════════════════════════════
-async function onMarcaChange() {
-  const sel     = document.getElementById("veh-marca");
-  const id      = sel.value;
-  const modeloInput = document.getElementById("veh-modelo-input");
+async function cargarModelos() {
+  const selMarca = document.getElementById("veh-marca");
+  const selModelo = document.getElementById("veh-modelo");
+  const id = selMarca.value;
 
-  modeloInput.value = "";
-  modelosCache = [];
-  document.getElementById("sugerencias-modelo").style.display = "none";
+  selModelo.innerHTML = `<option value="">— primero elige marca —</option>`;
+  selModelo.disabled = true;
   actualizarVehiculoTexto();
 
   if (!id) return;
 
+  selModelo.innerHTML = `<option value="">Cargando modelos...</option>`;
+
   try {
-    const res    = await fetch(`${API_BACKEND}/catalogo/modelos/${id}`);
-    modelosCache = await res.json(); // [{id_modelo, nombre}]
-    modeloInput.focus();
+    const res = await fetch(`${API_BACKEND}/catalogo/modelos/${id}`);
+    const modelos = await res.json();
+    selModelo.innerHTML = `<option value="">— Selecciona modelo —</option>` +
+      modelos.map(m => `<option value="${m.id_modelo}">${m.nombre}</option>`).join("");
+    selModelo.disabled = false; // ← habilitar después de cargar
   } catch (e) {
+    selModelo.innerHTML = `<option value="">Error cargando modelos</option>`;
+    selModelo.disabled = false;
     console.error("Error cargando modelos:", e);
   }
-}
-
-// ══════════════════════════════════════════════════════
-//  AUTOCOMPLETE — MODELOS (igual que nombre)
-// ══════════════════════════════════════════════════════
-function onModeloInput() {
-  const val   = document.getElementById("veh-modelo-input").value.trim().toLowerCase();
-  const lista = document.getElementById("sugerencias-modelo");
-  lista.innerHTML = "";
   actualizarVehiculoTexto();
-
-  if (val.length < 1) { lista.style.display = "none"; return; }
-
-  // Filtrar de la caché local (modelos de la marca elegida)
-  let sugerencias = modelosCache
-    .filter(m => m.nombre.toLowerCase().includes(val))
-    .slice(0, 10);
-
-  if (!sugerencias.length) { lista.style.display = "none"; return; }
-
-  sugerencias.forEach(m => {
-    const li = document.createElement("li");
-    li.className = "autocomplete-item";
-    li.innerHTML = `<span class="ac-name">${m.nombre}</span>`;
-    li.addEventListener("mousedown", e => {
-      e.preventDefault();
-      document.getElementById("veh-modelo-input").value = m.nombre;
-      lista.style.display = "none";
-      actualizarVehiculoTexto();
-    });
-    lista.appendChild(li);
-  });
-  lista.style.display = "block";
 }
 
 // ══════════════════════════════════════════════════════
 //  PREVIEW DEL VEHÍCULO
+//  Combina año + marca (texto del select) + modelo (texto del select)
+//  + campo libre si está lleno
 // ══════════════════════════════════════════════════════
 function actualizarVehiculoTexto() {
-  const anio   = document.getElementById("veh-anio")?.value || "";
-  const sel    = document.getElementById("veh-marca");
-  const marca  = sel.options[sel.selectedIndex]?.dataset.nombre || "";
-  const modelo = document.getElementById("veh-modelo-input")?.value || "";
-  const texto  = [marca, modelo, anio].filter(Boolean).join(" ");
+  const anio = document.getElementById("veh-anio")?.value || "";
+  const selMarca = document.getElementById("veh-marca");
+  const selModelo = document.getElementById("veh-modelo");
+  const modeloCustom = document.getElementById("veh-modelo-custom")?.value.trim() || "";
+
+  const marca = selMarca.options[selMarca.selectedIndex]?.text || "";
+  const modelo = selModelo.options[selModelo.selectedIndex]?.text || "";
+
+  // Si hay campo libre, tiene prioridad sobre el select de modelo
+  const modeloFinal = modeloCustom || (modelo !== "— Selecciona modelo —" && modelo !== "— primero elige marca —" ? modelo : "");
+  const marcaFinal = marca !== "— Selecciona marca —" && marca !== "Cargando..." && marca !== "Error cargando marcas" ? marca : "";
+
+  const texto = [marcaFinal, modeloFinal, anio].filter(Boolean).join(" ");
   const preview = document.getElementById("veh-preview");
   if (preview) preview.textContent = texto || "—";
 }
 
 function getVehiculoTexto() {
-  const anio   = document.getElementById("veh-anio")?.value || "";
-  const sel    = document.getElementById("veh-marca");
-  const marca  = sel.options[sel.selectedIndex]?.dataset.nombre || "";
-  const modelo = document.getElementById("veh-modelo-input")?.value || "";
-  return [marca, modelo, anio].filter(Boolean).join(" ");
+  const anio = document.getElementById("veh-anio")?.value || "";
+  const selMarca = document.getElementById("veh-marca");
+  const selModelo = document.getElementById("veh-modelo");
+  const modeloCustom = document.getElementById("veh-modelo-custom")?.value.trim() || "";
+
+  const marca = selMarca.options[selMarca.selectedIndex]?.text || "";
+  const modelo = selModelo.options[selModelo.selectedIndex]?.text || "";
+
+  const modeloFinal = modeloCustom || (modelo !== "— Selecciona modelo —" && modelo !== "— primero elige marca —" ? modelo : "");
+  const marcaFinal = marca !== "— Selecciona marca —" && marca !== "Cargando..." && marca !== "Error cargando marcas" ? marca : "";
+
+  return [marcaFinal, modeloFinal, anio].filter(Boolean).join(" ");
 }
 
 // ══════════════════════════════════════════════════════
 //  IMÁGENES
 // ══════════════════════════════════════════════════════
 function previsualizarImagenes(input) {
-  const grid    = document.getElementById("previewGrid");
+  const grid = document.getElementById("previewGrid");
   const archivos = Array.from(input.files).slice(0, 5);
   imagenesBase64 = [];
   grid.innerHTML = "";
@@ -196,7 +197,7 @@ function previsualizarImagenes(input) {
       const wrap = document.createElement("div");
       wrap.className = "img-preview-item";
       wrap.id = `img-prev-${i}`;
-      wrap.innerHTML = `<img src="${b64}" alt="Imagen ${i+1}"><button onclick="eliminarImagen(${i})" title="Eliminar">✕</button>`;
+      wrap.innerHTML = `<img src="${b64}" alt="Imagen ${i + 1}"><button onclick="eliminarImagen(${i})" title="Eliminar">✕</button>`;
       grid.appendChild(wrap);
     };
     reader.readAsDataURL(file);
@@ -212,25 +213,25 @@ function eliminarImagen(index) {
 //  GENERAR DIAGNÓSTICO IA
 // ══════════════════════════════════════════════════════
 async function generarDiagnostico() {
-  const nombre      = document.getElementById("nombre").value.trim();
-  const telefono    = document.getElementById("telefono").value.trim();
-  const vehiculo    = getVehiculoTexto();
+  const nombre = document.getElementById("nombre").value.trim();
+  const telefono = document.getElementById("telefono").value.trim();
+  const vehiculo = getVehiculoTexto();
   const descripcion = document.getElementById("descripcion").value.trim();
 
-  if (!nombre)      { mostrarToast("Ingresa el nombre del cliente", "warn"); return; }
-  if (!vehiculo)    { mostrarToast("Selecciona o escribe el vehículo", "warn"); return; }
+  if (!nombre) { mostrarToast("Ingresa el nombre del cliente", "warn"); return; }
+  if (!vehiculo) { mostrarToast("Selecciona o escribe el vehículo", "warn"); return; }
   if (!descripcion) { mostrarToast("Describe el problema", "warn"); return; }
 
   const btn = document.getElementById("btnGenerar");
   btn.disabled = true;
   btn.textContent = "⏳ Analizando con IA...";
 
-  const resultadoEl  = document.getElementById("resultadoIA");
-  const contenidoEl  = document.getElementById("contenidoIA");
-  const tagsEl       = document.getElementById("ia-tags");
-  const costoBox     = document.getElementById("costoBox");
+  const resultadoEl = document.getElementById("resultadoIA");
+  const contenidoEl = document.getElementById("contenidoIA");
+  const tagsEl = document.getElementById("ia-tags");
+  const costoBox = document.getElementById("costoBox");
   const clienteLabel = document.getElementById("ia-cliente-label");
-  const accionesEl   = document.getElementById("ia-acciones");
+  const accionesEl = document.getElementById("ia-acciones");
 
   resultadoEl.classList.add("visible");
   contenidoEl.innerHTML = `<span style="color:var(--muted);font-size:.85rem">⏳ La IA está analizando la información...</span>`;
@@ -245,7 +246,7 @@ async function generarDiagnostico() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nombre, telefono, vehiculo, descripcion, imagenes: [] })
     });
-    const data  = await response.json();
+    const data = await response.json();
     const texto = data.diagnostico || "No se pudo obtener respuesta de la IA.";
 
     await renderStreamText(contenidoEl, texto);
@@ -253,7 +254,7 @@ async function generarDiagnostico() {
     const costoMatch = texto.match(/\$[\d.,]+\s*-\s*\$[\d.,]+\s*COP/i)
       || texto.match(/\$[\d.]+(?:\.\d{3})*(?:\s*COP)?/i);
     const costoTexto = costoMatch ? costoMatch[0] : "A consultar";
-    const costoNum   = costoMatch ? (parseInt(costoMatch[0].replace(/[^0-9]/g, "")) || 0) : 0;
+    const costoNum = costoMatch ? (parseInt(costoMatch[0].replace(/[^0-9]/g, "")) || 0) : 0;
 
     document.getElementById("costoValor").textContent = costoTexto;
     costoBox.style.display = "flex";
@@ -386,9 +387,9 @@ function descargarPDF() {
 //  ENVIAR SOLICITUD (MANUAL)
 // ══════════════════════════════════════════════════════
 async function enviarSolicitud() {
-  const nombre      = document.getElementById("nombre").value.trim();
-  const telefono    = document.getElementById("telefono").value.trim();
-  const vehiculo    = getVehiculoTexto();
+  const nombre = document.getElementById("nombre").value.trim();
+  const telefono = document.getElementById("telefono").value.trim();
+  const vehiculo = getVehiculoTexto();
   const descripcion = document.getElementById("descripcion").value.trim();
   if (!nombre || !vehiculo || !descripcion) { mostrarToast("Completa los campos requeridos", "warn"); return; }
   const btn = document.getElementById("btnEnviar");
@@ -402,17 +403,23 @@ async function enviarSolicitud() {
 //  NUEVA COTIZACIÓN
 // ══════════════════════════════════════════════════════
 function nuevaCotizacion() {
-  document.getElementById("nombre").value            = "";
-  document.getElementById("telefono").value          = "";
-  document.getElementById("veh-anio").value          = new Date().getFullYear();
-  document.getElementById("veh-marca").value         = "";
-  document.getElementById("veh-modelo-input").value  = "";
+  document.getElementById("nombre").value = "";
+  document.getElementById("telefono").value = "";
+  document.getElementById("veh-anio").value = new Date().getFullYear();
+  document.getElementById("veh-modelo-custom").value = "";
   document.getElementById("veh-preview").textContent = "—";
-  document.getElementById("descripcion").value       = "";
-  document.getElementById("previewGrid").innerHTML   = "";
+  document.getElementById("descripcion").value = "";
+  document.getElementById("previewGrid").innerHTML = "";
   document.getElementById("resultadoIA").classList.remove("visible");
   document.getElementById("ia-acciones").style.display = "none";
-  modelosCache = []; imagenesBase64 = []; ultimaCotizacion = null;
+  imagenesBase64 = []; ultimaCotizacion = null;
+
+  // Resetear selects
+  const selModelo = document.getElementById("veh-modelo");
+  selModelo.innerHTML = `<option value="">— primero elige marca —</option>`;
+  selModelo.disabled = true;
+  cargarMarcas(); // recarga marcas y deja el select habilitado
+
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -421,9 +428,9 @@ function nuevaCotizacion() {
 // ══════════════════════════════════════════════════════
 function mostrarToast(msg, tipo = "ok") {
   const c = {
-    ok:    { bg: "var(--green-lt)", border: "var(--green-border)", text: "var(--green)", icon: "✓" },
-    warn:  { bg: "#fffbeb",         border: "#fde68a",             text: "#d97706",      icon: "⚠" },
-    error: { bg: "#fff1f2",         border: "#fecdd3",             text: "#e11d48",      icon: "✕" },
+    ok: { bg: "var(--green-lt)", border: "var(--green-border)", text: "var(--green)", icon: "✓" },
+    warn: { bg: "#fffbeb", border: "#fde68a", text: "#d97706", icon: "⚠" },
+    error: { bg: "#fff1f2", border: "#fecdd3", text: "#e11d48", icon: "✕" },
   }[tipo];
   document.getElementById("fc-toast")?.remove();
   const t = document.createElement("div");
