@@ -93,7 +93,6 @@
       --surface-2: #1a2540
     }
 
-    /* ── TOP BAR ── */
     .top-bar {
       position: fixed;
       top: 0;
@@ -218,7 +217,6 @@
       font-weight: 800
     }
 
-    /* ── LAYOUT ── */
     .main-content {
       margin-left: var(--sidebar-w);
       padding: calc(var(--topbar-h) + 1.8rem) 2rem 2rem;
@@ -232,7 +230,6 @@
       }
     }
 
-    /* ── PAGE HEADER ── */
     .page-header {
       display: flex;
       align-items: center;
@@ -302,7 +299,6 @@
       color: var(--pri)
     }
 
-    /* ── KPI STRIP (fila compacta arriba) ── */
     .kpi-strip {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -462,7 +458,6 @@
       opacity: 1
     }
 
-    /* ── MAIN GRID ── */
     .main-grid {
       display: grid;
       grid-template-columns: 1fr 380px;
@@ -476,7 +471,6 @@
       }
     }
 
-    /* ── MÓDULOS (acceso rápido) ── */
     .modules-section {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -669,14 +663,12 @@
       color: #7c3aed
     }
 
-    /* ── PANEL LATERAL DERECHO ── */
     .side-col {
       display: flex;
       flex-direction: column;
       gap: 1.2rem
     }
 
-    /* ── SISTEMA STATUS ── */
     .status-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -757,7 +749,6 @@
       transition: width .9s cubic-bezier(.4, 0, .2, 1)
     }
 
-    /* ── CLIENTES DETALLE ── */
     .clients-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -869,7 +860,6 @@
       stroke: currentColor
     }
 
-    /* ── TABLA VENTAS ── */
     .table-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -947,7 +937,6 @@
       color: var(--green)
     }
 
-    /* ── ACTIVIDAD RECIENTE ── */
     .activity-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -1008,7 +997,251 @@
       flex-shrink: 0
     }
 
-    /* ── ACCESIBILIDAD ── */
+    /* ── PANEL ADMIN ── */
+    .admin-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 1.4rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .04);
+      margin-bottom: 1.2rem;
+      display: none
+    }
+
+    .admin-tabs {
+      display: flex;
+      gap: .4rem;
+      margin-bottom: 1.1rem
+    }
+
+    .admin-tab {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .75rem;
+      font-weight: 700;
+      padding: .4rem .85rem;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      background: var(--bg);
+      color: var(--muted);
+      transition: all .18s
+    }
+
+    .admin-tab.active {
+      background: var(--pri-lt);
+      color: var(--pri);
+      border-color: #bfdbfe
+    }
+
+    .admin-tab-pane {
+      display: none
+    }
+
+    .admin-tab-pane.active {
+      display: block
+    }
+
+    .pending-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #ef4444;
+      color: #fff;
+      border-radius: 99px;
+      min-width: 16px;
+      height: 16px;
+      font-size: .6rem;
+      font-weight: 800;
+      padding: 0 4px;
+      margin-left: .3rem;
+      vertical-align: middle
+    }
+
+    /* Tarjetas pendientes — compactas */
+    .pending-list {
+      display: flex;
+      flex-direction: column;
+      gap: .6rem
+    }
+
+    .pending-card {
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+      flex-wrap: wrap;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .75rem 1rem
+    }
+
+    .pending-info {
+      flex: 1;
+      min-width: 0
+    }
+
+    .pending-name {
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--text)
+    }
+
+    .pending-meta {
+      font-size: .68rem;
+      color: var(--muted);
+      margin-top: 1px
+    }
+
+    .pending-rol {
+      font-size: .62rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 99px;
+      background: #fef3c7;
+      color: #b45309;
+      flex-shrink: 0
+    }
+
+    .pending-actions {
+      display: flex;
+      gap: .4rem;
+      flex-shrink: 0
+    }
+
+    .btn-ap {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .72rem;
+      font-weight: 700;
+      padding: .35rem .75rem;
+      border-radius: 7px;
+      border: 1.5px solid var(--green-border);
+      cursor: pointer;
+      background: var(--green-lt);
+      color: var(--green);
+      transition: all .15s
+    }
+
+    .btn-ap:hover {
+      background: var(--green);
+      color: #fff
+    }
+
+    .btn-re {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .72rem;
+      font-weight: 700;
+      padding: .35rem .75rem;
+      border-radius: 7px;
+      border: 1.5px solid var(--red-border);
+      cursor: pointer;
+      background: var(--red-lt);
+      color: var(--red);
+      transition: all .15s
+    }
+
+    .btn-re:hover {
+      background: var(--red);
+      color: #fff
+    }
+
+    .pending-empty {
+      text-align: center;
+      padding: 1.5rem;
+      color: var(--muted);
+      font-size: .8rem
+    }
+
+    /* Formulario crear admin — compacto */
+    .cadmin-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .75rem
+    }
+
+    @media(max-width:600px) {
+      .cadmin-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .cadmin-fg label {
+      display: block;
+      font-size: .7rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: .3rem
+    }
+
+    .cadmin-fi {
+      width: 100%;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 9px;
+      padding: .6rem .9rem;
+      font-size: .83rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text);
+      outline: none;
+      transition: border-color .15s, box-shadow .15s
+    }
+
+    .cadmin-fi:focus {
+      border-color: var(--pri);
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, .09)
+    }
+
+    .btn-cadmin {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .78rem;
+      font-weight: 700;
+      padding: .6rem 1.2rem;
+      border-radius: 9px;
+      border: none;
+      cursor: pointer;
+      background: var(--pri);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(29, 78, 216, .2);
+      transition: all .18s;
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      margin-top: .75rem
+    }
+
+    .btn-cadmin:hover {
+      background: var(--pri-h);
+      transform: translateY(-1px)
+    }
+
+    .btn-cadmin:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+      transform: none
+    }
+
+    .cadmin-alert {
+      border-radius: 9px;
+      padding: .6rem .9rem;
+      font-size: .78rem;
+      font-weight: 600;
+      margin-top: .7rem;
+      display: none;
+      line-height: 1.5
+    }
+
+    .cadmin-alert.ok {
+      background: var(--green-lt);
+      color: var(--green);
+      border: 1px solid var(--green-border)
+    }
+
+    .cadmin-alert.err {
+      background: var(--red-lt);
+      color: var(--red);
+      border: 1px solid var(--red-border)
+    }
+
+    /* ── A11Y ── */
     .a11y-btn {
       position: fixed;
       right: 0;
@@ -1211,7 +1444,6 @@
       margin: .75rem 0 1.1rem
     }
 
-    /* ── ANIMACIONES ── */
     @keyframes fadeUp {
       from {
         opacity: 0;
@@ -1276,7 +1508,6 @@
       animation: spin .7s linear infinite
     }
 
-    /* ── SKELETON LOADER ── */
     .skel {
       background: linear-gradient(90deg, var(--border) 25%, var(--surface-2) 50%, var(--border) 75%);
       background-size: 200% 100%;
@@ -1288,7 +1519,6 @@
 </head>
 
 <body>
-
   <div id="sidebar-container"></div>
 
   <header class="top-bar">
@@ -1300,13 +1530,10 @@
       </div>
     </div>
     <div class="top-divider"></div>
-    <div class="topbar-breadcrumb">
-      <span>Panel de Control</span>
-    </div>
+    <div class="topbar-breadcrumb"><span>Panel de Control</span></div>
     <div class="top-bar-right">
       <div class="tb-pill">
-        <div class="tb-dot"></div>
-        Sistemas activos
+        <div class="tb-dot"></div>Sistemas activos
       </div>
       <div class="tb-card" style="border-left:3px solid var(--green);min-width:110px">
         <p>Ventas hoy</p>
@@ -1321,7 +1548,6 @@
 
   <main class="main-content">
 
-    <!-- PAGE HEADER -->
     <div class="page-header anim">
       <div>
         <h1 class="page-title">Panel de <span>Control</span></h1>
@@ -1336,16 +1562,12 @@
           </svg>
           Actualizar todo
         </button>
-        <a href="./cotizacion.html" class="btn-sm btn-primary-sm" style="text-decoration:none">
-          Nueva cotización IA
-        </a>
+        <a href="./cotizacion.html" class="btn-sm btn-primary-sm" style="text-decoration:none">Nueva cotización IA</a>
       </div>
     </div>
 
     <!-- KPI STRIP -->
     <div class="kpi-strip anim-2">
-
-      <!-- Clientes -->
       <div class="kpi-strip-card accent-blue">
         <div class="kpi-s-header">
           <div class="kpi-s-icon" style="background:#dbeafe;color:#1d4ed8">
@@ -1361,7 +1583,7 @@
         <div class="kpi-s-label">Clientes registrados</div>
         <div class="kpi-s-footer">
           <span class="kpi-s-footer-txt" id="kpi-clientes-mes">— este mes</span>
-          <div class="kpi-s-sparkline" id="spark-clientes">
+          <div class="kpi-s-sparkline">
             <div class="kpi-spark-bar" style="height:40%;background:#3b82f6"></div>
             <div class="kpi-spark-bar" style="height:55%;background:#3b82f6"></div>
             <div class="kpi-spark-bar" style="height:45%;background:#3b82f6"></div>
@@ -1370,8 +1592,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Productos -->
       <div class="kpi-strip-card accent-green">
         <div class="kpi-s-header">
           <div class="kpi-s-icon" style="background:#dcfce7;color:#16a34a">
@@ -1395,8 +1615,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Ventas -->
       <div class="kpi-strip-card accent-amber">
         <div class="kpi-s-header">
           <div class="kpi-s-icon" style="background:#fef3c7;color:#d97706">
@@ -1420,8 +1638,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Cotizaciones IA -->
       <div class="kpi-strip-card accent-violet">
         <div class="kpi-s-header">
           <div class="kpi-s-icon" style="background:#ede9fe;color:#7c3aed">
@@ -1446,73 +1662,59 @@
           </div>
         </div>
       </div>
-
     </div>
-    <!-- /KPI STRIP -->
 
     <!-- MAIN GRID -->
     <div class="main-grid anim-3">
-
-      <!-- COLUMNA IZQUIERDA -->
       <div style="display:flex;flex-direction:column;gap:1.2rem">
-
-        <!-- MÓDULOS ACCESO RÁPIDO -->
         <div class="modules-section">
-          <div class="section-header">
-            <span class="section-title">Acceso rápido</span>
-          </div>
+          <div class="section-header"><span class="section-title">Acceso rápido</span></div>
           <div class="modules-grid">
             <a href="./inventario.html" class="module-card mod-blue">
-              <div class="module-icon-wrap">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <div class="module-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round">
                   <path
                     d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
                   <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
                   <line x1="12" y1="22.08" x2="12" y2="12" />
-                </svg>
-              </div>
+                </svg></div>
               <div class="module-title">Inventario</div>
               <p class="module-desc">Gestiona productos, stock y categorías de repuestos.</p>
               <span class="module-tag">📦 Ver inventario</span>
             </a>
             <a href="./clientes.html" class="module-card mod-green">
-              <div class="module-icon-wrap">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <div class="module-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
                   <circle cx="9" cy="7" r="4" />
                   <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-                </svg>
-              </div>
+                </svg></div>
               <div class="module-title">Clientes</div>
               <p class="module-desc">Registra y gestiona la base de clientes del taller.</p>
               <span class="module-tag">👤 Ver clientes</span>
             </a>
             <a href="./ventas.html" class="module-card mod-amber">
-              <div class="module-icon-wrap">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <div class="module-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round">
                   <line x1="12" y1="1" x2="12" y2="23" />
                   <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                </svg>
-              </div>
+                </svg></div>
               <div class="module-title">Ventas</div>
               <p class="module-desc">Registra ventas conectadas al inventario en tiempo real.</p>
               <span class="module-tag">💰 Registrar venta</span>
             </a>
             <a href="./cotizacion.html" class="module-card mod-violet">
-              <div class="module-icon-wrap">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <div class="module-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round">
                   <path d="M12 2a10 10 0 1 0 10 10H12V2z" />
                   <path d="M12 2a10 10 0 0 1 10 10" />
-                </svg>
-              </div>
+                </svg></div>
               <div class="module-title">Cotización IA</div>
               <p class="module-desc">Diagnóstico automático por inteligencia artificial.</p>
               <span class="module-tag">🤖 Generar diagnóstico</span>
             </a>
           </div>
         </div>
-
-        <!-- TABLA ÚLTIMAS VENTAS -->
         <div class="table-card">
           <div class="section-header">
             <span class="section-title">Últimas ventas</span>
@@ -1535,18 +1737,13 @@
             </tbody>
           </table>
         </div>
-
       </div>
-      <!-- /COLUMNA IZQUIERDA -->
 
-      <!-- COLUMNA DERECHA -->
       <div class="side-col">
-
-        <!-- CLIENTES DETALLE -->
         <div class="clients-card">
           <div class="section-header">
             <span class="section-title">Clientes</span>
-            <button class="refresh-btn" id="cli-refresh" onclick="cargarClientes()">
+            <button class="refresh-btn" onclick="cargarClientes()">
               <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" id="cli-refresh-icon">
                 <polyline points="23 4 23 10 17 10" />
                 <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
@@ -1577,14 +1774,11 @@
           </div>
           <div class="clients-api-row">
             <div class="clients-api-status" id="cli-api-status">
-              <div class="status-dot-sm amber"></div>
-              <span>Conectando a API…</span>
+              <div class="status-dot-sm amber"></div><span>Conectando a API…</span>
             </div>
             <span style="font-size:.65rem;color:var(--muted)" id="cli-last-update"></span>
           </div>
         </div>
-
-        <!-- ESTADO DEL SISTEMA -->
         <div class="status-card">
           <div class="section-header" style="margin-bottom:.5rem">
             <span class="section-title">Estado del sistema</span>
@@ -1592,7 +1786,6 @@
               style="font-size:.65rem;font-weight:600;color:var(--green);background:var(--green-lt);padding:2px 8px;border-radius:99px;border:1px solid var(--green-border)">✓
               Operativo</span>
           </div>
-
           <div class="status-row">
             <div class="status-row-left">
               <div class="status-dot-sm green"></div>
@@ -1608,7 +1801,6 @@
               </div>
             </div>
           </div>
-
           <div class="status-row">
             <div class="status-row-left">
               <div class="status-dot-sm green"></div>
@@ -1625,7 +1817,6 @@
               </div>
             </div>
           </div>
-
           <div class="status-row">
             <div class="status-row-left">
               <div class="status-dot-sm green"></div>
@@ -1641,7 +1832,6 @@
               </div>
             </div>
           </div>
-
           <div class="status-row">
             <div class="status-row-left">
               <div class="status-dot-sm amber"></div>
@@ -1658,49 +1848,94 @@
             </div>
           </div>
         </div>
-
-        <!-- ACTIVIDAD RECIENTE -->
         <div class="activity-card">
-          <div class="section-header">
-            <span class="section-title">Actividad reciente</span>
-          </div>
+          <div class="section-header"><span class="section-title">Actividad reciente</span></div>
           <div id="activity-list">
             <div class="activity-item">
               <div class="activity-dot" style="background:#dbeafe">🤖</div>
               <div class="activity-body">
                 <div class="activity-title">Sistema IA activo</div>
                 <div class="activity-sub">Cotización inteligente lista</div>
-              </div>
-              <span class="activity-time">Ahora</span>
+              </div><span class="activity-time">Ahora</span>
             </div>
             <div class="activity-item">
               <div class="activity-dot" style="background:#dcfce7">📦</div>
               <div class="activity-body">
                 <div class="activity-title">Inventario sincronizado</div>
                 <div class="activity-sub">350+ productos disponibles</div>
-              </div>
-              <span class="activity-time">Hoy</span>
+              </div><span class="activity-time">Hoy</span>
             </div>
             <div class="activity-item">
               <div class="activity-dot" style="background:#fef3c7">💰</div>
               <div class="activity-body">
                 <div class="activity-title">Ventas del mes actualizadas</div>
                 <div class="activity-sub">Ver reporte completo</div>
-              </div>
-              <span class="activity-time">Hoy</span>
+              </div><span class="activity-time">Hoy</span>
             </div>
           </div>
         </div>
-
       </div>
-      <!-- /COLUMNA DERECHA -->
-
     </div>
     <!-- /MAIN GRID -->
 
+    <!-- ── PANEL ADMIN — solo visible si rol=admin ── -->
+    <div class="admin-section anim-4" id="admin-section">
+      <div class="section-header" style="margin-bottom:.85rem">
+        <span class="section-title">Administración de usuarios</span>
+        <span
+          style="font-size:.63rem;font-weight:700;background:var(--violet-lt);color:var(--violet);padding:2px 8px;border-radius:99px;border:1px solid #ddd6fe">Solo
+          administradores</span>
+      </div>
+      <div class="admin-tabs">
+        <button class="admin-tab active" id="tab-btn-pendientes" onclick="adminTab('pendientes')">
+          ⏳ Solicitudes pendientes
+          <span class="pending-badge" id="pending-count-badge" style="display:none">0</span>
+        </button>
+        <button class="admin-tab" id="tab-btn-crear" onclick="adminTab('crear')">
+          ➕ Crear administrador
+        </button>
+      </div>
+
+      <!-- Tab pendientes -->
+      <div class="admin-tab-pane active" id="tab-pendientes">
+        <div id="pending-list" class="pending-list">
+          <div class="pending-empty">Cargando solicitudes...</div>
+        </div>
+      </div>
+
+      <!-- Tab crear admin -->
+      <div class="admin-tab-pane" id="tab-crear">
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:.9rem;line-height:1.6">Crea una cuenta de
+          administrador con acceso total. Solo los admins pueden hacer esto.</p>
+        <div class="cadmin-grid">
+          <div class="cadmin-fg"><label>Nombre *</label><input type="text" id="adm-nombre" class="cadmin-fi"
+              placeholder="Nombre"></div>
+          <div class="cadmin-fg"><label>Apellido</label><input type="text" id="adm-apellido" class="cadmin-fi"
+              placeholder="Apellido"></div>
+          <div class="cadmin-fg"><label>Usuario *</label><input type="text" id="adm-username" class="cadmin-fi"
+              placeholder="nombre.apellido"></div>
+          <div class="cadmin-fg"><label>Correo</label><input type="email" id="adm-correo" class="cadmin-fi"
+              placeholder="correo@friocars.com"></div>
+          <div class="cadmin-fg" style="grid-column:1/-1"><label>Contraseña *</label><input type="password"
+              id="adm-password" class="cadmin-fi" placeholder="Mínimo 8 caracteres"></div>
+        </div>
+        <button class="btn-cadmin" id="btn-cadmin" onclick="crearAdministrador()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="8.5" cy="7" r="4" />
+            <line x1="20" y1="8" x2="20" y2="14" />
+            <line x1="23" y1="11" x2="17" y2="11" />
+          </svg>
+          Crear administrador
+        </button>
+        <div class="cadmin-alert" id="cadmin-alert"></div>
+      </div>
+    </div>
+
   </main>
 
-  <!-- ACCESIBILIDAD -->
+  <!-- A11Y -->
   <button class="a11y-btn" id="aBtn" aria-label="Accesibilidad" aria-expanded="false">
     <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
       stroke-linecap="round">
@@ -1726,15 +1961,20 @@
         </svg></button>
     </div>
     <div style="margin-bottom:1.2rem"><span class="sec-lbl">Tema</span>
-      <div class="temas"><button class="tema on" data-t="normal">
+      <div class="temas">
+        <button class="tema on" data-t="normal">
           <div class="tema-p" style="background:linear-gradient(135deg,#f0f4fa 50%,#1d4ed8 50%)"></div>Normal
-        </button><button class="tema" data-t="high-contrast">
+        </button>
+        <button class="tema" data-t="high-contrast">
           <div class="tema-p" style="background:linear-gradient(135deg,#fff 50%,#0028b0 50%)"></div>Alto contraste
-        </button><button class="tema" data-t="sepia">
+        </button>
+        <button class="tema" data-t="sepia">
           <div class="tema-p" style="background:linear-gradient(135deg,#f5ede0 50%,#7c4f1e 50%)"></div>Sepia
-        </button><button class="tema" data-t="soft-dark">
+        </button>
+        <button class="tema" data-t="soft-dark">
           <div class="tema-p" style="background:linear-gradient(135deg,#0a1628 50%,#60a5fa 50%)"></div>Noche suave
-        </button></div>
+        </button>
+      </div>
     </div>
     <div class="div-a"></div>
     <div style="margin-bottom:1.2rem"><span class="sec-lbl">Tamaño</span>
@@ -1757,11 +1997,9 @@
   <script>
     const API = "https://friocars-backend.onrender.com/api";
 
-    /* ── Fecha ── */
     document.getElementById("today-date").textContent =
       new Date().toLocaleDateString("es-CO", { weekday: "short", day: "numeric", month: "short" });
 
-    /* ── Utilidades ── */
     function fmtCOP(n) {
       if (n >= 1000000) return "$" + (n / 1000000).toFixed(1) + "M";
       if (n >= 1000) return "$" + (n / 1000).toFixed(0) + "k";
@@ -1778,215 +2016,216 @@
       };
       requestAnimationFrame(tick);
     }
-    function now() { return new Date().toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit" }); }
+    function nowTime() { return new Date().toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit" }); }
 
-    /* ══════════════════════════════════
-       CLIENTES
-    ══════════════════════════════════ */
     async function cargarClientes() {
       const icon = document.getElementById("cli-refresh-icon");
       icon.classList.add("spin");
-
       const statusEl = document.getElementById("cli-api-status");
       statusEl.innerHTML = `<div class="status-dot-sm amber"></div><span>Conectando…</span>`;
-
       try {
         const ctrl = new AbortController();
         const t = setTimeout(() => ctrl.abort(), 6000);
         const res = await fetch(`${API}/clientes`, { signal: ctrl.signal });
         clearTimeout(t);
-        if (!res.ok) throw new Error("HTTP " + res.status);
+        if (!res.ok) throw new Error();
         const data = await res.json();
-
         const total = data.length;
-        const now2 = new Date();
-        const mesAct = now2.getMonth(), anioAct = now2.getFullYear();
+        const now2 = new Date(), mesAct = now2.getMonth(), anioAct = now2.getFullYear();
         const mesAnt = mesAct === 0 ? 11 : mesAct - 1, anioAnt = mesAct === 0 ? anioAct - 1 : anioAct;
-
         const esMes = c => { if (!c.fecha_registro) return false; const f = new Date(c.fecha_registro); return f.getMonth() === mesAct && f.getFullYear() === anioAct; };
         const esAnt = c => { if (!c.fecha_registro) return false; const f = new Date(c.fecha_registro); return f.getMonth() === mesAnt && f.getFullYear() === anioAnt; };
-
         const esteMes = data.filter(esMes).length;
         const mesAnterior = data.filter(esAnt).length;
         const conVehiculo = data.filter(c => c.vehiculo || c.placa || c.marca).length;
         const ciudades = new Set(data.map(c => c.ciudad || "").filter(Boolean)).size;
-
-        /* KPI strip */
-        const kpiEl = document.getElementById("kpi-clientes");
-        kpiEl.textContent = "0";
-        countUp(kpiEl, total);
-        const badgeEl = document.getElementById("badge-clientes");
-        badgeEl.textContent = "En línea";
-        badgeEl.className = "kpi-s-badge badge-up";
+        const kpiEl = document.getElementById("kpi-clientes"); kpiEl.textContent = "0"; countUp(kpiEl, total);
+        const badgeEl = document.getElementById("badge-clientes"); badgeEl.textContent = "En línea"; badgeEl.className = "kpi-s-badge badge-up";
         document.getElementById("kpi-clientes-mes").textContent = `+${esteMes} este mes`;
-
-        /* Clientes card derecha */
-        const bigEl = document.getElementById("cli-big-num");
-        bigEl.textContent = "0";
-        countUp(bigEl, total);
+        const bigEl = document.getElementById("cli-big-num"); bigEl.textContent = "0"; countUp(bigEl, total);
         document.getElementById("cli-mes").textContent = esteMes;
         document.getElementById("cli-vehiculos").textContent = conVehiculo || "—";
         document.getElementById("cli-ciudades").textContent = ciudades || "—";
-
-        /* tendencia */
         const trend = document.getElementById("cli-trend-txt");
-        if (mesAnterior > 0) {
-          const diff = esteMes - mesAnterior;
-          const pct = Math.round(Math.abs(diff / mesAnterior * 100));
-          trend.style.color = diff >= 0 ? "var(--green)" : "var(--red)";
-          trend.textContent = (diff >= 0 ? "↑ +" : "↓ −") + pct + "% vs mes anterior";
-        } else {
-          trend.textContent = `${esteMes} nuevos este mes`;
-          trend.style.color = "var(--pri)";
-        }
-
+        if (mesAnterior > 0) { const diff = esteMes - mesAnterior, pct = Math.round(Math.abs(diff / mesAnterior * 100)); trend.style.color = diff >= 0 ? "var(--green)" : "var(--red)"; trend.textContent = (diff >= 0 ? "↑ +" : "↓ −") + pct + "% vs mes anterior"; }
+        else { trend.textContent = `${esteMes} nuevos este mes`; trend.style.color = "var(--pri)"; }
         statusEl.innerHTML = `<div class="status-dot-sm green"></div><span style="color:var(--green)">API conectada</span>`;
-        document.getElementById("cli-last-update").textContent = "Actualizado: " + now();
-
-        /* topbar */
+        document.getElementById("cli-last-update").textContent = "Actualizado: " + nowTime();
         document.getElementById("backend-pct").textContent = "Online";
         document.getElementById("backend-bar").style.width = "100%";
-
       } catch (e) {
-        const kpiBadge = document.getElementById("badge-clientes");
-        kpiBadge.textContent = "Offline"; kpiBadge.className = "kpi-s-badge badge-down";
-        document.getElementById("kpi-clientes").textContent = "—";
-        document.getElementById("cli-big-num").textContent = "—";
+        document.getElementById("badge-clientes").textContent = "Offline"; document.getElementById("badge-clientes").className = "kpi-s-badge badge-down";
+        document.getElementById("kpi-clientes").textContent = "—"; document.getElementById("cli-big-num").textContent = "—";
         statusEl.innerHTML = `<div class="status-dot-sm red"></div><span style="color:var(--red)">Backend offline</span>`;
-        document.getElementById("backend-pct").textContent = "Offline";
-        document.getElementById("backend-pct").style.color = "var(--red)";
+        document.getElementById("backend-pct").textContent = "Offline"; document.getElementById("backend-pct").style.color = "var(--red)";
         document.getElementById("backend-bar").style.width = "0%";
-      } finally {
-        icon.classList.remove("spin");
-      }
+      } finally { icon.classList.remove("spin"); }
     }
 
-    /* ══════════════════════════════════
-       PRODUCTOS
-    ══════════════════════════════════ */
     async function cargarProductos() {
       try {
-        const res = await fetch(`${API}/productos`);
-        if (!res.ok) throw new Error();
-        const data = await res.json();
-        const total = data.length;
+        const res = await fetch(`${API}/productos`); if (!res.ok) throw new Error();
+        const data = await res.json(); const total = data.length;
         const sinStock = data.filter(p => p.stock <= 0 || p.cantidad <= 0).length;
-
-        const el = document.getElementById("kpi-productos");
-        el.textContent = "0";
-        countUp(el, total);
-        const badge = document.getElementById("badge-productos");
-        badge.textContent = "En línea"; badge.className = "kpi-s-badge badge-up";
+        const el = document.getElementById("kpi-productos"); el.textContent = "0"; countUp(el, total);
+        const badge = document.getElementById("badge-productos"); badge.textContent = "En línea"; badge.className = "kpi-s-badge badge-up";
         document.getElementById("kpi-stock-bajo").textContent = `${sinStock} sin stock`;
       } catch {
         document.getElementById("kpi-productos").textContent = "350+";
-        const badge = document.getElementById("badge-productos");
-        badge.textContent = "Estimado"; badge.className = "kpi-s-badge badge-neu";
+        const badge = document.getElementById("badge-productos"); badge.textContent = "Estimado"; badge.className = "kpi-s-badge badge-neu";
         document.getElementById("kpi-stock-bajo").textContent = "Datos locales";
       }
     }
 
-    /* ══════════════════════════════════
-       VENTAS
-    ══════════════════════════════════ */
     async function cargarVentas() {
       try {
-        const res = await fetch(`${API}/ventas`);
-        if (!res.ok) throw new Error();
-        const data = await res.json();
-
-        const total = data.length;
-        const ahora = new Date();
-        const mesAct = ahora.getMonth(), anioAct = ahora.getFullYear();
+        const res = await fetch(`${API}/ventas`); if (!res.ok) throw new Error();
+        const data = await res.json(); const total = data.length;
+        const ahora = new Date(), mesAct = ahora.getMonth(), anioAct = ahora.getFullYear();
         const esMes = v => { if (!v.fecha && !v.fecha_venta) return false; const f = new Date(v.fecha || v.fecha_venta); return f.getMonth() === mesAct && f.getFullYear() === anioAct; };
         const esteMes = data.filter(esMes).length;
-
-        const totalMonto = data.reduce((s, v) => s + (parseFloat(v.total || v.monto || 0)), 0);
-        const hoy = data.filter(v => { if (!v.fecha && !v.fecha_venta) return false; const f = new Date(v.fecha || v.fecha_venta); const n = new Date(); return f.toDateString() === n.toDateString(); });
+        const hoy = data.filter(v => { if (!v.fecha && !v.fecha_venta) return false; const f = new Date(v.fecha || v.fecha_venta); return f.toDateString() === new Date().toDateString(); });
         const montHoy = hoy.reduce((s, v) => s + (parseFloat(v.total || v.monto || 0)), 0);
-
-        const el = document.getElementById("kpi-ventas");
-        el.textContent = "0";
-        countUp(el, total);
-        const badge = document.getElementById("badge-ventas");
-        badge.textContent = "En línea"; badge.className = "kpi-s-badge badge-up";
+        const el = document.getElementById("kpi-ventas"); el.textContent = "0"; countUp(el, total);
+        const badge = document.getElementById("badge-ventas"); badge.textContent = "En línea"; badge.className = "kpi-s-badge badge-up";
         document.getElementById("kpi-ventas-mes").textContent = `${esteMes} este mes`;
         document.getElementById("tb-ventas-hoy").textContent = montHoy > 0 ? fmtCOP(montHoy) : "$0";
-
-        /* tabla últimas ventas */
         const tbody = document.getElementById("ventas-tbody");
-        if (data.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:1.4rem;font-size:.8rem">Sin ventas registradas</td></tr>`;
-          return;
-        }
-        const ultimas = data.slice(0, 7);
-        tbody.innerHTML = ultimas.map(v => {
+        if (!data.length) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:1.4rem;font-size:.8rem">Sin ventas registradas</td></tr>`; return; }
+        tbody.innerHTML = data.slice(0, 7).map(v => {
           const estado = v.estado || v.status || "pendiente";
-          const tagCls = estado.toLowerCase().includes("pag") || estado.toLowerCase().includes("complet") ? "tag-ok" :
-            estado.toLowerCase().includes("cancel") ? "tag-cancel" : "tag-pend";
-          const tagTxt = estado.toLowerCase().includes("pag") || estado.toLowerCase().includes("complet") ? "Pagado" :
-            estado.toLowerCase().includes("cancel") ? "Cancelado" : "Pendiente";
-          const monto = parseFloat(v.total || v.monto || 0);
-          const cliente = v.nombre_cliente || v.cliente || v.nombre || "—";
-          const producto = v.producto || v.descripcion || v.servicio || "—";
-          return `<tr>
-        <td class="td-cliente">${cliente}</td>
-        <td style="color:var(--text-2)">${producto}</td>
-        <td class="td-valor">${fmtCOP(monto)}</td>
-        <td><span class="tag ${tagCls}">${tagTxt}</span></td>
-      </tr>`;
+          const tagCls = estado.toLowerCase().includes("pag") || estado.toLowerCase().includes("complet") ? "tag-ok" : estado.toLowerCase().includes("cancel") ? "tag-cancel" : "tag-pend";
+          const tagTxt = estado.toLowerCase().includes("pag") || estado.toLowerCase().includes("complet") ? "Pagado" : estado.toLowerCase().includes("cancel") ? "Cancelado" : "Pendiente";
+          return `<tr><td class="td-cliente">${v.nombre_cliente || v.cliente || v.nombre || "—"}</td><td style="color:var(--text-2)">${v.producto || v.descripcion || v.servicio || "—"}</td><td class="td-valor">${fmtCOP(parseFloat(v.total || v.monto || 0))}</td><td><span class="tag ${tagCls}">${tagTxt}</span></td></tr>`;
         }).join("");
-
       } catch {
         document.getElementById("kpi-ventas").textContent = "—";
-        const badge = document.getElementById("badge-ventas");
-        badge.textContent = "Offline"; badge.className = "kpi-s-badge badge-down";
+        const badge = document.getElementById("badge-ventas"); badge.textContent = "Offline"; badge.className = "kpi-s-badge badge-down";
         document.getElementById("tb-ventas-hoy").textContent = "—";
-        document.getElementById("ventas-tbody").innerHTML =
-          `<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:1.4rem;font-size:.8rem">No se pudieron cargar ventas</td></tr>`;
+        document.getElementById("ventas-tbody").innerHTML = `<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:1.4rem;font-size:.8rem">No se pudieron cargar ventas</td></tr>`;
       }
     }
 
-    /* ══════════════════════════════════
-       COTIZACIONES
-    ══════════════════════════════════ */
     async function cargarCotizaciones() {
       try {
-        const res = await fetch(`${API}/cotizaciones`);
-        if (!res.ok) throw new Error();
-        const data = await res.json();
-        const total = data.length;
-        const auto = data.filter(c => c.tipo === "AUTOMATICA").length;
-
-        const el = document.getElementById("kpi-cotizaciones");
-        el.textContent = "0";
-        countUp(el, total);
-        const badge = document.getElementById("badge-coti");
-        badge.textContent = "En línea"; badge.className = "kpi-s-badge badge-up";
+        const res = await fetch(`${API}/cotizaciones`); if (!res.ok) throw new Error();
+        const data = await res.json(); const total = data.length; const auto = data.filter(c => c.tipo === "AUTOMATICA").length;
+        const el = document.getElementById("kpi-cotizaciones"); el.textContent = "0"; countUp(el, total);
+        const badge = document.getElementById("badge-coti"); badge.textContent = "En línea"; badge.className = "kpi-s-badge badge-up";
         document.getElementById("kpi-coti-auto").textContent = `${auto} automáticas`;
       } catch {
         document.getElementById("kpi-cotizaciones").textContent = "—";
-        const badge = document.getElementById("badge-coti");
-        badge.textContent = "—"; badge.className = "kpi-s-badge badge-neu";
+        const badge = document.getElementById("badge-coti"); badge.textContent = "—"; badge.className = "kpi-s-badge badge-neu";
         document.getElementById("kpi-coti-auto").textContent = "Sin datos";
       }
     }
 
-    /* ══════════════════════════════════
-       REFRESH ALL
-    ══════════════════════════════════ */
     function refreshAll() {
-      const icon = document.getElementById("refresh-icon");
-      icon.classList.add("spin");
+      const icon = document.getElementById("refresh-icon"); icon.classList.add("spin");
       Promise.all([cargarClientes(), cargarProductos(), cargarVentas(), cargarCotizaciones()])
         .finally(() => setTimeout(() => icon.classList.remove("spin"), 600));
     }
 
-    /* Carga inicial */
-    cargarClientes();
-    cargarProductos();
-    cargarVentas();
-    cargarCotizaciones();
+    cargarClientes(); cargarProductos(); cargarVentas(); cargarCotizaciones();
+
+    /* ══════════════════════════════════
+       PANEL ADMIN
+    ══════════════════════════════════ */
+    (function initAdmin() {
+      const u = JSON.parse(localStorage.getItem("usuario") || "{}");
+      if (u.rol !== "admin") return;
+      document.getElementById("admin-section").style.display = "block";
+      cargarPendientes();
+    })();
+
+    function adminTab(tab) {
+      document.querySelectorAll(".admin-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".admin-tab-pane").forEach(p => p.classList.remove("active"));
+      document.getElementById("tab-btn-" + (tab === "pendientes" ? "pendientes" : "crear")).classList.add("active");
+      document.getElementById("tab-" + tab).classList.add("active");
+      if (tab === "pendientes") cargarPendientes();
+    }
+
+    async function cargarPendientes() {
+      const token = localStorage.getItem("token");
+      const listEl = document.getElementById("pending-list");
+      const badgeEl = document.getElementById("pending-count-badge");
+      listEl.innerHTML = '<div class="pending-empty">Cargando...</div>';
+      try {
+        const res = await fetch(`${API}/auth/pendientes`, { headers: { "Authorization": "Bearer " + token } });
+        const data = await res.json();
+        if (!data.length) {
+          listEl.innerHTML = '<div class="pending-empty">✅ No hay solicitudes pendientes</div>';
+          badgeEl.style.display = "none";
+          return;
+        }
+        badgeEl.textContent = data.length;
+        badgeEl.style.display = "inline-flex";
+        listEl.innerHTML = data.map(u => `
+          <div class="pending-card" id="pc-${u.id_usuario}">
+            <div class="pending-info">
+              <div class="pending-name">${u.nombre} ${u.apellido || ""}</div>
+              <div class="pending-meta">@${u.username} · ${u.correo || "Sin correo"}</div>
+            </div>
+            <span class="pending-rol">🔧 ${u.rol === "trabajador" ? "Trabajador" : u.rol}</span>
+            <div class="pending-actions">
+              <button class="btn-ap" onclick="responderSolicitud(${u.id_usuario},'ACTIVO',this)">✓ Aprobar</button>
+              <button class="btn-re" onclick="responderSolicitud(${u.id_usuario},'RECHAZADO',this)">✕ Rechazar</button>
+            </div>
+          </div>`).join("");
+      } catch {
+        listEl.innerHTML = '<div class="pending-empty" style="color:var(--red)">Error cargando solicitudes</div>';
+      }
+    }
+
+    async function responderSolicitud(id, estado, btn) {
+      const token = localStorage.getItem("token");
+      btn.disabled = true; btn.textContent = "...";
+      try {
+        const res = await fetch(`${API}/auth/usuarios/${id}/estado`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+          body: JSON.stringify({ estado })
+        });
+        if (res.ok) {
+          const card = document.getElementById("pc-" + id);
+          if (card) { card.style.opacity = "0"; card.style.transition = "opacity .3s"; setTimeout(() => { card.remove(); cargarPendientes(); }, 300); }
+        } else { btn.disabled = false; btn.textContent = estado === "ACTIVO" ? "✓ Aprobar" : "✕ Rechazar"; }
+      } catch { btn.disabled = false; btn.textContent = estado === "ACTIVO" ? "✓ Aprobar" : "✕ Rechazar"; }
+    }
+
+    async function crearAdministrador() {
+      const token = localStorage.getItem("token");
+      const btn = document.getElementById("btn-cadmin");
+      const alertEl = document.getElementById("cadmin-alert");
+      const nombre = document.getElementById("adm-nombre").value.trim();
+      const apellido = document.getElementById("adm-apellido").value.trim();
+      const username = document.getElementById("adm-username").value.trim();
+      const correo = document.getElementById("adm-correo").value.trim();
+      const password = document.getElementById("adm-password").value;
+      if (!nombre || !username || !password) return mostrarCadminAlert("Completa nombre, usuario y contraseña.", "err");
+      if (password.length < 8) return mostrarCadminAlert("La contraseña debe tener al menos 8 caracteres.", "err");
+      btn.disabled = true; btn.textContent = "Creando..."; alertEl.style.display = "none";
+      try {
+        const res = await fetch(`${API}/auth/admin/crear`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+          body: JSON.stringify({ nombre, apellido, username, correo, password })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          mostrarCadminAlert(`✅ Administrador "@${username}" creado correctamente.`, "ok");
+          ["adm-nombre", "adm-apellido", "adm-username", "adm-correo", "adm-password"].forEach(id => document.getElementById(id).value = "");
+        } else { mostrarCadminAlert(data.message || "Error al crear.", "err"); }
+      } catch { mostrarCadminAlert("Error de conexión.", "err"); }
+      btn.disabled = false;
+      btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg> Crear administrador`;
+    }
+
+    function mostrarCadminAlert(msg, type) {
+      const el = document.getElementById("cadmin-alert");
+      el.textContent = msg; el.className = "cadmin-alert " + type; el.style.display = "block";
+    }
 
     /* ══════════════════════════════════
        ACCESIBILIDAD
@@ -1997,20 +2236,17 @@
     aBtn.addEventListener("click", () => aPanel.classList.contains("open") ? closeA() : openA());
     document.getElementById("aClose").addEventListener("click", closeA);
     document.addEventListener("keydown", e => { if (e.key === "Escape") closeA() });
-
     const temas = ["normal", "high-contrast", "sepia", "soft-dark"];
     let tema = localStorage.getItem("a11y-tema") || "normal";
     function setTema(t) { temas.forEach(x => document.body.classList.remove(x)); if (t !== "normal") document.body.classList.add(t); tema = t; localStorage.setItem("a11y-tema", t); document.querySelectorAll(".tema").forEach(b => { const a = b.dataset.t === t; b.classList.toggle("on", a); b.setAttribute("aria-pressed", a ? "true" : "false") }) }
     document.querySelectorAll(".tema").forEach(b => b.addEventListener("click", () => setTema(b.dataset.t)));
     setTema(tema);
-
     let esc = parseFloat(localStorage.getItem("a11y-esc") || "1");
     const fVal = document.getElementById("fVal");
     function setEsc(v) { esc = Math.min(1.5, Math.max(.75, parseFloat(v.toFixed(2)))); document.documentElement.style.setProperty("--font-scale", esc); fVal.textContent = Math.round(esc * 100) + "%"; localStorage.setItem("a11y-esc", esc) }
     document.getElementById("fInc").addEventListener("click", () => setEsc(esc + .1));
     document.getElementById("fDec").addEventListener("click", () => setEsc(esc - .1));
     setEsc(esc);
-
     const tLin = document.getElementById("tLin");
     tLin.checked = localStorage.getItem("a11y-lin") === "true";
     if (tLin.checked) document.body.style.lineHeight = "2.2";
@@ -2018,5 +2254,5 @@
     document.getElementById("bReset").addEventListener("click", () => { setTema("normal"); setEsc(1); tLin.checked = false; document.body.style.lineHeight = "";["a11y-tema", "a11y-esc", "a11y-lin"].forEach(k => localStorage.removeItem(k)) });
   </script>
 </body>
- 
+
 </html>
