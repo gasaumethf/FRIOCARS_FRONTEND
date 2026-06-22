@@ -1,130 +1,79 @@
-// =============================
-// ELEMENTOS
-// =============================
+// ══════════════════════════════════════════════════════
+//  FRÍO CARS — login.js  (v2 — guarda token + rol)
+// ══════════════════════════════════════════════════════
 
 const form = document.getElementById('loginForm');
-
 const mensaje = document.getElementById('mensaje');
 
-
-// =============================
-// LOGIN
-// =============================
+// Rutas por rol
+const RUTAS_ROL = {
+    admin: '../views/dashboard.html',
+    trabajador: '../views/servicios.html',
+    cliente: '../views/ventas.html'
+};
 
 form.addEventListener('submit', async (e) => {
 
     e.preventDefault();
 
-    // DATOS
-
     const username = document.getElementById('username').value.trim();
-
     const password = document.getElementById('password').value.trim();
 
-    // VALIDACION
-
-    if(!username || !password){
-
-        mensaje.style.color = "red";
-
-        mensaje.innerText = "Complete todos los campos";
-
+    if (!username || !password) {
+        mensaje.style.color = '#ef4444';
+        mensaje.innerText = 'Complete todos los campos';
         return;
-
     }
 
     try {
 
-        // =============================
-        // PETICION LOGIN
-        // =============================
-
         const response = await fetch('https://friocars-backend.onrender.com/api/auth/login', {
-
             method: 'POST',
-
-            headers: {
-
-                'Content-Type': 'application/json'
-
-            },
-
-            body: JSON.stringify({
-
-                username,
-                password
-
-            })
-
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
         });
-
-        // RESPUESTA
 
         const data = await response.json();
 
-        // =============================
-        // LOGIN EXITOSO
-        // =============================
+        if (response.ok) {
 
-        if(response.ok){
+            mensaje.style.color = '#22c55e';
+            mensaje.innerText = 'Login exitoso';
 
-            mensaje.style.color = "#22c55e";
-
-            mensaje.innerText = "Login exitoso";
-
-            // =============================
-            // GUARDAR SESION
-            // =============================
-
-            localStorage.setItem("usuario", JSON.stringify({
-
+            // ── Guardar sesión completa ──────────────────────
+            localStorage.setItem('usuario', JSON.stringify({
                 id_usuario: data.usuario.id_usuario,
-
                 username: data.usuario.username,
-
-                rol: data.usuario.rol || "usuario"
-
+                nombre: data.usuario.nombre,
+                apellido: data.usuario.apellido,
+                correo: data.usuario.correo,
+                rol: data.usuario.rol || 'cliente'
             }));
 
-            console.log("USUARIO LOGEADO:", data.usuario);
+            // Guardar el token JWT por separado
+            localStorage.setItem('token', data.token);
 
-            // =============================
-            // REDIRECCION
-            // =============================
+            console.log('USUARIO LOGEADO:', data.usuario.username, '| ROL:', data.usuario.rol);
+
+            // ── Redirigir según rol ──────────────────────────
+            const destino = RUTAS_ROL[data.usuario.rol] || '../views/dashboard.html';
 
             setTimeout(() => {
-
-                window.location.href = "../views/dashboard.html";
-
+                window.location.href = destino;
             }, 700);
 
-        }
+        } else {
 
-        // =============================
-        // ERROR LOGIN
-        // =============================
-
-        else {
-
-            mensaje.style.color = "#ef4444";
-
-            mensaje.innerText = data.message || "Credenciales incorrectas";
+            mensaje.style.color = '#ef4444';
+            mensaje.innerText = data.message || 'Credenciales incorrectas';
 
         }
 
-    }
-
-    // =============================
-    // ERROR SERVIDOR
-    // =============================
-
-    catch (error) {
+    } catch (error) {
 
         console.error(error);
-
-        mensaje.style.color = "#ef4444";
-
-        mensaje.innerText = "Error conectando con el servidor";
+        mensaje.style.color = '#ef4444';
+        mensaje.innerText = 'Error conectando con el servidor';
 
     }
 
