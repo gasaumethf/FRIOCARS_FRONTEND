@@ -218,16 +218,6 @@
       box-shadow: 0 8px 32px rgba(29, 78, 216, .2)
     }
 
-    .hero-banner::before {
-      content: " ";
-      position: absolute;
-      right: -10px;
-      top: -20px;
-      font-size: 150px;
-      opacity: .08;
-      line-height: 1
-    }
-
     .hero-banner h2 {
       font-size: 1.4rem;
       font-weight: 800;
@@ -363,6 +353,97 @@
     .form-textarea {
       resize: vertical;
       min-height: 120px
+    }
+
+    /* ── Autocomplete clientes ── */
+    .ac-wrapper {
+      position: relative
+    }
+
+    .ac-list {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .10);
+      z-index: 50;
+      max-height: 240px;
+      overflow-y: auto;
+      padding: .4rem 0;
+      display: none
+    }
+
+    .autocomplete-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .55rem 1rem;
+      cursor: pointer;
+      transition: background .15s;
+      gap: 1rem
+    }
+
+    .autocomplete-item:hover {
+      background: var(--pri-lt)
+    }
+
+    .ac-name {
+      font-size: .85rem;
+      font-weight: 700;
+      color: var(--text)
+    }
+
+    .ac-phone {
+      font-size: .75rem;
+      color: var(--muted);
+      flex-shrink: 0
+    }
+
+    /* ── Selector vehículo ── */
+    .veh-grid {
+      display: grid;
+      grid-template-columns: 120px 1fr 1fr;
+      gap: .8rem;
+      align-items: end
+    }
+
+    @media(max-width:600px) {
+      .veh-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .veh-grid .veh-anio {
+        grid-column: 1/-1
+      }
+    }
+
+    .veh-preview-bar {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      background: var(--pri-lt);
+      border: 1.5px solid #bfdbfe;
+      border-radius: 10px;
+      padding: .55rem 1rem;
+      margin-top: .6rem;
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--pri)
+    }
+
+    .veh-custom-row {
+      margin-top: .5rem
+    }
+
+    .veh-custom-row label {
+      font-size: .72rem;
+      color: var(--muted);
+      font-weight: 600;
+      display: block;
+      margin-bottom: .3rem
     }
 
     .upload-zone {
@@ -577,6 +658,7 @@
       color: #fff
     }
 
+    /* Accesibilidad */
     .a11y-btn {
       position: fixed;
       right: 0;
@@ -829,8 +911,9 @@
 
   <header class="top-bar">
     <div class="top-brand">
-      <div style="width:40px;height:40px;flex-shrink:0"><img src="../assets/Logo/Logo2.png" alt="Logo"
-          style="width:40px;height:40px;object-fit:contain"></div>
+      <div style="width:40px;height:40px;flex-shrink:0">
+        <img src="../assets/Logo/Logo2.png" alt="Logo" style="width:40px;height:40px;object-fit:contain">
+      </div>
       <div>
         <div class="top-brand-name">Frío <span>Cars</span></div>
         <div class="top-brand-sub">Sistema Automotriz</div>
@@ -898,39 +981,92 @@
     <p class="section-label anim-3">Tipo de cotización</p>
     <div class="tipo-grid anim-3">
       <div class="tipo-card activo" id="cardAutomatica" onclick="seleccionarTipo('AUTOMATICA')">
-        <div class="tipo-icon"> - </div>
+        <div class="tipo-icon">🤖</div>
         <div class="tipo-title">Cotización Inteligente</div>
         <p class="tipo-desc">La IA analiza automáticamente imágenes, descripción y síntomas para generar una predicción
           inmediata con costos estimados.</p>
       </div>
       <div class="tipo-card" id="cardManual" onclick="seleccionarTipo('MANUAL')">
-        <div class="tipo-icon"></div>
+        <div class="tipo-icon">🔧</div>
         <div class="tipo-title">Cotización Técnica</div>
         <p class="tipo-desc">Un técnico especializado revisará manualmente la información y te contactará con una
           cotización detallada.</p>
       </div>
     </div>
 
+    <!-- ═══════════════════════════════════════════
+         DATOS DEL CLIENTE Y VEHÍCULO
+    ════════════════════════════════════════════ -->
     <p class="section-label anim-3">Datos del cliente y vehículo</p>
     <div class="card anim-4" style="margin-bottom:1.5rem">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem">
-        <div>
+
+        <!-- NOMBRE con autocomplete -->
+        <div id="wrapper-nombre" class="ac-wrapper">
           <label class="form-label" for="nombre">Nombre completo *</label>
-          <input type="text" id="nombre" class="form-input" placeholder="Ej: Guillermo Saumeth">
+          <input type="text" id="nombre" class="form-input" placeholder="Ej: Guillermo Saumeth" autocomplete="off"
+            oninput="onNombreInput()" onfocus="onNombreInput()">
+          <ul class="ac-list" id="sugerencias-cliente"></ul>
         </div>
+
+        <!-- TELÉFONO — se rellena solo al elegir cliente -->
         <div>
           <label class="form-label" for="telefono">Teléfono</label>
           <input type="tel" id="telefono" class="form-input" placeholder="Ej: 3001234567">
         </div>
+
+        <!-- VEHÍCULO: Año → Marca → Modelo -->
         <div style="grid-column:1/-1">
-          <label class="form-label" for="vehiculo">Vehículo *</label>
-          <input type="text" id="vehiculo" class="form-input" placeholder="Ej: Toyota Corolla 2018">
+          <label class="form-label">Vehículo *</label>
+
+          <div class="veh-grid">
+            <!-- AÑO -->
+            <div class="veh-anio">
+              <label class="form-label" for="veh-anio" style="font-size:.72rem;color:var(--muted)">Año</label>
+              <input type="number" id="veh-anio" class="form-input" placeholder="2018" min="1950" max="2026"
+                style="text-align:center" onchange="cargarMarcas()" onblur="cargarMarcas()">
+            </div>
+
+            <!-- MARCA -->
+            <div>
+              <label class="form-label" for="veh-marca" style="font-size:.72rem;color:var(--muted)">Marca</label>
+              <select id="veh-marca" class="form-select" onchange="cargarModelos()" disabled>
+                <option value="">— Ingresa el año primero —</option>
+              </select>
+            </div>
+
+            <!-- MODELO -->
+            <div>
+              <label class="form-label" for="veh-modelo" style="font-size:.72rem;color:var(--muted)">Modelo</label>
+              <select id="veh-modelo" class="form-select" onchange="actualizarVehiculoTexto()" disabled>
+                <option value="">— primero elige marca —</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Modelo libre para carros clásicos o no listados -->
+          <div class="veh-custom-row">
+            <label for="veh-modelo-custom">¿No encuentras el modelo? Escríbelo aquí (Ej: Dodge 600, Renault 9, Lada
+              Niva…):</label>
+            <input type="text" id="veh-modelo-custom" class="form-input" placeholder="Escribe el modelo manualmente"
+              oninput="actualizarVehiculoTexto()" style="font-size:.84rem">
+          </div>
+
+          <!-- Preview del vehículo completo -->
+          <div class="veh-preview-bar">
+            <span style="font-size:.78rem;color:var(--muted);font-weight:500">Vehículo seleccionado:</span>
+            <span id="veh-preview">—</span>
+          </div>
         </div>
+
+        <!-- DESCRIPCIÓN -->
         <div style="grid-column:1/-1">
           <label class="form-label" for="descripcion">Descripción del problema *</label>
           <textarea id="descripcion" class="form-textarea"
             placeholder="Describe detalladamente el problema: síntomas, ruidos, cuándo ocurre, si el aire enfría o no, etc."></textarea>
         </div>
+
+        <!-- IMÁGENES -->
         <div style="grid-column:1/-1">
           <label class="form-label">Imágenes del vehículo / problema</label>
           <div class="upload-zone" id="uploadZone">
@@ -941,6 +1077,7 @@
           </div>
           <div class="img-preview-grid" id="previewGrid"></div>
         </div>
+
       </div>
     </div>
 
@@ -949,7 +1086,7 @@
       <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem">
         <div
           style="width:36px;height:36px;background:var(--pri-lt);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem">
-        </div>
+          🤖</div>
         <div>
           <p style="font-size:.95rem;font-weight:800;color:var(--pri)">Predicción Inteligente — Frío Cars AI</p>
           <p style="font-size:.72rem;color:var(--muted)" id="ia-cliente-label"></p>
@@ -989,12 +1126,13 @@
 
     <!-- BOTONES PRINCIPALES -->
     <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.4rem" class="anim-4">
-      <button class="btn-primary" id="btnGenerar" onclick="generarDiagnostico()"> Generar Diagnóstico IA</button>
-      <button class="btn-secondary" id="btnEnviar" onclick="enviarSolicitud()"> Enviar Solicitud</button>
+      <button class="btn-primary" id="btnGenerar" onclick="generarDiagnostico()">🤖 Generar Diagnóstico IA</button>
+      <button class="btn-secondary" id="btnEnviar" onclick="enviarSolicitud()">📋 Enviar Solicitud</button>
     </div>
 
   </main>
 
+  <!-- BOTÓN ACCESIBILIDAD -->
   <button class="a11y-btn" id="aBtn" aria-label="Accesibilidad" aria-expanded="false">
     <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
       stroke-linecap="round">
@@ -1005,6 +1143,7 @@
     </svg>
     <span style="font-size:.62em;font-weight:700">Acceso</span>
   </button>
+
   <aside id="aPanel" class="a11y-panel" role="complementary" aria-hidden="true">
     <div
       style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.4rem;padding-bottom:.9rem;border-bottom:1px solid var(--border)">
@@ -1012,32 +1151,43 @@
         <h3 style="font-size:.97rem;font-weight:800;color:var(--text)">Accesibilidad</h3>
       </div>
       <button id="aClose"
-        style="background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:8px;display:flex"><svg
-          width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+        style="background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:8px;display:flex">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
           stroke-linecap="round">
           <line x1="18" y1="6" x2="6" y2="18" />
           <line x1="6" y1="6" x2="18" y2="18" />
-        </svg></button>
+        </svg>
+      </button>
     </div>
-    <div style="margin-bottom:1.2rem"><span class="sec-lbl">Tema</span>
-      <div class="temas"><button class="tema on" data-t="normal">
+    <div style="margin-bottom:1.2rem">
+      <span class="sec-lbl">Tema</span>
+      <div class="temas">
+        <button class="tema on" data-t="normal">
           <div class="tema-p" style="background:linear-gradient(135deg,#f0f4fa 50%,#1d4ed8 50%)"></div>Normal
-        </button><button class="tema" data-t="high-contrast">
+        </button>
+        <button class="tema" data-t="high-contrast">
           <div class="tema-p" style="background:linear-gradient(135deg,#fff 50%,#0028b0 50%)"></div>Alto contraste
-        </button><button class="tema" data-t="sepia">
+        </button>
+        <button class="tema" data-t="sepia">
           <div class="tema-p" style="background:linear-gradient(135deg,#f5ede0 50%,#7c4f1e 50%)"></div>Sepia
-        </button><button class="tema" data-t="soft-dark">
+        </button>
+        <button class="tema" data-t="soft-dark">
           <div class="tema-p" style="background:linear-gradient(135deg,#0a1628 50%,#60a5fa 50%)"></div>Noche suave
-        </button></div>
+        </button>
+      </div>
     </div>
     <div class="div-a"></div>
-    <div style="margin-bottom:1.2rem"><span class="sec-lbl">Tamaño</span>
-      <div class="font-row"><button class="font-b" id="fDec" style="font-size:.84em">A−</button><span
-          style="font-size:.82em;color:var(--muted);min-width:34px;text-align:center" id="fVal">100%</span><button
-          class="font-b" id="fInc">A+</button></div>
+    <div style="margin-bottom:1.2rem">
+      <span class="sec-lbl">Tamaño</span>
+      <div class="font-row">
+        <button class="font-b" id="fDec" style="font-size:.84em">A−</button>
+        <span style="font-size:.82em;color:var(--muted);min-width:34px;text-align:center" id="fVal">100%</span>
+        <button class="font-b" id="fInc">A+</button>
+      </div>
     </div>
     <div class="div-a"></div>
-    <div style="margin-bottom:1.2rem"><span class="sec-lbl">Lectura</span>
+    <div style="margin-bottom:1.2rem">
+      <span class="sec-lbl">Lectura</span>
       <div class="tog-row"><span>Líneas amplias</span><label class="tog"><input type="checkbox" id="tLin"><span
             class="tog-sl"></span></label></div>
     </div>
@@ -1052,37 +1202,27 @@
   <script>
     document.getElementById("today-date").textContent = new Date().toLocaleDateString("es-CO", { weekday: "short", day: "numeric", month: "short" });
 
-    // Nueva cotización — limpiar formulario
-    function nuevaCotizacion() {
-      document.getElementById("nombre").value = "";
-      document.getElementById("telefono").value = "";
-      document.getElementById("vehiculo").value = "";
-      document.getElementById("descripcion").value = "";
-      document.getElementById("previewGrid").innerHTML = "";
-      document.getElementById("resultadoIA").classList.remove("visible");
-      document.getElementById("ia-acciones").style.display = "none";
-      imagenesBase64 = [];
-      ultimaCotizacion = null;
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
+    // Accesibilidad
     const aBtn = document.getElementById("aBtn"), aPanel = document.getElementById("aPanel");
     const openA = () => { aPanel.classList.add("open"); aBtn.classList.add("open"); aPanel.setAttribute("aria-hidden", "false"); aBtn.setAttribute("aria-expanded", "true") };
     const closeA = () => { aPanel.classList.remove("open"); aBtn.classList.remove("open"); aPanel.setAttribute("aria-hidden", "true"); aBtn.setAttribute("aria-expanded", "false") };
     aBtn.addEventListener("click", () => aPanel.classList.contains("open") ? closeA() : openA());
     document.getElementById("aClose").addEventListener("click", closeA);
     document.addEventListener("keydown", e => { if (e.key === "Escape") closeA() });
+
     const temas = ["normal", "high-contrast", "sepia", "soft-dark"];
     let tema = localStorage.getItem("a11y-tema") || "normal";
     function setTema(t) { temas.forEach(x => document.body.classList.remove(x)); if (t !== "normal") document.body.classList.add(t); tema = t; localStorage.setItem("a11y-tema", t); document.querySelectorAll(".tema").forEach(b => { const a = b.dataset.t === t; b.classList.toggle("on", a); b.setAttribute("aria-pressed", a ? "true" : "false") }) }
     document.querySelectorAll(".tema").forEach(b => b.addEventListener("click", () => setTema(b.dataset.t)));
     setTema(tema);
+
     let esc = parseFloat(localStorage.getItem("a11y-esc") || "1");
     const fVal = document.getElementById("fVal");
     function setEsc(v) { esc = Math.min(1.5, Math.max(.75, parseFloat(v.toFixed(2)))); document.documentElement.style.setProperty("--font-scale", esc); fVal.textContent = Math.round(esc * 100) + "%"; localStorage.setItem("a11y-esc", esc) }
     document.getElementById("fInc").addEventListener("click", () => setEsc(esc + .1));
     document.getElementById("fDec").addEventListener("click", () => setEsc(esc - .1));
     setEsc(esc);
+
     const tLin = document.getElementById("tLin");
     tLin.checked = localStorage.getItem("a11y-lin") === "true";
     if (tLin.checked) document.body.style.lineHeight = "2.2";
