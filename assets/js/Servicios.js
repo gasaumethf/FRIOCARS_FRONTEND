@@ -1,5 +1,5 @@
 // ══════════════════════════════════════════════════════
-//  FRÍO CARS — Servicios.js  (v3 — mano_de_obra)
+//  FRÍO CARS — Servicios.js  (v4 — descuento por producto, sin IVA)
 // ══════════════════════════════════════════════════════
 
 const API = "https://friocars-backend.onrender.com/api";
@@ -21,9 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
     iniciarBuscadorProductos();
 });
 
-// ══════════════════════════════════════════════════════
-//  CARGAR ÓRDENES ACTIVAS
-// ══════════════════════════════════════════════════════
 async function cargarOrdenesActivas() {
     const contenedor = document.getElementById("ordenes-activas-lista");
     const badge = document.getElementById("ordenes-count-badge");
@@ -40,9 +37,6 @@ async function cargarOrdenesActivas() {
     }
 }
 
-// ══════════════════════════════════════════════════════
-//  RENDER ÓRDENES ACTIVAS
-// ══════════════════════════════════════════════════════
 function renderOrdenesActivas(lista) {
     const contenedor = document.getElementById("ordenes-activas-lista");
     if (lista.length === 0) {
@@ -86,15 +80,11 @@ function renderOrdenesActivas(lista) {
                 <button class="btn-editar-orden" onclick="abrirModalEditar(${o.id_orden})">Editar</button>
                 <button class="btn-finalizar" onclick="finalizarOrdenConResumen(${o.id_orden})">✓ Finalizar</button>
                 <button class="btn-eliminar-orden" onclick="eliminarOrden(${o.id_orden})" title="Eliminar">✕</button>
-            </div>
-        `;
+            </div>`;
         contenedor.appendChild(card);
     });
 }
 
-// ══════════════════════════════════════════════════════
-//  CARGAR DATOS FORMULARIOS
-// ══════════════════════════════════════════════════════
 async function cargarDatosFormulario() {
     try {
         const [resC, resT, resP] = await Promise.all([fetch(`${API}/clientes`), fetch(`${API}/tecnicos`), fetch(`${API}/productos`)]);
@@ -116,9 +106,6 @@ function poblarSelectTecnico(selectId) {
     });
 }
 
-// ══════════════════════════════════════════════════════
-//  BUSCADOR CLIENTE
-// ══════════════════════════════════════════════════════
 function iniciarBuscadorCliente() {
     const input = document.getElementById("cliente-search");
     const resultados = document.getElementById("cliente-resultados");
@@ -130,10 +117,11 @@ function iniciarBuscadorCliente() {
         if (q.length < 1) { resultados.style.display = "none"; resultados.innerHTML = ""; return; }
         const filtrados = clientes.filter(c =>
             (c.nombre || "").toLowerCase().includes(q) || (c.apellido || "").toLowerCase().includes(q) ||
-            ((c.nombre || "") + " " + (c.apellido || "")).toLowerCase().includes(q) || (c.numero_documento || "").toLowerCase().includes(q));
+            ((c.nombre || "") + " " + (c.apellido || "")).toLowerCase().includes(q) ||
+            (c.numero_documento || "").toLowerCase().includes(q));
         resultados.innerHTML = filtrados.length === 0
             ? `<div class="cliente-result-item" style="color:var(--muted);cursor:default">No se encontraron clientes</div>`
-            : filtrados.map(c => `<div class="cliente-result-item" onclick="seleccionarCliente(${c.id_cliente},'${(c.nombre + " " + c.apellido).replace(/'/g, "\\'")}','${c.numero_documento}')"><div style="font-weight:700;color:var(--text)">${c.nombre} ${c.apellido}</div><div style="font-size:.72rem;color:var(--muted)">Doc: ${c.numero_documento}</div></div>`).join("");
+            : filtrados.map(c => `<div class="cliente-result-item" onclick="seleccionarCliente(${c.id_cliente},'${(c.nombre + " " + (c.apellido || "")).replace(/'/g, "\\'")}','${c.numero_documento || ""}')"><div style="font-weight:700;color:var(--text)">${c.nombre} ${c.apellido || ""}</div><div style="font-size:.72rem;color:var(--muted)">Doc: ${c.numero_documento || "—"}</div></div>`).join("");
         resultados.style.display = "block";
     });
     document.addEventListener("click", e => { if (!input.contains(e.target) && !resultados.contains(e.target)) resultados.style.display = "none"; });
@@ -141,7 +129,7 @@ function iniciarBuscadorCliente() {
 
 function seleccionarCliente(id, nombre, documento) {
     clienteSeleccionado = id;
-    document.getElementById("cliente-search").value = `${nombre} — ${documento}`;
+    document.getElementById("cliente-search").value = `${nombre}${documento ? " — " + documento : ""}`;
     document.getElementById("orden-cliente-id").value = id;
     document.getElementById("cliente-resultados").style.display = "none";
     onClienteChange(id);
@@ -162,9 +150,6 @@ async function onClienteChange(idCliente) {
     } catch { sel.innerHTML = `<option value="">Error cargando vehículos</option>`; }
 }
 
-// ══════════════════════════════════════════════════════
-//  MODAL NUEVA ORDEN  (con campo mano_de_obra)
-// ══════════════════════════════════════════════════════
 function abrirModalOrden(tipoServicio) {
     document.getElementById("cliente-search").value = "";
     document.getElementById("orden-cliente-id").value = "";
@@ -203,8 +188,7 @@ async function guardarOrden() {
     btn.disabled = true; btn.textContent = "Guardando...";
     try {
         const res = await fetch(`${API}/ordenes`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
+            method: "POST", headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ tipo_servicio, descripcion, id_cliente: parseInt(id_cliente), id_vehiculo: parseInt(id_vehiculo), id_tecnico: id_tecnico ? parseInt(id_tecnico) : null, mano_de_obra })
         });
         if (!res.ok) { const e = await res.json(); throw new Error(e.error || "Error"); }
@@ -215,9 +199,6 @@ async function guardarOrden() {
     btn.disabled = false; btn.textContent = "Crear Orden";
 }
 
-// ══════════════════════════════════════════════════════
-//  MODAL EDITAR
-// ══════════════════════════════════════════════════════
 function abrirModalEditar(id) {
     const o = ordenes.find(x => x.id_orden === id);
     if (!o) return;
@@ -248,8 +229,7 @@ async function guardarEdicionOrden() {
     btn.disabled = true; btn.textContent = "Guardando...";
     try {
         const res = await fetch(`${API}/ordenes/${id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
+            method: "PUT", headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ tipo_servicio, descripcion, observaciones, estado: "Activa", id_tecnico: id_tecnico ? parseInt(id_tecnico) : null })
         });
         if (!res.ok) throw new Error();
@@ -261,7 +241,7 @@ async function guardarEdicionOrden() {
 }
 
 // ══════════════════════════════════════════════════════
-//  MODAL REPUESTOS
+//  MODAL REPUESTOS — con descuento por producto
 // ══════════════════════════════════════════════════════
 async function abrirModalRepuestos(idOrden) {
     ordenRepuestosActual = idOrden;
@@ -329,24 +309,60 @@ async function cargarRepuestosOrden(idOrden) {
 
 function renderListaRepuestos(repuestos) {
     const lista = document.getElementById("rep-lista");
-    const total = document.getElementById("rep-total");
+    const totalEl = document.getElementById("rep-total");
+
     if (repuestos.length === 0) {
         lista.innerHTML = `<div style="text-align:center;padding:1.5rem;color:var(--muted);font-size:.82rem">No hay repuestos agregados</div>`;
-        if (total) total.textContent = "$0"; return;
+        if (totalEl) totalEl.textContent = "$0"; return;
     }
+
     let totalVal = 0;
     lista.innerHTML = "";
     repuestos.forEach(r => {
-        totalVal += parseFloat(r.subtotal);
+        const bruto = parseFloat(r.precio_aplicado) * parseInt(r.cantidad);
+        const descuento = parseFloat(r.descuento) || 0;
+        const neto = bruto - descuento;
+        totalVal += neto;
+
         const div = document.createElement("div");
-        div.style.cssText = "display:flex;align-items:center;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--border);gap:.5rem";
+        div.style.cssText = "padding:.7rem 0;border-bottom:1px solid var(--border)";
+
         const btnQuitar = _esAdmin
-            ? `<button onclick="quitarRepuesto(${r.id_orden_repuesto})" style="background:#fee2e2;color:#dc2626;border:none;border-radius:7px;padding:.3rem .6rem;font-size:.7rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;flex-shrink:0">Quitar</button>`
-            : `<span style="font-size:.65rem;color:var(--muted);background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:.3rem .6rem;flex-shrink:0">Solo admin</span>`;
-        div.innerHTML = `<div style="flex:1"><div style="font-size:.84rem;font-weight:700;color:var(--text)">${r.producto_nombre}</div><div style="font-size:.72rem;color:var(--muted)">${r.cantidad} × $${Number(r.precio_aplicado).toLocaleString("es-CO")} = <strong style="color:var(--green)">$${Number(r.subtotal).toLocaleString("es-CO")}</strong></div></div>${btnQuitar}`;
+            ? `<button onclick="quitarRepuesto(${r.id_orden_repuesto})" style="background:#fee2e2;color:#dc2626;border:none;border-radius:7px;padding:.28rem .55rem;font-size:.68rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Quitar</button>`
+            : `<span style="font-size:.63rem;color:var(--muted);background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:.28rem .55rem">Solo admin</span>`;
+
+        div.innerHTML = `
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem;margin-bottom:.4rem">
+                <div style="flex:1">
+                    <div style="font-size:.84rem;font-weight:700;color:var(--text)">${r.producto_nombre}</div>
+                    <div style="font-size:.72rem;color:var(--muted)">${r.cantidad} × $${Number(r.precio_aplicado).toLocaleString("es-CO")} = <strong>$${Number(bruto).toLocaleString("es-CO")}</strong></div>
+                </div>
+                ${btnQuitar}
+            </div>
+            <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+                <label style="font-size:.7rem;font-weight:700;color:var(--muted)">Descuento $:</label>
+                <input type="number" min="0" value="${descuento}"
+                    style="width:110px;border:1.5px solid var(--border);border-radius:8px;padding:.3rem .6rem;font-size:.8rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;background:var(--bg);color:var(--text)"
+                    onchange="guardarDescuento(${r.id_orden_repuesto}, this.value, this)"
+                    onfocus="this.style.borderColor='var(--pri)'" onblur="this.style.borderColor='var(--border)'">
+                <span style="font-size:.75rem;font-weight:700;color:var(--green)">Neto: $${Number(neto).toLocaleString("es-CO")}</span>
+            </div>`;
         lista.appendChild(div);
     });
-    if (total) total.textContent = `$${Number(totalVal).toLocaleString("es-CO")}`;
+
+    if (totalEl) totalEl.textContent = `$${Number(totalVal).toLocaleString("es-CO")}`;
+}
+
+async function guardarDescuento(idOrdenRepuesto, valor, inputEl) {
+    const descuento = parseFloat(valor) || 0;
+    try {
+        await fetch(`${API}/ordenes/${ordenRepuestosActual}/repuestos/${idOrdenRepuesto}/descuento`, {
+            method: "PATCH", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ descuento })
+        });
+        // Recalcular total visible
+        await cargarRepuestosOrden(ordenRepuestosActual);
+    } catch { mostrarToast("Error guardando descuento", "error"); }
 }
 
 async function agregarRepuesto() {
@@ -388,7 +404,8 @@ async function quitarRepuesto(idOrdenRepuesto) {
 }
 
 // ══════════════════════════════════════════════════════
-//  FINALIZAR — SIEMPRE va al carrito
+//  FINALIZAR — solo muestra resumen, NO finaliza la orden
+//  La orden se finaliza al confirmar pago en el carrito
 // ══════════════════════════════════════════════════════
 async function finalizarOrdenConResumen(idOrden) {
     try {
@@ -400,32 +417,39 @@ async function finalizarOrdenConResumen(idOrden) {
         const repuestos = data.repuestos;
         const manoDeObra = data.manoDeObra;
         const totalRep = data.totalRepuestos;
-        const iva = data.iva;
         const total = data.totalConIva;
 
         const repuestosHtml = repuestos.length > 0
-            ? repuestos.map(r => `<div style="display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid var(--border);font-size:.82rem"><span>${r.producto_nombre} × ${r.cantidad}</span><span style="font-weight:700;color:var(--green)">$${Number(r.subtotal).toLocaleString("es-CO")}</span></div>`).join("")
+            ? repuestos.map(r => {
+                const bruto = parseFloat(r.precio_aplicado) * parseInt(r.cantidad);
+                const descuento = parseFloat(r.descuento) || 0;
+                const neto = bruto - descuento;
+                return `<div style="display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid var(--border);font-size:.82rem;flex-wrap:wrap;gap:.3rem">
+                    <div>
+                        <span>${r.producto_nombre} × ${r.cantidad}</span>
+                        ${descuento > 0 ? `<span style="font-size:.7rem;color:#dc2626;margin-left:.4rem">-$${Number(descuento).toLocaleString("es-CO")}</span>` : ""}
+                    </div>
+                    <span style="font-weight:700;color:var(--green)">$${Number(neto).toLocaleString("es-CO")}</span>
+                </div>`;
+            }).join("")
             : `<p style="text-align:center;color:var(--muted);font-size:.82rem;padding:.5rem">Sin repuestos registrados</p>`;
 
         document.getElementById("resumen-orden-info").innerHTML = `
             <div style="font-size:.84rem;font-weight:600;color:var(--text);margin-bottom:.5rem"><strong>Orden #${o.id_orden}</strong> · ${o.tipo_servicio}</div>
-            <div style="font-size:.78rem;color:var(--muted)">${o.cliente_nombre} ${o.cliente_apellido} · ${o.placa} · ${o.marca} ${o.modelo}</div>`;
+            <div style="font-size:.78rem;color:var(--muted)">${o.cliente_nombre || ""} ${o.cliente_apellido || ""} · ${o.placa || ""} · ${o.marca || ""} ${o.modelo || ""}</div>`;
         document.getElementById("resumen-repuestos-lista").innerHTML = repuestosHtml;
-
-        // Línea mano de obra editable
         document.getElementById("resumen-mano-obra-input").value = manoDeObra || 0;
         document.getElementById("resumen-subtotal").textContent = `$${Number(totalRep).toLocaleString("es-CO")}`;
-        document.getElementById("resumen-iva").textContent = `$${Number(iva).toLocaleString("es-CO")}`;
-
-        actualizarTotalResumen(manoDeObra, totalRep, iva);
+        document.getElementById("resumen-iva").textContent = `$0`;
+        actualizarTotalResumen(manoDeObra, totalRep, 0);
 
         const modal = document.getElementById("modal-resumen-orden");
         modal.dataset.idOrden = idOrden;
         modal.dataset.idCliente = o.id_cliente;
         modal.dataset.repuestos = JSON.stringify(repuestos);
         modal.dataset.totalRep = totalRep;
-        modal.dataset.iva = iva;
-        modal.dataset.cliente = `${o.cliente_nombre} ${o.cliente_apellido}`;
+        modal.dataset.iva = 0;
+        modal.dataset.cliente = `${o.cliente_nombre || ""} ${o.cliente_apellido || ""}`;
 
         modal.classList.add("visible");
         document.body.style.overflow = "hidden";
@@ -433,8 +457,13 @@ async function finalizarOrdenConResumen(idOrden) {
 }
 
 function actualizarTotalResumen(manoObra, totalRep, iva) {
-    const total = (parseFloat(manoObra) || 0) + (parseFloat(totalRep) || 0) + (parseFloat(iva) || 0);
+    const mo = parseFloat(manoObra) || 0;
+    const rep = parseFloat(totalRep) || 0;
+    const total = mo + rep;  // sin IVA
     document.getElementById("resumen-total-final").textContent = `$${Number(total).toLocaleString("es-CO")}`;
+    // Actualizar display mano de obra
+    const moDisplay = document.getElementById("resumen-mano-obra-display");
+    if (moDisplay) moDisplay.textContent = `$${Number(mo).toLocaleString("es-CO")}`;
 }
 
 function cerrarModalResumen() {
@@ -442,59 +471,63 @@ function cerrarModalResumen() {
     document.body.style.overflow = "";
 }
 
+// Al confirmar: envía al carrito. La orden se finaliza al pagar en carrito.
 async function confirmarFinalizarOrden() {
     const modal = document.getElementById("modal-resumen-orden");
     const idOrden = modal.dataset.idOrden;
     const idCliente = modal.dataset.idCliente;
     const repuestos = JSON.parse(modal.dataset.repuestos || "[]");
     const totalRep = parseFloat(modal.dataset.totalRep || "0");
-    const iva = parseFloat(modal.dataset.iva || "0");
     const cliente = modal.dataset.cliente;
     const manoObra = parseFloat(document.getElementById("resumen-mano-obra-input").value) || 0;
-    const totalFinal = manoObra + totalRep + iva;
+    const totalFinal = manoObra + totalRep;
 
     const btn = document.getElementById("btn-confirmar-finalizar");
-    btn.disabled = true; btn.textContent = "Finalizando...";
+    btn.disabled = true; btn.textContent = "Enviando al carrito...";
 
     try {
-        const res = await fetch(`${API}/ordenes/${idOrden}/finalizar`, { method: "PATCH" });
-        if (!res.ok) throw new Error("Error finalizando orden");
-
-        // Siempre ir al carrito — con o sin repuestos
+        // Enviar repuestos al carrito con descuentos incluidos
         const carritoItems = repuestos.map(r => ({
             id_producto: r.id_producto,
             nombre: r.producto_nombre,
             precio: parseFloat(r.precio_aplicado),
             cantidad: r.cantidad,
+            descuento: parseFloat(r.descuento) || 0,
             desde_orden: idOrden
         }));
 
         const carritoActual = JSON.parse(localStorage.getItem("carrito") || "[]");
         localStorage.setItem("carrito", JSON.stringify([...carritoActual, ...carritoItems]));
         localStorage.setItem("clienteId", idCliente);
-        localStorage.setItem("cliente", cliente);
+        localStorage.setItem("cliente", cliente.trim());
         localStorage.setItem("manoDeObra", manoObra.toFixed(2));
         localStorage.setItem("subtotalFactura", totalRep.toFixed(2));
-        localStorage.setItem("ivaFactura", iva.toFixed(2));
+        localStorage.setItem("ivaFactura", "0");
         localStorage.setItem("totalFactura", totalFinal.toFixed(2));
         localStorage.setItem("desde_orden", idOrden);
+        // Guardar id de orden para finalizarla al pagar
+        const ordenesEnCarrito = JSON.parse(localStorage.getItem("ordenes_pendientes") || "[]");
+        if (!ordenesEnCarrito.includes(parseInt(idOrden))) {
+            ordenesEnCarrito.push(parseInt(idOrden));
+            localStorage.setItem("ordenes_pendientes", JSON.stringify(ordenesEnCarrito));
+        }
 
-        mostrarToast("Orden finalizada — redirigiendo al carrito ✓", "ok");
+        mostrarToast("Enviado al carrito — completa el pago para finalizar ✓", "ok");
         cerrarModalResumen();
         setTimeout(() => { window.location.href = "carrito.html"; }, 900);
 
     } catch (err) {
-        mostrarToast(err.message || "Error al finalizar", "error");
+        mostrarToast(err.message || "Error", "error");
         btn.disabled = false; btn.textContent = "Finalizar y Cobrar";
     }
 }
 
 async function eliminarOrden(id) {
-    if (!await confirmar("¿Eliminar esta orden? No se puede deshacer.", "Eliminar", "#dc2626")) return;
+    if (!await confirmar("¿Eliminar esta orden? Se devolverá el stock de los repuestos.", "Eliminar", "#dc2626")) return;
     try {
         const res = await fetch(`${API}/ordenes/${id}`, { method: "DELETE" });
         if (!res.ok) throw new Error();
-        mostrarToast("Orden eliminada", "ok");
+        mostrarToast("Orden eliminada ✓", "ok");
         await cargarOrdenesActivas();
     } catch { mostrarToast("Error al eliminar la orden", "error"); }
 }
