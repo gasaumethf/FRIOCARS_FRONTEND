@@ -1037,7 +1037,7 @@
   <script>
     document.getElementById('today-date').textContent = new Date().toLocaleDateString('es-CO', { weekday: 'short', day: 'numeric', month: 'short' });
 
-    // Sincronizar hero con totalDisplay
+    // Sincronizar hero con totalDisplaay
     const obs = new MutationObserver(() => {
       const v = document.getElementById('totalDisplay')?.textContent || '0';
       const h = document.getElementById('hero-total');
