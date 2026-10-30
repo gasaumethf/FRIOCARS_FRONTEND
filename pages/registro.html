@@ -923,13 +923,13 @@
           <div class="row2">
             <div class="fg">
               <label for="nombre">Nombre *</label>
-              <input type="text" id="nombre" class="fi" placeholder="Tu nombre" required maxlength="50"
+              <input type="text" id="nombre" class="fi" data-solo="letras" placeholder="Tu nombre" required maxlength="50"
                 autocomplete="given-name">
               <div class="fe" id="err-nombre"></div>
             </div>
             <div class="fg">
               <label for="apellido">Apellido *</label>
-              <input type="text" id="apellido" class="fi" placeholder="Tu apellido" required maxlength="50"
+              <input type="text" id="apellido" class="fi" data-solo="letras" placeholder="Tu apellido" required maxlength="50"
                 autocomplete="family-name">
               <div class="fe" id="err-apellido"></div>
             </div>
@@ -989,7 +989,8 @@
     <p>© 2026 Frío Cars · Sistema de Gestión Automotriz</p>
   </footer>
 
-  <script src="../assets/js/registro.js"></script>
+  <script src="../assets/js/validaciones.js?v=2"></script>
+  <script src="../assets/js/registro.js?v=2"></script>
   <script>
     // ── Selector de rol ───────────────────────────────────
     document.querySelectorAll('.rol-card').forEach(card => {

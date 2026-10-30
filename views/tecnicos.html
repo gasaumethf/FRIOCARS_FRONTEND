@@ -891,15 +891,15 @@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem">
           <div>
             <label class="form-label" for="tec-nombre">Nombre <span class="req">*</span></label>
-            <input type="text" id="tec-nombre" class="form-input" placeholder="Ej: Carlos">
+            <input type="text" id="tec-nombre" data-solo="letras" class="form-input" placeholder="Ej: Carlos">
           </div>
           <div>
             <label class="form-label" for="tec-apellido">Apellido <span class="req">*</span></label>
-            <input type="text" id="tec-apellido" class="form-input" placeholder="Ej: Ramírez">
+            <input type="text" id="tec-apellido" data-solo="letras" class="form-input" placeholder="Ej: Ramírez">
           </div>
           <div>
             <label class="form-label" for="tec-telefono">Teléfono</label>
-            <input type="tel" id="tec-telefono" class="form-input" placeholder="Ej: 3001234567">
+            <input type="tel" id="tec-telefono" data-solo="numeros" inputmode="numeric" class="form-input" placeholder="Ej: 3001234567">
           </div>
           <div>
             <label class="form-label" for="tec-especialidad">Especialidad</label>
@@ -1024,6 +1024,7 @@
     <button class="btn-reset" id="bReset">↺ Restablecer ajustes</button>
   </aside>
 
+  <script src="../assets/js/validaciones.js?v=2"></script>
   <script src="../assets/js/sidebar.js"></script>
   <script src="../assets/js/auth.js"></script>
   <script src="../assets/js/asistente.js"></script>

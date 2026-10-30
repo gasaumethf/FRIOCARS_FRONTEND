@@ -37,20 +37,13 @@ function validarCorreo() {
     return errorCampo('correo', '');
 }
 
-// Nombre y apellido: impedir escribir números o símbolos
+// Nombre y apellido: validaciones.js (data-solo="letras") bloquea números y símbolos
 [['nombre', 'nombre'], ['apellido', 'apellido']].forEach(([id, etiqueta]) => {
     const input = document.getElementById(id);
+    input.addEventListener('solo:bloqueado', () =>
+        errorCampo(id, `El ${etiqueta} solo puede contener letras.`));
     input.addEventListener('input', () => {
-        const limpio = input.value
-            .replace(/[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ ]/g, '')
-            .replace(/ {2,}/g, ' ')
-            .replace(/^ /, '');
-        if (limpio !== input.value) {
-            input.value = limpio;
-            errorCampo(id, `El ${etiqueta} solo puede contener letras.`);
-        } else if (input.classList.contains('is-err')) {
-            validarTexto(id, etiqueta);
-        }
+        if (input.classList.contains('is-err')) validarTexto(id, etiqueta);
     });
     input.addEventListener('blur', () => validarTexto(id, etiqueta));
 });

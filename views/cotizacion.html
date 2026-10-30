@@ -1004,7 +1004,7 @@
         <!-- NOMBRE con autocomplete -->
         <div id="wrapper-nombre" class="ac-wrapper">
           <label class="form-label" for="nombre">Nombre completo *</label>
-          <input type="text" id="nombre" class="form-input" placeholder="Ej: Guillermo Saumeth" autocomplete="off"
+          <input type="text" id="nombre" class="form-input" data-solo="letras" placeholder="Ej: Guillermo Saumeth" autocomplete="off"
             oninput="onNombreInput()" onfocus="onNombreInput()">
           <ul class="ac-list" id="sugerencias-cliente"></ul>
         </div>
@@ -1012,7 +1012,7 @@
         <!-- TELÉFONO — se rellena solo al elegir cliente -->
         <div>
           <label class="form-label" for="telefono">Teléfono</label>
-          <input type="tel" id="telefono" class="form-input" placeholder="Ej: 3001234567">
+          <input type="tel" id="telefono" data-solo="numeros" inputmode="numeric" class="form-input" placeholder="Ej: 3001234567">
         </div>
 
         <!-- VEHÍCULO: Año → Marca → Modelo -->
@@ -1195,6 +1195,7 @@
     <button class="btn-reset" id="bReset">↺ Restablecer</button>
   </aside>
 
+  <script src="../assets/js/validaciones.js?v=2"></script>
   <script src="../assets/js/sidebar.js"></script>
   <script src="../assets/js/cotizacion.js"></script>
   <script src="../assets/js/auth.js"></script>

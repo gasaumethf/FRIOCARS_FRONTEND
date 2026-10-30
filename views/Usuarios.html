@@ -229,11 +229,11 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
         <div style="display:flex;flex-direction:column;gap:.8rem;margin-bottom:1.2rem">
           <div>
             <label class="form-label" for="editNombre">Nombre</label>
-            <input type="text" id="editNombre" class="form-input" placeholder="Tu nombre">
+            <input type="text" id="editNombre" data-solo="letras" class="form-input" placeholder="Tu nombre">
           </div>
           <div>
             <label class="form-label" for="editApellido">Apellido</label>
-            <input type="text" id="editApellido" class="form-input" placeholder="Tu apellido">
+            <input type="text" id="editApellido" data-solo="letras" class="form-input" placeholder="Tu apellido">
           </div>
           <div>
             <label class="form-label" for="editCorreo">Correo electrónico</label>
@@ -315,6 +315,7 @@ body.soft-dark{background:#0a1628!important;--bg:#0a1628;--surface:#1e293b;--bor
   <button class="btn-reset" id="bReset">↺ Restablecer</button>
 </aside>
 
+<script src="../assets/js/validaciones.js?v=2"></script>
 <script src="../assets/js/sidebar.js"></script>
 <script src="../assets/js/Perfil.js"></script>
 <script src="../assets/js/auth.js"></script>
