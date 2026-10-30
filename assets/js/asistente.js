@@ -446,13 +446,20 @@ REGLAS:
           messages: historial
         })
       });
-      const data = await r.json();
-      const resp = data.content?.[0]?.text || 'No pude procesar tu solicitud.';
-      historial.push({ role: 'assistant', content: resp });
-      if (historial.length > 20) historial = historial.slice(-20);
+      const data = await r.json().catch(() => ({}));
+      const resp = data.content?.[0]?.text;
       typEl.remove();
-      addMsg('bot', resp);
+      if (!r.ok || !resp) {
+        // No guardar en el historial una pregunta que no tuvo respuesta
+        historial.pop();
+        addMsg('bot', `⚠️ ${data.error || 'No pude procesar tu solicitud.'}`);
+      } else {
+        historial.push({ role: 'assistant', content: resp });
+        if (historial.length > 20) historial = historial.slice(-20);
+        addMsg('bot', resp);
+      }
     } catch {
+      historial.pop();
       typEl.remove();
       addMsg('bot', '⚠️ Error de conexión. Intenta nuevamente.');
     }
