@@ -246,8 +246,17 @@ async function generarDiagnostico() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nombre, telefono, vehiculo, descripcion, imagenes: [] })
     });
-    const data = await response.json();
-    const texto = data.diagnostico || "No se pudo obtener respuesta de la IA.";
+    const data = await response.json().catch(() => ({}));
+    const texto = data.diagnostico;
+
+    if (!response.ok || !texto) {
+      // No guardar una cotización vacía si la IA falló
+      contenidoEl.innerHTML = `<span style="color:#dc2626">❌ ${data.error || "No se pudo obtener respuesta de la IA."}</span>`;
+      mostrarToast("Error al generar diagnóstico", "error");
+      btn.disabled = false;
+      btn.textContent = "🤖 Generar Diagnóstico IA";
+      return;
+    }
 
     await renderStreamText(contenidoEl, texto);
 
