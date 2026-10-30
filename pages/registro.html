@@ -539,6 +539,18 @@
       box-shadow: 0 0 0 3px rgba(220, 38, 38, .07)
     }
 
+    .fe {
+      display: none;
+      font-size: .7rem;
+      font-weight: 600;
+      color: var(--red);
+      margin-top: .3rem
+    }
+
+    .fe.show {
+      display: block
+    }
+
     /* STRENGTH */
     .strength {
       margin-top: .35rem;
@@ -911,11 +923,15 @@
           <div class="row2">
             <div class="fg">
               <label for="nombre">Nombre *</label>
-              <input type="text" id="nombre" class="fi" placeholder="Tu nombre" required>
+              <input type="text" id="nombre" class="fi" placeholder="Tu nombre" required maxlength="50"
+                autocomplete="given-name">
+              <div class="fe" id="err-nombre"></div>
             </div>
             <div class="fg">
               <label for="apellido">Apellido *</label>
-              <input type="text" id="apellido" class="fi" placeholder="Tu apellido" required>
+              <input type="text" id="apellido" class="fi" placeholder="Tu apellido" required maxlength="50"
+                autocomplete="family-name">
+              <div class="fe" id="err-apellido"></div>
             </div>
           </div>
 
@@ -926,7 +942,9 @@
 
           <div class="fg">
             <label for="correo">Correo electrónico *</label>
-            <input type="email" id="correo" class="fi" placeholder="correo@ejemplo.com" required>
+            <input type="email" id="correo" class="fi" placeholder="correo@ejemplo.com" required maxlength="100"
+              autocomplete="email">
+            <div class="fe" id="err-correo"></div>
           </div>
 
           <div class="row2">

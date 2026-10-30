@@ -6,6 +6,62 @@
 
 const API = 'https://friocars-backend.onrender.com/api';
 
+// ── Reglas de validación ──────────────────────────────
+// Nombre/apellido: solo letras (con tildes y ñ) y espacios entre palabras
+const RE_TEXTO = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+( [A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+)*$/;
+// Correo: usuario@dominio.ext (.com, .co, .gov.co, .edu, etc.)
+const RE_CORREO = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
+
+function errorCampo(id, msg) {
+    document.getElementById(id).classList.toggle('is-err', !!msg);
+    const el = document.getElementById(`err-${id}`);
+    el.textContent = msg || '';
+    el.classList.toggle('show', !!msg);
+    return !msg;
+}
+
+function validarTexto(id, etiqueta) {
+    const v = document.getElementById(id).value.trim();
+    if (!v) return errorCampo(id, `El ${etiqueta} es obligatorio.`);
+    if (v.length < 2) return errorCampo(id, `El ${etiqueta} debe tener al menos 2 letras.`);
+    if (!RE_TEXTO.test(v)) return errorCampo(id, `El ${etiqueta} solo puede contener letras.`);
+    return errorCampo(id, '');
+}
+
+function validarCorreo() {
+    const v = document.getElementById('correo').value.trim();
+    if (!v) return errorCampo('correo', 'El correo es obligatorio.');
+    if (!v.includes('@')) return errorCampo('correo', 'El correo debe incluir @ (ej: nombre@gmail.com).');
+    if (!RE_CORREO.test(v))
+        return errorCampo('correo', 'Correo inválido. Debe tener un dominio como @gmail.com, @empresa.co o @entidad.gov.co.');
+    return errorCampo('correo', '');
+}
+
+// Nombre y apellido: impedir escribir números o símbolos
+[['nombre', 'nombre'], ['apellido', 'apellido']].forEach(([id, etiqueta]) => {
+    const input = document.getElementById(id);
+    input.addEventListener('input', () => {
+        const limpio = input.value
+            .replace(/[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ ]/g, '')
+            .replace(/ {2,}/g, ' ')
+            .replace(/^ /, '');
+        if (limpio !== input.value) {
+            input.value = limpio;
+            errorCampo(id, `El ${etiqueta} solo puede contener letras.`);
+        } else if (input.classList.contains('is-err')) {
+            validarTexto(id, etiqueta);
+        }
+    });
+    input.addEventListener('blur', () => validarTexto(id, etiqueta));
+});
+
+const correoInput = document.getElementById('correo');
+correoInput.addEventListener('input', () => {
+    correoInput.value = correoInput.value.replace(/\s/g, '');
+    if (correoInput.classList.contains('is-err')) validarCorreo();
+});
+correoInput.addEventListener('blur', validarCorreo);
+
 document.getElementById('registroForm').addEventListener('submit', async (e) => {
 
     e.preventDefault();
@@ -27,8 +83,12 @@ document.getElementById('registroForm').addEventListener('submit', async (e) => 
         return showAlert('Selecciona cómo vas a usar el sistema.', 'err');
     if (!nombre || !apellido || !username || !correo || !password || !confirmar)
         return showAlert('Por favor completa todos los campos.', 'err');
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo))
-        return showAlert('Ingresa un correo electrónico válido.', 'err');
+    const nombreOk = validarTexto('nombre', 'nombre');
+    const apellidoOk = validarTexto('apellido', 'apellido');
+    if (!nombreOk || !apellidoOk)
+        return showAlert('Nombre y apellido solo pueden contener letras.', 'err');
+    if (!validarCorreo())
+        return showAlert('Ingresa un correo electrónico válido (ej: nombre@gmail.com).', 'err');
     if (password.length < 8)
         return showAlert('La contraseña debe tener al menos 8 caracteres.', 'err');
     if (password !== confirmar)
